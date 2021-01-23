@@ -9,14 +9,14 @@ instrutor:
     Em geral, responde emails em menos de 24horas.
 
 course:
-  number: "CPDOC"
-  semester: "2021.1"
-  days: "Segunda e Quartas"
-  time: "11 AM - 12:50 PM"
+  number: " CPDOC"
+  semester: " 2021.1"
+  days: " Segunda e Quartas"
+  time: " 11 AM - 12:50 PM"
   location: "Zoom"
-  twitter: _Tiagoventura
-  dates: "Fevereiro 1, 2021"
-  github: "/TiagoVentura/fgv_css"
+  twitter: "_Tiagoventura"
+  dates: " Fevereiro 1, 2021"
+  github: " /TiagoVentura/fgv_css"
   copyrightYear: "2021"
 
 university:
