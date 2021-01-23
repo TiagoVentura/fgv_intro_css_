@@ -1,0 +1,23 @@
+---
+title: "Introdução e Ementa do Curso"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras
+
+Nesta primeira semana, leremos o que considero uma das melhores introduções ao que vamos fazer neste curso. Leremos os dois primeiros capítulos do livro Bit by Bit de Mathew Salganik, Sociólogo, e Professor de Princeton. O livro pode ser adquirido na biblioteca, porém, seu conteúdo está inteiramente on-line
+
+### Citação
+
+[Salganik, M. 2017. Bit by Bit: Social Research in the Digital Age. Princeton, NJ: Princeton University Press, Capítulo 1 e 2](https://www.bitbybitbook.com/en/1st-ed/preface/) 
+

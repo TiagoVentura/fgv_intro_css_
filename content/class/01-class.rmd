@@ -1,0 +1,35 @@
+---
+title: "Introdução e Ementa do Curso"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais
+
+Na aula de hoje, teremos três objetivos principais. 
+
+Em primeiro lugar, vamos discutir um pouco a idéia mais geral do curso. O que motiva o curso? Porquê ciêntistas sociais hoje usam cada vez mais técnicas computacionais? Como podemos definir o campo das Ciências Sociais Computacionais?
+
+Em seguida, discutiremos um pouco sobre nossas experiências neste campo. Como eu cheguei à esta área de pesquisa, e principalmente quero ouvir dos alunos suas expectativas e motivações para o curso. 
+
+Para concluir, passaremos brevemente sobre a logística do curso. Veremos um pouco a nossa ementa, como encontrar os materiais do curso, e como nos comunicarmos via slack. 
+
+## Slides
+
+[Slides](/slides/slides-01-intro.html)
+
+## Survey: Conhecendo Vocês. 
+
+Neste nosso primeiro encontro, vocês vão tirar alguns minutos para responder este survey aqui sobre suas expectativas para o curso, suas opiniões sobre a ementa, e sua experiência prévia em programação. 
+
+[https://forms.gle/UxFipy1KjzMn9Sk3A](https://forms.gle/UxFipy1KjzMn9Sk3A)
+

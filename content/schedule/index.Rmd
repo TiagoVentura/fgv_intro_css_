@@ -1,0 +1,16 @@
+---
+title: "Materiais"
+slug: materiais
+---
+
+Para cada semana, adicionarei aqui nesta página materias em discussão. 
+
+Estes materiais serão de três modalidades:
+
+- <i class="fas fa-book-reader"></i> **Leituras**: Esta página contêm as leituras da semana. 
+- <i class="fas fa-laptop-code"></i> **Exercícios**: Esta página contêm quaisquer exercícios da semana. 
+- <i class="fas fa-chalkboard-teacher"></i>  **Aulas**: Esta página terá meus códigos e apresentações da semana. 
+
+---
+
+`r blogdown::shortcode("schedule")`

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tiago Ventura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução a Métodos Computacionais para Ciência Sociais
+## Introdução
+### Tiago Ventura
+### CPDOC-FGV
+
+---
+
+
+
+class: center, middle
+
+# Porque Estamos Aqui?
+
+### Dados, Dados, Dados, Dados...
+
+---
+
+class: center, middle
+
+&lt;img src="figs/data_store.png" width="80%" /&gt;
+
+---
+
+# Mobilidade Digital
+
+&lt;img src="figs/mob_01.png" width="100%" /&gt;
+
+---
+
+# Redes Sociais
+
+&lt;img src="figs/redes.png" width="100%" /&gt;
+
+---
+
+## Dados Eleitorais
+
+&lt;img src="figs/eleicoes.png" width="100%" /&gt;
+
+---
+
+## Text-as-Data
+
+.pull-left[
+&lt;img src="figs/camara.png" width="100%" /&gt;
+]
+
+.pull-right[
+&lt;img src="figs/tweets.png" width="100%" /&gt;
+]
+
+---
+
+## Surveys On-line
+
+&lt;img src="figs/survey.png" width="70%" /&gt;
+
+---
+
+class: center, middle
+
+&lt;img src="figs/data.jpeg" width="100%" /&gt;
+
+---
+
+## Ciências Socias na Era Digital: Vantagens.
+
+- Abundância de dados de forma gratuita e fácil acesso. 
+
+- Permite fazer novas perguntas.
+
+- Ou encontrar novas respostas à perguntas antigas.
+
+- Avanço Computacional: Novos métodos, computadores mais potentes, mais rápidos, e mais acessíveis. 
+
+---
+
+## Ciências Socias na Era Digital: Desafios.
+
+
+-  Big Data requer mais treinamento técnico.
+
+-  Cientistas da Computação se importam mais com performance.
+
+-  Cientistas Sociais se importam mais com perguntas teóricamente relevantes.
+
+-  Construir mais interdiciplinariedade e combinar técnica e teoria.
+
+
+---
+
+class: center, inverse, middle
+
+## O objetivo do curso é apresentar ao alunos os métodos e os estudo teóricos no campo das ciências sociais computacionais (CSS). E dinimuir o gap entre ciências social e ciência computacional.
+
+--- 
+
+---
+class: center,middle
+
+## `Mas, afinal, o que é CSS?`
+
+--
+
+&lt;img src="figs/waiting.gif" width="70%" /&gt;
+---
+
+# Aprendendo com um exemplo.
+
+&lt;img src="figs/bail.png" width="90%" /&gt;
+
+
+---
+
+# Desenho de Pesquisa
+
+
+&lt;img src="figs/bail_design.jpg" width="90%" /&gt;
+
+
+---
+
+--
+
+### Ciência Social Computacional = Ciência Social + Ciência de Dados.
+
+--
+
+### Ciência Social
+
+--
+
+- Entender Compartamento Social.
+
+- Big Questions.
+
+- Dilemas do Comportamento Humano.
+
+- Explicar Mudanças e Padrões na Sociedade.
+
+- Em geral, manipulação de banco de dados pequenos ou médios. 
+
+--
+
+### Ciências de Dados
+
+--
+
+- Estuda qualquer assunto.
+
+- Aprende diretamente dos Dados - Modelos Estatísticos e ML.
+
+- Big Data.
+
+- Predição de mudanças e comportamentos.
+
+--
+
+---
+
+class: center,middle
+
+
+#### Ciência de Dados não é suficiente sozinha se quisermos responder perguntas teóricamente orientadas
+
+--
+
+#### Cientistas Sociais isoladamente não possuem o conhecimento técnico para usar as novas bases de dados e métodos da era digital. 
+
+--
+
+---
+
+## Vamos recomeçar sabendo um pouco mais de vocês
+
+.pull-left[
+&lt;img src="figs/scott.gif" width="100%" /&gt;
+]
+
+
+.pull-right[
+
+Seu Nome e Pronome Preferido. 
+
+Departamento, Graduação, área de estudos. 
+
+O que você pretende aprender neste curso ?
+
+Quando e como começou seu interesse por este tema?
+
+]
+
+---
+
+# Quem sou Eu?
+
+- Young Talent In Computational Social Science Fellow, FGV-CPDOC.
+- Pronome: Ele-Dele.
+- Doutorado em Ciência Política no IESP-UERJ.
+- Estudante de Doutorado em Governo e Política na Universidade de Maryland.
+
+#### Minhas Pesquisas:
+
+- **Violência política:** Efeitos Comportamentais de Victimização no Brasil e México. 
+- **Comunicação Política:** Ativação de Conteúdo e Notícias no Twitter, Efeitos de Framing, Confiança e Mídias Digitais ....
+- **Política Brasilieira:** Participação Social, Política Local, Análise de Manifestos de Eleições Locais. 
+
+### Contato:
+
+- **Website:** [tiagoventura.rbind.io](http://tiagoventura.rbind.io/)
+
+- **Email:** tiago.ventura@fgv.br
+---
+
+
+## Estrutura do Curso
+
+#### Parte I: Programação em R. (Semana 1 - 8)
+
+- Manipulação de Dados, Visualização, Automação e  Apresentação em R
+
+- Raspagem de Dados na Internet
+
+
+#### Parte II: Ciências Sociais Computacionais Aplicadas (Semana 8-14).
+
+
+  - Anaĺise de dados de twitter
+
+  - Axperimentos, experimentos digitais 
+
+  - Análise de texto
+
+  - Machine Learning
+
+
+#### Parte III: Projeto Final Aplicado.
+
+---
+
+## Avaliação
+
+--
+
+#### Participação (10%)
+
+--
+
+#### Exercícios (Semana 1 - Semana 8: 40%)
+
+--
+
+#### Trabalho Final (50%)
+
+---
+
+class: center,middle, alert
+
+# Não teremos provas
+
+---
+
+## Como acompanhar o curso?
+
+.pull-left[
+[fgv-css.tiagoventura.rbind.io](fgv-css.tiagoventura.rbind.io)
+&lt;img src="figs/site.png" width="100%" /&gt;
+]
+
+.pull-right[
+[Slack](https://app.slack.com/client/T01JK41R84C/C01JD599QUB)
+&lt;img src="figs/slack.png" width="100%" /&gt;
+]
+
+---
+
+class: center,middle, inverse
+
+# Pausa, Respirem
+
+# Leiam a Ementa, Visitem o Site
+
+### Perguntas?
+
+
+---
+class: center, middle
+
+## Bom... Eu tenho perguntas. 
+
+https://forms.gle/UxFipy1KjzMn9Sk3A
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+lessons:
+  - title: '<span class="fake-header-table">Tópicos </span>'
+    header: True
+   
+  - title: '<span class="fake-header-table">Programando em R</span>'
+
+  - title: "Introdução e Ementa do Curso"
+    date: "2021-02-01, Seg"
+    class: "01-class"
+    reading: "01-reading"
+    
+  
+  - title: "Festival de Instalaçao: R, RStudio e outros"
+    date: "2021-02-03, Quarta"
+    #reading: "02-reading"
+    #class: "02-class"
+  
+  - title: "Introdução ao R"
+    date: "2021-02-08, Seg"
+  
+  - title: "Introdução ao R: Hands-on"
+    date:  "2021-02-10, Quarta"
+    #reading: "08-reading"
+    #class: "viz1-class"
+
+  - title: "Replicabilidade e Controle de Versão"
+    date: "2021-02-22, Seg"
+    #reading: "09-reading"
+    #class: "viz2-class"
+    
+  - title: "Rmarkdown and Github: Hands-on"
+    date: "2021-02-22, Quarta"
+    #assignment: "problem-set-viz1"
+  
+  - title: "Manipulação de Dados: Tidyverse"
+    date: "2021-03-01, Seg"
+    #reading: "05-reading"
+    #class: "wrangle1-class"
+  
+  - title: "Manipulação de Dados: Hands-on"
+    date: "2021-03-03, Quarta"
+    #reading: "06-reading"
+    #class: "wrangle2-class"
+    
+  - title: "Visualização de Dados"
+    date: "2021-03-08, Seg"
+    #reading: "03-reading"
+    #class: "tidy2-class"
+
+  - title: "Visualização de Dados: Hands-on"
+    date: "2021-03-10, Quarta"
+    #reading: "04-reading"
+    #class: "tidy1-class"
+    
+  - title: "Programação Funcional em R"
+    date: "2021-03-15, Seg"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: "Programação Funcional em R: Hands-on"
+    date:  "2021-03-17, Quarta"
+    
+  - title: "Raspagem de Dados I: Raspando Websites"
+    date: "2021-03-22, Seg"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: "Raspagem de Dados I: Raspando Websites"
+    date:  "2021-03-24, Thu"
+    
+  - title: "Raspagem de Dados II: APIs"
+    date: "2021-03-29, Tue"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: "Raspagem de Dados II: APIs"
+    date:  "2021-03-31, Thu"
+    
+  - title: '<i class="fas fa-star"></i> **Semana A1: Sem Aula**'
+    date: ""
+    
+  - title: '<span class="fake-header-table">Ciência Social Computacional: Artigos Aplicados</span>'
+
+  - title: "Análise de Dados de Mídias Sociais"
+    date: "2021-04-19, Seg"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: "Aplicações: API do Twitter, Mapping News, Escalonamento"
+    date:  "2021-04-26, Seg"
+  
+
+  - title: "Experimentos sobre mídias digitais"
+    date: "2021-04-28, Quarta"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: "Aplicações: Intro a experimento, randomização. "
+    date:  "2021-05-03, Seg"
+  
+  - title: "Recrutamento para Surveys On-line"
+    date: "2021-05-05, Quarta"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: " Experimento Digitais de Campo"
+    date: "2021-05-10, Seg"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: "Aplicações: Robôs no Twitter, Facebook Ads, Mturk."
+    date:  "2021-05-12, Quarta"
+  
+  - title: "Análise de Texto: Visão Geral"
+    date: "2021-05-17, Seg"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: "Aplicações: análise de texto em R "
+    date:  "2021-05-03, Quarta"
+    
+  - title: "Análise de Texto: Tópicos e Modelos Surpervisionados"
+    date: "2021-05-24, Seg"
+    #reading: "11-reading"
+    #class: "corr1-class"
+     
+  - title: "Applicações: Modelo de Tópicos Estruturado"
+    date: "2021-05-26, Quarta"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: '<span class="fake-header-table">Projeto Final</span>'
+
+  - title: "Research Speed Dating"
+    date:  "2021-05-31 e 2021-06-02"
+
+  - title: "Mãos a obra"
+    date:  "2021-06-07 e 2021-06-09"
+
+  - title: '<i class="fas fa-star"></i> **Semana A2: Sem Aula**'
+    date: ""
+
+  - title: "Apresentação Final"
+    date:  "2021-06-21 e 2021-06-23"

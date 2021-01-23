@@ -1,0 +1,36 @@
+---
+title: References
+slug: reference
+output:
+  blogdown::html_page
+---
+```{r}
+knitr::opts_chunk$set(message=FALSE, warning = FALSE)
+```
+
+One of the beautiful things about R is the **HUGE** amount of free resources available on-line to help those learning the language. This workshop is a consequence of my years googling through these materials. 
+
+To build this workshop, I borrowed ideas and codes from several sources. The ones I can remember can be found below:
+
+
+### Books
+
+- [The Grammar of Graphics](https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+
+- [Data Visualization: A practical introduction](https://socviz.co/) by Kieran Healy 
+
+- [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/index.html) by Claus Wilke
+
+### Courses
+
+- [http://socviz880.co/](http://socviz880.co/) by Kieran Healy
+
+- [Introduction to Data Science](http://ericdunford.com/ppol670/) by Eric Dunford
+
+### Places to Find Nice Graphs
+
+- **Tidy Tuesday on Twitter**
+
+- [Top 50 Visualizations](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+
+- [r-graph gallery](https://www.r-graph-gallery.com/index.html)
