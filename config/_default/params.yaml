@@ -1,0 +1,41 @@
+instrutor:
+  name: Tiago Ventura
+  email: tiago.ventura@fgv.br
+  url: "http://tiagoventura.rbind.io/"
+  twitter: "_Tiagoventura"
+  github: TiagoVentura
+  contact_policy: >-
+    Caso você precise de qualquer auxílio com os materiais deste curso, por favor, sinta-se a vontade para enviar um email.
+    Em geral, responde emails em menos de 24horas.
+
+course:
+  number: "CPDOC"
+  semester: "2021.1"
+  days: "Segunda e Quartas"
+  time: "11 AM - 12:50 PM"
+  location: "Zoom"
+  twitter: _Tiagoventura
+  dates: "Fevereiro 1, 2021"
+  github: "/TiagoVentura/fgv_css"
+  copyrightYear: "2021"
+
+university:
+  name: "Fundação Getúlio Vargas"
+  url: "https://portal.fgv.br/"
+
+school:
+  name: CPDOC
+  url: "https://cpdoc.fgv.br/"
+
+
+############################
+## Social
+############################
+
+# Default image for social sharing and search engines. Place image in `static/img/` folder and specify image name here.
+sharing_image: "hero.png"
+
+# Twitter username (without @). Used when a visitor shares your site on Twitter.
+twitter: "_TiagoVentura"
+
+
