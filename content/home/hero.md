@@ -20,7 +20,7 @@ design:
     image: banner.jpg
     image_size: ""
     image_darken: 0.4
-    text_color_light: false
+    text_color_light: TRUE
 
 cta_note:
   label: 
