@@ -1,0 +1,28 @@
+---
+title: "Aula 4: Introdução ao R Parte II"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais
+
+Nesta semana, vamos continuar nossa introdução ao R. Focaremos em três tópicos: funções, loop, e controles de fluxo (if else). 
+
+## Tutoriais
+
+Tutorial II: Introdução ao R. [(HTML)](/Tutoriais/tutorial3_rbasicoII.html) / [(RMarkdown)](/Tutoriais/tutorial3_rbasicoII.rmd)
+
+
+## Slides
+
+[Slides](/slides/slides-03-rintro.html)
+

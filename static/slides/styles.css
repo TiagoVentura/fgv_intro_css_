@@ -10,7 +10,7 @@ h1, h2, h3 {
 }
 
 .remark-code {
-  font-size: 0.75rem;
+  font-size: 1.0rem;
 }
 .remark-inline-code {
   color: #e13d3d;
@@ -30,7 +30,7 @@ h1, h2, h3 {
 .alert {
   background-color: var(--inverse-background-color);
   color: var(--inverse-text-color);
-  
+
 }
 .alert h1 {
   color: var(--inverse-header-color);

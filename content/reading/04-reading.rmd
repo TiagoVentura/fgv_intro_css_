@@ -1,0 +1,23 @@
+---
+title: "Introdução ao R: Parte I"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras
+
+Algumas leituras sugeridas caso você queira aprender um pouco mais. 
+
+- [R for Data Science, Cap. 19: Funções](https://r4ds.had.co.nz/functions.html) 
+- [R for Data Science, Cap 21: Iteration](https://r4ds.had.co.nz/iteration.html) 
+- [Introdução Curso-r](https://material.curso-r.com/rbase/) **Em português**.
+

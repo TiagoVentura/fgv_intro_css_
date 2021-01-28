@@ -216,7 +216,7 @@ knitr::include_graphics("figs/scott.gif")
 
 .pull-right[
 
-Seu Nome e Pronome Preferido. 
+Nome e Pronome Preferido. 
 
 Departamento, Graduação, área de estudos. 
 
@@ -290,6 +290,13 @@ Quando e como começou seu interesse por este tema?
 
 ---
 
+class: center,middle, 
+
+# Os desafios de ensinar on-line em meio a uma pandemia.
+
+
+---
+
 class: center,middle, alert
 
 # Não teremos provas
@@ -320,7 +327,20 @@ class: center,middle, inverse
 
 # Leiam a Ementa, Visitem o Site
 
-### Perguntas?
+```{r echo=FALSE}
+library(countdown)
+countdown(minutes = 5, seconds = 0, top = 0,
+          right = "30%",
+          padding = "10px",
+          margin = "5%",
+          font_size = "5em")
+
+```
+--
+
+### Perguntas
+
+--
 
 
 ---

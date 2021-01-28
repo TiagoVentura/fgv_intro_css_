@@ -6,14 +6,14 @@ instrutor:
   github: TiagoVentura
   contact_policy: >-
     Caso você precise de qualquer auxílio com os materiais deste curso, por favor, sinta-se a vontade para enviar um email.
-    Em geral, responde emails em menos de 24horas.
-
+    Eu respondo emails em menos de 24horas. Caso seja algo diretamente relacionado aos materiais do curso, o Slack será nossa forma
+    principal de comunicação, e sinta-se a vontade para enviar uma mensagem via Slack.
 course:
-  number: " CPDOC"
-  semester: " 2021.1"
-  days: " Segunda e Quartas"
-  time: " 11 AM - 12:50 PM"
-  location: "Zoom"
+  number: "  CPDOC"
+  semester: "  2021.1"
+  days: "  Segunda e Quartas"
+  time: "  11 AM - 12:50 PM"
+  location: " Zoom: Sala 232 071 6603"
   twitter: "_Tiagoventura"
   dates: " Fevereiro 1, 2021"
   github: " /TiagoVentura/fgv_css"

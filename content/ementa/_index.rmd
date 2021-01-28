@@ -106,15 +106,15 @@ Tópicos: O que é Ciência Social Computacional? Estrutura do Curso, Instalando
 
 ### Semana 2: Introdução ao R (Fevereiro 8-10)}
 
-Tópicos: Curso Rápido em R, objetos, operações básicas, R Studio.
+Tópicos: Curso Rápido em R, objetos, operações básicas, bancos de dados, R Studio.
 
-### Semana 3: Replicabilidade e Controle de Versão.  (Fevereiro 22 - 24)
+### Semana 3: Replicabilidade,  Fluxo de Trabalho e Relatórios Dinâmics.  (Fevereiro 22 - 24)
 
-Tópicos: Rmarkdown e Git-Github
+Tópicos: R-projects e Rmarkdown.
 
 ### Semana  4: Manipulação de Dados (Março 1 - 3)
 
-Tópicos: Introdução ao  Tidyverse
+Tópicos: Introdução ao  Tidyverse 
 
 ### Semana  4: Visualização de Dados  (Março 8 - 10)
 

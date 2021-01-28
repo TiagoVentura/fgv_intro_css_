@@ -1,0 +1,36 @@
+---
+title: "Aula 3: Introdução ao R Parte I"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais
+
+Nesta semana, vamos fazer uma introdução a programação básica em R. Dentre outros tópicos, vamos discutir:
+
+- Como funciona o R Studio?
+- Pedindo ajuda em R, objetos.
+- Estrutura de dados.
+- Manipulação de bancos de dados com R básico.
+
+
+
+
+## Tutoriais
+
+Tutorial I: Introdução ao R. [(HTML)](/Tutoriais/tutorial2_rbasico.html) / [(RMarkdown)](/Tutoriais/tutorial2_rbasico.rmd)
+
+
+## Slides
+
+[Slides](/slides/slides-02-rintro.html)
+

@@ -1,0 +1,987 @@
+---
+title: "Tutorial 2: Introdução ao R"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+
+
+<div id="workflow-rstudio-e-scripts." class="section level1">
+<h1>Workflow: RStudio e Scripts.</h1>
+<div id="o-que-é-o-r" class="section level2">
+<h2>O que é o R?</h2>
+<p>R é uma linguagem de programação de código aberto versátil, útil tanto para estatística quanto para ciência de dados. É Inspirado na linguagem de programação S..</p>
+<ul>
+<li>Software de código aberto.</li>
+<li>Superior (se não apenas comparável) às alternativas comerciais. Em janeiro de 2019, R ocupava o 12º lugar no índice TIOBE, que mede a popularidade das linguagens de programação. É amplamente utilizado na academia e na indústria, especialmente no círculo de cientistas de dados.</li>
+<li>Disponível em todas as plataformas (Unix, Windows, Linux).</li>
+<li>Como resultado de ser uma linguagem de dados aberta, se você fizer sua análise em R, qualquer pessoa poderá replicá-la facilmente.</li>
+<li>Não apenas para estatística, mas também <strong>programação de uso geral</strong>.</li>
+<li>É <strong>linguagem de objetos</strong> (= R possui objetos) e <strong>funcional</strong> (= Você pode escrever funções).</li>
+<li>Grande e crescente comunidade de usuários.</li>
+</ul>
+</div>
+<div id="rstudio" class="section level2">
+<h2>Rstudio</h2>
+<p>O RStudio é a principal interface gráfica do usuário (GUI) e o ambiente de desenvolvimento integrado (IDE) que facilita o uso do R.</p>
+</div>
+<div id="como-escrever-códigos-em-r" class="section level2">
+<h2>Como escrever códigos em R?</h2>
+<p>A maior parte dos usuários iniciantes em R costumam digitar seus códigos diretamente na linha de comando. <strong>Esta é uma péssimoa opção</strong>.</p>
+<p>A melhor forma para trabalhar com R consiste em utilizar scripts. Estes scripts – que não são nada mais do que um arquivo de texto – permite a você contruir seu código de forma mais integrada, e com mais flexibilidade.</p>
+<p>Vamos revisar como funciona o R Studio, para entender melhor a utilização de scripts, e fluxos básicos de programação em R.</p>
+</div>
+<div id="navegando-no-r-studio." class="section level2">
+<h2>Navegando no R Studio.</h2>
+<p><img src="rstudio.png" /></p>
+</div>
+<div id="noções-básicas." class="section level2">
+<h2>Noções básicas.</h2>
+<p>Abra o RStudio! Em seguida, abra um novo script clicando em “Arquivo -&gt; Novo arquivo -&gt; Script R” ou pressionando <code>Ctrl + Shift + N</code> (PC) ou<code>command + shift + N</code> (Mac). Depois de abrir um novo script, você verá quatro “painéis”.</p>
+<div id="painel-superior-esquerdo-entrada-script" class="section level3">
+<h3>Painel superior esquerdo (entrada / script)</h3>
+<p>Neste painel, você escreve seu código. Digite <code>2 + 2</code> no seu script e execute uma linha de código pressionando<code>command + enter</code> (Mac) ou <code>Ctrl + enter</code> (PC). Ou clique no botão “Executar” na parte superior do script.</p>
+<p>O nome do seu arquivo de script está na guia na parte superior da janela do script - o nome padrão é <code>Untitled1</code>. Certifique-se de salvar seu script clicando em “Arquivo -&gt; Salvar” ou <code>command + s</code> (Mac) ou<code>Ctrl + s</code> (PC). Você também pode clicar no ícone de disquete para salvar.</p>
+</div>
+<div id="painel-inferior-esquerdo-saída-console" class="section level3">
+<h3>Painel inferior esquerdo (saída / console)</h3>
+<p>O resultado do código é exibido no `console ’no painel inferior esquerdo. Esse espaço também é bom para procurar e experimentar o código que você não deseja salvar em seu script.</p>
+</div>
+<div id="painel-superior-direito-ambiente-global" class="section level3">
+<h3>Painel superior direito (ambiente global)</h3>
+<p>Os dados são salvos na memória de R como <strong>objetos</strong>. Os objetos são simplesmente espaços reservados para um valor, expressão matemática, palavra, função ou conjunto de dados! A guia “Ambiente” global no painel superior direito exibe as variáveis que você atribuiu / salvou.</p>
+</div>
+<div id="painel-inferior-direito-arquivos-plotagens-pacotes-e-ajuda" class="section level3">
+<h3>Painel inferior direito (arquivos, plotagens, pacotes e ajuda)</h3>
+<p>Aqui você encontra guias úteis para navegar no sistema de arquivos, exibir gráficos, instalar pacotes e visualizar páginas de ajuda. Pressione a tecla <code>control</code> e um número (1 a 9) no teclado para atalho entre esses painéis e guias.</p>
+</div>
+</div>
+</div>
+<div id="como-interagir-com-r" class="section level1">
+<h1>Como Interagir com R</h1>
+<p>Há duas formas para interagir com R via R Studio.</p>
+<ul>
+<li><p>Via Console (Tela Inferior Esquerda).</p></li>
+<li><p>Via Script. (Tela Superior Esquerda)</p></li>
+</ul>
+<div id="r-via-console." class="section level2">
+<h2>R via console.</h2>
+<p>No console, o prompt <code>&gt;</code> indica que seu R está pronto para receber o comando. . Copie e cole o código abaixo em seu Console e click Enter.</p>
+<pre class="r"><code>2+2</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>Se o seu prompt começar a parecer um símbolo <code>+</code> por engano, basta clicar no console e pressionar a tecla <code>esc</code> no teclado quantas vezes forem necessárias para retornar ao prompt.</p>
+<p>R usa <code>+</code> quando o código é dividido em várias linhas e R ainda espera mais código. Uma linha de código geralmente não termina até que R encontre um parâmetro ou pontuação de parada apropriado que conclua algum código, como parêntese fechado fechado <code>)</code>, colchete <code>]</code>, colchete <code>}</code> ou aspas `<code></code>.</p>
+<p>Por exemplo, copie e cole este código em seu console</p>
+<pre class="r"><code>incompleto &lt;- &quot;Eu sou um objeto incompleto</code></pre>
+</div>
+<div id="abrindo-um-script" class="section level2">
+<h2>Abrindo um script</h2>
+<p>Você pode abrir um script novo clicando na aba <code>File</code> -&gt; <code>New File</code> -&gt; <code>R Script</code>. O seu editor de script funciona basicamente como um documento de texto qualquer. Na verdade você pode escrever seu código em um editor de texto (notepad), e copiar e colar para seu console, ou linha de comando do seu computador.</p>
+<p>O RStudio integra este editor de script com outras ferramentas, <strong>incluindo o console</strong>. Por isto, o RStudio é considerado um ambiente de desenvolvimento integrado (IDE). Agora, abra um script, e copie e cole o código abaixo. Depois, rode usando <code>command + enter</code> (Mac) ou <code>Ctrl + enter</code> (PC).</p>
+<pre class="r"><code>2^2</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>2*2</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>2/2</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>Programadores em geral não utilizam diretamente o console, seja em R, Python, Java, ou qualquer outro. Utilizar um script traz inúmeros vantagens: mais flexibilidade ao código, permite escrever códigos mais longos e complexos, fazer comentários no seu código, explicar suas decisões e permitir que outros entendem melhor seus códigos, salvar seus códigos e compartilhá-lhos são apenas algumas das vantagens de usar um editor de script.</p>
+<div id="commentários" class="section level3">
+<h3>Commentários</h3>
+<p>Uma hashtag <code>#</code> diz ao R que você não deseja que essa linha ou bloco de código seja executado - isso é chamado de <strong>comentando seu código</strong>. Isso é útil para você fazer anotações e pode até adicionar hashtags após linhas de código executável, na mesma linha.</p>
+</div>
+</div>
+</div>
+<div id="pacotes-em-r." class="section level1">
+<h1>Pacotes em R.</h1>
+<p>Um pacote em R é simplemente um conjunto de funções - e as vezes dados - disponibilizados por outros usuários ou pela própria equipe de manutenção e criação do R. Estas funções em gerais são colocadas juntas em um pacote porque servem a um propósito específico: um modelo estatístico novo, um conjunto de funções para visualização de dados, um pacote com funções para acessar dados eleitorais.</p>
+<p>Instalar um pacote consiste, basicamente, em fazerm download do pacote – um conjunto de funções – para seu computador. Por isso, você instala o pacote somente uma vez. No entanto, cada vez que você abre seu R, você precisa lembrá-lo de que você possui determinados pacotes instalados, e, ao invés de baixar tudo outra vez, você pode somente ativá-los. Esta é a diferença entre <code>install.packackages()</code> e `library()</p>
+<div id="instalar-pacotes-via-cran." class="section level2">
+<h2>Instalar Pacotes Via Cran.</h2>
+<p>O CRAN é o repositório oficial do R. Lá estão todos os pacotes que cumprem determinados requisitos da equipe do R</p>
+<pre class="r"><code>install.packages(&quot;devtools&quot;, force=TRUE)</code></pre>
+</div>
+<div id="ativar-um-pacote." class="section level2">
+<h2>Ativar um pacote.</h2>
+<pre class="r"><code>library(devtools)</code></pre>
+</div>
+<div id="instalar-pacotes-via-github." class="section level2">
+<h2>Instalar Pacotes Via Github.</h2>
+<p>Nem todos os pacotes estão no CRAN. Há pacotes, e versões mais atualizadas de determinados pacotes, que estão disponíveis no Github – um repositório de códigos para programadores.</p>
+<pre class="r"><code>install_github(&quot;silvadenisson/electionsBR&quot;)</code></pre>
+</div>
+</div>
+<div id="funções-de-ajuda." class="section level1">
+<h1>Funções de Ajuda.</h1>
+<p>Há duas formas principais de pedir ajuda em R.</p>
+<div id="pedindo-ajuda-via-r" class="section level2">
+<h2>Pedindo ajuda via R</h2>
+<p>Todas as funções e pacotes de R possuem uma documentação. Esta documentação explica como utilizar determinada função, quais seus argumentos, e provê exemplos de uso. Esta ajuda aparecerá em painel inferior direito. Você pede desta forma</p>
+<pre class="r"><code># Ajuda específica.
+?mean  # Help para a função mean.
+help(mean)
+
+# Ajuda mais geral: busca todas as ocorrências do nome da função. 
+??mean</code></pre>
+</div>
+<div id="pedindo-ajuda-via-google." class="section level2">
+<h2>Pedindo ajuda via Google.</h2>
+<p>Você deve usar o Google e o StackOverflow para solucionar erros em seus códigos. Aqui estão algumas dicas sobre como pesquisar erros no Google:</p>
+<ul>
+<li><p><strong>Google</strong>: nome do função/pacote + texto na mensagem de erro.</p></li>
+<li><p>Remova as informações específicas do usuário e dos dados primeiro!</p></li>
+<li><p>Veja se você consegue encontrar exemplos que produzem e não produzem o erro. Experimente o código de outras pessoas, mas</p></li>
+<li><p>Tende entender a solução. Copiar e Colar não resolver seu problema.</p></li>
+</ul>
+</div>
+<div id="a-regra-dos-15-minutos" class="section level2">
+<h2>A Regra dos 15 minutos</h2>
+<p>Retirado de <a href="https://plsc-31101.github.io/course/introduction.html">Rochele Terman plsc-31101</a>.</p>
+<p><img src="/Tutoriais/tutorial2_rbasico_files/figure-html/unnamed-chunk-8-1.png" width="50%" /></p>
+</div>
+</div>
+<div id="objetos-em-r." class="section level1">
+<h1>Objetos em R.</h1>
+<p>Cada linguagem de programação possui regras próprias sobre como criar, acessar e guardar variáveis no seu ambiente de trabalho. Em R, variáveis, ou objetos, são criados atribuindo determinado <strong>dado</strong> a um determinado <strong>nome</strong>, e você pode acessá-los exatamente por nome atribuído.</p>
+<div id="criando-objetos" class="section level2">
+<h2>Criando Objetos</h2>
+<p>Para criar um objeto usamos esta função de atribuição <em>(assignment operator)</em> <code>&lt;-</code>.</p>
+<pre class="r"><code># Variáveis Numéricas
+x &lt;- 5
+y &lt;- 7
+
+# Variáveis de Texto.
+nome &lt;- &quot;Tiago Ventura&quot;</code></pre>
+<p>Acima, nós atribuímos os valores 5, 7, e “Tiago Ventura” aos objetos de <strong>nome</strong> x, y, e nome. Esta é a lógica: object_name &lt;- value`</p>
+<p>É possível criar variáveis utilizando <code>=</code>. Porém, o uso deste operador não é recomendado, visto que <code>=</code> também possui diversas outras funcionalidade em R.</p>
+<pre class="r"><code>mean(x=c(5, 7))</code></pre>
+<pre><code>## [1] 6</code></pre>
+<div id="qual-o-valor-de-x-agora" class="section level3">
+<h3>Qual o valor de x agora?</h3>
+</div>
+</div>
+<div id="objetos-no-ambiente-de-trabalho" class="section level2">
+<h2>Objetos no ambiente de trabalho?</h2>
+<p>Todos os objetos de R estão salvos em nosso ambiente de trabalho e podemos acessá-los diretamente, usando o nome dos objetos.</p>
+<pre class="r"><code># Verificar ambiente de trabalho
+ls()</code></pre>
+<pre><code>## [1] &quot;nome&quot; &quot;x&quot;    &quot;y&quot;</code></pre>
+<pre class="r"><code># Acessando os objetos
+x</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>y</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="r"><code>x+y</code></pre>
+<pre><code>## [1] 12</code></pre>
+</div>
+<div id="removendo-objetos." class="section level2">
+<h2>Removendo Objetos.</h2>
+<pre class="r"><code># Para Remover
+rm(x)
+
+ls()</code></pre>
+<pre><code>## [1] &quot;nome&quot; &quot;y&quot;</code></pre>
+</div>
+<div id="visualizando-objetos." class="section level2">
+<h2>Visualizando objetos.</h2>
+<pre class="r"><code>nome # ou </code></pre>
+<pre><code>## [1] &quot;Tiago Ventura&quot;</code></pre>
+<pre class="r"><code>print(nome)</code></pre>
+<pre><code>## [1] &quot;Tiago Ventura&quot;</code></pre>
+</div>
+<div id="modificando-objetos." class="section level2">
+<h2>Modificando objetos.</h2>
+<pre class="r"><code>nome &lt;- &quot;Tiago Augusto Ventura&quot;</code></pre>
+</div>
+<div id="regras-para-nomes-dos-objetos." class="section level2">
+<h2>Regras para nomes dos objetos.</h2>
+<p>Nomes de objetos podem conter apenas letras, números, "_" e “..”</p>
+<p>Crie nomes de forma efetiva, que descreveram os objetos do seu ambiente de trabalho. Nosso objetivo enquanto acadêmicos é produzir ciência e pesquisa, e parte do processo de criar conhecimento consiste em compartilhar suas pesquisas incluindo seus códigos. Portanto, crie nomes em que qualquer pessoa entenderá a que este objeto se refere.</p>
+<p><code>Alerta</code>: Nomes em R são sensitivos a capitalização.</p>
+<pre class="r"><code>r_intro_css &lt;- 10
+r_Intro_css</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;r_Intro_css&#39; not found</code></pre>
+<pre class="r"><code>r_intro_css_</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;r_intro_css_&#39; not found</code></pre>
+</div>
+</div>
+<div id="classes-de-objetos" class="section level1">
+<h1>Classes de Objetos</h1>
+<p>Casa objeto em R possui uma <strong>Classe</strong>. Em síntese, a classe descreve qual tipo de valores esse objeto está armazenando. De forma práticas, veremos objetos em R nas seguintes classes:</p>
+<ul>
+<li><p>Character</p></li>
+<li><p>Numeric</p></li>
+<li><p>Interger</p></li>
+<li><p>Logical</p></li>
+</ul>
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Example
+</th>
+<th style="text-align:left;">
+Tipo
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a , swc
+</td>
+<td style="text-align:left;">
+Character
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2, 3, 15
+</td>
+<td style="text-align:left;">
+Numeric
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1, 2
+</td>
+<td style="text-align:left;">
+Interger
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FALSE, TRUE
+</td>
+<td style="text-align:left;">
+Logical
+</td>
+</tr>
+</tbody>
+</table>
+<p>Classas são importante porque o R está programado para lidar com estes tipos de variáveis. Em resumo, o R entende que determinado tipo de objeto é numérico, e portanto, este objetivo pode realizar determinadas funções. Quando criamos uma função em R precisamos específicar qual tipo de objeto esta funcão aceita como input, e esta programação é que faz das classes um peça fundamental em qualquer linguagem de programação.</p>
+<p>A função <code>class()</code> permite que você descubra a classe de um objeto.</p>
+<pre class="r"><code>class(3)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(TRUE)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code>meu_numero_da_sorte= &quot;13&quot;
+
+class(meu_numero_da_sorte)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>class(meu_numero_da_sorte==13)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<p>Um exemplo sobre como o R advinha as classes e usa-as para definir quais funções podem ser aplicadas a estes objetos:</p>
+<pre class="r"><code>25 - &quot;13&quot;</code></pre>
+<pre><code>## Error in 25 - &quot;13&quot;: non-numeric argument to binary operator</code></pre>
+<p>Esta substituição retorna um erro porque o objeto “13” não é numérico, e operações matemáticas exigem objetos numéricos.</p>
+<div id="is.class" class="section level2">
+<h2>is.class?</h2>
+<p>É possível, por exemplo, checar diretamente se objetos são de determinada class.</p>
+<pre class="r"><code>is.numeric(2)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.logical(TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.character(&quot;2&quot;)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.integer(1L)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="coerção-alterando-classes." class="section level1">
+<h1>Coerção: Alterando Classes.</h1>
+<p>Classes de objetos em R também podem ser alteradas usando as funções <code>as.class()</code></p>
+<pre class="r"><code># Cria Objeto
+num_1_5 &lt;- c(1, 2, 3, 4, 5)
+
+# Altera a classe
+char_1_5 &lt;- as.character(num_1_5)
+
+# Checando
+class(char_1_5)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>class(num_1_5)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code># Ou
+as.numeric(&quot;25&quot;)</code></pre>
+<pre><code>## [1] 25</code></pre>
+</div>
+<div id="desafio-1." class="section level1">
+<h1>Desafio 1.</h1>
+<p>Vamos praticar um pouco o que aprendemos até aqui. O que os comandos abaixo retornarão? Qual o resultado e porquê?</p>
+<div id="questão-1" class="section level4">
+<h4>Questão 1:</h4>
+<pre class="r"><code>install.packages(tidyverse)</code></pre>
+</div>
+<div id="questão-2" class="section level4">
+<h4>Questão 2:</h4>
+<pre class="r"><code>false &lt;- &quot;FALSE&quot;
+false &lt;- as.logical(false)
+class(false)</code></pre>
+</div>
+<div id="questão-3" class="section level4">
+<h4>Questão 3</h4>
+<pre class="r"><code>mean(x = sample(1:50, 5)) == mean(x) # TRUE ou FALSE</code></pre>
+</div>
+</div>
+<div id="operadores-booleanos-e-operadores-lógicos" class="section level1">
+<h1>Operadores booleanos e operadores Lógicos</h1>
+<p>Expressões booleanas são valores lógicos que retornam de determinada relação é verdadeira ou falsa. Estão expressão booleanas são a base de diversas linguagens de programação, incluindo <strong>R</strong>. Usaremos expressões boleanas para filtrar vetores ou bancos de dados, escrever loops, funções,
+relações condicionais, ou simplesmente comparar dois números.</p>
+<p>Quando você digita uma expressão booleana em R, R produzirá TRUE se a expressão for verdadeira e FALSE se a expressão for falsa. Os operadores booleanos são:</p>
+<pre class="r"><code>tribble(~Operador, ~O_que_Faz, 
+&quot;&lt;&quot;,    &quot;menor que&quot;, 
+&quot;&lt;=&quot;    , &quot;menor ou igual que &quot;,
+&quot;&gt;&quot; , &quot;maior que&quot;,
+&quot;&gt;=&quot;    , &quot;maior ou igual que&quot;,
+&quot;==&quot;    , &quot;exatamente igual&quot;, 
+&quot;!=&quot;    , &quot;diferente&quot;, 
+&quot;%in%&quot;,     &quot;é um objeto nesta lista&quot;) %&gt;%
+   kbl() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))</code></pre>
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Operador
+</th>
+<th style="text-align:left;">
+O_que_Faz
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+&lt;
+</td>
+<td style="text-align:left;">
+menor que
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+&lt;=
+</td>
+<td style="text-align:left;">
+menor ou igual que
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+&gt;
+</td>
+<td style="text-align:left;">
+maior que
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+&gt;=
+</td>
+<td style="text-align:left;">
+maior ou igual que
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+==
+</td>
+<td style="text-align:left;">
+exatamente igual
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+!=
+</td>
+<td style="text-align:left;">
+diferente
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+%in%
+</td>
+<td style="text-align:left;">
+é um objeto nesta lista
+</td>
+</tr>
+</tbody>
+</table>
+<p>Por outro lado, operadores lógicos nos permite combinar multiplas análises usando operadores booleanos. Operadores lógicos são:</p>
+<pre class="r"><code>tribble(~Operador, ~O_que_Faz, 
+&quot; x &amp; y &quot;,  &quot; x E y&quot;, 
+&quot;x |  y &quot;   , &quot;x ou y&quot;,
+&quot;!x&quot;    , &quot;Oposto de x&quot;) %&gt;%
+   kbl() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))</code></pre>
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Operador
+</th>
+<th style="text-align:left;">
+O_que_Faz
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+x &amp; y
+</td>
+<td style="text-align:left;">
+x E y
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+x | y
+</td>
+<td style="text-align:left;">
+x ou y
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+!x
+</td>
+<td style="text-align:left;">
+Oposto de x
+</td>
+</tr>
+</tbody>
+</table>
+<p>Alguns exemplos:</p>
+<pre class="r"><code>x &lt;- 10
+
+y &lt;- 20
+
+# Booleano Básico
+x&gt;y</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>x==y</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>x%in%y</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>x&lt;y</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code># Operadores Lógicos
+
+x&gt;15 | y &gt; 15</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>x &gt;15 &amp; y &gt; 15</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<div id="porquê-isso-importa" class="section level3">
+<h3>Porquê isso importa?</h3>
+<p>Operadores Booleanos não são inicialmente intuitivos, e mais importante, é difícil de entender sua utilidade quando você inicia a programar. Porém, um bom entendimento de operadores booleanos e lógicos formam uma sólida base da sua capacidade de programçaõ em R.</p>
+<p>Uma das principais utilidades é usar operadores boleanos para filtrar variáveis. Esta lógica se aplica a estruturas de dados mais complexos, que veremos a seguir.</p>
+<pre class="r"><code>x &lt;- sample(-50:50, 10)
+
+# Quais números são positivos?
+x&gt;0</code></pre>
+<pre><code>##  [1]  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE</code></pre>
+<pre class="r"><code># Posso selecionar eles?
+x[x&gt;0]</code></pre>
+<pre><code>## [1] 12 41 33 14 29 13 36</code></pre>
+</div>
+</div>
+<div id="estrutura-de-dados." class="section level1">
+<h1>Estrutura de Dados.</h1>
+<p>Um objeto pode ter diferente estruturas. Vamos vê-las rapidamente.</p>
+<ul>
+<li><code>vector</code></li>
+<li><code>matrix</code></li>
+<li><code>data.frame</code></li>
+<li><code>list</code></li>
+<li><code>array</code></li>
+</ul>
+<div id="vector" class="section level2">
+<h2>Vector</h2>
+<pre class="r"><code># vetor de números
+X &lt;- c(1, 2.3, 4, 5, 6.78, 6:10)
+X</code></pre>
+<pre><code>##  [1]  1.00  2.30  4.00  5.00  6.78  6.00  7.00  8.00  9.00 10.00</code></pre>
+<pre class="r"><code># Class
+class(X)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code># Tamanho 
+length(X)</code></pre>
+<pre><code>## [1] 10</code></pre>
+</div>
+<div id="matrix" class="section level2">
+<h2>Matrix</h2>
+<p>Estrutura de Dados Retangular (Linhas x Colunas). Extremamente útil para operações matemáticas, rápida manipulação.</p>
+<p><strong>Principal característica:</strong> comporta somente elementos numéricos</p>
+<pre class="r"><code># Coerce to a matrix
+as.matrix(X)</code></pre>
+<pre><code>##        [,1]
+##  [1,]  1.00
+##  [2,]  2.30
+##  [3,]  4.00
+##  [4,]  5.00
+##  [5,]  6.78
+##  [6,]  6.00
+##  [7,]  7.00
+##  [8,]  8.00
+##  [9,]  9.00
+## [10,] 10.00</code></pre>
+<pre class="r"><code># Cria uma Matrix do zero
+matrix(1:10, nrow=5, ncol=2)</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    1    6
+## [2,]    2    7
+## [3,]    3    8
+## [4,]    4    9
+## [5,]    5   10</code></pre>
+</div>
+<div id="list" class="section level2">
+<h2>List</h2>
+<p>A lista é extremamente útil para aplicações mais avançadas. Funciona como um repositório de vários objetos. É como uma grande gaveta onde você pode salvar sua bagunça.</p>
+<p><strong>Principal Característica</strong>: Tudo cabe dentro de uma lista. Elementos podem ser de classes varidas.</p>
+<pre class="r"><code># coerce to a list
+
+as.list(X)</code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2.3
+## 
+## [[3]]
+## [1] 4
+## 
+## [[4]]
+## [1] 5
+## 
+## [[5]]
+## [1] 6.78
+## 
+## [[6]]
+## [1] 6
+## 
+## [[7]]
+## [1] 7
+## 
+## [[8]]
+## [1] 8
+## 
+## [[9]]
+## [1] 9
+## 
+## [[10]]
+## [1] 10</code></pre>
+<pre class="r"><code># or
+
+lista_1 &lt;- list(X, as.matrix(X), as.character(X))
+
+# Visualize a lista.
+
+str(list)</code></pre>
+<pre><code>## function (...)</code></pre>
+</div>
+</div>
+<div id="data-frame." class="section level1">
+<h1>Data Frame.</h1>
+<p>Em português, banco de dados. É uma estrutura de dados retangular, porém, diferente da matrix, comporta colunas de classes diferentes. É como uma planilha de excel no seu ambiente R.</p>
+<p>A existência de data frames como classes básicas do R é uma das característica que fizeram do R um software tão útil para ciência de dados, sobretudo, no que se refere a manipulação e limpeza de dados retangulares. O Python, por exemplo, não possui data frames em seus tipos de objetos básico.</p>
+<p>Vamos abaixo focar um pouco na manipulação de bancos de dados, dado que está é um conhecimento importante para nossas aplicações práticas.</p>
+<div id="criando-um-banco-de-dados." class="section level2">
+<h2>Criando um banco de dados.</h2>
+<pre class="r"><code># Coercing
+as.data.frame(X)</code></pre>
+<pre><code>##        X
+## 1   1.00
+## 2   2.30
+## 3   4.00
+## 4   5.00
+## 5   6.78
+## 6   6.00
+## 7   7.00
+## 8   8.00
+## 9   9.00
+## 10 10.00</code></pre>
+<pre class="r"><code># Criando Manualmente
+
+data &lt;- data.frame(name=c(&quot;Tiago&quot;, &quot;Tiago&quot;), last_name=c(&quot;Ventura&quot;, &quot;Ventura&quot;) , school=c(&quot;UMD&quot;, &quot;FGV&quot;), age=c(30,32))</code></pre>
+<p>Além disso, o R possui diversos bancos de dados pre-armazenados na sua memória, ou em pacotes disponíveis para download. Para começar, vamos instalar e fazer o download do banco de dados sobre o show do netflix <em>The Great British Bake Off</em>. Neste <a href="https://github.com/apreshill/bakeoff">link</a>, você pode ver mais informações do pacote</p>
+<p>Este pacote possui um conjunto de bancos de dados. Para ativar o banco de dados do pacote, precisamos somente usar a função
+<code>data()</code></p>
+<pre class="r"><code>#devtools::install_github(&quot;apreshill/bakeoff&quot;)
+library(bakeoff) # Chamando o pacote
+
+# O que tenho no meu ambiente?
+ls()</code></pre>
+<pre><code>##  [1] &quot;char_1_5&quot;            &quot;data&quot;                &quot;lista_1&quot;            
+##  [4] &quot;meu_numero_da_sorte&quot; &quot;nome&quot;                &quot;num_1_5&quot;            
+##  [7] &quot;r_intro_css&quot;         &quot;x&quot;                   &quot;X&quot;                  
+## [10] &quot;y&quot;</code></pre>
+<pre class="r"><code># ativa o banco de dados
+data(&quot;bakers&quot;)
+ls()</code></pre>
+<pre><code>##  [1] &quot;bakers&quot;              &quot;char_1_5&quot;            &quot;data&quot;               
+##  [4] &quot;lista_1&quot;             &quot;meu_numero_da_sorte&quot; &quot;nome&quot;               
+##  [7] &quot;num_1_5&quot;             &quot;r_intro_css&quot;         &quot;x&quot;                  
+## [10] &quot;X&quot;                   &quot;y&quot;</code></pre>
+<pre class="r"><code># Examine o objeto.
+class(bakers)</code></pre>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>str(bakers)</code></pre>
+<pre><code>## tibble [120 × 8] (S3: tbl_df/tbl/data.frame)
+##  $ series     : Factor w/ 10 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ baker_full : chr [1:120] &quot;Annetha Mills&quot; &quot;David Chambers&quot; &quot;Edward \&quot;Edd\&quot; Kimber&quot; &quot;Jasminder Randhawa&quot; ...
+##  $ baker      : chr [1:120] &quot;Annetha&quot; &quot;David&quot; &quot;Edd&quot; &quot;Jasminder&quot; ...
+##  $ age        : num [1:120] 30 31 24 45 25 51 44 48 37 31 ...
+##  $ occupation : chr [1:120] &quot;Midwife&quot; &quot;Entrepreneur&quot; &quot;Debt collector for Yorkshire Bank&quot; &quot;Assistant Credit Control Manager&quot; ...
+##  $ hometown   : chr [1:120] &quot;Essex&quot; &quot;Milton Keynes&quot; &quot;Bradford&quot; &quot;Birmingham&quot; ...
+##  $ baker_last : chr [1:120] &quot;Mills&quot; &quot;Chambers&quot; &quot;Kimber&quot; &quot;Randhawa&quot; ...
+##  $ baker_first: chr [1:120] &quot;Annetha&quot; &quot;David&quot; &quot;Edward&quot; &quot;Jasminder&quot; ...</code></pre>
+<div id="acessando-dados-em-um-data-frame" class="section level3">
+<h3>Acessando dados em um Data Frame</h3>
+<p><strong>Pela Ordem da Coluna</strong></p>
+<pre class="r"><code>bakers[,1] # primeira coluna</code></pre>
+<pre><code>## # A tibble: 120 x 1
+##    series
+##    &lt;fct&gt; 
+##  1 1     
+##  2 1     
+##  3 1     
+##  4 1     
+##  5 1     
+##  6 1     
+##  7 1     
+##  8 1     
+##  9 1     
+## 10 1     
+## # … with 110 more rows</code></pre>
+<p><strong>Pela Nome da Coluna</strong></p>
+<pre class="r"><code>bakers$age</code></pre>
+<pre><code>##   [1] 30 31 24 45 25 51 44 48 37 31 31 31 40 63 19 41 31 45 25 31 40 43 63 27 45
+##  [26] 21 22 27 36 43 38 28 26 50 25 31 66 51 31 37 51 30 38 37 54 20 30 35 31 69
+##  [51] 39 31 32 41 42 17 60 66 38 37 53 19 41 66 37 30 49 49 35 29 32 25 23 31 61
+##  [76] 37 67 46 20 28 30 26 66 50 71 46 21 29 19 52 33 42 34 29 46 30 33 36 33 47
+## [101] 60 27 30 26 30 29 56 28 24 32 36 40 20 20 26 35 56 34 28 28</code></pre>
+<pre class="r"><code># Ou
+
+bakers[,&quot;age&quot;]</code></pre>
+<pre><code>## # A tibble: 120 x 1
+##      age
+##    &lt;dbl&gt;
+##  1    30
+##  2    31
+##  3    24
+##  4    45
+##  5    25
+##  6    51
+##  7    44
+##  8    48
+##  9    37
+## 10    31
+## # … with 110 more rows</code></pre>
+<p><strong>Pela posição da linha</strong></p>
+<pre class="r"><code>bakers[1:5, ]</code></pre>
+<pre><code>## # A tibble: 5 x 8
+##   series baker_full   baker    age occupation    hometown baker_last baker_first
+##   &lt;fct&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;      
+## 1 1      &quot;Annetha Mi… Annet…    30 Midwife       Essex    Mills      Annetha    
+## 2 1      &quot;David Cham… David     31 Entrepreneur  Milton … Chambers   David      
+## 3 1      &quot;Edward \&quot;E… Edd       24 Debt collect… Bradford Kimber     Edward     
+## 4 1      &quot;Jasminder … Jasmi…    45 Assistant Cr… Birming… Randhawa   Jasminder  
+## 5 1      &quot;Jonathan S… Jonat…    25 Research Ana… St Alba… Shepherd   Jonathan</code></pre>
+<p><strong>Por linha e coluna</strong></p>
+<pre class="r"><code>bakers[1:5, &quot;age&quot;]</code></pre>
+<pre><code>## # A tibble: 5 x 1
+##     age
+##   &lt;dbl&gt;
+## 1    30
+## 2    31
+## 3    24
+## 4    45
+## 5    25</code></pre>
+<pre class="r"><code>bakers[5:15, 3:5]</code></pre>
+<pre><code>## # A tibble: 11 x 3
+##    baker      age occupation                     
+##    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                          
+##  1 Jonathan    25 Research Analyst               
+##  2 Lea         51 Retired                        
+##  3 Louise      44 Police Officer                 
+##  4 Mark        48 Bus Driver                     
+##  5 Miranda     37 Food buyer for Marks &amp; Spencer 
+##  6 Ruth        31 Retail manager/Housewife       
+##  7 Ben         31 Graphic Designer               
+##  8 Holly       31 Advertising executive          
+##  9 Ian         40 Fundraiser for English Heritage
+## 10 Janet       63 Teacher of Modern Languages    
+## 11 Jason       19 Civil Engineering Student</code></pre>
+</div>
+<div id="nota-rápida-sobre-como-acessar-estruturas-de-dados." class="section level3">
+<h3>Nota rápida sobre como acessar estruturas de dados.</h3>
+<p>Há duas formas mais gerais de se acessar valores dentro de determinadas estruturas de dados (vetores, matrizes, listas…). É possível acessar via índices (indexes) e chaves (keys).</p>
+<p>Índices referem-se as posições de forma númerica. E as chaves são os textos, com nomes, de cada valor. Por exemplo, ao usarmos este commando <code>bakers[1,1]</code> acessamos a primeira linha e a primeira coluna. Por outro lado, <code>bakers[1,"age"]</code> ou
+<code>bakers$age</code>, acessamos usando a chave “age” que é o nome da coluna.</p>
+<p>Cada estrutura de dados possui formas específicas de acessar seus valores. Matrizes e Vetores permitem somente indexação númerica. Listas permitem índices e chaves. Vamos aprender mais sobre isso no decorrer do curso.</p>
+</div>
+<div id="funções-úteis-para-data-frames" class="section level3">
+<h3>Funções úteis para data frames</h3>
+<p>A classe data.frame possuí algumas funções pré-construídas bastante úteis. Alguns exemplos:</p>
+<pre class="r"><code>head(bakers) # Mostra primeiras cinco linhas</code></pre>
+<pre><code>## # A tibble: 6 x 8
+##   series baker_full   baker    age occupation   hometown  baker_last baker_first
+##   &lt;fct&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      
+## 1 1      &quot;Annetha Mi… Annet…    30 Midwife      Essex     Mills      Annetha    
+## 2 1      &quot;David Cham… David     31 Entrepreneur Milton K… Chambers   David      
+## 3 1      &quot;Edward \&quot;E… Edd       24 Debt collec… Bradford  Kimber     Edward     
+## 4 1      &quot;Jasminder … Jasmi…    45 Assistant C… Birmingh… Randhawa   Jasminder  
+## 5 1      &quot;Jonathan S… Jonat…    25 Research An… St Albans Shepherd   Jonathan   
+## 6 1      &quot;Lea Harris&quot; Lea       51 Retired      Midlothi… Harris     Lea</code></pre>
+<pre class="r"><code>tail(bakers) # últimas cinco linhas</code></pre>
+<pre><code>## # A tibble: 6 x 8
+##   series baker_full   baker    age occupation   hometown  baker_last baker_first
+##   &lt;fct&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      
+## 1 10     Michael Cha… Micha…    26 Theatre man… Stratfor… Chakraver… Michael    
+## 2 10     Michelle Ev… Miche…    35 Print shop … Tenby, W… Evans-Fec… Michelle   
+## 3 10     Phil Thorne  Phil      56 HGV driver   Rainham   Thorne     Phil       
+## 4 10     Priya O&#39;Shea Priya     34 Marketing c… Leicester O&#39;Shea     Priya      
+## 5 10     Rosie Brand… Rosie     28 Veterinary … Somerset  Brandreth… Rosie      
+## 6 10     Steph Black… Steph     28 Shop assist… Chester   Blackwell  Steph</code></pre>
+<pre class="r"><code>summary(bakers) # clase de cada coluna</code></pre>
+<pre><code>##      series    baker_full           baker                age       
+##  4      :13   Length:120         Length:120         Min.   :17.00  
+##  10     :13   Class :character   Class :character   1st Qu.:28.75  
+##  2      :12   Mode  :character   Mode  :character   Median :34.00  
+##  3      :12                                         Mean   :37.39  
+##  5      :12                                         3rd Qu.:45.00  
+##  6      :12                                         Max.   :71.00  
+##  (Other):46                                                        
+##   occupation          hometown          baker_last        baker_first       
+##  Length:120         Length:120         Length:120         Length:120        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+## </code></pre>
+<pre class="r"><code>dim(bakes) # dimensões de linha e coluna</code></pre>
+<pre><code>## [1] 548   6</code></pre>
+<pre class="r"><code>glimpse(bakers) # outro modo de ver seus dados. </code></pre>
+<pre><code>## Rows: 120
+## Columns: 8
+## $ series      &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+## $ baker_full  &lt;chr&gt; &quot;Annetha Mills&quot;, &quot;David Chambers&quot;, &quot;Edward \&quot;Edd\&quot; Kimber…
+## $ baker       &lt;chr&gt; &quot;Annetha&quot;, &quot;David&quot;, &quot;Edd&quot;, &quot;Jasminder&quot;, &quot;Jonathan&quot;, &quot;Lea&quot;…
+## $ age         &lt;dbl&gt; 30, 31, 24, 45, 25, 51, 44, 48, 37, 31, 31, 31, 40, 63, 1…
+## $ occupation  &lt;chr&gt; &quot;Midwife&quot;, &quot;Entrepreneur&quot;, &quot;Debt collector for Yorkshire …
+## $ hometown    &lt;chr&gt; &quot;Essex&quot;, &quot;Milton Keynes&quot;, &quot;Bradford&quot;, &quot;Birmingham&quot;, &quot;St A…
+## $ baker_last  &lt;chr&gt; &quot;Mills&quot;, &quot;Chambers&quot;, &quot;Kimber&quot;, &quot;Randhawa&quot;, &quot;Shepherd&quot;, &quot;H…
+## $ baker_first &lt;chr&gt; &quot;Annetha&quot;, &quot;David&quot;, &quot;Edward&quot;, &quot;Jasminder&quot;, &quot;Jonathan&quot;, &quot;L…</code></pre>
+</div>
+<div id="operações-boolenas-back-back-back-again." class="section level3">
+<h3>Operações Boolenas back, back, back again.</h3>
+<p>Podemos filtrar bancos de dados com base em operações boleanas.</p>
+<pre class="r"><code># Bakers com mais de 60 anos
+bakers[bakers$age&gt;60,]
+`
+#Bakers de Londers
+bakers[bakers$hometown==&quot;London&quot;,]</code></pre>
+<pre><code>## Error: &lt;text&gt;:3:1: unexpected INCOMPLETE_STRING
+## 5: bakers[bakers$hometown==&quot;London&quot;,]
+## 6: 
+##    ^</code></pre>
+<p>Meio confuso né? Sim. Concordo. Por isso, vamos usa um pacote chamado <a href="https://dplyr.tidyverse.org/">dplyr</a> para manipulação de bancos de dados. Vamos chegar lá nas próximas aulas.</p>
+</div>
+</div>
+<div id="exportando-banco-de-dados." class="section level2">
+<h2>Exportando banco de dados.</h2>
+<p>Uma função importante do R consiste em exportar seus resultados, incluindo um novo banco de dados. Há diversas funções para fazer isso, a depender do formato do output que você deseja. Alguns exemplos:</p>
+<ul>
+<li><code>write.table()</code> for txt</li>
+<li><code>write.csv()</code> for csv</li>
+<li><code>write.xlsx</code> for xlsx</li>
+<li><code>save()</code> to export as a RData</li>
+</ul>
+<p>E muitas outras!</p>
+<p>Um exemplo com .csv</p>
+<pre class="r"><code># make a fake data set
+
+dfake &lt;- data.frame(normal=rnorm(100, 0, 1), 
+                    uniform=runif(100, 0, 1), 
+                    pois=rpois(100, 10))
+
+# write.function(data, name_to_be_saved)
+write.csv(dfake, &quot;dfake.csv&quot;)</code></pre>
+<div id="mas-onde-estão-meus-dados-e-onde-r-está-olhando" class="section level3">
+<h3>Mas… Onde estão meus dados? E onde R está olhando?</h3>
+<p>Na próxima semana, vamos discutir como organizar seus dados em R e como ter um fluxo de trabalho organizado. No entanto, vamos aprender primeiro o básico sobre diretórios de trabalho no R – que eu não recomendo seja sua rotina – porém que nos ajuda a entender como o R funciona.</p>
+<p>Definir seu diretório de trabalho é um passo que sempre causa muita dor de cabeça à iniciantes em R. É simples, porém, como somos treinados com o point-and-click do windows, no começo pode parecer difícil.</p>
+<p>O <code>R</code> não sabe intuitivamente onde estão seus dados. Se os dados estiverem em uma pasta especial chamada “pesquisa super secreta”, temos que dizer ao <code>R</code> como chegar lá.</p>
+<p>Podemos fazer isso de duas maneiras:</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>Aprenda onde seus arquivos estão.</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>Defina seu <strong>diretório de trabalho</strong> para essa pasta;</li>
+</ol></li>
+</ul>
+<p>Toda vez que o <code>R</code> é inicializado, ele olha para o mesmo lugar (chamado de <em>global path</em>), a menos que seja solicitado a ir para outro lugar.</p>
+<pre class="r"><code># Onde meu R está olhando?
+getwd()</code></pre>
+<pre><code>## [1] &quot;/home/venturat/Dropbox/fgv_capes_print/website/fgv_intro_css_/content/Tutoriais&quot;</code></pre>
+<pre class="r"><code># Onde eu quero que olhe?
+setwd(&quot;/home/venturat/Downloads&quot;)</code></pre>
+</div>
+<div id="importando-dados." class="section level3">
+<h3>Importando dados.</h3>
+<p>Os dados mais comuns que iremos importar serão <em>.csv</em> Estes tipos de arquivo são básicamente um arquivo de excel mais simples. Caso este arquivo esteja em seu diretório de trabalho, importá-lo para R é simples:</p>
+<pre class="r"><code># Checa diretorio
+getwd()</code></pre>
+<pre><code>## [1] &quot;/home/venturat/Dropbox/fgv_capes_print/website/fgv_intro_css_/content/Tutoriais&quot;</code></pre>
+<pre class="r"><code># Ve arquivos neste diretorio.
+list.files()</code></pre>
+<pre><code>##  [1] &quot;data.jpeg&quot;                   &quot;dfake.csv&quot;                  
+##  [3] &quot;figs&quot;                        &quot;rstudio.png&quot;                
+##  [5] &quot;styles.css&quot;                  &quot;tutorial1_instalacao.html&quot;  
+##  [7] &quot;tutorial1_instalacao.rmd&quot;    &quot;tutorial2_rbasico_files&quot;    
+##  [9] &quot;tutorial2_rbasico.html&quot;      &quot;tutorial2_rbasico.rmd&quot;      
+## [11] &quot;tutorial2_rbasico.rmd.lock~&quot; &quot;tutorial3_rbasicoII.html&quot;   
+## [13] &quot;tutorial3_rbasicoII.rmd&quot;</code></pre>
+<pre class="r"><code># Importa os dados. 
+dados &lt;- read.csv(&quot;dfake.csv&quot;)
+
+dados</code></pre>
+<pre><code>##       X        normal     uniform pois
+## 1     1  0.5610004318 0.179205102   11
+## 2     2 -0.8671748545 0.034557758    5
+## 3     3 -0.1615944938 0.559848268   13
+## 4     4  0.6429676443 0.268507322   19
+## 5     5  0.4763783715 0.045736581    7
+## 6     6 -0.1366474285 0.618785924    5
+## 7     7  1.1072941521 0.442983776    6
+## 8     8 -1.0894263146 0.474695944    3
+## 9     9  0.0255675094 0.983967902    7
+## 10   10 -0.8738119059 0.034240651    3
+## 11   11  1.6885871056 0.618328793    7
+## 12   12 -0.9224876193 0.083722083    8
+## 13   13  0.0310164530 0.983290380    8
+## 14   14  0.4939945269 0.635009509   13
+## 15   15 -1.0322297193 0.807351760   12
+## 16   16 -0.6960699054 0.977340158   10
+## 17   17  0.8837023053 0.740829194    7
+## 18   18 -0.8936416233 0.834066589   13
+## 19   19 -0.8033428410 0.417838460    6
+## 20   20  0.9240646608 0.542534647   11
+## 21   21 -0.6040562272 0.681348772   13
+## 22   22 -0.3810203542 0.571095479   12
+## 23   23 -1.5993205863 0.034393406   10
+## 24   24  0.4239503144 0.885086106   10
+## 25   25 -0.0119128554 0.523003333    6
+## 26   26  0.2446589733 0.493446590    7
+## 27   27 -0.9490776145 0.086356517   17
+## 28   28  1.9052514431 0.085463485   13
+## 29   29 -0.8599170437 0.973551068   11
+## 30   30 -0.0004206967 0.181822727   10
+## 31   31 -0.3837896537 0.796233247    9
+## 32   32  2.1546175184 0.420346336   15
+## 33   33 -0.2501976131 0.076958258   12
+## 34   34  0.8698723882 0.993557536    3
+## 35   35 -1.3141981042 0.970760732    7
+## 36   36  1.9236075143 0.983094563   10
+## 37   37  0.2380554656 0.191235450   11
+## 38   38  1.4442488145 0.039955476   11
+## 39   39  0.6817160608 0.485830958    9
+## 40   40 -0.0062316285 0.834107825    7
+## 41   41 -0.2273963599 0.312445120    6
+## 42   42  0.2024885603 0.856912767    9
+## 43   43  0.5377913041 0.180446190    5
+## 44   44 -1.5088897083 0.198397324   10
+## 45   45  0.4504083974 0.497792768   11
+## 46   46 -0.9781219870 0.005502134   14
+## 47   47  0.6689138960 0.684788277   15
+## 48   48  0.3901541566 0.728131395    9
+## 49   49  0.6793784821 0.776891523    5
+## 50   50  0.0922798384 0.498774534    7
+## 51   51 -0.7138222017 0.469455369    8
+## 52   52  0.2664094830 0.906167048   15
+## 53   53  0.1914258558 0.581677069    9
+## 54   54  0.2881508284 0.710966078    9
+## 55   55 -1.2690193946 0.858455342    6
+## 56   56 -1.1205807381 0.498219525    8
+## 57   57 -0.2551517912 0.459254619   14
+## 58   58  1.9485133992 0.208288853   10
+## 59   59 -0.7188699254 0.643692466   11
+## 60   60 -0.6408640726 0.839146516    7
+## 61   61  0.9347019512 0.913304750    9
+## 62   62  0.1483533731 0.991958494    5
+## 63   63 -1.3503997802 0.954293411   15
+## 64   64 -0.9910064038 0.800636814   10
+## 65   65 -0.3573272031 0.613111961    7
+## 66   66 -0.0856236357 0.939694915    8
+## 67   67  0.4383034288 0.004561846    8
+## 68   68  0.9180480849 0.742631404   10
+## 69   69 -0.7747481737 0.991990726    7
+## 70   70 -1.3747319344 0.303697622   10
+## 71   71 -0.1248306770 0.882551685   13
+## 72   72  1.6437083865 0.342181660    8
+## 73   73 -0.2351791366 0.151117338   10
+## 74   74  2.4952221704 0.218712025   11
+## 75   75  1.6818119264 0.311519239    5
+## 76   76 -0.5732094942 0.355470316   10
+## 77   77 -0.4480911142 0.910568359   13
+## 78   78  0.3870789635 0.541656200   15
+## 79   79  0.6467875376 0.975797591    9
+## 80   80 -0.3126139217 0.901989484    8
+## 81   81  0.2168729693 0.417799778    6
+## 82   82 -0.4326097808 0.618362930   12
+## 83   83 -1.4550911719 0.413481409    8
+## 84   84 -0.8053133815 0.244264200    9
+## 85   85  1.5992822006 0.982821746   11
+## 86   86  0.1031805184 0.362653282    4
+## 87   87 -1.7028871726 0.805183699    5
+## 88   88  0.4258087576 0.281068962   11
+## 89   89  0.5721662137 0.212663823    8
+## 90   90 -0.3534161948 0.929172795    7
+## 91   91 -0.6789164301 0.077487230   12
+## 92   92  1.1494633550 0.635553339    8
+## 93   93 -0.3531254940 0.129010139    8
+## 94   94  0.7435777886 0.992486474   10
+## 95   95  0.2978157157 0.894592047    4
+## 96   96 -0.7136865126 0.455042136   13
+## 97   97 -2.5428642978 0.223404943   12
+## 98   98 -0.5189424624 0.430332540    5
+## 99   99 -2.7824295795 0.434267236    6
+## 100 100  0.1491108914 0.381956090   15</code></pre>
+<p>Assim como para <code>write</code>, há diversas funções para importar dados em R. Exemplos:</p>
+<ul>
+<li><code>read.table()</code> mais flexível, funciona principalmente para txt.</li>
+<li><code>read_excel()</code> arquivos de excel (pacote readxl)</li>
+<li><code>read_dta</code> arquivos de Stata (pacote haven).</li>
+</ul>
+<p>Para concluir, estes são somente alguns poucos exemplos. Há multiplas funcões, algumas para abrir o mesmo tipo de arquivo, disponíveis para baixar. Por exemplo, vamos usar mais a função <code>read_csv</code>, ao invés do <code>read.csv</code>, do pacote <code>readr</code>, porque está funciona de forma mais rápida quando abrindo um conjunto grande de dados.</p>
+</div>
+</div>
+</div>
+<div id="desafio-2" class="section level1">
+<h1>Desafio 2</h1>
+<div id="questão-1." class="section level2">
+<h2>Questão 1.</h2>
+<p>Acima, quando filtramos o banco de dados bakers, usamos a seguinte função:</p>
+<pre class="r"><code>bakers[bakers$age&gt;60,]</code></pre>
+<p>Me explique com o máximo de detalhes o que está linha de código está fazendo. Porque a operação booleana está antes da virgula? Qual o output da operação booleana?</p>
+<!-- ## Questão 2.  -->
+<!-- Vamos praticar como abrir um banco de dados. Encontre um banco de dados no seu computador, ou na internet, e abre ele utilizado a função `read.csv`. -->
+<!-- ## Questão 3.  -->
+<!-- Faça o mesmo para um banco de dados em outro formato. Pode ser Stata, excel, arquivo de R. Qualquer um. Use um pouco de google e você encontrará uma solução.  -->
+</div>
+</div>

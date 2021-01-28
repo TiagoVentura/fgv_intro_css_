@@ -1,0 +1,114 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 2"
+author: "Tiago Ventura"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="instruções." class="section level2">
+<h2>Instruções.</h2>
+<p>Baixe exercício em RMD <a href="exercicio-2.rmd">aqui</a></p>
+<div id="quando-devo-entregar-os-exercícios" class="section level3">
+<h3>Quando devo entregar os exercícios?</h3>
+<p>Até que eu indique o contrário, o prazo para entrega dos exercícios é sempre sexta-feira, até meia noite. Exercícios entregues depois terão a nota reduzida.</p>
+</div>
+<div id="onde-devo-entregar" class="section level3">
+<h3>Onde devo entregar?</h3>
+<p>Toda nossa comunicação será via nossa canal de Slack. Para entregar os exercícios, abra um chat privado comigo no slack, e entregue os exercícios.</p>
+</div>
+<div id="como-devo-entregar" class="section level3">
+<h3>Como devo entregar?</h3>
+<p>Os exercícios devem ser entregues em formato PDF, gerados a partir de um arquivo de Rmarkdown. Essa rotina será fundamental para vocês se familiarizarem com a geração de documentos dinâmicos em markdown.</p>
+<p>Veremos somente na próxima aula como utilizar markdown. Por isto, neste exercício 2, sinta-se a vontade para entregar em outros formatos.</p>
+<p>No entanto, segue aqui um pequeno tutorial para caso você queira entregar usando markdown.</p>
+</div>
+<div id="passo-1." class="section level3">
+<h3>Passo 1.</h3>
+<p>Faça o download deste arquivo no formato .rmd</p>
+</div>
+<div id="passo-2." class="section level3">
+<h3>Passo 2.</h3>
+<p>Abra o arquivo rmd no Rstudio.</p>
+</div>
+<div id="passo-3" class="section level3">
+<h3>Passo 3</h3>
+<p>Altera o parametro <code>author</code> no topo do arquivo com seu nome.</p>
+</div>
+<div id="passo-4" class="section level3">
+<h3>Passo 4</h3>
+<p>Apague todas essas instruções. (linha 23 até linha 70)</p>
+</div>
+<div id="passo-5" class="section level3">
+<h3>Passo 5</h3>
+<p>Adicione seus códigos nos chuncks abaixo, tipo esse:</p>
+<pre class="r"><code>#Responda aqui</code></pre>
+<p>E suas explicações em formato normal de texto.</p>
+</div>
+<div id="passo-6" class="section level3">
+<h3>Passo 6</h3>
+<p>Aperte knit, e altero of formato para PDF.</p>
+</div>
+</div>
+<div id="questão-1" class="section level2">
+<h2>Questão 1</h2>
+<p>Baixe este banco de dados <a href="https://www.dropbox.com/s/zks9aom2ff085uw/mtcars.csv?dl=0">mtcars</a>. Abra ele usando a função read.csv. Depois, descreve a classe de cada coluna deste banco.</p>
+<pre class="r"><code>#Responda aqui</code></pre>
+</div>
+<div id="questão-2." class="section level2">
+<h2>Questão 2.</h2>
+<p>Faça o mesmo para um banco de dados em outro formato. Pode ser Stata, excel, arquivo de R. Qualquer um. Use um pouco de google e você encontrará uma solução. Você pode usar qualquer banco seu ou que você encontrar na internet.</p>
+<pre class="r"><code>#Responda aqui</code></pre>
+</div>
+<div id="questão-3" class="section level2">
+<h2>Questão 3</h2>
+<p>Crie um banco de dados com três variáveis: nome, sobrenome e data de nascimento. Inclua neste banco de dados você, e mais 5 amigos. Depois de criar o banco, filtre este banco para exibir somente as suas informações.</p>
+<pre class="r"><code>#Responda aqui</code></pre>
+</div>
+<div id="questao-4." class="section level2">
+<h2>Questao 4.</h2>
+<p>Escreve um loop usando o banco de dados mtcars da questão 1.</p>
+<ul>
+<li><p>Computar a média de cada coluna no banco utilizado na primeira questão.</p></li>
+<li><p>Determinar a class de cada coluna.</p></li>
+<li><p>Determinar o número de valores únicos de cada coluna</p></li>
+</ul>
+</div>
+<div id="questão-5." class="section level2">
+<h2>Questão 5.</h2>
+<p>Escreva uma função para calcular a variância de um vetor numérico.</p>
+<p>A formula variância é:</p>
+<p><span class="math display">\[
+Var = \sum \frac{(x_{i}-\bar{x})^2}{n}
+\]</span></p>
+</div>
+<div id="questão-6-ponto-extra-não-obrigatória." class="section level2">
+<h2>Questão 6: Ponto Extra, Não obrigatória.</h2>
+<p>Escreve uma função capaz de advinhar se dado como input o nome de uma cidades, retorne como resultado se Eu - Tiago - já morei nesta cidade. Para facilitar um pouco, vou criar um vetor com todas as cidades em que morei.</p>
+<div id="exemplo-de-função" class="section level4">
+<h4>Exemplo de função</h4>
+<pre class="r"><code>cidades_onde_morei &lt;- c(&quot;Belém&quot;, &quot;São Paulo&quot;, &quot;Rio de Janeiro&quot;, &quot;Berlim&quot;, &quot;Brasília&quot;, &quot;Washington - DC&quot;)
+
+# função
+
+tiago_morou(&quot;niteroi&quot;)
+# [1] Não. 
+
+tiago_morou(&quot;São Paulo&quot;)
+# [1] Sim. </code></pre>
+<p>Sua vez:</p>
+<pre class="r"><code>#Responda aqui</code></pre>
+</div>
+<div id="até-a-próxima" class="section level4">
+<h4>Até a próxima!</h4>
+</div>
+</div>

@@ -1,0 +1,152 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 2"
+author: "Tiago Ventura"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instruções.
+
+Baixe exercício em RMD [aqui](exercicio-2.rmd)
+
+### Quando devo entregar os exercícios?
+
+Até que eu indique o contrário, o prazo para entrega dos exercícios é sempre sexta-feira, até meia noite. Exercícios entregues depois terão a nota reduzida. 
+
+### Onde devo entregar? 
+
+Toda nossa comunicação será via nossa canal de Slack. Para entregar os exercícios, abra um chat privado comigo no slack, e entregue os exercícios. 
+
+### Como devo entregar? 
+
+Os exercícios devem ser entregues em formato PDF, gerados a partir de um arquivo de Rmarkdown. Essa rotina será fundamental para vocês se familiarizarem com a geração de documentos dinâmicos em markdown. 
+
+Veremos somente na próxima aula como utilizar markdown. Por isto, neste exercício 2, sinta-se a vontade para entregar em outros formatos. 
+
+No entanto, segue aqui um pequeno tutorial para caso você queira entregar usando markdown. 
+
+### Passo 1. 
+
+Faça o download deste arquivo no formato .rmd 
+
+### Passo 2. 
+
+Abra o arquivo rmd no Rstudio. 
+
+### Passo 3
+
+Altera o parametro `author` no topo do arquivo com seu nome. 
+
+### Passo 4 
+
+Apague todas essas instruções. (linha 23 até linha 70)
+
+### Passo 5
+
+Adicione seus códigos nos chuncks abaixo, tipo esse:
+
+```{r}
+#Responda aqui
+```
+
+E suas explicações em formato normal de texto. 
+
+### Passo 6
+
+Aperte knit, e altero of formato para PDF. 
+
+
+## Questão 1
+
+Baixe este banco de dados [mtcars](https://www.dropbox.com/s/zks9aom2ff085uw/mtcars.csv?dl=0). Abra ele usando a função read.csv. Depois, descreve a classe de cada coluna deste banco. 
+
+```{r}
+#Responda aqui
+```
+
+## Questão 2.
+
+Faça o mesmo para um banco de dados em outro formato. Pode ser Stata, excel, arquivo de R. Qualquer um. Use um pouco de google e você encontrará uma solução.  Você pode usar qualquer banco seu ou que você encontrar na internet. 
+
+```{r}
+#Responda aqui
+```
+
+## Questão 3
+
+Crie um banco de dados com três variáveis: nome, sobrenome e data de nascimento. Inclua neste banco de dados você, e mais 5 amigos. Depois de criar o banco, filtre este banco para exibir somente as suas informações. 
+
+```{r}
+#Responda aqui
+```
+
+
+## Questao 4.
+
+Escreve um loop usando o banco de dados mtcars da questão 1. 
+
+- Computar a média de cada coluna no banco utilizado na primeira questão.
+
+- Determinar a class de cada coluna. 
+
+- Determinar o número de valores únicos de cada coluna
+
+
+## Questão 5.
+
+Escreva uma função para calcular a variância de um vetor numérico. 
+
+A formula variância é:
+
+$$
+Var = \sum \frac{(x_{i}-\bar{x})^2}{n}
+$$
+```{r}
+```
+
+## Questão 6: Ponto Extra, Não obrigatória. 
+
+Escreve uma função capaz de advinhar se dado como input o nome de uma cidades, retorne como resultado se Eu - Tiago - já morei nesta cidade. Para facilitar um pouco, vou criar um vetor com todas as cidades em que morei. 
+
+
+#### Exemplo de função
+```{r eval=FALSE}
+
+cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", "Berlim", "Brasília", "Washington - DC")
+
+# função
+
+tiago_morou("niteroi")
+# [1] Não. 
+
+tiago_morou("São Paulo")
+# [1] Sim. 
+
+
+```
+
+Sua vez:
+
+```{r}
+#Responda aqui
+```
+
+
+
+
+
+
+#### Até a próxima!
+
+

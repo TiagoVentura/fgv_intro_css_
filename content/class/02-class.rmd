@@ -1,0 +1,31 @@
+---
+title: "Aula 2: Festival de Instalação"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais
+
+Na aula de hoje, nosso objetivo é preparar a infra-esturtura necessária para vocês acompanharam o curso sem maiores problemas técnicos. 
+
+Abaixo, vocês encontrarão tutoriais sobre como instalar os programas -- ou a maior parte deles -- que utilizaremos ao longo do semestre neste seminário. 
+
+Trabalhem em grupos nestes tutoriais, e instalem todos os programas em seus laptops. 
+
+Caso tenham dificuldade, perguntem aos seus colegas, ou me avisa que irei até seu breakout room. 
+
+Divirtam-se!
+
+
+## Tutorial
+
+[Tutorial Install Fest](/Tutoriais/tutorial1_instalacao.html)
