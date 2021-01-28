@@ -3,10 +3,9 @@
         <h3>Instrutor</h3>
 
         <ul class="icon-list">
-            <li><i class="fas fa-user"></i> <a href="{{ .Site.Params.Instrutor.url }}" target="_blank" rel="noopener"> {{ .Site.Params.Instrutor.name }}</a></li>
-            <li><i class="fas fa-envelope"></i> <a href="mailto:{{ .Site.Params.Instrutor.email }}"> {{ .Site.Params.Instrutor.email }}</a></li>
-            <li><i class="fab fa-twitter"></i> <a href="https://twitter.com/{{ .Site.Params.Instrutor.twitter }}" target="_blank" rel="noopener"> @{{ .Site.Params.Instrutor.twitter }}</a></li>
-            <li><i class="fas fa-calendar-check"></i> <a href="{{ .Site.Params.Instrutor.appointment_url }}" target="_blank" rel="noopener"> Schedule an appointment</a></li>
+            <li><i class="fas fa-user"></i> &nbsp; &nbsp; <a href="{{ .Site.Params.Instrutor.url }}" target="_blank" rel="noopener"> {{ .Site.Params.Instrutor.name }}</a></li>
+            <li><i class="fas fa-envelope"></i>&nbsp; &nbsp; <a href="mailto:{{ .Site.Params.Instrutor.email }}"> {{ .Site.Params.Instrutor.email }}</a></li>
+            <li><i class="fab fa-twitter"></i> &nbsp; &nbsp; <a href="https://twitter.com/{{ .Site.Params.Instrutor.twitter }}" target="_blank" rel="noopener"> @{{ .Site.Params.Instrutor.twitter }}</a></li>
         </ul>
     </div>
 
@@ -14,9 +13,9 @@
         <h3>Detalhes do Curso</h3>
 
         <ul class="icon-list">
-            <li><i class="far fa-calendar"></i> {{ .Site.Params.course.days }}</li>
-            <li><i class="far fa-clock"></i> {{ .Site.Params.course.time }}</li>
-            <li><i class="fas fa-university"></i> {{ .Site.Params.course.location }}</li>
+            <li><i class="far fa-calendar"></i> &nbsp; {{ .Site.Params.course.days }}</li>
+            <li><i class="far fa-clock"></i> &nbsp; {{ .Site.Params.course.time }}</li>
+            <li><i class="fas fa-university"></i> &nbsp; {{ .Site.Params.course.location }}</li>
             {{ if isset .Site.Params.course "slack" }}<li><i class="fab fa-slack"></i> <a href="{{ .Site.Params.course.slack }}" target="_blank" rel="noopener">Slack</a></li>{{ end }}
         </ul>
     </div>
