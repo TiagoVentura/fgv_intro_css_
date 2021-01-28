@@ -17,17 +17,17 @@ design:
   #Background gradient
     gradient_start: "#2E3440"
     gradient_end: "#4C566A"
-    image: hero.png
+    image: banner.png
     image_size: ""
     image_darken: 0.4
-    text_color_light: true
+    text_color_light: false
 
 cta_note:
   label: 
 
 ---
 
-**Communicação Política e Mídias Digitais**
+Communicação Política e Mídias Digitais
 
 <br>
 <br>

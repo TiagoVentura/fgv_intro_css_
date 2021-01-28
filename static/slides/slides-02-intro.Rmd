@@ -738,7 +738,6 @@ head(dados)
 
 # Desafio 2
 
-
 Acima, quando filtramos o banco de dados bakers, usamos a seguinte função:
 
 ```{r eval=FALSE}
