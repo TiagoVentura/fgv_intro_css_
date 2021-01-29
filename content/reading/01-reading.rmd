@@ -2,9 +2,9 @@
 title: "Introdução e Ementa do Curso"
 citeproc: true
 menu: 
-  class:
-    parent: Class
-    weight: 2
+  reading:
+    parent: Reading
+    weight: 1
 type: docs
 output:
   blogdown::html_page:

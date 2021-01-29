@@ -1,11 +1,10 @@
 ---
-title: Description of readings
+title: Descrição das Leituras
 menu:
   reading:
-    parent: Overview
     weight: 1
 type: docs
 weight: 1
 ---
 
-If I assign readings, you really should read them.
+Se eu disser que a leitura é orbrigatório, por favor, façam-a. 

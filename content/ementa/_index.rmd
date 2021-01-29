@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(message=FALSE, warning = FALSE)
 ```
 
-Clique [aqui](FGV_CSS_Digital_media_syllabus_jan.pdf) para fazer o download em Pdf. 
+Clique [aqui](FGV_CSS_EMENTA_pt.pdf) para fazer o download em Pdf. 
 
 ## Instrutor
 
@@ -108,7 +108,7 @@ Tópicos: O que é Ciência Social Computacional? Estrutura do Curso, Instalando
 
 Tópicos: Curso Rápido em R, objetos, operações básicas, bancos de dados, R Studio.
 
-### Semana 3: Replicabilidade,  Fluxo de Trabalho e Relatórios Dinâmics.  (Fevereiro 22 - 24)
+### Semana 3: Replicabilidade,  Fluxo de Trabalho e Relatórios Dinâmicos.  (Fevereiro 22 - 24)
 
 Tópicos: R-projects e Rmarkdown.
 

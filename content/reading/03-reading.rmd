@@ -2,9 +2,9 @@
 title: "Introdução ao R: Parte I"
 citeproc: true
 menu: 
-  class:
-    parent: Class
-    weight: 2
+  reading:
+    parent: Reading
+    weight: 3
 type: docs
 output:
   blogdown::html_page:

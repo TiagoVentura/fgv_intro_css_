@@ -3,7 +3,7 @@ title: "Aula 2: Festival de Instalação"
 citeproc: true
 menu: 
   class:
-    parent: Class
+    parent: class
     weight: 2
 type: docs
 output:

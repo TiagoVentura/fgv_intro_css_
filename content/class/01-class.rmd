@@ -1,5 +1,5 @@
 ---
-title: "Introdução e Ementa do Curso"
+title: "Aula 1: Introdução e Ementa do Curso"
 citeproc: true
 menu: 
   class:
