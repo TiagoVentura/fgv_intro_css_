@@ -25,7 +25,7 @@ lessons:
     reading: "04-reading"
     assignment: "exercicio-2.html"
 
-  - title: "Replicabilidade e Controle de Fluxo"
+  - title: "Workflow em R e Rmarkdown"
     date: "2021-02-22, Seg"
     #reading: "09-reading"
     #class: "viz2-class"
