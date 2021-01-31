@@ -467,6 +467,7 @@ countdown(minutes = 15, seconds = 0,
 ```
 
 ---
+
 class: middle, center, inverse
 
 # Estrutura de Dados

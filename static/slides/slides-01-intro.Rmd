@@ -21,10 +21,15 @@ knitr::opts_chunk$set(message=FALSE, warning = FALSE)
 
 class: center, middle
 
+--
+
 # Porque Estamos Aqui?
+
+--
 
 ### Dados, Dados, Dados, Dados...
 
+--
 ---
 
 class: center, middle
@@ -119,9 +124,7 @@ knitr::include_graphics("figs/data.jpeg")
 
 class: center, inverse, middle
 
-## O objetivo do curso é apresentar ao alunos os métodos e os estudo teóricos no campo das ciências sociais computacionais (CSS). E dinimuir o gap entre ciências social e ciência computacional.
-
---- 
+## O objetivo do curso é apresentar ao alunos técnicas e desenhos de pesquisa de ponta no campo das Ciências Sociais Computacionais (CSS).
 
 ---
 class: center,middle
@@ -154,7 +157,21 @@ knitr::include_graphics("figs/bail_design.jpg")
 
 ---
 
+---
+
+class: center,middle
+
+
+#### Ciência de Dados não é suficiente sozinha se quisermos responder perguntas teóricamente orientadas
+
 --
+
+#### Cientistas Sociais isoladamente não possuem o conhecimento técnico para usar as novas bases de dados e métodos da era digital. 
+
+--
+
+---
+
 
 ### Ciência Social Computacional = Ciência Social + Ciência de Dados.
 
@@ -190,31 +207,29 @@ knitr::include_graphics("figs/bail_design.jpg")
 
 --
 
+
 ---
+class: center, middle, inverse
 
-class: center,middle
+# Intervalo 
 
 
-#### Ciência de Dados não é suficiente sozinha se quisermos responder perguntas teóricamente orientadas
+```{r echo=FALSE}
+library(countdown)
+countdown(minutes = 15, seconds = 0, 
+          right = "25%", bottom = "15%",
+          margin = "5%",
+          font_size = "5em")
 
---
-
-#### Cientistas Sociais isoladamente não possuem o conhecimento técnico para usar as novas bases de dados e métodos da era digital. 
-
---
+```
 
 ---
 
 ## Vamos recomeçar sabendo um pouco mais de vocês
 
+--
+
 .pull-left[
-```{r  echo=FALSE, out.width = "100%"}
-knitr::include_graphics("figs/scott.gif") 
-```
-]
-
-
-.pull-right[
 
 Nome e Pronome Preferido. 
 
@@ -225,6 +240,16 @@ O que você pretende aprender neste curso ?
 Quando e como começou seu interesse por este tema?
 
 ]
+
+--
+
+.pull-right[
+```{r  echo=FALSE, out.width = "90%"}
+knitr::include_graphics("figs/scott.gif") 
+```
+]
+
+--
 
 ---
 
@@ -263,7 +288,7 @@ Quando e como começou seu interesse por este tema?
 
   - Anaĺise de dados de twitter
 
-  - Axperimentos, experimentos digitais 
+  - Experimentos de campo e experimentos digitais 
 
   - Análise de texto
 
@@ -274,26 +299,21 @@ Quando e como começou seu interesse por este tema?
 
 ---
 
+class:middle, center
+
 ## Avaliação
 
 --
 
-#### Participação (10%)
+### Participação (10%)
 
 --
 
-#### Exercícios (Semana 1 - Semana 8: 40%)
+### Exercícios (Semana 1 - Semana 8: 40%)
 
 --
 
-#### Trabalho Final (50%)
-
----
-
-class: center,middle, 
-
-# Os desafios de ensinar on-line em meio a uma pandemia.
-
+### Trabalho Final (50%)
 
 ---
 
@@ -302,6 +322,16 @@ class: center,middle, alert
 # Não teremos provas
 
 ---
+
+class: center,middle, 
+
+# Os desafios de ensinar on-line em meio a uma pandemia.
+
+---
+
+
+
+
 
 ## Como acompanhar o curso?
 
@@ -318,6 +348,13 @@ knitr::include_graphics("figs/site.png")
 knitr::include_graphics("figs/slack.png") 
 ```
 ]
+
+<br><br>
+
+
+### Escritório Virtual
+
+Quarta-Feira, 15h- 16h. Nesta sala de Zoom. Não precisa enviar email. Só aparecer. 
 
 ---
 
