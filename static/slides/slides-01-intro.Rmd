@@ -172,22 +172,6 @@ knitr::include_graphics("figs/bail_design.jpg")
 
 ---
 
----
-
-class: center,middle
-
-
-#### Ciência de Dados não é suficiente sozinha se quisermos responder perguntas teóricamente orientadas
-
---
-
-#### Cientistas Sociais isoladamente não possuem o conhecimento técnico para usar as novas bases de dados e métodos da era digital. 
-
---
-
----
-
-
 ### Ciência Social Computacional = Ciência Social + Ciência de Dados.
 
 --
@@ -222,6 +206,21 @@ class: center,middle
 
 --
 
+
+---
+
+class: center,middle
+
+
+### Ciência de Dados não é suficiente sozinha se quisermos responder perguntas teóricamente orientadas
+
+--
+
+### Cientistas Sociais isoladamente não possuem o conhecimento técnico para usar as novas bases de dados e métodos da era digital. 
+
+--
+
+---
 
 ---
 class: center, middle, inverse
