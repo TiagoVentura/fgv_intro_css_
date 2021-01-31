@@ -96,6 +96,21 @@ knitr::include_graphics("figs/data.jpeg")
 
 ---
 
+class: center, middle
+
+--
+
+# Porque Estamos Aqui II - O real talk?
+
+--
+
+### Melhores oportunidades e Mais Opções no Mercado de trabalho. 
+
+--
+
+---
+
+
 ## Ciências Socias na Era Digital: Vantagens.
 
 - Abundância de dados de forma gratuita e fácil acesso. 
