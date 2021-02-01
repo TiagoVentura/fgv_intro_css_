@@ -18,7 +18,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Tutorial sobre os exercícios. 
 
-
 Conforme explicado na ementa, as primeiras oito semanas de curso serão dedicadas exclusivamente a aprender R. Não há melhor forma de aprender do que praticando com seus próprios códigos e comentendo seus próprios erros. Por isso, teremos exercícios de R semanais ao longo das nossas primeiras oito semanas de curso. 
 
 Baixe exercício em RMD [aqui](exercicio-1.rmd)
@@ -30,7 +29,6 @@ Até que eu indique o contrário, o prazo para entrega dos exercícios é sempre
 #### Onde devo entregar? 
 
 Toda nossa comunicação será via nossa canal de Slack. Para entregar os exercícios, abra um chat privado comigo no slack, e entregue os exercícios. 
-
 
 #### Como devo entregar? 
 
@@ -49,11 +47,11 @@ sessionInfo()
 installed.packages()[1:100]
 ```
 
-### Solução 
+## Solução 
 
 Como este é nosso primeiro exercício, darei um passo-a-passo de como resolvê-lo. 
 
-- **Passo 1:** Instale todos os pacotes e softwares do Tutorial 1. 
+- **Passo 1:** Complete o Tutorial 1. 
 - **Passo 2:** Abra o RStudio. No canto esquerdo superior, aperte file -> new file -> R Markdown.
 
 
@@ -81,6 +79,8 @@ Este é um arquivo do tipo .Rmd, e vamos discutir este tipo de arquivo na semana
 `output: html_document`
 
 `---`
+
+
 Você pode alterar toda parte posterior. Os `##` indicam o início de uma sessão no texto. O chuncks de texto em cor cinza são códigos de R. 
 
 - **Passo 3:** Adicione o exercício em um desses chuncks

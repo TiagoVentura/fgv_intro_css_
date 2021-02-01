@@ -1,0 +1,120 @@
+---
+title: "Introdução a Métodos Computacionais para Ciência Sociais"
+subtitle: "Festival de Instalaçao"
+author: "Tiago Ventura"
+institute: "CPDOC-FGV"
+date: ""
+output:
+  xaringan::moon_reader:
+    css: ["default", "styles.css", "fontsrladies.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message=FALSE, warning = FALSE)
+
+``` 
+
+## Como acompanhar o curso?
+
+[https://fgvintrocss.netlify.app/](https://fgvintrocss.netlify.app/)
+```{r  echo=FALSE, out.width = "100%"}
+knitr::include_graphics("figs/site.png") 
+```
+
+
+---
+
+[Slack](https://app.slack.com/client/T01JK41R84C/C01JD599QUB)
+```{r  echo=FALSE, out.width = "100%"}
+knitr::include_graphics("figs/slack.png") 
+```
+
+---
+
+## Escritório Virtual
+
+Quarta-Feira, 15h- 16h. Nesta sala de Zoom. Não precisa enviar email. Só aparecer. 
+
+---
+
+class: center,middle, inverse
+
+# Pausa, Respirem
+
+# Leiam a Ementa, Visitem o Site
+
+```{r echo=FALSE}
+library(countdown)
+countdown(minutes = 5, seconds = 0, top = 0,
+          right = "30%",
+          padding = "10px",
+          margin = "5%",
+          font_size = "5em")
+
+```
+--
+
+### Perguntas
+
+--
+
+
+---
+
+class: center, middle, inverse
+
+# Respostas do Survey. 
+
+
+---
+
+## Familiariedade com R. 
+
+
+---
+
+## Experiência Prévia
+
+
+---
+
+## Mais gostou da proposta do Curso
+
+
+---
+
+## Menos Gostou da Proposta do Curso
+
+
+--- 
+
+## O Que podemos Mudar?
+
+---
+
+## Serie de TV favorita?
+
+---
+
+class: middle, inverse, center
+
+--
+
+# Festival de Instalação
+
+--
+
+## [Tutorial](´)
+
+
+---
+
+
+
+
+

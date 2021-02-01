@@ -17,9 +17,9 @@ editor_options:
 
 Na aula de hoje, nosso objetivo é preparar a infra-esturtura necessária para vocês acompanharam o curso sem maiores problemas técnicos. 
 
-Abaixo, vocês encontrarão tutoriais sobre como instalar os programas -- ou a maior parte deles -- que utilizaremos ao longo do semestre neste seminário. 
+Abaixo, vocês encontrarão um tutorial detalhado sobre como instalar os programas -- ou a maior parte deles -- que utilizaremos ao longo do semestre neste seminário. 
 
-Trabalhem em grupos nestes tutoriais, e instalem todos os programas em seus laptops. 
+**Trabalhem em grupos nestes tutoriais, e instalem todos os programas em seus laptops.** 
 
 Caso tenham dificuldade, perguntem aos seus colegas, ou me avisa que irei até seu breakout room. 
 
@@ -29,3 +29,7 @@ Divirtam-se!
 ## Tutorial
 
 [Tutorial Install Fest](/Tutoriais/tutorial1_instalacao.html)
+
+## Slides
+
+[Slides Aula 2](/slides/slides-01-cont.html)

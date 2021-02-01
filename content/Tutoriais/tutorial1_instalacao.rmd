@@ -21,13 +21,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Intro
 
-Para participar do nosso curso `Introdução a Métodos Computacionais Para Ciências Sociais` será necessários que os alunos possuam um conjunto de programas instalado em seus laptops. Neste primeiro tutorial, ensino aos alunos como instalar estes programas. 
+Para participar do nosso curso `Introdução a Métodos Computacionais Para Ciências Sociais` será necessário que os alunos e alunas possuam um conjunto de programas instalado em seus laptops. Neste primeiro tutorial, ensino aos alunos como instalar estes programas. 
 
 # R
 
-Usaremos **R** como software e linguagem de programação neste curso. O R é uma linguagem de programação gratuita, extremamente flexível e com uma comunidade de suporte excelente. É hoje um dos softwares mais utilizado por cientistas sociais e cientistas de dados em geral. Por isto, optei pelo uso do R. 
+Usaremos **R** como software e linguagem de programação neste curso. O R é uma linguagem de programação gratuita, extremamente flexível e com uma comunidade de suporte excelente. É hoje um dos softwares mais utilizado por cientistas sociais e cientistas de dados, em geral. Por isto, optei pelo uso do R. 
 
-Uma pergunta super frequente quando ensino cursos como este é: **Porquê o R?**. A resposta para mim é simples: o R é imbatível no que se refere a manipular bancos de dados -- daqueles retangulares estilo excel --  visualização de dados e modelagem estatística. Junto disso, o R é uma linguagem de programação, o que permite a você fazer tudo que outras linguagens mais gerais fazem, e ainda ter os benefícios de manipulação, visualização e modelagem acima citados. 
+Uma pergunta super frequente quando ensino cursos como este é: **Porquê o R?**. A resposta para mim é simples: o R é imbatível no que se refere a manipulação de bancos de dados -- daqueles retangulares estilo excel --  visualização de dados e modelagem estatística. Junto disso, o R é uma linguagem de programação, o que permite a você fazer tudo que outras linguagens mais gerais fazem, e ainda ter os benefícios de manipulação, visualização e modelagem acima citados. 
 
 ### Windows
 
@@ -37,12 +37,13 @@ Você fará o Download, e o arquivo estará salvo, provavelmente, na sua pasta d
 
 ### Mac OS
 
+Para instalar o R no Mac OS, o primeiro passo é fazer o download do programa. Para isso, entre [neste link ](https://cran.r-project.org/bin/macosx/) e clique em “Download R 4.03”. 
+
 # RStudio.
 
 O **R** é uma linguagem de programação que, após instalada, pode ser utilizada de formas variadas em seu computador. Você pode usá-lo a partir da sua linha de comando, como programadores mais experientes costumam fazer, ou você pode usar softwares desenvolvidos com o intuito de faciliar o uso de determinada linguagem de programação. Estes softwares são chamados ambiente de desenvolvimento integrado (IDE)
 
-O IDE mais utilizado em R chamasse **RStudio**. Sem aprofundar em conceitos da ciência computação, o R Studio consiste em um programa que integra o R com outras ferramentas, e torna o uso do R mais intuitivo. Por exemplo, o R Studio possui integrações com outros softwares, permite que várias tarefas sejam feitas com point-and-click, permite **auto-completion** das funções e indica quando há erros em seu código. 
-
+O IDE mais utilizado em R chama-se **RStudio**. Sem aprofundar em conceitos da ciência computação, o R Studio consiste em um programa que integra o R com outras ferramentas, e torna o uso do R mais intuitivo. Por exemplo, o R Studio possui integrações com outros softwares, permite que várias tarefas sejam feitas com point-and-click, permite **auto-completio** das funções e indica quando há erros em seu código. 
 
 Para fazer o download do RStudio, você clica [aqui](https://rstudio.com/products/rstudio/download/). Escolha a versão correspondente ao seu sistema operacional. 
 
@@ -87,12 +88,12 @@ Aqui você encontra guias úteis para navegar no sistema de arquivos, exibir gr�
 
 ### <span style='color:#e13d3d'> EXTRA: Instalando pacotes no R </span> 
 
-Existem vários pacotes que são fornecidos com a distribuição R. Eles são conhecidos como [pacotes básicos](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html). Porém, há pacotes criados por desenvolvedores que precisamos instalar e ativar no R. 
+Existem vários pacotes que são fornecidos com a distribuição básica do R. Eles são conhecidos como [pacotes básicos](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html). Porém, há pacotes criados por desenvolvedores que precisamos instalar no R. 
 
-Pacotes são coleções de funções em R, dados e códigos compilados juntamente. Os passos para instalar e ativar um pacote são os seguintes. 
+Pacotes são coleções de funções, dados e códigos compilados juntamente. Os passos para instalar e ativar um pacote são os seguintes. 
 
-1. Instalar o pacote -- somente uma vez. 
-2. Ativar (library) o pacote -- sempre que utilizar o R. 
+1. Instalar o pacote -- **somente uma vez**. 
+2. Ativar (library) o pacote -- **sempre que abrir uma seção no R**. 
 
 Por diversas vezes, aparecem alguns conflitos entre pacotes, ou de pacotes com outras dependências em seu R. Por isso, adicionei essa sessão extra em que você poderá instalar alguns pacotes bastantes úteis em seus R. 
 
@@ -127,7 +128,7 @@ install.packages("electionsBR") # dados eleitorais no Brasil
 
 ### <span style='color:#e13d3d'> EXTRA II: Apareceu algum erro? </span> 
 
-Não se preocupe! Erros na instalação de pacotes são muito comuns. E umas coisas coisas mais sensacionais do uso do R é o grande número de recursos disponíveis on-line e uma excelente comunidade de programadores dispostos-as a ajudar a solucionar estes problemas. 
+Não se preocupe! Erros na instalação de pacotes são muito comuns. E dentre os elementos mais úteis do uso do R é o grande número de recursos disponíveis on-line e uma excelente comunidade de programadores dispostos-as a ajudar a solucionar estes problemas. 
 
 Em primeiro lugar, Se você tiver problemas para instalar pacotes, certifique-se de que está conectado à internet e que https://cloud.r-project.org/ não está bloqueado por seu firewall ou proxy. 
 
@@ -137,7 +138,7 @@ Em segundo lugar, busque ajuda no google. Eu programo em R há quase dez anos, e
 
 Daqui há duas semanas, iremos aprender sobre as potencialidades do pacote `Rmarkdown`. Este pacote é extremamente útil para produção científica e apresentação de resultados utilizando R. Em síntese, o R Markdown  permite a integração em um único documento de texto básico, código de análise, tabelas, gráficos e equações.  E mais importante, esta integração pdoe ser convertida em diversos formatos: html, pdf, doc. 
 
-Essa combinação parece simples, mas esta potencialidade é super útil. Por exemplo, este tutorial, assim como o website do curso, e a ementa, foram todos feitos usando Rmarkdown. Iremos desbravar juntos as potencialidades do Rmarkdown nas próximas aulas. Por enquanto, vamos somente instalar o pacote
+Essa combinação parece simples, mas esta potencialidade é super útil. Por exemplo, este tutorial, assim como **o website do curso, e a ementa,** foram todos feitos usando Rmarkdown. Iremos desbravar juntos as potencialidades do Rmarkdown nas próximas aulas. Por enquanto, vamos somente instalar o pacote
 
 Abra um script de R em seu laptop e rode o seguinte código. 
 
@@ -166,4 +167,8 @@ Como parte do processo de raspagem de dados (semanas 7 e 8), você precisará ex
 
 Se estiver usando o Google Chrome, você pode simplesmente instalar a [extensão Selector Gadget no Chrome](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb?hl=en). Se por algum motivo você não puder usar as extensões do Chrome (incluindo no próprio Chrome), você pode instalar o Selector Gadget seguindo as instruções no site do Selector Gadget.
 
+## Conclusão. 
 
+Por hoje, acabamos. Lembre-se que temos o nosso primeiro exercício. Vá no site e não esqueça de responder!
+
+## Até!!
