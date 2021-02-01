@@ -350,7 +350,7 @@ class: center,middle,
 ## Como acompanhar o curso?
 
 .pull-left[
-[fgv-css.tiagoventura.rbind.io](fgv-css.tiagoventura.rbind.io)
+[https://fgvintrocss.netlify.app/](https://fgvintrocss.netlify.app/)
 ```{r  echo=FALSE, out.width = "100%"}
 knitr::include_graphics("figs/site.png") 
 ```
