@@ -4,7 +4,7 @@ citeproc: true
 menu: 
   class:
     parent: Class
-    weight: 2
+    weight: 1
 type: docs
 output:
   blogdown::html_page:

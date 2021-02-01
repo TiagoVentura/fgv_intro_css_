@@ -40,6 +40,15 @@ knitr::include_graphics("figs/slack.png")
 
 Quarta-Feira, 15h- 16h. Nesta sala de Zoom. Não precisa enviar email. Só aparecer. 
 
+## Monitoria
+
+**Gabriela Kucuruza**
+
+1. Email: [gabrielakucuruza@gmail.com](gabrielakucuruza@gmail.com)
+
+2. Sessões Semanais:
+
+
 ---
 
 class: center,middle, inverse
@@ -91,7 +100,7 @@ class: center, middle, inverse
 ## Menos Gostou da Proposta do Curso
 
 
---- 
+---
 
 ## O Que podemos Mudar?
 
@@ -109,10 +118,13 @@ class: middle, inverse, center
 
 --
 
-## [Tutorial](´)
-
+## [Tutorial](https://fgvintrocss.netlify.app/tutoriais/tutorial1_instalacao)
 
 ---
+
+class: middle, inverse, center
+
+## [Exercício 1](https://fgvintrocss.netlify.app/assignment/exercicio-1)
 
 
 
