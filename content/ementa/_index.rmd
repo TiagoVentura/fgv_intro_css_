@@ -1,10 +1,16 @@
 ---
 title: Ementa
-slug: ementa
+citeproc: true
+menu: 
+  class:
+    parent: 
+    weight: 2
+type: docs
 output:
   blogdown::html_page:
-    css: /style/style.css
     toc: false
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r echo=TRUE, include=FALSE}
 knitr::opts_chunk$set(message=FALSE, warning = FALSE)
@@ -22,9 +28,9 @@ Clique [aqui](FGV_CSS_EMENTA_pt.pdf) para fazer o download em Pdf.
 
 ## Introdução 
 
-Até alguns anos atrás, coletar dados em larga escala sobre comportamento social - por exemplo, quem você votou, quem são seus amigos mais próximos, ou quais tipos de notícias você consome, lê e compartilha - era uma atividade cara, custosa, e aberta a poucos pesquisadores e instituições. Porém, nos tempos atuais de \textit{Big Data}, a situação alterou-se por completo. O mundo atualmente possui uma capacidade maior de armazenar e coletar dados do que há pesquisadores-as disponíveis para analizar este volume imenso e desorganizado de dados. E mais, a redução nos custos de adquirir, guardar e acessar dados impõe padrões mais altos para os conhecimento metodológicos e técnicos dos pesquisadores, sobretudo nas ciências sociais, e tal mudança tem introduzido desafios diversos para pesquisa em ciências sociais na era de \textit{Big Data}
+Até alguns anos atrás, coletar dados em larga escala sobre comportamento social - por exemplo, quem você votou, quem são seus amigos mais próximos, ou quais tipos de notícias você consome, lê e compartilha - era uma atividade cara, custosa, e aberta a poucos pesquisadores e instituições. Porém, nos tempos atuais de \textit{Big Data}, a situação alterou-se por completo. O mundo atualmente possui uma capacidade maior de armazenar e coletar dados do que há pesquisadores-as disponíveis para analizar este volume imenso e desorganizado de dados. E mais, a redução nos custos de adquirir, guardar e acessar dados impõe padrões mais altos para os conhecimento metodológicos e técnicos dos pesquisadores, sobretudo nas ciências sociais, e tal mudança tem introduzido desafios diversos para pesquisa em ciências sociais na era digital
 
-Este curso busca preparar você para conduzir pesquisa em ciências sociais nesta era de \textit{Big data}. O curso possui três objetivos principais: em primeiro lugar,  iremos proporcionar ao alunos uma introdução compreensiva sobre métodos computacionais em ciências sociais. A idéa é garantir ao alunos após oito semanas de aula alguma fluência em programação,  que permitirá aos mesmos usar tais técnicas em suas próprias pesquisas. A linguagem R será utilizada no curso. Em segundo lugar, iremos discutir artigos aplicados na área de mídias digitais e comunicação política. O objetivo é expor alunos ao que considero exemplos das melhores pesquisas neste campo, e que utilizam os mais atualizados recursos metodológicos. Em terceiro lugar, os alunos terão a oportunidade de aplicar as técnicas e conteúdos adquiridos ao longo do curso em uma idéia original de pesquisa. 
+Este curso busca preparar você para conduzir pesquisa em ciências sociais nesta era digital e de big data. O curso possui três objetivos principais: em primeiro lugar,  iremos proporcionar ao alunos uma introdução compreensiva sobre métodos computacionais em ciências sociais. A idéa é garantir ao alunos após oito semanas de aula alguma fluência em programação,  que permitirá aos mesmos usar tais técnicas em suas próprias pesquisas. A linguagem R será utilizada no curso. Em segundo lugar, iremos discutir artigos aplicados na área de mídias digitais e comunicação política. O objetivo é expor alunos ao que considero exemplos das melhores pesquisas neste campo, e que utilizam os mais atualizados recursos metodológicos. Em terceiro lugar, os alunos terão a oportunidade de aplicar as técnicas e conteúdos adquiridos ao longo do curso em uma idéia original de pesquisa. 
 
 Este curso é pensando para alunos de graduação e pós graduação. Enquanto esta ementa pode parecer um tanto longa e intimidadora, não há como adquirir o conjunto de habilidades discutidas neste curso sem um esforço considerável. Dito isto, por favor, avisem-me qualquer preocupação com o curso no decorrer do semestre. Estou aberto a ajustes e adequações a esta ementa, e o objetivo principal é preparar um curso capaz de ajudar os alunos no longo prazo.
 
