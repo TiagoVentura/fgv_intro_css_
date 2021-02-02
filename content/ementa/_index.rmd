@@ -43,9 +43,9 @@ Mais importante, ao final deste curso, minha expectativa é que os alunos conhe�
 
 ## Comunicação 
 
-**Site**: Uma página na internet para o curso [https://fgvintrocss.netlify.app/](https://fgvintrocss.netlify.app/) concentrará todos os materiais do curso. Você deve checar o site regularmente e verificar os materiais que utilizaremos ao longo do semestre. 
+**Site**: Uma página na internet para o curso [https://fgvintrocss.netlify.app/](https://fgvintrocss.netlify.app/) concentrará todos os nossos materiai. Você deve checar o site regularmente e verificar os materiais que utilizaremos ao longo do semestre. 
 
-**Slack**: Nosso seminário também fará uso do Slack para comunicação interna ([https://join.slack.com/t/umd-apb9922/shared_invite/zt-kne0ldx2-1J9kE0FJYxjZRA11lUhhNA]). A plataforma slack funciona como um fórum aberto de discussão e colaboração. Quaisquer perguntas direcionadas a mim devem ser feitas via Slack. Se você não conhece o Slack, cheque este tutorial ([https://get.slack.help/hc/en-us/articles/218080037-Getting-started-for-new-members]). Na primeira aula, eu enviarei o convite para todos serem incluídos no Slack e discutiremos como usá-lo. 
+**Slack**: Nosso seminário também fará uso do Slack para comunicação interna ([https://join.slack.com/t/umd-apb9922/shared_invite/zt-kne0ldx2-1J9kE0FJYxjZRA11lUhhNA](https://join.slack.com/t/umd-apb9922/shared_invite/zt-kne0ldx2-1J9kE0FJYxjZRA11lUhhNA)). A plataforma slack funciona como um fórum aberto de discussão e colaboração. Quaisquer perguntas direcionadas a mim devem ser feitas via Slack. Se você não conhece o Slack, cheque este [tutorial](https://get.slack.help/hc/en-us/articles/218080037-Getting-started-for-new-members). Na primeira aula, eu enviarei o convite para todos serem incluídos no Slack e discutiremos como usá-lo. 
 
 ## Avaliação
 
