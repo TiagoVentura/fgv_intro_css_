@@ -25,7 +25,47 @@ class: center, middle
 
 ---
 
-# Tópicos
+# Logística: Exercícios. 
+
+--
+
+ 1 - Exercícios todas as semanas (até a semana 8)
+
+--
+
+ 2 - Entrega via Slack.
+
+--
+
+ 3 - Regras para entrega atrasada: perde um ponto por dia de atraso. 
+
+--
+
+ 4 -40% da Nota Final vem destes exercícios. 
+
+--
+
+---
+
+# Logística II: Como acompanhar as aulas de programação?
+--
+
+1. Leia os tutoriais. 
+
+--
+
+2. Abra o RStudio e pratique com os códigos dos tutoriais. 
+
+--
+
+3. Pratique com as leituras indicadas e exercícios. 
+
+--
+
+---
+
+
+# Tópicos de Hoje
 
 
 1. Workflow: RStudio e Scripts.
@@ -115,9 +155,6 @@ Uma linha de código geralmente não termina até que R encontre um parâmetro o
 Abrir um script novo clicando na aba `File` -> `New File` -> `R Script`
 
 O Script envia código diretamente para o console. 
-
-<br>
-<br>
 
 --
 #### `command + enter` (Mac) ou `Ctrl + enter` (PC) com o cursor na linha para rodar o script.  
@@ -226,7 +263,7 @@ knitr::include_graphics("figs/ajuda.png")
 
 - Remova as informações específicas do usuário e dos dados primeiro!
 
-- Veja se você consegue encontrar exemplos que produzem e não produzem o erro. Experimente o código de outras pessoas, mas 
+- Veja se você consegue encontrar exemplos que produzem e não produzem o erro. Experimente o código de outras pessoas, mas tente entendê-los. Não copie e cole. 
 
 - Tende entender a solução. Copiar e Colar não resolver seu problema. 
 
@@ -252,7 +289,14 @@ class: center, middle, inverse
 
 ---
 
-Cada linguagem de programação possui regras próprias sobre como criar, acessar e guardar variáveis no seu ambiente de trabalho. Em R, variáveis, ou objetos, são criados atribuindo determinado **dado** a um determinado **nome**, e você pode acessá-los exatamente por nome atribuído. 
+# O que são objetos ?
+
+
+Peça base do R. Objetos são criados atribuindo determinado **dado** a um determinado **nome**, e você pode acessá-los exatamente por nome atribuído. 
+
+`Tudo que existe no R é um objeto.`
+
+---
 
 ## Criando Objetos
 
@@ -459,7 +503,7 @@ class: center, middle, inverse
 
 ```{r echo=FALSE}
 library(countdown)
-countdown(minutes = 15, seconds = 0, 
+countdown(minutes = 10, seconds = 0, 
           right = "25%", bottom = "15%",
           margin = "5%",
           font_size = "5em")
@@ -745,8 +789,8 @@ Acima, quando filtramos o banco de dados bakers, usamos a seguinte função:
 bakers[bakers$age>60,]
 ```
 
-Me explique com o máximo de detalhes o que está linha de código está fazendo. Porque a operação booleana está antes da virgula? Qual o output da operação booleana?
-]´
+Me explique com o máximo de detalhes o que a linha de código acima está fazendo. Porque a operação booleana está antes da virgula? Qual o output da operação booleana?
+
 
 ```{r echo=FALSE}
 library(countdown)

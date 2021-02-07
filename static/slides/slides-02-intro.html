@@ -31,7 +31,47 @@ class: center, middle
 
 ---
 
-# Tópicos
+# Logística: Exercícios. 
+
+--
+
+ 1 - Exercícios todas as semanas (até a semana 8)
+
+--
+
+ 2 - Entrega via Slack.
+
+--
+
+ 3 - Regras para entrega atrasada: perde um ponto por dia de atraso. 
+
+--
+
+ 4 -40% da Nota Final vem destes exercícios. 
+
+--
+
+---
+
+# Logística II: Como acompanhar as aulas de programação?
+--
+
+1. Leia os tutoriais. 
+
+--
+
+2. Abra o RStudio e pratique com os códigos dos tutoriais. 
+
+--
+
+3. Pratique com as leituras indicadas e exercícios. 
+
+--
+
+---
+
+
+# Tópicos de Hoje
 
 
 1. Workflow: RStudio e Scripts.
@@ -123,9 +163,6 @@ Uma linha de código geralmente não termina até que R encontre um parâmetro o
 Abrir um script novo clicando na aba `File` -&gt; `New File` -&gt; `R Script`
 
 O Script envia código diretamente para o console. 
-
-&lt;br&gt;
-&lt;br&gt;
 
 --
 #### `command + enter` (Mac) ou `Ctrl + enter` (PC) com o cursor na linha para rodar o script.  
@@ -236,7 +273,7 @@ help(mean)
 
 - Remova as informações específicas do usuário e dos dados primeiro!
 
-- Veja se você consegue encontrar exemplos que produzem e não produzem o erro. Experimente o código de outras pessoas, mas 
+- Veja se você consegue encontrar exemplos que produzem e não produzem o erro. Experimente o código de outras pessoas, mas tente entendê-los. Não copie e cole. 
 
 - Tende entender a solução. Copiar e Colar não resolver seu problema. 
 
@@ -257,7 +294,14 @@ class: center, middle, inverse
 
 ---
 
-Cada linguagem de programação possui regras próprias sobre como criar, acessar e guardar variáveis no seu ambiente de trabalho. Em R, variáveis, ou objetos, são criados atribuindo determinado **dado** a um determinado **nome**, e você pode acessá-los exatamente por nome atribuído. 
+# O que são objetos ?
+
+
+Peça base do R. Objetos são criados atribuindo determinado **dado** a um determinado **nome**, e você pode acessá-los exatamente por nome atribuído. 
+
+`Tudo que existe no R é um objeto.`
+
+---
 
 ## Criando Objetos
 
@@ -308,7 +352,10 @@ ls()
 ```
 
 ```
-## [1] "nome" "x"    "y"
+##  [1] "bakers"              "char_1_5"            "dados"              
+##  [4] "data"                "lista_1"             "meu_numero_da_sorte"
+##  [7] "nome"                "num_1_5"             "x"                  
+## [10] "X"                   "y"
 ```
 
 #### Remover Objetos
@@ -535,7 +582,7 @@ mean(x = sample(1:50, 5)) == mean(x) # TRUE ou FALSE
 ```
 
 
-<div class="countdown" id="timer_6015c8f6" style="top:0;right:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
+<div class="countdown" id="timer_60203e9a" style="top:0;right:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -545,8 +592,8 @@ class: center, middle, inverse
 # Intervalo 
 
 
-<div class="countdown" id="timer_6015c712" style="right:25%;bottom:15%;margin:5%;font-size:5em;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+<div class="countdown" id="timer_60203e44" style="right:25%;bottom:15%;margin:5%;font-size:5em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
 ---
@@ -757,9 +804,10 @@ ls()
 ```
 
 ```
-## [1] "char_1_5"            "data"                "lista_1"            
-## [4] "meu_numero_da_sorte" "nome"                "num_1_5"            
-## [7] "x"                   "X"
+##  [1] "bakers"              "char_1_5"            "dados"              
+##  [4] "data"                "lista_1"             "meu_numero_da_sorte"
+##  [7] "nome"                "num_1_5"             "x"                  
+## [10] "X"
 ```
 
 ```r
@@ -769,9 +817,10 @@ ls()
 ```
 
 ```
-## [1] "bakers"              "char_1_5"            "data"               
-## [4] "lista_1"             "meu_numero_da_sorte" "nome"               
-## [7] "num_1_5"             "x"                   "X"
+##  [1] "bakers"              "char_1_5"            "dados"              
+##  [4] "data"                "lista_1"             "meu_numero_da_sorte"
+##  [7] "nome"                "num_1_5"             "x"                  
+## [10] "X"
 ```
 
 ```r
@@ -837,11 +886,11 @@ bakers$age
 ```
 
 ```
-##   [1] 30 31 24 45 25 51 44 48 37 31 31 31 40 63 19 41 31 45 25 31 40 43 63 27 45
-##  [26] 21 22 27 36 43 38 28 26 50 25 31 66 51 31 37 51 30 38 37 54 20 30 35 31 69
-##  [51] 39 31 32 41 42 17 60 66 38 37 53 19 41 66 37 30 49 49 35 29 32 25 23 31 61
-##  [76] 37 67 46 20 28 30 26 66 50 71 46 21 29 19 52 33 42 34 29 46 30 33 36 33 47
-## [101] 60 27 30 26 30 29 56 28 24 32 36 40 20 20 26 35 56 34 28 28
+##   [1] 30 31 24 45 25 51 44 48 37 31 31 31 40 63 19 41 31 45 25 31 40 43 63 27 45 21 22
+##  [28] 27 36 43 38 28 26 50 25 31 66 51 31 37 51 30 38 37 54 20 30 35 31 69 39 31 32 41
+##  [55] 42 17 60 66 38 37 53 19 41 66 37 30 49 49 35 29 32 25 23 31 61 37 67 46 20 28 30
+##  [82] 26 66 50 71 46 21 29 19 52 33 42 34 29 46 30 33 36 33 47 60 27 30 26 30 29 56 28
+## [109] 24 32 36 40 20 20 26 35 56 34 28 28
 ```
 
 ```r
@@ -878,13 +927,13 @@ bakers[1:5, ]
 
 ```
 ## # A tibble: 5 x 8
-##   series baker_full   baker    age occupation    hometown baker_last baker_first
-##   &lt;fct&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;      
-## 1 1      "Annetha Mi… Annet…    30 Midwife       Essex    Mills      Annetha    
-## 2 1      "David Cham… David     31 Entrepreneur  Milton … Chambers   David      
-## 3 1      "Edward \"E… Edd       24 Debt collect… Bradford Kimber     Edward     
-## 4 1      "Jasminder … Jasmi…    45 Assistant Cr… Birming… Randhawa   Jasminder  
-## 5 1      "Jonathan S… Jonat…    25 Research Ana… St Alba… Shepherd   Jonathan
+##   series baker_full      baker    age occupation        hometown  baker_last baker_first
+##   &lt;fct&gt;  &lt;chr&gt;           &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      
+## 1 1      "Annetha Mills" Annet…    30 Midwife           Essex     Mills      Annetha    
+## 2 1      "David Chamber… David     31 Entrepreneur      Milton K… Chambers   David      
+## 3 1      "Edward \"Edd\… Edd       24 Debt collector f… Bradford  Kimber     Edward     
+## 4 1      "Jasminder Ran… Jasmi…    45 Assistant Credit… Birmingh… Randhawa   Jasminder  
+## 5 1      "Jonathan Shep… Jonat…    25 Research Analyst  St Albans Shepherd   Jonathan
 ```
 
 ---
@@ -959,18 +1008,18 @@ bakers[bakers$age&gt;60,]
 
 ```
 ## # A tibble: 10 x 8
-##    series baker_full   baker    age occupation  hometown  baker_last baker_first
-##    &lt;fct&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      
-##  1 2      "Janet Basu" Janet     63 Teacher of… Formby, … Basu       Janet      
-##  2 3      "Brendan Ly… Brend…    63 Recruitmen… Sutton C… Lynch      Brendan    
-##  3 4      "Christine … Chris…    66 Director o… Didcot, … Wallace    Christine  
-##  4 5      "Diana Bear… Diana     69 Women's In… Alkingto… Beard      Diana      
-##  5 5      "Norman Cal… Norman    66 Retired Na… Portknoc… Calder     Norman     
-##  6 6      "Marie Camp… Marie     66 Retired     Auchtera… Campbell   Marie      
-##  7 7      "Jane Beedl… Jane      61 Garden des… Beckenham Beedle     Jane       
-##  8 7      "Lee Banfie… Lee       67 Pastor      Bolton    Banfield   Lee        
-##  9 7      "Valerie \"… Val       66 Semi-retir… Yeovil    Stones     Valerie    
-## 10 8      "Flo Atkins" Flo       71 Retired     Merseysi… Atkins     Flo
+##    series baker_full     baker    age occupation      hometown    baker_last baker_first
+##    &lt;fct&gt;  &lt;chr&gt;          &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;      
+##  1 2      "Janet Basu"   Janet     63 Teacher of Mod… Formby, Li… Basu       Janet      
+##  2 3      "Brendan Lync… Brend…    63 Recruitment co… Sutton Col… Lynch      Brendan    
+##  3 4      "Christine Wa… Chris…    66 Director of an… Didcot, Ox… Wallace    Christine  
+##  4 5      "Diana Beard"  Diana     69 Women's Instit… Alkington,… Beard      Diana      
+##  5 5      "Norman Calde… Norman    66 Retired Naval … Portknocki… Calder     Norman     
+##  6 6      "Marie Campbe… Marie     66 Retired         Auchterard… Campbell   Marie      
+##  7 7      "Jane Beedle"  Jane      61 Garden designer Beckenham   Beedle     Jane       
+##  8 7      "Lee Banfield" Lee       67 Pastor          Bolton      Banfield   Lee        
+##  9 7      "Valerie \"Va… Val       66 Semi-retired, … Yeovil      Stones     Valerie    
+## 10 8      "Flo Atkins"   Flo       71 Retired         Merseyside  Atkins     Flo
 ```
 
 ```r
@@ -980,16 +1029,16 @@ bakers[bakers$hometown=="London",]
 
 ```
 ## # A tibble: 8 x 8
-##   series baker_full   baker    age occupation    hometown baker_last baker_first
-##   &lt;fct&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;      
-## 1 2      Robert Bill… Robert    25 Photographer  London   Billington Robert     
-## 2 4      Kimberley W… Kimbe…    30 Psychologist  London   Wilson     Kimberley  
-## 3 6      Mat Riley    Mat       37 Fire fighter  London   Riley      Mat        
-## 4 7      Selasi Gbor… Selasi    30 Client servi… London   Gbormittah Selasi     
-## 5 9      Antony Amou… Antony    30 Banker        London   Amourdoux  Antony     
-## 6 9      Dan Beasley… Dan       36 Full-time pa… London   Beasley-H… Dan        
-## 7 9      Manon Lagrè… Manon     26 Software pro… London   Lagrève    Manon      
-## 8 9      Ruby Bhogal  Ruby      29 Project mana… London   Bhogal     Ruby
+##   series baker_full     baker     age occupation       hometown baker_last   baker_first
+##   &lt;fct&gt;  &lt;chr&gt;          &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;      
+## 1 2      Robert Billin… Robert     25 Photographer     London   Billington   Robert     
+## 2 4      Kimberley Wil… Kimber…    30 Psychologist     London   Wilson       Kimberley  
+## 3 6      Mat Riley      Mat        37 Fire fighter     London   Riley        Mat        
+## 4 7      Selasi Gbormi… Selasi     30 Client service … London   Gbormittah   Selasi     
+## 5 9      Antony Amourd… Antony     30 Banker           London   Amourdoux    Antony     
+## 6 9      Dan Beasley-H… Dan        36 Full-time parent London   Beasley-Har… Dan        
+## 7 9      Manon Lagrève  Manon      26 Software projec… London   Lagrève      Manon      
+## 8 9      Ruby Bhogal    Ruby       29 Project manager  London   Bhogal       Ruby
 ```
 
 ---
@@ -1082,11 +1131,13 @@ list.files()
 ```
 ##  [1] "dfake.csv"                  "figs"                      
 ##  [3] "fontsrladies.css"           "libs"                      
-##  [5] "slides-01-intro_files"      "slides-01-intro.html"      
-##  [7] "slides-01-intro.Rmd"        "slides-02-intro_files"     
-##  [9] "slides-02-intro.html"       "slides-02-intro.Rmd"       
-## [11] "styles.css"                 "xaringan-themer_modify.css"
-## [13] "xaringan-themer.css"
+##  [5] "slides-01-cont.html"        "slides-01-cont.Rmd"        
+##  [7] "slides-01-intro_files"      "slides-01-intro.html"      
+##  [9] "slides-01-intro.Rmd"        "slides-02-intro_files"     
+## [11] "slides-02-intro_II_files"   "slides-02-intro_II.html"   
+## [13] "slides-02-intro_II.Rmd"     "slides-02-intro.html"      
+## [15] "slides-02-intro.Rmd"        "styles.css"                
+## [17] "xaringan-themer_modify.css" "xaringan-themer.css"
 ```
 
 ```r
@@ -1118,10 +1169,10 @@ Acima, quando filtramos o banco de dados bakers, usamos a seguinte função:
 bakers[bakers$age&gt;60,]
 ```
 
-Me explique com o máximo de detalhes o que está linha de código está fazendo. Porque a operação booleana está antes da virgula? Qual o output da operação booleana?
-]´
+Me explique com o máximo de detalhes o que a linha de código acima está fazendo. Porque a operação booleana está antes da virgula? Qual o output da operação booleana?
 
-<div class="countdown" id="timer_6015c7c9" style="right:0;bottom:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
+
+<div class="countdown" id="timer_60203da3" style="right:0;bottom:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 

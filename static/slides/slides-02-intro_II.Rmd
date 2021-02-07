@@ -1,0 +1,423 @@
+---
+title: "Introdução a Métodos Computacionais para Ciência Sociais"
+subtitle: "Introdução ao R: Funções, Loops, e Controle de Fluxo"
+author: "Tiago Ventura"
+institute: "CPDOC-FGV"
+date: ""
+output:
+  xaringan::moon_reader:
+    css: ["default", "styles.css", "fontsrladies.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message=FALSE, warning = FALSE, error = FALSE)
+
+``` 
+
+class: center, middle
+
+# Introdução ao R: Parte II
+
+---
+.pull-left[
+# Aula Passada
+
+1. Workflow: RStudio e Scripts.
+
+2. Como Interagir com R.
+
+3. Pacotes em R.
+
+4. Ajuda em R.
+
+5. Objetos e Classes
+
+6. Operadores Booleanos
+
+7. Estrutura de Dados
+
+8. Manipulação Básica de Dados. 
+
+9. Exportar e Importar Bancos de Dados. 
+]
+
+
+.pull-right[
+
+# Hoje
+
+- Linguagem Condicionais. 
+- Loops.
+- Funções. 
+
+]
+
+---
+---
+class: center, middle, inverse
+
+# Funções
+
+---
+
+# O que são funcões? 
+
+--
+
+- Tudo que gera um output em R. 
+
+--
+
+```{r}
+# Crie um objeto
+x <- sample(1:100, 10)
+
+# Aplique a função para extrair a média
+mean(x)
+```
+
+
+---
+## Argumentos
+
+Diferente de objetos, que usamos para guardar valores, funções funcionam numa lógica de input e output. Chamamos os **inputs** de uma função de **Argumentos**, e são os argumentos que vão dentro dos parentesis de cada função. 
+
+
+```{r eval=FALSE}
+function(arg1, arg2, arg3, arg4, ....)
+
+```
+
+--
+Pacotes: Funções Temáticas
+
+--
+
+- `dplyr`: pacote com funções para manipulação de dados.
+
+--
+
+- `ggplot2`: pacote com funções de visualização. 
+
+--
+
+- `wesanderson`: funções para gerar paleta de cores dos filmes do Wes Anderson em R. 
+
+--
+
+---
+
+## Desafio 1. 
+
+Com base no que discutimos, expliquem-me como a função c() funciona. Qual seu output? Quais os argumentos? 
+
+```{r eval=FALSE}
+?c
+```
+
+```{r echo=FALSE}
+library(countdown)
+countdown(minutes = 5, seconds = 0, top = 0,
+          right = 0,
+          padding = "10px",
+          margin = "5%",
+          font_size = "3em")
+
+```
+
+```{r  echo=FALSE, out.width = "80%"}
+knitr::include_graphics("../../content/Tutoriais/figs/c_help.png") 
+```
+
+---
+
+## Criando nossas próprias funções. 
+
+```{r}
+some_me <- function( argument1, argument2 ){
+  value <- argument1 + argument2
+  return(value) # "return" define qual o output da sua função. 
+}
+
+some_me(2,3)
+some_me(100,123)
+some_me(60,3^4)
+
+```
+
+---
+
+## Estrutura Básica 
+
+- **o nome**: soma_me;
+- **os argumentos**: argument1 e argument2;
+- **o corpo**: todo o código entre os {}; 
+- **o retorno**
+
+
+```{r eval=FALSE}
+nome_da_funcao <- function(x,y,z){ ## Argumentos
+  ### Corpo: o que a função faz
+   	
+    out <- what the function does.
+  
+  ### Conclui Corpo.
+    
+  	return(out) ## output
+}
+  ## fecha a função
+
+```
+
+
+---
+
+## Quando você deve escrever uma função?
+
+<br><br><br>
+
+$$
+\texttt{"You should consider writing a function whenever} \\
+$$
+
+$$
+\texttt{you’ve copied and pasted a block of code more than twice"}
+$$
+---
+
+class:center, middle inverse
+
+# Iteração.
+
+---
+
+# O que são loops?
+
+--
+### Uma forma de repetir a **mesma** tarefa **múltiplas** vezes.
+
+--
+
+```{r}
+cidades_onde_morei <- c("belem", "sao paulo", "rio de janeiro",
+                        "berlim", "brasilia", "dc", "rio de janeiro")
+
+# for loop
+
+for(cidades in cidades_onde_morei){ #iterador
+  # o que repetir
+  print(cidades)
+  
+}
+
+```
+
+--
+
+---
+
+## Componentes dos Loops
+
+--
+
+**`for(item in conjunto_de_items)`: as sequências**
+
+  - iterador: íterador. ítem que iremos indexar nossas operações.
+    
+  - conjunto_de_items: objeto de onde tiramos nosso iterador. 
+  
+
+--
+
+**Os parentesis {}**
+
+  - Tudo feito pelos loops vai aqui dentro. 
+    
+  - Incluindo como você salvará os outputs. 
+
+--
+
+---
+
+## Tornando o loop mais geral. 
+
+```{r}
+
+# Loop usando as posições. 
+
+for(i in 1:length(cidades_onde_morei)){ #iterador
+  # o que repetir
+  print(i)
+  print(cidades_onde_morei[i])
+  
+}
+
+```
+
+## Desafio 2: Que diabos está acontecendo nesse loop?
+
+---
+
+## Exemplo 3: Abstraindo do concreto.
+
+
+```{r}
+library(bakeoff)
+data("ratings_seasons")
+```
+
+Audiência por temporada. 
+
+```{r}
+# Quantas temporadas?
+temporadas <- unique(ratings_seasons$series)
+temporadas
+
+# Média de visualizacao
+
+#Temporada 1
+temporada_1 <- ratings_seasons[ratings_seasons$series==temporadas[1],]
+
+#Temporada 2
+temporada_2 <- ratings_seasons[ratings_seasons$series==temporadas[2], ]
+
+#Temporada 3
+temporada_3 <- ratings_seasons[ratings_seasons$series==temporadas[3],]
+
+# Mean
+mean(temporada_1$viewers_7day)
+```
+
+---
+## Pensando de Forma Computacional
+
+
+#### 1. Especifíque a duração de algo que deseja percorrer. No nosso caso, é o número de temporadas.
+
+#### 2. Configure o código de forma que cada iteração execute apenas uma manipulação em um único subconjunto por vez.
+
+#### 3. Salve o conteúdo de cada iteração em um novo objeto que não será sobrescrito. Aqui, queremos pensar em termos de "empilhamento" dos resultados ou concatená-los.
+
+Na prática, leia seu código, e veja o que se repete e o que se mantêm. E o torne mais geral. 
+
+
+---
+
+```{r}
+
+# Crie um container para salvar seus outputs
+container <- list()
+
+for(i in 1:length(temporadas)){
+ temp=ratings_seasons[ratings_seasons$series==temporadas[i], ]
+ container[[i]] <- mean(temp$viewers_7day)  
+  
+}
+container
+```
+
+---
+
+## Desafio 3: O que acontece se eu alterar o loop dessa forma?
+
+```{r}
+# Crie um container para salvar seus outputs
+container <- list()
+
+for(i in 1:length(temporadas)){
+ temp=ratings_seasons[ratings_seasons$series==temporadas[i], ]
+ container <- mean(temp$viewers_7day)  #<<
+  
+}
+
+container
+
+```
+
+---
+
+## E desta forma? 
+
+```{r, eval=FALSE}
+container <- list()
+
+for(i in temporadas){ #<<
+ temp=ratings_seasons[ratings_seasons$series==i, ] #<<
+ container[[i]] <- mean(temp$viewers_7day) #<<
+  
+}
+
+container
+
+
+```
+
+
+---
+class:center, middle, inverse
+
+# Controle de Fluxo
+
+---
+
+## O que são?
+
+Controles de Fluxo determinam sob quais condições uma função será executada. Obviamente, este controles são fundamentais para execução de funções em R. São com estas funções que o R descobre, por exemplo, qual a classe de um objeto, se um vetor possui valores de missing, ou produz mensagens de error. 
+
+Os operadores `if`,  `else` e `else if` são os principais controladores de fluxo em R. 
+
+
+```{r eval=FALSE}
+
+if (condition) { #<<
+  # Código executa quando a condição é igual a  TRUE
+} else { #<<
+  # Executa quando condição é FALSE
+}
+```
+
+---
+
+Em prática...
+
+```{r}
+
+ano=2021
+
+if(ano>=2018) {
+  print("Que saudade de 2013!!")
+} else {
+  print("2013 foi o pior ano da história do Brasil!")
+  }
+
+```
+
+
+---
+
+## Condições Múltiplas
+
+```{r}
+idade= 30
+
+if(idade>=65) {
+  print("Vacina em Fevereiro")
+} else if(idade > 60 & idade <65) {
+  print("Vacina até junho")
+} else {
+    print("Espere 2022")
+  }
+
+```
+
+
+---
+class: center, middle, inverse
+
+## [Exercício 2](https://fgvintrocss.netlify.app/assignment/exercicio-2)
+

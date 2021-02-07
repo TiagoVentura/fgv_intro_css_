@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tiago Ventura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução a Métodos Computacionais para Ciência Sociais
+## Introdução ao R: Funções, Loops, e Controle de Fluxo
+### Tiago Ventura
+### CPDOC-FGV
+
+---
+
+
+
+class: center, middle
+
+# Introdução ao R: Parte II
+
+---
+.pull-left[
+# Aula Passada
+
+1. Workflow: RStudio e Scripts.
+
+2. Como Interagir com R.
+
+3. Pacotes em R.
+
+4. Ajuda em R.
+
+5. Objetos e Classes
+
+6. Operadores Booleanos
+
+7. Estrutura de Dados
+
+8. Manipulação Básica de Dados. 
+
+9. Exportar e Importar Bancos de Dados. 
+]
+
+
+.pull-right[
+
+# Hoje
+
+- Linguagem Condicionais. 
+- Loops.
+- Funções. 
+
+]
+
+---
+---
+class: center, middle, inverse
+
+# Funções
+
+---
+
+# O que são funcões? 
+
+--
+
+- Tudo que gera um output em R. 
+
+--
+
+
+```r
+# Crie um objeto
+x &lt;- sample(1:100, 10)
+
+# Aplique a função para extrair a média
+mean(x)
+```
+
+```
+## [1] 35.9
+```
+
+
+---
+## Argumentos
+
+Diferente de objetos, que usamos para guardar valores, funções funcionam numa lógica de input e output. Chamamos os **inputs** de uma função de **Argumentos**, e são os argumentos que vão dentro dos parentesis de cada função. 
+
+
+
+```r
+function(arg1, arg2, arg3, arg4, ....)
+```
+
+--
+Pacotes: Funções Temáticas
+
+--
+
+- `dplyr`: pacote com funções para manipulação de dados.
+
+--
+
+- `ggplot2`: pacote com funções de visualização. 
+
+--
+
+- `wesanderson`: funções para gerar paleta de cores dos filmes do Wes Anderson em R. 
+
+--
+
+---
+
+## Desafio 1. 
+
+Com base no que discutimos, expliquem-me como a função c() funciona. Qual seu output? Quais os argumentos? 
+
+
+```r
+?c
+```
+
+<div class="countdown" id="timer_601d9a12" style="top:0;right:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+&lt;img src="../../content/Tutoriais/figs/c_help.png" width="80%" /&gt;
+
+---
+
+## Criando nossas próprias funções. 
+
+
+```r
+some_me &lt;- function( argument1, argument2 ){
+  value &lt;- argument1 + argument2
+  return(value) # "return" define qual o output da sua função. 
+}
+
+some_me(2,3)
+```
+
+```
+## [1] 5
+```
+
+```r
+some_me(100,123)
+```
+
+```
+## [1] 223
+```
+
+```r
+some_me(60,3^4)
+```
+
+```
+## [1] 141
+```
+
+---
+
+## Estrutura Básica 
+
+- **o nome**: soma_me;
+- **os argumentos**: argument1 e argument2;
+- **o corpo**: todo o código entre os {}; 
+- **o retorno**
+
+
+
+```r
+nome_da_funcao &lt;- function(x,y,z){ ## Argumentos
+  ### Corpo: o que a função faz
+   	
+    out &lt;- what the function does.
+  
+  ### Conclui Corpo.
+    
+  	return(out) ## output
+}
+  ## fecha a função
+```
+
+
+---
+
+## Quando você deve escrever uma função?
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+$$
+\texttt{"You should consider writing a function whenever} \\
+$$
+
+$$
+\texttt{you’ve copied and pasted a block of code more than twice"}
+$$
+---
+
+class:center, middle inverse
+
+# Iteração.
+
+---
+
+# O que são loops?
+
+--
+### Uma forma de repetir a **mesma** tarefa **múltiplas** vezes.
+
+--
+
+
+```r
+cidades_onde_morei &lt;- c("belem", "sao paulo", "rio de janeiro",
+                        "berlim", "brasilia", "dc", "rio de janeiro")
+
+# for loop
+
+for(cidades in cidades_onde_morei){ #iterador
+  # o que repetir
+  print(cidades)
+  
+}
+```
+
+```
+## [1] "belem"
+## [1] "sao paulo"
+## [1] "rio de janeiro"
+## [1] "berlim"
+## [1] "brasilia"
+## [1] "dc"
+## [1] "rio de janeiro"
+```
+
+--
+
+---
+
+## Componentes dos Loops
+
+--
+
+**`for(item in conjunto_de_items)`: as sequências**
+
+  - iterador: íterador. ítem que iremos indexar nossas operações.
+    
+  - conjunto_de_items: objeto de onde tiramos nosso iterador. 
+  
+
+--
+
+**Os parentesis {}**
+
+  - Tudo feito pelos loops vai aqui dentro. 
+    
+  - Incluindo como você salvará os outputs. 
+
+--
+
+---
+
+## Tornando o loop mais geral. 
+
+
+```r
+# Loop usando as posições. 
+
+for(i in 1:length(cidades_onde_morei)){ #iterador
+  # o que repetir
+  print(i)
+  print(cidades_onde_morei[i])
+  
+}
+```
+
+```
+## [1] 1
+## [1] "belem"
+## [1] 2
+## [1] "sao paulo"
+## [1] 3
+## [1] "rio de janeiro"
+## [1] 4
+## [1] "berlim"
+## [1] 5
+## [1] "brasilia"
+## [1] 6
+## [1] "dc"
+## [1] 7
+## [1] "rio de janeiro"
+```
+
+## Desafio 2: Que diabos está acontecendo nesse loop?
+
+---
+
+## Exemplo 3: Abstraindo do concreto.
+
+
+
+```r
+library(bakeoff)
+data("ratings_seasons")
+```
+
+Audiência por temporada. 
+
+
+```r
+# Quantas temporadas?
+temporadas &lt;- unique(ratings_seasons$series)
+temporadas
+```
+
+```
+## [1] 1 2 3 4 5 6 7 8
+```
+
+```r
+# Média de visualizacao
+
+#Temporada 1
+temporada_1 &lt;- ratings_seasons[ratings_seasons$series==temporadas[1],]
+
+#Temporada 2
+temporada_2 &lt;- ratings_seasons[ratings_seasons$series==temporadas[2], ]
+
+#Temporada 3
+temporada_3 &lt;- ratings_seasons[ratings_seasons$series==temporadas[3],]
+
+# Mean
+mean(temporada_1$viewers_7day)
+```
+
+```
+## [1] 2.77
+```
+
+---
+## Pensando de Forma Computacional
+
+
+#### 1. Especifíque a duração de algo que deseja percorrer. No nosso caso, é o número de temporadas.
+
+#### 2. Configure o código de forma que cada iteração execute apenas uma manipulação em um único subconjunto por vez.
+
+#### 3. Salve o conteúdo de cada iteração em um novo objeto que não será sobrescrito. Aqui, queremos pensar em termos de "empilhamento" dos resultados ou concatená-los.
+
+Na prática, leia seu código, e veja o que se repete e o que se mantêm. E o torne mais geral. 
+
+
+---
+
+
+```r
+# Crie um container para salvar seus outputs
+container &lt;- list()
+
+for(i in 1:length(temporadas)){
+ temp=ratings_seasons[ratings_seasons$series==temporadas[i], ]
+ container[[i]] &lt;- mean(temp$viewers_7day)  
+  
+}
+container
+```
+
+```
+## [[1]]
+## [1] 2.77
+## 
+## [[2]]
+## [1] 3.95125
+## 
+## [[3]]
+## [1] 5.001
+## 
+## [[4]]
+## [1] 7.354
+## 
+## [[5]]
+## [1] 10.0393
+## 
+## [[6]]
+## [1] 12.311
+## 
+## [[7]]
+## [1] 13.563
+## 
+## [[8]]
+## [1] 9.017
+```
+
+---
+
+## Desafio 3: O que acontece se eu alterar o loop dessa forma?
+
+
+```r
+# Crie um container para salvar seus outputs
+container &lt;- list()
+
+for(i in 1:length(temporadas)){
+ temp=ratings_seasons[ratings_seasons$series==temporadas[i], ]
+*container &lt;- mean(temp$viewers_7day)
+  
+}
+
+container
+```
+
+```
+## [1] 9.017
+```
+
+---
+
+## E desta forma? 
+
+
+```r
+container &lt;- list()
+
+*for(i in temporadas){
+*temp=ratings_seasons[ratings_seasons$series==i, ]
+*container[[i]] &lt;- mean(temp$viewers_7day)
+  
+}
+
+container
+```
+
+
+---
+class:center, middle, inverse
+
+# Controle de Fluxo
+
+---
+
+## O que são?
+
+Controles de Fluxo determinam sob quais condições uma função será executada. Obviamente, este controles são fundamentais para execução de funções em R. São com estas funções que o R descobre, por exemplo, qual a classe de um objeto, se um vetor possui valores de missing, ou produz mensagens de error. 
+
+Os operadores `if`,  `else` e `else if` são os principais controladores de fluxo em R. 
+
+
+
+```r
+*if (condition) {
+  # Código executa quando a condição é igual a  TRUE
+*} else {
+  # Executa quando condição é FALSE
+}
+```
+
+---
+
+Em prática...
+
+
+```r
+ano=2021
+
+if(ano&gt;=2018) {
+  print("Que saudade de 2013!!")
+} else {
+  print("2013 foi o pior ano da história do Brasil!")
+  }
+```
+
+```
+## [1] "Que saudade de 2013!!"
+```
+
+
+---
+
+## Condições Múltiplas
+
+
+```r
+idade= 30
+
+if(idade&gt;=65) {
+  print("Vacina em Fevereiro")
+} else if(idade &gt; 60 &amp; idade &lt;65) {
+  print("Vacina até junho")
+} else {
+    print("Espere 2022")
+  }
+```
+
+```
+## [1] "Espere 2022"
+```
+
+
+---
+class: center, middle, inverse
+
+## [Exercício 2](https://fgvintrocss.netlify.app/assignment/exercicio-2)
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

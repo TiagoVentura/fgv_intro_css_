@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Instruções.
 
-Baixe exercício em RMD [aqui](exercicio-2.rmd)
+Baixe exercício em RMD [aqui](exercicio-2.rmd), e abra em seu RStudio.
 
 ### Quando devo entregar os exercícios?
 
@@ -38,7 +38,7 @@ No entanto, segue aqui um pequeno tutorial para caso você queira entregar usand
 
 ### Passo 1. 
 
-Faça o download deste arquivo no formato .rmd 
+Faça o download deste arquivo no formato .Rmd
 
 ### Passo 2. 
 
@@ -117,7 +117,12 @@ $$
 
 ## Questão 6: Ponto Extra, Não obrigatória. 
 
-Escreve uma função capaz de advinhar se dado como input o nome de uma cidades, retorne como resultado se Eu - Tiago - já morei nesta cidade. Para facilitar um pouco, vou criar um vetor com todas as cidades em que morei. 
+Escreve uma função para adivinhar quais cidades Eu - Tiago - já morei. 
+
+
+O input da sua função deve ser qualquer variável de text. E o output deve ver uma valor lógico - TRUE/FALSE - respondendo se eu morei na cidade referente ao seu input.
+
+Para facilitar um pouco, vou criar um vetor com todas as cidades em que morei, e um exemplo dos resultados que espero da função. 
 
 
 #### Exemplo de função
@@ -128,10 +133,10 @@ cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", "Berlim", "Bra
 # função
 
 tiago_morou("niteroi")
-# [1] Não. 
+# [1] FALSE. 
 
 tiago_morou("São Paulo")
-# [1] Sim. 
+# [1] TRUE. 
 
 
 ```

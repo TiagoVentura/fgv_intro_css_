@@ -120,10 +120,10 @@ some_me(4,5)
 
 A estrutura básica da função é a seguinte:
 
-- o nome soma_me;
-- os argumentos argument1 e argument2;
-- o corpo = todo o código entre os {}; e
-- o retorno.
+- o nome: soma_me;
+- os argumentos: argument1 e argument2;
+- o corpo: todo o código entre os {}; e
+- o retorno:
 
 Exemplo:
 
@@ -157,11 +157,10 @@ Teremos uma semana inteira sobre programação funcional em R. Por isso, vamos e
 
 Função são apenas uma forma de reduzir a redundância, e aumentar a transparência dos seus códigos. Um segundo aliado importante é o uso de tecnicas em iteração, em especial, `for loops`. 
 
-Por exemplo, após escrveer nossa função, precisamos encontrar uma forma de **repetí-la** em larga escala. Todas as linguagens de programação - ao menos as que conheço - utilizam loops para este tipo de tarefa.  Loops são exatamente o que o nome diz. É uma forma de repeti r *amesma** tarefa **múltiplas** vezes. Aqui vamos focar em `for loops`
+Por exemplo, após escrever nossa função, precisamos encontrar uma forma de **repetí-la** em larga escala. Todas as linguagens de programação - ao menos as que conheço - utilizam loops para este tipo de tarefa.  Loops são exatamente o que o nome diz. É uma forma de repetir a **mesma** tarefa **múltiplas** vezes. Aqui vamos focar em `for loops`
 
 
 ## Exemplo 1. 
-
 
 Um `for loop` funciona basicamente iterando determinado código através de uma série de ítems salvo em um objeto de R. O código abaixo printa cada cidade em que morei. 
 
@@ -185,7 +184,7 @@ Há dois componentes importantes nos for loops.
     --iterador: íterador. ítem que iremos indexar nossas operações.
     -- conjunto_de_items: objeto de onde tiramos nosso iterador. 
     
-2. Os parenthesis {}
+2. Os paretesis {}
 
     -- Tudo feito pelos loops vai aqui dentro. 
     -- Incluindo como você salvará os outputs. 
@@ -208,9 +207,6 @@ for(i in 1:length(cidades_onde_morei)){ #iterador
 
 ```
 
-## Desafio 2: Que diabos está acontecendo nesse loop?
-
-
 ## Exemplo 3: Abstraindo do concreto.
 
 Vamos ao nosso último exemplo de loops. Continuaremos trabalhando com os bancos de dados do show "The British Baking". Desta vez, vamos trabalhar com o banco de dados sobre as avaliações de cada episódio. Nosso objetivos é tirar uma média do sucesso de cada temporada
@@ -219,7 +215,7 @@ Vamos ao nosso último exemplo de loops. Continuaremos trabalhando com os bancos
 ```{r}
 library(bakeoff)
 data("ratings_seasons")
-ratings_seasons
+glimpse(ratings_seasons)
 ```
 
 Vamos fazer temporada por temporada. 
@@ -232,16 +228,16 @@ temporadas
 # Média de visualizacao
 
 #Temporada 1
-temporada_1 <- ratings_seasons[ratings_seasons$series==temporadas[1], "viewers_7day"]
+temporada_1 <- ratings_seasons[ratings_seasons$series==temporadas[1], ]
 mean(temporada_1$viewers_7day)
 
 
 #Temporada 2
-temporada_2 <- ratings_seasons[ratings_seasons$series==temporadas[2], "viewers_7day"]
-mean(temporada_1$viewers_7day)
+temporada_2 <- ratings_seasons[ratings_seasons$series==temporadas[2], ]
+mean(temporada_2$viewers_7day)
 
 #Temporada 3
-temporada_3 <- ratings_seasons[ratings_seasons$series==temporadas[3], "viewers_7day"]
+temporada_3 <- ratings_seasons[ratings_seasons$series==temporadas[3], ]
 mean(temporada_3$viewers_7day)
 
 ```
@@ -265,7 +261,7 @@ Na prática, leia seu código, e veja o que se repete e o que se mantêm. E o to
 container <- list()
 
 for(i in 1:length(temporadas)){
- temp=ratings_seasons[ratings_seasons$series==temporadas[i], "viewers_7day"]
+ temp=ratings_seasons[ratings_seasons$series==temporadas[i], ]
  container[[i]] <- mean(temp$viewers_7day)  
   
 }
@@ -277,26 +273,27 @@ container
 
 O que acontece se eu alterar o loop dessa forma?
 
-```{r}
+```{r eval=FALSE}
 # Crie um container para salvar seus outputs
 container <- list()
 
 for(i in 1:length(temporadas)){
- temp=ratings_seasons[ratings_seasons$series==temporadas[i], "viewers_7day"]
+ temp=ratings_seasons[ratings_seasons$series==temporadas[i], ]
  container <- mean(temp$viewers_7day)  ## Alteração aqui.
   
 }
+
 container
 
 ```
 
 E desta forma? 
 
-```{r}
+```{r eval=FALSE}
 container <- list()
 
 for(i in temporadas){ # Aqui
- temp=ratings_seasons[ratings_seasons$series==i, "viewers_7day"] # Aqui
+ temp=ratings_seasons[ratings_seasons$series==i,] # Aqui
  container[[i]] <- mean(temp$viewers_7day)  ## Alteração aqui. 
   
 }
@@ -310,7 +307,7 @@ container
 
 Como toda linguagem de programação, o R possui funções para controle de fluxo. Estas funções controlam sob quais condições determinada função será executada. Obviamente, este controles são fundamentais para execução de funções em R. São com estas funções que o R descobre, por exemplo, qual a classe de um objeto, se um vetor possui valores de missing, ou produz mensagens de error. 
 
-Os operadores `if`,  `else` e `else if` são os principais controladores de fluxo em R. Vejamos como funciona:^
+Os operadores `if`,  `else` e `else if` são os principais controladores de fluxo em R. Vejamos como funciona:
 
 ```{r}
 
@@ -327,10 +324,10 @@ Em prática...
 
 ano=2021
 
-if(ano>=2020) {
-  print("Não tem carnaval pra você, Otário!")
+if(ano>=2018) {
+  print("Que saudade de 2013!!")
 } else {
-  print("Que saudades do Carnaval")
+  print("2013 foi o pior ano da história do Brasil!")
   }
 
 ```
@@ -378,7 +375,7 @@ media_tiago(x)
 media_tiago("hello world")
 ```
 
-Acabamos aqui nossa introdução básica ao R.  Até!
+### Acabamos aqui nossa introdução básica ao R.  Até!
 
 
 
