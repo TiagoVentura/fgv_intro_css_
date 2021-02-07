@@ -24,7 +24,7 @@ Nesta semana, vamos fazer uma introdução a programação básica em R. Dentre 
 
 
 
-
+ 
 ## Tutoriais
 
 Tutorial I: Introdução ao R. [(HTML)](/Tutoriais/tutorial2_rbasico.html) / [(RMarkdown)](/Tutoriais/tutorial2_rbasico.rmd)
@@ -32,5 +32,5 @@ Tutorial I: Introdução ao R. [(HTML)](/Tutoriais/tutorial2_rbasico.html) / [(R
 
 ## Slides
 
-[Slides](/slides/slides-02-rintro.html)
+[Slides](/slides/slides-02-intro.html)
 
