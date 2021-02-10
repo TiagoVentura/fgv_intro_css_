@@ -34,7 +34,7 @@ Hoje, iremos concluir esta nossa rápida introdução discutindo três novos tó
 - Loops.
 - Funções. 
 
-Inegávelmente, estes três tópicos de hoje são mais complexos do que os da aula anterior. E provavelmente compreendê-los demandará algum tempo de prática. Porém, estes três tópicos são fundamentais na vida de qualquer programador, e permitirá a vocês com o tempo expandir, e usar em larga escala, seus conhecimentos de R. 
+Inegávelmente, estes três tópicos de hoje são mais complexos do que os da aula anterior. E provavelmente compreendê-los demandará algum tempo de prática. Porém, estes três tópicos são fundamentais na vida de qualquer programador, e permitirá a vocês expandir, e usar em larga escala, seus conhecimentos de R. 
 
 
 # Funções
@@ -44,7 +44,7 @@ Em qualquer processo de trabalho, muitas vezes precisamos repetir a mesma opera�
 
 ## O que são funcões? 
 
-Funções são tudo que gera um output em R. Absolutamente tudo. R é definido como uma linguagem funcional de programção, o que significa que todas os comandos que retornam algum resultado em R vêm de uma função. Por exemplo:
+Funções são tudo que gera um output em R. Absolutamente tudo. R é definido como uma linguagem funcional de programação, o que significa que todas os comandos que retornam algum resultado em R vem de uma função. Por exemplo:
 
 ```{r}
 # Crie um objeto
@@ -58,7 +58,7 @@ mean(x)
 
 ## Argumentos
 
-Diferente de objetos, que usamos para guardar valores, funções funcionam numa lógica de input e output. Chamamos os **inputs** de uma função de **Argumentos**, e são os argumentos que vão dentro dos parentesis de cada função. 
+Diferente de objetos, que usamos para guardar valores, funções funcionam em uma lógica de input e output. Chamamos os **inputs** de uma função de **Argumentos**, e são os argumentos que vão dentro dos parentesis de cada função. Os **outputs** de uma função são seus resultados. 
 
 ```{r eval=FALSE}
 
@@ -91,7 +91,7 @@ knitr::include_graphics("figs/c_help.png")
 
 ## Criando nossas próprias funções. 
 
-Com frequência, no entanto, estaremos interessados em escrever nossas próprias funções. Mesmo que você nunca crie um pacote em R, as vezes você precisará escrever suas funções para repetir suas rotinas em R. 
+Com frequência, no entanto, estaremos interessados em escrever nossas próprias funções. Mesmo que você nunca crie um pacote em R,  você certamente precisará escrever suas funções para repetir suas rotinas em R. 
 
 Vamos construir uma função simples que **adiciona dois valores**. Aqui, a função terá dois argumentos, em outras palavras, dois _valores_ que precisam ser inseridos para que a função seja executada. 
 

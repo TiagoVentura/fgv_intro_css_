@@ -393,7 +393,8 @@ summary {
 
 <div id="instruções." class="section level2">
 <h2>Instruções.</h2>
-<p>Baixe exercício em RMD <a href="exercicio-2.rmd">aqui</a>, e abra em seu RStudio.</p>
+<p>Você pode responder este exercício baixando o RMD deste arquivo <a href="exercicio-2.rmd">aqui</a>, e abra em seu RStudio. Ou abrindo um novo .rmd em seu Rstudio.</p>
+<p>Ambas as opções são fáceis e igualmente aceitáveis.</p>
 <div id="quando-devo-entregar-os-exercícios" class="section level3">
 <h3>Quando devo entregar os exercícios?</h3>
 <p>Até que eu indique o contrário, o prazo para entrega dos exercícios é sempre sexta-feira, até meia noite. Exercícios entregues depois terão a nota reduzida.</p>
@@ -455,9 +456,12 @@ summary {
 <p>Escreve um loop usando o banco de dados mtcars da questão 1.</p>
 <ul>
 <li><p>Computar a média de cada coluna no banco utilizado na primeira questão.</p></li>
-<li><p>Determinar a class de cada coluna.</p></li>
+<li><p>Determinar a classe de cada coluna.</p></li>
 <li><p>Determinar o número de valores únicos de cada coluna</p></li>
 </ul>
+<p>Dica I: Você pode usar três loops, ou você pode usar o mesmo loop salvando cada informação em um objeto diferente.</p>
+<p>Dica II: Lembre-se de criar seus objetos para salvar fora do loop.</p>
+<pre class="r"><code>#Responda aqui</code></pre>
 </div>
 <div id="questão-5." class="section level2">
 <h2>Questão 5.</h2>
@@ -466,10 +470,13 @@ summary {
 <p><span class="math display">\[
 Var = \sum \frac{(x_{i}-\bar{x})^2}{n}
 \]</span></p>
+<pre class="r"><code>#Responda aqui</code></pre>
 </div>
 <div id="questão-6-ponto-extra-não-obrigatória." class="section level2">
 <h2>Questão 6: Ponto Extra, Não obrigatória.</h2>
-<p>Escreve uma função capaz de advinhar se dado como input o nome de uma cidades, retorne como resultado se Eu - Tiago - já morei nesta cidade. Para facilitar um pouco, vou criar um vetor com todas as cidades em que morei.</p>
+<p>Escreve uma função para adivinhar quais cidades Eu - Tiago - já morei.</p>
+<p>O input da sua função deve ser qualquer variável de text. E o output deve ver uma valor lógico - TRUE/FALSE - respondendo se eu morei na cidade referente ao seu input.</p>
+<p>Para facilitar um pouco, vou criar um vetor com todas as cidades em que morei, e um exemplo dos resultados que espero da função.</p>
 <div id="exemplo-de-função" class="section level4">
 <h4>Exemplo de função</h4>
 <pre class="r"><code>cidades_onde_morei &lt;- c(&quot;Belém&quot;, &quot;São Paulo&quot;, &quot;Rio de Janeiro&quot;, &quot;Berlim&quot;, &quot;Brasília&quot;, &quot;Washington - DC&quot;)
@@ -477,10 +484,10 @@ Var = \sum \frac{(x_{i}-\bar{x})^2}{n}
 # função
 
 tiago_morou(&quot;niteroi&quot;)
-# [1] Não. 
+# [1] FALSE. 
 
 tiago_morou(&quot;São Paulo&quot;)
-# [1] Sim. </code></pre>
+# [1] TRUE. </code></pre>
 <p>Sua vez:</p>
 <pre class="r"><code>#Responda aqui</code></pre>
 </div>

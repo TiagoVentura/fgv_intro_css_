@@ -1,0 +1,23 @@
+---
+title: "R Markdown"
+citeproc: true
+menu: 
+  reading:
+    parent: Reading
+    weight: 4
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras
+
+Algumas leituras sugeridas caso você queira aprender um pouco mais sobre RMarkdown. 
+
+- [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/) 
+- [R for Data Science, Cap 26 a Cap 30](https://r4ds.had.co.nz/communicate-intro.html) 
+
+

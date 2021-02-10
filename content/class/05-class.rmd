@@ -1,0 +1,27 @@
+---
+title: "Aula 5: RMarkdown"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais 
+
+Nesta semana, vamos avançar um pouco mais no nosso uso do R. Discutiremos dois tópicos: o uso de RMarkdown para relatórios dinâmicos em R, e boas práticas para fluxo de trabalho em R. 
+
+
+## Tutoriais
+
+Tutorial IV: RMarkdown. [(HTML)](/Tutoriais/tutorial4_rmarkdown.html) / [(RMarkdown)](/Tutoriais/tutorial4_rmarkdown.rmd)
+
+## Slides
+
+[Slides](/slides/slides-04-rmarkdown.html)

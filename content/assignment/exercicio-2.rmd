@@ -1,15 +1,7 @@
 ---
 title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 2"
 author: "Tiago Ventura"
-output:
-    rmdformats::robobook:
-      code_folding: show
-      self_contained: true
-      thumbnails: false
-      lightbox: true
-number_sections: true
-editor_options: 
-  chunk_output_type: console
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -18,7 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Instruções.
 
-Baixe exercício em RMD [aqui](exercicio-2.rmd), e abra em seu RStudio.
+Você pode responder este exercício baixando o RMD deste arquivo [aqui](exercicio-2.rmd), e abra em seu RStudio. Ou abrindo um novo .rmd em seu Rstudio. 
+
+Ambas as opções são fáceis e igualmente aceitáveis. 
 
 ### Quando devo entregar os exercícios?
 
@@ -98,9 +92,17 @@ Escreve um loop usando o banco de dados mtcars da questão 1.
 
 - Computar a média de cada coluna no banco utilizado na primeira questão.
 
-- Determinar a class de cada coluna. 
+- Determinar a classe de cada coluna. 
 
 - Determinar o número de valores únicos de cada coluna
+
+Dica I: Você pode usar três loops, ou você pode usar o mesmo loop salvando cada informação em um objeto diferente. 
+
+Dica II: Lembre-se de criar seus objetos para salvar fora do loop.
+
+```{r}
+#Responda aqui
+```
 
 
 ## Questão 5.
@@ -112,7 +114,9 @@ A formula variância é:
 $$
 Var = \sum \frac{(x_{i}-\bar{x})^2}{n}
 $$
+
 ```{r}
+#Responda aqui
 ```
 
 ## Questão 6: Ponto Extra, Não obrigatória. 

@@ -83,9 +83,12 @@ mean(x)
 
 
 ---
+
 ## Argumentos
 
-Diferente de objetos, que usamos para guardar valores, funções funcionam numa lógica de input e output. Chamamos os **inputs** de uma função de **Argumentos**, e são os argumentos que vão dentro dos parentesis de cada função. 
+Diferente de objetos, que usamos para guardar valores, funções funcionam numa lógica de input e output. 
+
+Chamamos os **inputs** de uma função de **Argumentos**, e são os argumentos que vão dentro dos parentesis de cada função. 
 
 
 ```{r eval=FALSE}
@@ -154,11 +157,13 @@ some_me(60,3^4)
 
 ## Estrutura Básica 
 
-- **o nome**: soma_me;
+- **o nome**: some_me;
 - **os argumentos**: argument1 e argument2;
 - **o corpo**: todo o código entre os {}; 
 - **o retorno**
 
+
+#### Examplo Geral
 
 ```{r eval=FALSE}
 nome_da_funcao <- function(x,y,z){ ## Argumentos
@@ -227,7 +232,7 @@ for(cidades in cidades_onde_morei){ #iterador
 
 **`for(item in conjunto_de_items)`: as sequências**
 
-  - iterador: íterador. ítem que iremos indexar nossas operações.
+  - iterador: ítem que iremos indexar nossas operações.
     
   - conjunto_de_items: objeto de onde tiramos nosso iterador. 
   
@@ -313,8 +318,12 @@ Na prática, leia seu código, e veja o que se repete e o que se mantêm. E o to
 # Crie um container para salvar seus outputs
 container <- list()
 
-for(i in 1:length(temporadas)){
- temp=ratings_seasons[ratings_seasons$series==temporadas[i], ]
+for(i in 1:length(temporadas)){ # Passo 1
+  
+ # Passo 2  
+ temp=ratings_seasons[ratings_seasons$series==temporadas[i], ] 
+ 
+ # Passo 3
  container[[i]] <- mean(temp$viewers_7day)  
   
 }

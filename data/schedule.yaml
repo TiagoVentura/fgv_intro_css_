@@ -25,14 +25,15 @@ lessons:
     reading: "04-reading"
     assignment: "exercicio-2.html"
 
-  - title: "Workflow em R e Rmarkdown"
+  - title: "Rmarkdown"
     date: "2021-02-22, Seg"
-    #reading: "09-reading"
-    #class: "viz2-class"
+    class: "05-class"
+    reading: "05-reading"
 
-  - title: "Rmarkdown: Hands-on"
+  - title: "Fluxo de Trabalho e R Projects"
     date: "2021-02-22, Quarta"
-    #assignment: "problem-set-viz1"
+    class: "06-class"
+    reading: "06-reading"
 
   - title: "Manipulação de Dados: Tidyverse"
     date: "2021-03-01, Seg"

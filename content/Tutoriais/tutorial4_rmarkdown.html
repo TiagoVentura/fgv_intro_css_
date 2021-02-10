@@ -1,0 +1,305 @@
+---
+title: "Tutorial 4: R Markdown"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="introdução" class="section level1">
+<h1>Introdução</h1>
+<p>Na aula passada, fizemos uma rápida introdução ao R. Nas aulas desta semana, vamos focar em dois tópicos.</p>
+<ol style="list-style-type: decimal">
+<li><p>Uso de R Markdown para gerar relatórios dinâmicos, integram texto e resultados de R. (Hoje).</p></li>
+<li><p>Boas práticas para fluxo de programa em R (RProjects, Como organizar suas pastas de trabalho, e pacote <code>Here</code>) (Quarta-Feira).</p></li>
+</ol>
+</div>
+<div id="r-markdown." class="section level1">
+<h1>R Markdown.</h1>
+<p>O R Markdown é uma sintaxe responsável por integrar <strong>R</strong> e o <strong>Markdown</strong>. Meio óbvio certo?</p>
+<p>O <strong>R</strong>, como sabemos, é uma linguagem de programação usada fortemente na ciência de dados e ciências sociais computacionais. O <strong>Markdown</strong> é uma linguagem desenvolvida para converter textos simples e com pouco estrutura (.txt) em documentos finais mais complexos, como uma página da web.</p>
+<p>Este integração - entre código em R e conversão de texto do Markdown - faz do <strong>R Markdown</strong> uma ferramenta poderosissíma e útil para nosso trabalho em ciência de dados e ciências sociais computacionais. Porquê? Em arquivo único de <strong>R Markdown</strong>, você pode:</p>
+<ul>
+<li><p>Salvar, Executar e Visualizar Códigos de R.</p></li>
+<li><p>Gerar relatórios dinâmicos de altíssima qualidades.</p></li>
+</ul>
+<p>Por exemplo, este tutorial, e todos os materiais do curso foram criados utilizando <strong>R Markdown</strong>.</p>
+<div id="r-markdown-um-passo-em-direção-a-maior-transparência-e-reproducibilidade-da-ciência." class="section level2">
+<h2>R Markdown: Um passo em direção a maior transparência e reproducibilidade da Ciência.</h2>
+<p>Uma vantagem importante do uso de <strong>R Markdown</strong> está em sua capacidade de ampliar a transparência de nossas análises e pesquisas científicas.</p>
+<p>Um relatório em <strong>R Markdown</strong> deve ser por essências auto-suficiente e reproduzível. Isto significa que, em teoria, se eu receber seus dados e o seu código em R Markdown, eu devo conseguir reproduzir exatamente seus próprios resultados.</p>
+<p>Pensem nos exercícios de vocês. Ao responder os seus exercícios, nada do que você adiciona em suas respostas pode ser produzido por fora da sua análise em R. Ao corrigir seu exercício, eu tenho acesso imediato ao seu código, ao seu output, e as suas explicações.</p>
+<p>Aumentar a transparências é fundamental para produzirmos ciência de qualidade. Por isto, o R Markdown é uma ferramenta bastante utilizada hoje em dia.</p>
+</div>
+</div>
+<div id="como-funciona-o-r-markdown" class="section level1">
+<h1>Como funciona o R Markdown?</h1>
+<p>Este documento abaixo é um arquivo de <strong>R Markdown</strong>. Estes documentos possuem terminação <code>.rmd</code>, e são apenas arquivos simples de texto.</p>
+<pre><code>---
+title: &quot;example_markdown&quot;
+author: &quot;Tiago Ventura&quot;
+date: &quot;2/8/2021&quot;
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an **R Markdown document**. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &lt;http://rmarkdown.rstudio.com&gt;.
+
+```{r cars}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.</code></pre>
+<p>Este documento possui três componentes:</p>
+<ul>
+<li><p>YAML Header: As primeiras linhas entre <code>---</code> e <code>---</code></p></li>
+<li><p>Chuncks de Código de R: Linhas entre <code>{} e</code>.</p></li>
+<li><p>Texto fora dos códigos e misturado com marcações como <code>#</code> e <code>***</code></p></li>
+</ul>
+<div id="yaml-header-formato." class="section level2">
+<h2>YAML Header (Formato).</h2>
+<p>O YAML controla o formato, estilo e informações gerais do seu documento em Markdown. Por exemplo:</p>
+<pre class="r"><code>---
+title: &quot;example_markdown&quot;
+author: &quot;Tiago Ventura&quot;
+date: &quot;2/8/2021&quot;
+output: html_document
+---</code></pre>
+<p>Há diversas alterações básicas que você pode fazer diretamente no YAML: o título do documento, o autor, a data. Além disto, você pode alterar o output. Este código abaixo vai gerar um pdf, ao invés de um html.</p>
+<pre class="r"><code>---
+title: &quot;example_markdown&quot;
+author: &quot;Tiago Ventura&quot;
+date: &quot;2/8/2021&quot;
+output: pdf_document
+---</code></pre>
+<pre><code>## Error: &lt;text&gt;:8:0: unexpected end of input
+## 6: ---
+## 7: 
+##   ^</code></pre>
+<div id="templates" class="section level3">
+<h3>Templates</h3>
+<p>Há diversos templates pré-construídos de R Markdown para você gerar documentos on-line. Estes templates são instalados como pacotes em R, e alteram a informação do YAML para produzir formatos diferentes dos documentos.</p>
+<p>Por exemplo, eu sou um fã dos templates criados pelo pacote <code>rmdformats</code>. Veja algumas opções <a href="https://github.com/juba/rmdformats">aqui</a>. Vamos primeiro instalar o pacote.</p>
+<pre class="r"><code>install.packages(&quot;rmdformats&quot;)</code></pre>
+<p>Em seguida, você pode criar documentos com formato distintos e super bem formatos. Por exemplo: este YAML gerará um html no estilo <code>down_cute</code></p>
+<pre class="r"><code>---
+title: &quot;&quot;
+date: &quot;`r Sys.Date()`&quot;
+output:
+  rmdformats::html_clean:
+---</code></pre>
+<pre class="r"><code>knitr::include_graphics(&quot;figs/down_cute.png&quot;)</code></pre>
+<p><img src="figs/down_cute.png" width="928" /></p>
+<p>Eu aconselho a não alterar o YAML diretamente quando você estiver ainda aprendendo a programar. Você pode usar novos formatos via RStudio: <code>file -&gt; new_file -&gt; R Markdown -&gt; from template</code>.</p>
+</div>
+</div>
+<div id="chuncks-código" class="section level2">
+<h2>Chuncks (Código)</h2>
+<p>Para executar o código dentro de um documento <strong>R Markdown</strong>, você fará uso dos “chunks”. Estes “chuncks” seguem exatamente a lógica de seu nome: são pedações de código de R dentro de um documento de texto.</p>
+<p>Os “chunks” começam com um cabeçalho que consiste em <span class="math inline">\(```{r}\)</span> e o final do bloco é indicado por um $ ``<code>$. Tudo entre estes dois sinais são lidos como um script de R.  Você executar o código dentro de cada chunck usando o atalho de teclado que aprendemos anteriormente:</code>Cmd / Ctrl + Enter`.</p>
+<p>Para criar um “chunk” novo, você pode usar o atalho: <code>Cmd / Ctrl + alt + i</code>. Ou usar o botão insert + R no topo a direita do seu script.</p>
+<p>Ao executar um “chunk”, o resulto aparecerá em uma tela a seguir do seu código. Este será o resultado final a ser incluso no seu documento de <strong>R Markdown</strong></p>
+<pre class="r"><code>knitr::include_graphics(&quot;figs/notebook-demo.png&quot;)</code></pre>
+<p><img src="figs/notebook-demo.png" width="334" /></p>
+</div>
+<div id="texto-escrita" class="section level2">
+<h2>Texto (Escrita)</h2>
+<p>Textos em <strong>R Markdown</strong> utilizam, como o nome diz, a sintaxe do Markdown. Como falamos antes, o Markdown é uma linguagem simples, level, e que utiliza determinadas marcações para compilar documentos mais complexos.</p>
+<p>Estas são as regras mais simples de Markdown</p>
+<pre class="r"><code>Text formatting 
+------------------------------------------------------------
+
+*italic*  or _italic_
+**bold**   __bold__
+`code`
+superscript^2^ and subscript~2~
+
+Headings
+------------------------------------------------------------
+
+# 1st Level Header
+
+## 2nd Level Header
+
+### 3rd Level Header
+
+Lists
+------------------------------------------------------------
+
+*   Bulleted list item 1
+
+*   Item 2
+
+    * Item 2a
+
+    * Item 2b
+
+1.  Numbered list item 1
+
+1.  Item 2. The numbers are incremented automatically in the output.
+
+Links and images
+------------------------------------------------------------
+
+&lt;http://example.com&gt;
+
+[linked phrase](http://example.com)
+
+![optional caption text](path/to/img.png)
+
+Tables 
+------------------------------------------------------------
+
+First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell</code></pre>
+<p>A melhor maneira de aprender isso é simplesmente experimentá-los. Levará alguns dias, mas logo você escreverá tão facilmente quanto usando word.</p>
+<p>Se você se esquecer, pode obter uma folha de referência útil em <code>Help &gt; Markdown Quick Reference</code></p>
+</div>
+<div id="compilando." class="section level2">
+<h2>Compilando.</h2>
+<p>Após você finalizar seu documento (definit a YAML, escrever seus códigos, e escrever o texto), você precisa compilar todas essas informações em um documento unificado a ser convertido para html, pdf, ou doc.</p>
+<p>Para compilar, você pode manualmente apertar no botão <code>knit</code> no topo do seu código.
+Muitas vezes, o simples ato de compilar o documento, pode retornar erros. Aqui vão alguns dos erros mais comuns:</p>
+<ol style="list-style-type: decimal">
+<li><p>Você não instalou ou ativou um determinado pacote.</p></li>
+<li><p>Você está acessando um banco de dados, e seu endereço (path) está equivocado.</p></li>
+<li><p>Você apagou um objeto no meio do documento, e depois tenta acessá-lo de novo.</p></li>
+</ol>
+<p>Algumas sugestões:</p>
+<ol style="list-style-type: decimal">
+<li><p>Sempre cheque seu path. O RMD usa a sua localização como diretório de trabalho no processo de compilamento.</p></li>
+<li><p>Leia as mensagens de erro com calma, e verifique em qual linha, ou chunk, está o erro.</p></li>
+<li><p>Rode primeiro todos os chunks de código. Verifique se há algo errado, e corrija.</p></li>
+<li><p>Não desista! Use o google.</p></li>
+</ol>
+</div>
+<div id="opções-dos-chunks." class="section level2">
+<h2>Opções dos Chunks.</h2>
+<p>Os “chunks” de código possuem diversas opções de customização. Estas opções são bastante úteis quando estamos trabalhando em documentos mais complexos.</p>
+<p>Essas opções são incluídas no nome do “chunk”, separado por vírgulas. Por exemplo:</p>
+<pre class="r"><code>#```{r, echo=FALSE, warning=FALSE, error=FALSE}
+#```</code></pre>
+<p>Segue abaixo uma tabela sintetizando as opções dos chunks. De longe, as mais úteis são:</p>
+<ul>
+<li><p><code>eval=FALSE</code>: seu código é adicionado ao documento final, porém não é avaliado pelo R.</p></li>
+<li><p><code>echo=FALSE</code>: seu código não é adicionado ao documento final, porém é avaliado pelo R.</p></li>
+</ul>
+<div id="tabela-de-opções-dos-chunks." class="section level3">
+<h3>Tabela de Opções dos Chunks.</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Run code</th>
+<th>Show code</th>
+<th>Output</th>
+<th>Plots</th>
+<th>Messages</th>
+<th>Warnings</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>eval = FALSE</code></td>
+<td>X</td>
+<td></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="even">
+<td><code>include = FALSE</code></td>
+<td></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="odd">
+<td><code>echo = FALSE</code></td>
+<td></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>results = "hide"</code></td>
+<td></td>
+<td></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>fig.show = "hide"</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>message = FALSE</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>warning = FALSE</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="exercício." class="section level1">
+<h1>Exercício.</h1>
+<div id="questão-1." class="section level2">
+<h2>Questão 1.</h2>
+<p>Encontre um formato de R Markdown na internet. Pode ser qualquer template, com exceção do pacote básico. Instale o pacote e gere um documento em html com este formato.</p>
+</div>
+<div id="questão-2." class="section level2">
+<h2>Questão 2.</h2>
+<p>Crie um arquivo .csv, salve no seu computador, abra ele usando um arquivo .rmd, e extraia um sumário deste arquivo.</p>
+</div>
+<div id="questão-3." class="section level2">
+<h2>Questão 3.</h2>
+<p>Crie um arquivo .rmd, compile como um html. Este arquivo precisa ter: i) um gráfico isolado - sem o chunk aparecendo no output final - e, ii) um chunk somente com códigos, em que os resultados não aparecem no documento (html ou pdf) final.</p>
+</div>
+</div>

@@ -88,14 +88,17 @@ mean(x)
 ```
 
 ```
-## [1] 35.9
+## [1] 56.3
 ```
 
 
 ---
+
 ## Argumentos
 
-Diferente de objetos, que usamos para guardar valores, funções funcionam numa lógica de input e output. Chamamos os **inputs** de uma função de **Argumentos**, e são os argumentos que vão dentro dos parentesis de cada função. 
+Diferente de objetos, que usamos para guardar valores, funções funcionam numa lógica de input e output. 
+
+Chamamos os **inputs** de uma função de **Argumentos**, e são os argumentos que vão dentro dos parentesis de cada função. 
 
 
 
@@ -131,7 +134,7 @@ Com base no que discutimos, expliquem-me como a função c() funciona. Qual seu 
 ?c
 ```
 
-<div class="countdown" id="timer_601d9a12" style="top:0;right:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
+<div class="countdown" id="timer_6023e0b6" style="top:0;right:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -175,11 +178,13 @@ some_me(60,3^4)
 
 ## Estrutura Básica 
 
-- **o nome**: soma_me;
+- **o nome**: some_me;
 - **os argumentos**: argument1 e argument2;
 - **o corpo**: todo o código entre os {}; 
 - **o retorno**
 
+
+#### Examplo Geral
 
 
 ```r
@@ -258,7 +263,7 @@ for(cidades in cidades_onde_morei){ #iterador
 
 **`for(item in conjunto_de_items)`: as sequências**
 
-  - iterador: íterador. ítem que iremos indexar nossas operações.
+  - iterador: ítem que iremos indexar nossas operações.
     
   - conjunto_de_items: objeto de onde tiramos nosso iterador. 
   
@@ -372,8 +377,12 @@ Na prática, leia seu código, e veja o que se repete e o que se mantêm. E o to
 # Crie um container para salvar seus outputs
 container &lt;- list()
 
-for(i in 1:length(temporadas)){
- temp=ratings_seasons[ratings_seasons$series==temporadas[i], ]
+for(i in 1:length(temporadas)){ # Passo 1
+  
+ # Passo 2  
+ temp=ratings_seasons[ratings_seasons$series==temporadas[i], ] 
+ 
+ # Passo 3
  container[[i]] &lt;- mean(temp$viewers_7day)  
   
 }

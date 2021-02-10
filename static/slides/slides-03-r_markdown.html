@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tiago Ventura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução a Métodos Computacionais para Ciência Sociais
+## R Markdown
+### Tiago Ventura
+### CPDOC-FGV
+
+---
+
+
+
+.pull-left[
+
+# Semana Passada
+
+1. Introdução ao R
+
+2. Funções, Loops e Condicionais. 
+
+.pull-right[
+
+# Esta Semana
+
+1. R Markdown (Relatórios Dinâmicos)
+2. Fluxo de Trabalho em R (Boas Práticas)
+3. R Projects
+
+]
+
+---
+class: center, middle
+
+# R Markdown
+
+---
+# R Markdown = R + Markdown
+
+O R Markdown é uma sintaxe responsável por integrar **R** e o **Markdown**. Meio óbvio certo? 
+
+Este integração - entre código em R e conversão de texto do Markdown - faz do **R Markdown** uma ferramenta poderosissíma.  Em arquivo único de **R Markdown**, você pode:
+
+--
+
+- Salvar, Executar e Visualizar Códigos de R. 
+
+--
+
+- Gerar relatórios dinâmicos de altíssima qualidades. 
+
+--
+
+- Documentos Transparentes e Replicáveis. 
+
+--
+
+---
+
+# Como funciona o R Markdown?
+
+&lt;img src="figs/rmarkdown-1.png" width="1920" /&gt;
+
+---
+
+&lt;img src="figs/rmarkdown-2.png" width="1920" /&gt;
+
+---
+
+&lt;img src="figs/rmarkdown-3.png" width="1920" /&gt;
+
+---
+
+&lt;img src="figs/rmarkdown-4.png" width="1920" /&gt;
+
+---
+
+
+&lt;img src="figs/rmarkdown-5.png" width="1920" /&gt;
+
+---
+
+# YAML Header
+
+
+```r
+---
+title: "example_markdown"
+author: "Tiago Ventura"
+date: "2/8/2021"
+output: html_document
+---
+```
+
+---
+
+# Code Chunk
+
+Os "chunks" começam com um cabeçalho abaixo: 
+
+
+```r
+# Exemplo de Chunk
+```
+
+Tudo entre estes dois sinais são lidos como um script de R. 
+
+Executar o Chunk: `Cmd / Ctrl + Enter`. 
+
+Criar um novo Chunk `Cmd / Ctrl + alt + i`.
+
+Ao executar um "chunk", o resulto aparecerá em uma tela a seguir do seu código. Este será o resultado final a ser incluso no seu documento de **R Markdown** 
+
+---
+
+# Texto Markdown
+
+.pull-left[
+
+\# header I
+
+\## header II
+
+\*\*negrito\*\*
+
+\*italico\*
+
+\- Lista
+
+\- Lista
+
+
+]
+
+.pull-right[
+
+# header I
+
+## header II
+
+**negrito**
+
+*italico*
+
+- lista
+
+- lista
+
+]
+
+&lt;br&gt;
+
+**Lista de Ajuda:** `help &gt; cheatsheets &gt; R Markdown Reference Guides`
+
+
+---
+
+class:center, middle
+
+# Exemplo 1: Homework em R Markdown. 
+
+---
+
+class: center, middle
+
+# Exemplo 2: Tutorial em R Markdown.
+
+---
+
+# Templates
+
+Há diversos templates, sobretudo para arquivos html, em R Markdown. Seguem alguns exemplos:
+
+- [rmdformats](https://github.com/juba/rmdformats)
+
+- [Notebooks](https://bookdown.org/yihui/rmarkdown/notebook.html)
+
+- [Artigos](https://github.com/rstudio/rticles)
+
+
+---
+
+# Code Chunks Customizaçao.
+
+Os "chunks" de código possuem diversas opções de customização.  Essas opções são incluídas no nome do "chunk", separado por vírgulas. 
+
+
+```r
+#```{r eval=FALSE}
+```
+
+&lt;br&gt;&lt;br&gt;
+
+**Mais úteis**:
+
+    - `eval=FALSE`: seu código é adicionado ao documento final, porém não é avaliado pelo R. 
+
+    - `echo=FALSE`: seu código não é adicionado ao documento final, porém é avaliado pelo R. 
+
+
+---
+
+# Compilando. 
+
+Após você finalizar seu documento (definir a YAML, escrever seus códigos, e escrever o texto), você precisa compilar todas essas informações em um documento unificado a ser convertido para html, pdf, ou doc. 
+
+Para compilar, você pode manualmente apertar no botão `knit` no topo do seu código.
+
+
+```r
+knitr::include_graphics("figs/knit_button.png")
+```
+
+&lt;img src="figs/knit_button.png" width="544" /&gt;
+
+---
+# Desafio
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+.center-middle[
+Crie um arquivo .rmd, compile como um html. Este arquivo precisa ter: i) um gráfico isolado - sem o chunk aparecendo no output final - e, ii) um chunk somente com códigos, em que os resultados não aparecem no documento (html ou pdf) final.
+]
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

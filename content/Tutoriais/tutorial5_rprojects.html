@@ -1,0 +1,172 @@
+---
+title: "Tutorial 4: Fluxo de Trabalho e R Projects"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="introdução." class="section level1">
+<h1>Introdução.</h1>
+<p>Na aula passada, discutimos sobre o uso do <strong>R Markdown</strong> para geração de relatórios dinâmicos, documentos de alta qualidade estética, e produção de pesquisas mais transparentes e reproduzíveis.</p>
+<p>Hoje vamos discutir um pouco de boas práticas para fluxo de trabalho em R. Em especial, discutiremos como utilizar Rprojects para organizar seu ambiente de trabalho, como organizar suas pastas no seu computador, e como integrar melhor o funcionamento do R com a produção de artigos acadêmicos.</p>
+</div>
+<div id="o-que-existe-no-seu-r" class="section level1">
+<h1>O que existe no seu R?</h1>
+<p>Em geral, quando começamos a programar, pensamos que o que é real no R é aquilo que conseguimos abrir. É quase uma idéia sensorial de que precisamos ver, ter um nome, tocar, para saber que algo existe em R.</p>
+<p>Isto em geral nos leva a crer que objetos salvos em nosso ambiente de trabalho são nosso mundo real de <strong>R</strong>. No entanto, esta é uma idéia ilusória, e muito capaz de gerar erros e trabalhos maiores em sua dinâmica de programação.</p>
+<p>O ideal é pensarmos que o que existe de real em nossa rotina de programação são os nossos scripts. Precisamos ter a idéia de que, se eu precisar desligar meu computador hoje, amanhã este script me retornará exatamente ao ponto em que eu parei no dia anterior.</p>
+<p>Esta noção de script como o <strong>real</strong> do R guiará a aula de hoje. Para que nosso script seja real, minha sugestão é pensarmos nosso trabalho em R como um projeto auto-contido. Para isto perseguiremos três objetivos.</p>
+<ol style="list-style-type: decimal">
+<li><p>Meu script precisa ser reproduzível - por mim, por mim daqui há seis meses, por meu co-autores, ou colegas de profissão que lerão meu script.</p></li>
+<li><p>Meu script precisa ser de fácil compreensão - por mim, por mim daqui há seis meses, por meu co-autores, ou colegas de profissão que lerão meu script.</p></li>
+<li><p>Todas as dependências e resultados dos scripts precisam estar devidamente ordenados e organizados.</p></li>
+<li><p>O seu projeto não deve ter absolutamente nenhuma dependência externa.</p></li>
+</ol>
+<p>Veremos a seguir algumas formas de implementar estes três princípios.</p>
+</div>
+<div id="como-organizar-meus-arquivos" class="section level1">
+<h1>Como organizar meus arquivos?</h1>
+<div id="regra-1-cada-projeto-uma-pasta" class="section level3">
+<h3>Regra 1: Cada Projeto = Uma Pasta</h3>
+<p>Crie uma pasta para cada projeto. Por exemplo, segue abaixo um foto de como organizo todos os artigos que estou escrevendo:</p>
+<pre class="r"><code>knitr::include_graphics(&quot;figs/pasta_artigos.png&quot;)</code></pre>
+<p><img src="figs/pasta_artigos.png" width="960" /></p>
+</div>
+<div id="regra-2-crie-subpastas-relevantes." class="section level3">
+<h3>Regra 2: Crie subpastas relevantes.</h3>
+<ul>
+<li><p>/resultados</p></li>
+<li><p>/codigos</p>
+<ul>
+<li>analysis_x</li>
+<li>build_x</li>
+<li>visualizacao_x</li>
+</ul></li>
+<li><p>/leituras</p></li>
+<li><p>/artigo</p>
+<ul>
+<li>rmd?</li>
+<li>.tex?</li>
+<li>.doc?</li>
+</ul></li>
+<li><p>/dados</p>
+<ul>
+<li>dados brutos</li>
+<li>dados processados.</li>
+</ul></li>
+</ul>
+<div id="boas-práticas" class="section level4">
+<h4>Boas Práticas</h4>
+<ol style="list-style-type: decimal">
+<li><p>Nunca crie pastas ou arquivos com espaços.</p></li>
+<li><p>Use nomes intuitivos, e que lhe ajudem a lembrar o que cada documento faz.</p></li>
+<li><p>Divida seus códigos em multiplos arquivos (análise, limpeza, gráficos).</p></li>
+</ol>
+</div>
+</div>
+<div id="regra-3-remove-dependências-automáticas-do-r." class="section level3">
+<h3>Regra 3: Remove Dependências Automáticas do R.</h3>
+<p>O <strong>R</strong> por default vem com uma opção de restauras seu ambiente de trabalho anterior. Esta opção é péssimas para produzir projetos auto-contidos, e reproduzíveis.</p>
+<p>Vamos retirar isso: <code>Tools &gt; Global Options.</code></p>
+<ul>
+<li>Desmarque <code>Restore .RData into workspace at startup</code>.</li>
+<li>Selecione NEVER para <code>saving workspace option</code>.</li>
+</ul>
+</div>
+<div id="regra-4-crie-um-projeto-de-r." class="section level3">
+<h3>Regra 4: Crie um Projeto de R.</h3>
+<p>Cada um dos seus projetos deve ter um Rproject associado. Esta prática descrita acima é tão comum, que a equipe do RStudio criou um tipo de arquivo chamado <code>R Project</code> que permite justamente você ter um ambiente de R dedicado para cada um dos seus projetos distintos.</p>
+<p>O uso de <code>R Projects</code> é super útil quando integramos o R com outras plataformas, como o Git e Github. Não veremos isto nesse nosso curso. Por isto, em nosso caso, a principal contribuição do <code>R Projects</code> será em integrar nosso ambiente em R com cada um dos nossos projetos específicos.</p>
+<p>Por exemplo, siga os passos abaixo para ver algumas das vantagens do <code>R Projects</code>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Crie um arquivo de R project para a pasta da Regra 1 acima. <code>file &gt; new project &gt; existing directory</code></p></li>
+<li><p>Crie um script novo e salve dentro desta pasta.</p></li>
+<li><p>Feche o R Studio.</p></li>
+<li><p>Abre a pasta de seu projeto, e clique no arquivo .rproj</p></li>
+</ol>
+<p>Ao abrir o R Studio você verá que seu ambiente de trabalho está restaurado sem nenhuma dependência, no entanto, você é trazido de volta para onde parou, seus scripts abertos, história dos últimos comandos salva, e mais importante, diretório de trabalho definido no local onde está salvo o .rproj.</p>
+<p>Rode as funções abaixo em seu R, com seu R Project aberto.</p>
+<pre class="r"><code>list.files()
+getwd()</code></pre>
+</div>
+<div id="como-seguir-este-fluxo-sem-fazer-point-and-click" class="section level3">
+<h3>Como seguir este fluxo sem fazer point-and-click?</h3>
+<p>As funções abaixo implementam o passo a passo acima diretamente do seu R.</p>
+<div id="crie-um-r-project" class="section level4">
+<h4>Crie um R Project</h4>
+<p>file &gt; new project &gt; new directory</p>
+</div>
+<div id="onde-estamos" class="section level4">
+<h4>Onde Estamos</h4>
+<pre class="r"><code>getwd()</code></pre>
+</div>
+<div id="crie-suas-subpastas" class="section level4">
+<h4>Crie suas subpastas</h4>
+<pre class="r"><code>dir.create(&quot;dados&quot;)
+dir.create(&quot;resultados&quot;)
+dir.create(&quot;codigo&quot;)
+dir.create(&quot;leituras&quot;)
+dir.create(&quot;doc&quot;)</code></pre>
+</div>
+</div>
+<div id="regra-5-use-o-pacote-here." class="section level3">
+<h3>Regra 5: Use o Pacote Here.</h3>
+<p>Quando começamos a programar, somos ensinados a usar a função <code>setwd()</code> para definir nosso diretório de trabalho, ou como falamos semanas atrás, onde o R está olhando.</p>
+<p>A maioria dos códigos que você recebe amigos e professores contêm o seguinte comando nas primeiras linhas:</p>
+<pre class="r"><code>setwd(&quot;tiago/wd/dropbox/arquivo/aula&quot;)</code></pre>
+<pre><code>## Error in setwd(&quot;tiago/wd/dropbox/arquivo/aula&quot;): cannot change working directory</code></pre>
+<p>No espírito de termos um projeto auto-contido, vamos evitar utilizar a função setwd(). Porque? Porque a pasta (path) do seu computador nunca será igual a minha. Por isso, por definição, seu código nunca será reproduzível em meu computador.</p>
+<p>Para substituir o <code>setwd()</code>, vamos usar uma solução super prática. Vamos combinar o o R Projects, que automaticamente redefine meu diretório de trabalho, como o pacote <code>here</code> que nos oferta uma forma mais fácil de encontrar nossos arquivos.</p>
+<pre class="r"><code>#install.packages(&quot;here&quot;)
+library(here)
+here()</code></pre>
+<pre><code>## [1] &quot;/home/venturat/Dropbox/fgv_capes_print/website/fgv_intro_css_&quot;</code></pre>
+<p>Vamos criar uma pasta nova:</p>
+<pre class="r"><code>list.files()</code></pre>
+<pre><code>##  [1] &quot;data.jpeg&quot;                     &quot;dfake.csv&quot;                    
+##  [3] &quot;example_markdown.html&quot;         &quot;example_markdown.Rmd&quot;         
+##  [5] &quot;figs&quot;                          &quot;rstudio.png&quot;                  
+##  [7] &quot;styles.css&quot;                    &quot;tutorial1_instalacao.html&quot;    
+##  [9] &quot;tutorial1_instalacao.rmd&quot;      &quot;tutorial2_rbasico.html&quot;       
+## [11] &quot;tutorial2_rbasico.rmd&quot;         &quot;tutorial3_rbasicoII.html&quot;     
+## [13] &quot;tutorial3_rbasicoII.rmd&quot;       &quot;tutorial4_rmarkdown.html&quot;     
+## [15] &quot;tutorial4_rmarkdown.rmd&quot;       &quot;tutorial5_rprojects_files&quot;    
+## [17] &quot;tutorial5_rprojects.html&quot;      &quot;tutorial5_rprojects.rmd&quot;      
+## [19] &quot;tutorial5_rprojects.rmd.lock~&quot;</code></pre>
+<pre class="r"><code>dir.create(here(&quot;exemplo_para_aula&quot;))
+list.files()</code></pre>
+<pre><code>##  [1] &quot;data.jpeg&quot;                     &quot;dfake.csv&quot;                    
+##  [3] &quot;example_markdown.html&quot;         &quot;example_markdown.Rmd&quot;         
+##  [5] &quot;figs&quot;                          &quot;rstudio.png&quot;                  
+##  [7] &quot;styles.css&quot;                    &quot;tutorial1_instalacao.html&quot;    
+##  [9] &quot;tutorial1_instalacao.rmd&quot;      &quot;tutorial2_rbasico.html&quot;       
+## [11] &quot;tutorial2_rbasico.rmd&quot;         &quot;tutorial3_rbasicoII.html&quot;     
+## [13] &quot;tutorial3_rbasicoII.rmd&quot;       &quot;tutorial4_rmarkdown.html&quot;     
+## [15] &quot;tutorial4_rmarkdown.rmd&quot;       &quot;tutorial5_rprojects_files&quot;    
+## [17] &quot;tutorial5_rprojects.html&quot;      &quot;tutorial5_rprojects.rmd&quot;      
+## [19] &quot;tutorial5_rprojects.rmd.lock~&quot;</code></pre>
+<p>Vamos salvar um gráfico nesta pastas.</p>
+<pre class="r"><code>library(tidyverse)
+ggplot(mtcars, aes(x = mpg, y = wt)) +
+   geom_point()</code></pre>
+<p><img src="/Tutoriais/tutorial5_rprojects_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>ggsave(here(&quot;exemplo_para_aula&quot;, &quot;grafico.png&quot;)) # endereço , nome do arquivo
+list.files(here(&quot;exemplo_para_aula&quot;))</code></pre>
+<pre><code>## [1] &quot;grafico.png&quot;</code></pre>
+<p>Ou seja, o <code>here</code> encontra seu R Projects, e usa ele como diretório de um nível maior. A partir daí, você acessa todos os níveis inferiors usando os nomes das subpastas.</p>
+<p>Mais importante, quando você compartilhar seu projeto, com as subpastas, e o R projects, todos os seus códigos devem ser plenamente reproduzíveis justamente pela combinação entre .<code>rproj</code> e o pacote <code>here</code>.</p>
+</div>
+</div>
+<div id="exercício" class="section level1">
+<h1>Exercício</h1>
+<p>Crie uma pasta para o nosso curso seguindo as regras acima discutidas.</p>
+</div>
