@@ -360,8 +360,8 @@ print(nome)
 
 ```{r}
 nome <- "Tiago Augusto Ventura"
-
 ```
+
 ---
 class: middle, center, inverse
 
