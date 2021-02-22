@@ -1932,8 +1932,8 @@ src: url(data:application/font-sfnt;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjwQAAAAQ
 <h1>Introdução</h1>
 <p>Na aula passada, fizemos uma rápida introdução ao R. Nas aulas desta semana, vamos focar em dois tópicos.</p>
 <ol style="list-style-type: decimal">
-<li><p>Uso de R Markdown para gerar relatórios dinâmicos, integram texto e resultados de R. (Hoje).</p></li>
-<li><p>Boas práticas para fluxo de programa em R (RProjects, Como organizar suas pastas de trabalho, e pacote <code>Here</code>) (Quarta-Feira).</p></li>
+<li><p>Uso de R Markdown para gerar relatórios dinâmicos, integrando texto e resultados de R. (Hoje).</p></li>
+<li><p>Boas práticas para fluxo de programa em R (Rprojects, como organizar suas pastas de trabalho, e pacote <code>Here</code>) (Quarta-Feira).</p></li>
 </ol>
 </div>
 <div id="r-markdown." class="section level1">
@@ -1943,7 +1943,7 @@ src: url(data:application/font-sfnt;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjwQAAAAQ
 <p>Este integração - entre código em R e conversão de texto do Markdown - faz do <strong>R Markdown</strong> uma ferramenta poderosissíma e útil para nosso trabalho em ciência de dados e ciências sociais computacionais. Porquê? Em arquivo único de <strong>R Markdown</strong>, você pode:</p>
 <ul>
 <li><p>Salvar, Executar e Visualizar Códigos de R.</p></li>
-<li><p>Gerar relatórios dinâmicos de altíssima qualidades.</p></li>
+<li><p>Gerar relatórios dinâmicos de altíssima qualidade.</p></li>
 </ul>
 <p>Por exemplo, este tutorial, e todos os materiais do curso foram criados utilizando <strong>R Markdown</strong>.</p>
 <div id="r-markdown-um-passo-em-direção-a-maior-transparência-e-reproducibilidade-da-ciência." class="section level2">
@@ -1951,12 +1951,12 @@ src: url(data:application/font-sfnt;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjwQAAAAQ
 <p>Uma vantagem importante do uso de <strong>R Markdown</strong> está em sua capacidade de ampliar a transparência de nossas análises e pesquisas científicas.</p>
 <p>Um relatório em <strong>R Markdown</strong> deve ser por essências auto-suficiente e reproduzível. Isto significa que, em teoria, se eu receber seus dados e o seu código em R Markdown, eu devo conseguir reproduzir exatamente seus próprios resultados.</p>
 <p>Pensem nos exercícios de vocês. Ao responder os seus exercícios, nada do que você adiciona em suas respostas pode ser produzido por fora da sua análise em R. Ao corrigir seu exercício, eu tenho acesso imediato ao seu código, ao seu output, e as suas explicações.</p>
-<p>Aumentar a transparências é fundamental para produzirmos ciência de qualidade. Por isto, o R Markdown é uma ferramenta bastante utilizada hoje em dia.</p>
+<p>Mais transparência é fundamental para produzirmos ciência de qualidade. Por isto, o R Markdown é uma ferramenta bastante utilizada hoje em dia.</p>
 </div>
 </div>
 <div id="como-funciona-o-r-markdown" class="section level1">
 <h1>Como funciona o R Markdown?</h1>
-<p>Este documento abaixo é um arquivo de <strong>R Markdown</strong>. Estes documentos possuem terminação <code>.rmd</code>, e são apenas arquivos simples de texto.</p>
+<p>Este documento abaixo é um arquivo de <strong>R Markdown</strong>. Documentos de R Markdown possuem terminação <code>.rmd</code>, e são apenas arquivos simples de texto.</p>
 <pre><code>---
 title: &quot;example_markdown&quot;
 author: &quot;Tiago Ventura&quot;
@@ -2028,8 +2028,8 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 </div>
 <div id="chuncks-código" class="section level2">
 <h2>Chuncks (Código)</h2>
-<p>Para executar o código dentro de um documento <strong>R Markdown</strong>, você fará uso dos “chunks”. Estes “chuncks” seguem exatamente a lógica de seu nome: são pedações de código de R dentro de um documento de texto.</p>
-<p>Os “chunks” começam com um cabeçalho que consiste em <span class="math inline">\(```{r}\)</span> e o final do bloco é indicado por um $ ``<code>$. Tudo entre estes dois sinais são lidos como um script de R.  Você executar o código dentro de cada chunck usando o atalho de teclado que aprendemos anteriormente:</code>Cmd / Ctrl + Enter`.</p>
+<p>Para executar o código dentro de um documento <strong>R Markdown</strong>, você fará uso dos “chunks”. Estes “chuncks” são pedações de código de R dentro de um documento de texto.</p>
+<p>Os “chunks” começam com um cabeçalho que consiste em <span class="math inline">\(```{r}\)</span> e o final do bloco é indicado por um $ ``<code>$. Tudo entre estes dois sinais são lidos como um script de R. Você executar o código dentro de cada chunck usando o atalho de teclado que aprendemos anteriormente:</code>Cmd / Ctrl + Enter`.</p>
 <p>Para criar um “chunk” novo, você pode usar o atalho: <code>Cmd / Ctrl + alt + i</code>. Ou usar o botão insert + R no topo a direita do seu script.</p>
 <p>Ao executar um “chunk”, o resulto aparecerá em uma tela a seguir do seu código. Este será o resultado final a ser incluso no seu documento de <strong>R Markdown</strong></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;figs/notebook-demo.png&quot;</span>)</span></code></pre></div>
@@ -2092,20 +2092,26 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 </div>
 <div id="compilando." class="section level2">
 <h2>Compilando.</h2>
-<p>Após você finalizar seu documento (definit a YAML, escrever seus códigos, e escrever o texto), você precisa compilar todas essas informações em um documento unificado a ser convertido para html, pdf, ou doc.</p>
-<p>Para compilar, você pode manualmente apertar no botão <code>knit</code> no topo do seu código. Muitas vezes, o simples ato de compilar o documento, pode retornar erros. Aqui vão alguns dos erros mais comuns:</p>
+<p>Após você finalizar seu documento (definir a YAML, escrever seus códigos, e escrever o texto), você precisa compilar todas essas informações em um documento unificado a ser convertido para html, pdf, ou doc.</p>
+<p>Para compilar, você pode manualmente apertar no botão <code>knit</code> no topo do seu código.</p>
+<p>Muitas vezes, o simples ato de compilar o documento, pode retornar erros. Aqui vão alguns dos erros mais comuns:</p>
+<div id="erros-comumns" class="section level4">
+<h4>Erros Comumns</h4>
 <ol style="list-style-type: decimal">
 <li><p>Você não instalou ou ativou um determinado pacote.</p></li>
 <li><p>Você está acessando um banco de dados, e seu endereço (path) está equivocado.</p></li>
 <li><p>Você apagou um objeto no meio do documento, e depois tenta acessá-lo de novo.</p></li>
 </ol>
-<p>Algumas sugestões:</p>
+</div>
+<div id="sugestões" class="section level4">
+<h4>Sugestões</h4>
 <ol style="list-style-type: decimal">
 <li><p>Sempre cheque seu path. O RMD usa a sua localização como diretório de trabalho no processo de compilamento.</p></li>
 <li><p>Leia as mensagens de erro com calma, e verifique em qual linha, ou chunk, está o erro.</p></li>
 <li><p>Rode primeiro todos os chunks de código. Verifique se há algo errado, e corrija.</p></li>
 <li><p>Não desista! Use o google.</p></li>
 </ol>
+</div>
 </div>
 <div id="opções-dos-chunks." class="section level2">
 <h2>Opções dos Chunks.</h2>

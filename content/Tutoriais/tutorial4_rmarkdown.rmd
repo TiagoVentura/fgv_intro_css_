@@ -19,9 +19,9 @@ knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE , error=TRUE)
 
 Na aula passada, fizemos uma rápida introdução ao R. Nas aulas desta semana, vamos focar em dois tópicos. 
 
-1. Uso de R Markdown para gerar relatórios dinâmicos, integram texto e resultados de R. (Hoje). 
+1. Uso de R Markdown para gerar relatórios dinâmicos, integrando texto e resultados de R. (Hoje). 
 
-2. Boas práticas para fluxo de programa em R (RProjects, Como organizar suas pastas de trabalho, e pacote `Here`) (Quarta-Feira). 
+2. Boas práticas para fluxo de programa em R (Rprojects, como organizar suas pastas de trabalho, e pacote `Here`) (Quarta-Feira). 
 
 # R Markdown. 
 
@@ -33,7 +33,7 @@ Este integração - entre código em R e conversão de texto do Markdown - faz d
 
 - Salvar, Executar e Visualizar Códigos de R. 
 
-- Gerar relatórios dinâmicos de altíssima qualidades. 
+- Gerar relatórios dinâmicos de altíssima qualidade. 
 
 Por exemplo, este tutorial, e todos os materiais do curso foram criados utilizando **R Markdown**. 
 
@@ -45,12 +45,12 @@ Um relatório em **R Markdown** deve ser por essências auto-suficiente e reprod
 
 Pensem nos exercícios de vocês. Ao responder os seus exercícios, nada do que você adiciona em suas respostas pode ser produzido por fora da sua análise em R. Ao corrigir seu exercício, eu tenho acesso imediato ao seu código, ao seu output, e as suas explicações. 
 
-Aumentar a transparências é fundamental para produzirmos ciência de qualidade. Por isto, o R Markdown é uma ferramenta bastante utilizada hoje em dia. 
+Mais transparência é fundamental para produzirmos ciência de qualidade. Por isto, o R Markdown é uma ferramenta bastante utilizada hoje em dia. 
 
 
 # Como funciona o R Markdown?
 
-Este documento abaixo é um arquivo de **R Markdown**. Estes documentos possuem terminação `.rmd`, e são apenas arquivos simples de texto.
+Este documento abaixo é um arquivo de **R Markdown**. Documentos de R Markdown possuem terminação `.rmd`, e são apenas arquivos simples de texto.
 
 ```{r, comment=NA, echo=FALSE}
 cat(htmltools::includeText("example_markdown.Rmd"))
@@ -116,15 +116,13 @@ output:
 knitr::include_graphics("figs/down_cute.png")
 ```
 
-
 Eu aconselho a não alterar o YAML diretamente quando você estiver ainda aprendendo a programar. Você pode usar novos formatos via RStudio: `file -> new_file -> R Markdown -> from template`. 
 
 ## Chuncks (Código)
 
-Para executar o código dentro de um documento **R Markdown**, você fará uso dos "chunks". Estes "chuncks" seguem exatamente a lógica de seu nome: são pedações de código de R dentro de um documento de texto. 
+Para executar o código dentro de um documento **R Markdown**, você fará uso dos "chunks". Estes "chuncks"  são pedações de código de R dentro de um documento de texto. 
 
-Os "chunks" começam com um cabeçalho que consiste em $```{r}$ e o final do bloco é indicado por um $ ```$. Tudo entre estes dois sinais são lidos como um script de R. 
-Você executar o código dentro de cada chunck usando o atalho de teclado que aprendemos anteriormente: `Cmd / Ctrl + Enter`. 
+Os "chunks" começam com um cabeçalho que consiste em $```{r}$ e o final do bloco é indicado por um $ ```$. Tudo entre estes dois sinais são lidos como um script de R. Você executar o código dentro de cada chunck usando o atalho de teclado que aprendemos anteriormente: `Cmd / Ctrl + Enter`. 
 
 Para criar um "chunk" novo, você pode usar o atalho: `Cmd / Ctrl + alt + i`. Ou usar o botão insert + R no topo a direita do seu script. 
 
@@ -198,10 +196,13 @@ Se você se esquecer, pode obter uma folha de referência útil em  `Help > Mark
 
 ## Compilando. 
 
-Após você finalizar seu documento (definit a YAML, escrever seus códigos, e escrever o texto), você precisa compilar todas essas informações em um documento unificado a ser convertido para html, pdf, ou doc. 
+Após você finalizar seu documento (definir a YAML, escrever seus códigos, e escrever o texto), você precisa compilar todas essas informações em um documento unificado a ser convertido para html, pdf, ou doc. 
 
-Para compilar, você pode manualmente apertar no botão `knit` no topo do seu código. 
+Para compilar, você pode manualmente apertar no botão `knit` no topo do seu código.  
+
 Muitas vezes, o simples ato de compilar o documento, pode retornar erros. Aqui vão alguns dos erros mais comuns:
+
+#### Erros Comumns
 
 1. Você não instalou ou ativou um determinado pacote. 
 
@@ -209,15 +210,15 @@ Muitas vezes, o simples ato de compilar o documento, pode retornar erros. Aqui v
 
 3. Você apagou um objeto no meio do documento, e depois tenta acessá-lo de novo. 
 
-Algumas sugestões:
+#### Sugestões 
 
 1. Sempre cheque seu path. O RMD usa a sua localização como diretório de trabalho no processo de compilamento. 
 
 2. Leia as mensagens de erro com calma, e verifique em qual linha, ou chunk, está o erro.
 
 3. Rode primeiro todos os chunks de código. Verifique se há algo errado, e corrija. 
-4. Não desista! Use o google. 
 
+4. Não desista! Use o google. 
 
 ## Opções dos Chunks. 
 
@@ -250,8 +251,6 @@ Option             | Run code | Show code | Output | Plots | Messages | Warnings
 `fig.show = "hide"`|          |           |        | X     |          |
 `message = FALSE`  |          |           |        |       | X        |
 `warning = FALSE`  |          |           |        |       |          | X
-
-
 
 
 
