@@ -19,5 +19,5 @@ Algumas leituras sugeridas sobre fluxo de trabalho em R e Rprojects.
 
 - [R for Data Science, Cap 8](https://r4ds.had.co.nz/workflow-projects.html?q=proje#where-does-your-analysis-live).
 - [Jenny Bryan sobre o Pacote Here](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
-)
+
 

@@ -21,7 +21,7 @@ Hoje, vamos conhecer o R Projects, e discutir um pouco sobre fluxo de trabalho e
 
 Tutorial V: Fluxo de Trabalho e Projetos em R. [(HTML)](/Tutoriais/tutorial5_rprojects.html) / [(RMarkdown)](/Tutoriais/tutorial5_rprojects.rmd)
 
-## Slides
+<!-- ## Slides -->
 
-[Slides R Projects](/slides/slides-05-rprojects.html)
+<!-- [Slides R Projects](/slides/slides-05-rprojects.html) -->
 

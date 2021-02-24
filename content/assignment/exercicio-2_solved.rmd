@@ -1,0 +1,153 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 2"
+author: "Tiago Ventura"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Questão 1
+
+Baixe este banco de dados [mtcars](https://www.dropbox.com/s/zks9aom2ff085uw/mtcars.csv?dl=0). Abra ele usando a função read.csv. Depois, descreve a classe de cada coluna deste banco. 
+
+```{r}
+d <- read.csv("mtcars.csv")
+glimpse(d)
+```
+
+## Questão 2.
+
+Faça o mesmo para um banco de dados em outro formato. Pode ser Stata, excel, arquivo de R. Qualquer um. Use um pouco de google e você encontrará uma solução.  Você pode usar qualquer banco seu ou que você encontrar na internet. 
+
+```{r}
+# dado salvo com rdata
+load("effective_number_candidates.Rdata")
+```
+
+## Questão 3
+
+Crie um banco de dados com três variáveis: nome, sobrenome e data de nascimento. Inclua neste banco de dados você, e mais 5 amigos. Depois de criar o banco, filtre este banco para exibir somente as suas informações. 
+
+```{r}
+d <- data.frame(nome=c("Tiago", "Rafaela", "Bernardo", "Talita", "Bruno"), 
+                sobrenome=c("Ventura", "Rodrigues", "Cotrim", "Tanscheit", "Moreno"), 
+                nasc=c("30-12-1986", "08-07-1988", "02-12-1984", "09-11-2000", "20-10-1982"))
+
+d[d$nome=="Tiago",]
+```
+
+
+## Questao 4.
+
+Escreve um loop usando o banco de dados mtcars da questão 1. 
+
+- Computar a média de cada coluna no banco utilizado na primeira questão.
+
+- Determinar a classe de cada coluna. 
+
+- Determinar o número de valores únicos de cada coluna
+
+Dica I: Você pode usar três loops, ou você pode usar o mesmo loop salvando cada informação em um objeto diferente. 
+
+Dica II: Lembre-se de criar seus objetos para salvar fora do loop.
+
+```{r}
+
+# Create containers
+m=c()
+class_ <- c()
+unique_v <- c()
+
+# Iterate for each collumn.
+for(i in 1:ncol(mtcars)){
+temp = mtcars[,i]  
+m[i]=mean(temp)
+class_[i]=class(temp)
+unique_v[i]=length(unique(temp))
+}
+
+#Print
+m
+class_
+unique_v
+
+```
+
+
+## Questão 5.
+
+Escreva uma função para calcular a variância de um vetor numérico. 
+
+A formula variância é:
+
+$$
+Var = \sum \frac{(x_{i}-\bar{x})^2}{n}
+$$
+
+```{r}
+
+var_t <- function(x){
+numerator = sum((x-mean(x))^2)
+denominator=length(x)
+variance=numerator/denominator
+
+# retorno
+return(variance)
+}
+
+var_t(c(1:10))
+```
+
+## Questão 6: Ponto Extra, Não obrigatória. 
+
+Escreve uma função para adivinhar quais cidades Eu - Tiago - já morei. 
+
+
+O input da sua função deve ser qualquer variável de text. E o output deve ver uma valor lógico - TRUE/FALSE - respondendo se eu morei na cidade referente ao seu input.
+
+Para facilitar um pouco, vou criar um vetor com todas as cidades em que morei, e um exemplo dos resultados que espero da função. 
+
+
+#### Exemplo de função
+```{r eval=FALSE}
+
+cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", "Berlim", "Brasília", "Washington - DC")
+
+# função
+
+tiago_morou("niteroi")
+# [1] FALSE. 
+
+tiago_morou("São Paulo")
+# [1] TRUE. 
+
+
+```
+
+Sua vez:
+
+```{r}
+tiago_morou <- function(x){
+
+# Cre
+cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", "Berlim", "Brasília", "Washington - DC")
+
+if("Rio de Janeiro"%in%cidades_onde_morei){
+  print(TRUE)
+} else FALSE
+
+}
+tiago_morou("Rio de Janeiro")
+```
+
+
+
+
+
+
+#### Até a próxima!
+
+

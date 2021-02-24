@@ -352,7 +352,7 @@ container
 
 ## E desta forma? 
 
-```{r, eval=FALSE}
+```{r}
 container <- list()
 
 for(i in temporadas){ #<<
@@ -362,7 +362,6 @@ for(i in temporadas){ #<<
 }
 
 container
-
 
 ```
 

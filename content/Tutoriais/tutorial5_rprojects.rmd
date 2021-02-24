@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 4: Fluxo de Trabalho e R Projects"
+title: "Tutorial 5: Fluxo de Trabalho e R Projects"
 output:
     rmdformats::robobook:
       code_folding: show
@@ -19,18 +19,18 @@ knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE , error=TRUE)
 
 Na aula passada, discutimos sobre o uso do **R Markdown** para geração de relatórios dinâmicos, documentos de alta qualidade estética, e produção de pesquisas mais transparentes e reproduzíveis. 
 
-Hoje vamos discutir um pouco de boas práticas para fluxo de trabalho em R. Em especial, discutiremos como utilizar Rprojects para organizar seu ambiente de trabalho, como organizar suas pastas no seu computador, e como integrar melhor o funcionamento do R com a produção de artigos acadêmicos. 
+Hoje vamos discutir  boas práticas para fluxo de trabalho em R. Em especial, discutiremos como utilizar Rprojects para organizar seu ambiente de trabalho, como organizar suas pastas no seu computador, e como integrar melhor o funcionamento do R com a produção de artigos acadêmicos. 
 
 
 # O que existe no seu R?
 
 Em geral, quando começamos a programar, pensamos que o que é real no R é aquilo que conseguimos abrir. É quase uma idéia sensorial de que precisamos ver, ter um nome, tocar, para saber que algo existe em R. 
 
-Isto em geral nos leva a crer que objetos salvos em nosso ambiente de trabalho são nosso mundo real de **R**. No entanto, esta é uma idéia ilusória, e muito capaz de gerar erros e trabalhos maiores em sua dinâmica de programação.
+Isto nos leva a crer que objetos salvos em nosso ambiente de trabalho são nosso mundo real de **R**. No entanto, esta é uma idéia ilusória, e muito capaz de gerar erros e complicações maiores em sua dinâmica de programação.
 
 O ideal é pensarmos que o que existe de real em nossa rotina de programação são os nossos scripts. Precisamos ter a idéia de que, se eu precisar desligar meu computador hoje, amanhã este script me retornará exatamente ao ponto em que eu parei no dia anterior. 
 
-Esta noção de script como o **real** do R guiará a aula de hoje. Para que nosso script seja real, minha sugestão é pensarmos nosso trabalho em R como um projeto auto-contido. Para isto perseguiremos três objetivos. 
+Esta noção de script como o **real** do R guiará a aula de hoje. Para que nosso script seja real, minha sugestão é pensarmos em nosso trabalho em R como um projeto auto-contido. Para isto perseguiremos três objetivos. 
 
 1. Meu script precisa ser reproduzível - por mim, por mim daqui há seis meses, por meu co-autores, ou colegas de profissão que lerão meu script. 
 
@@ -188,9 +188,5 @@ Ou seja, o `here` encontra seu R Projects, e usa ele como diretório de um níve
 Mais importante, quando você compartilhar seu projeto, com as subpastas, e o R projects, todos os seus códigos devem ser plenamente reproduzíveis justamente pela combinação entre .`rproj` e o pacote `here`. 
 
  
-# Exercício 
-
-Crie uma pasta para o nosso curso seguindo as regras acima discutidas. 
-
 
 

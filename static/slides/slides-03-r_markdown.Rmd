@@ -19,6 +19,23 @@ knitr::opts_chunk$set(message=FALSE, warning = FALSE, error = FALSE)
 
 ``` 
 
+class:center, middle
+
+--
+
+## Exercício a ser entregue esta sexta.
+
+--
+
+## Escritório Virtual hoje.
+
+--
+
+## Semana que vem: Tidyverse
+
+--
+
+---
 .pull-left[
 
 # Semana Passada
@@ -26,6 +43,7 @@ knitr::opts_chunk$set(message=FALSE, warning = FALSE, error = FALSE)
 1. Introdução ao R
 
 2. Funções, Loops e Condicionais. 
+]
 
 .pull-right[
 
