@@ -1,5 +1,6 @@
 ---
 title: "Tutorial 4: R Markdown"
+author: "tiago"
 output:
     rmdformats::robobook:
       code_folding: show

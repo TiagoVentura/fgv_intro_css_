@@ -32,7 +32,12 @@ h1, h2, h3 {
   color: var(--inverse-text-color);
 
 }
-.alert h1 {
+.alert h1{
   color: var(--inverse-header-color);
   font-size: 80px;
+}
+
+.alert h3{
+  color: var(--inverse-header-color);
+  font-size: 40px;
 }

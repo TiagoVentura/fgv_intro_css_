@@ -1,7 +1,9 @@
 ---
-title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 2"
+title: 'Introdução a Método Computacionais para as Ciências Sociais: Exercício 2'
 author: "Tiago Ventura"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -14,8 +16,10 @@ knitr::opts_chunk$set(echo = TRUE)
 Baixe este banco de dados [mtcars](https://www.dropbox.com/s/zks9aom2ff085uw/mtcars.csv?dl=0). Abra ele usando a função read.csv. Depois, descreve a classe de cada coluna deste banco. 
 
 ```{r}
+setwd("./content/assignment/")
+library(tidyverse)
 d <- read.csv("mtcars.csv")
-glimpse(d)
+class(d[   , "mpg"])
 ```
 
 ## Questão 2.
@@ -60,10 +64,19 @@ Dica II: Lembre-se de criar seus objetos para salvar fora do loop.
 m=c()
 class_ <- c()
 unique_v <- c()
-
+l <- list()
+nome_colunas <- colnames(mtcars)
 # Iterate for each collumn.
-for(i in 1:ncol(mtcars)){
-temp = mtcars[,i]  
+for(i in nome_colunas){
+  l[[i]] <- mtcars[,i]
+}
+str(l)
+mtcars$mpg  
+  
+  
+  
+  
+  temp = mtcars[,i]  
 m[i]=mean(temp)
 class_[i]=class(temp)
 unique_v[i]=length(unique(temp))
@@ -95,10 +108,10 @@ denominator=length(x)
 variance=numerator/denominator
 
 # retorno
-return(variance)
-}
+return(variance)}
 
-var_t(c(1:10))
+var_t(c(1:1000))
+var(c(1:1000))
 ```
 
 ## Questão 6: Ponto Extra, Não obrigatória. 
@@ -114,7 +127,8 @@ Para facilitar um pouco, vou criar um vetor com todas as cidades em que morei, e
 #### Exemplo de função
 ```{r eval=FALSE}
 
-cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", "Berlim", "Brasília", "Washington - DC")
+cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", "Berlim", 
+                        "Brasília", "Washington - DC")
 
 # função
 
@@ -133,7 +147,8 @@ Sua vez:
 tiago_morou <- function(x){
 
 # Cre
-cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", "Berlim", "Brasília", "Washington - DC")
+cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", 
+                        "Berlim", "Brasília", "Washington - DC")
 
 if("Rio de Janeiro"%in%cidades_onde_morei){
   print(TRUE)

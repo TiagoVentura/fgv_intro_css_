@@ -1,0 +1,27 @@
+---
+title: "Aula 7-8: Introdução ao Tidyverse e Manipulação de Bancos de Dados."
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais 
+
+Neste semana, vamos falar sobre manipulação, preparação e limpeza de bancos de dados. Para isto, usaremos os pacotes do `tidyverse`, sobretudo, `dplyr` para manipulação de dados. 
+
+## Tutoriais
+
+Tutorial VI: Introdução ao Tidyverse e Dplyr. [(HTML)](/Tutoriais/tutorial6_dplyr.html) / [(RMarkdown)](/Tutoriais/tutorial6_dplyr.rmd)
+
+## Slides
+
+[Slides Intro Tidyverse](/slides/slides-04-intro-tidyverse.html)
+

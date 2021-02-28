@@ -1,0 +1,213 @@
+---
+title: "Tutorial 7: Bancos de Dados Tidy"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      message=FALSE,
+                      warning=FALSE , 
+                      error=TRUE)
+```
+
+# Introdução.
+
+Na semana passada, fizemos nossa primeira imersão no uso de tidyverse para manipulação de banco de dados. Hoje daremos um novo passo. Aprenderemos o conceito de banco de dados tidy, e como colocar nosso banco de dados neste formato. 
+
+Para aprender e praticar sobre bancos de dados tidy, usaremos o pacote `tidyr`. E o banco de dados `gapminder`. 
+
+
+## Gapminder
+
+O Gapminder é um banco de dados com informações socio-demográficas por país e ano. É bem simples e útil para manipulação e visualização de dados. 
+
+```{r eval=FALSE}
+install.packages("gapminder")
+```
+
+```{r}
+library(gapminder)
+gapminder
+```
+
+
+# Tidy Data.
+
+O nome `tidyverse` vem do conceito de `tidy` data.  Todos os pacotes que discutimos até aqui, e os outros, sobretudo o `ggplot` para visualização, são construídos em torno do conceito de dados em formato `tidy`. 
+
+As três propriedades mais importantes que definem um banco de dados `tidy` são:
+
+- Cada coluna é uma variável. 
+
+- Cada linha é uma observação. 
+
+- Cada valor em uma linha.
+
+Vamos ver estas regras visualmente:
+
+![](./figs/tidy-1.png){ width=80% }
+
+Estas duas simples definições trazem diversas vantagens:
+
+- Uma forma consistente para organizar nossos bancos de dados. 
+
+- Salvar uma variável por coluna facilita operações de manipulação (R trabalha melhor com vetores em coluna). 
+
+- Integra com outros pacotes do `tidyverse`
+
+## Dados Tidy: Gapminder
+
+```{r}
+gapminder 
+```
+
+## Tidy vs Untidy
+
+![](./figs/untidy.png){ width=50% }
+
+
+## Untidy: Dados Abertos.
+
+Dados untidy são em geral chamados de banco de dados abertos (wide em inglês). Na maior parte das vezes, estes dados possuem uma única variável espalhada por diversas colunas. 
+
+Vejamos um exemplo:
+
+```{r}
+wide <- tibble(pais=c("Brasil", "Uruguai", "Chile"), 
+               pres_ano_2010= c("Lula", "Mujica", "Pinera"), 
+               pres_ano_2014=c("Dilma", "Tabare", "Bachelet"), 
+               pres_ano_2018=c("Temer", "Lacalle", "Pinera"))
+wide
+```
+
+
+## Desafio
+
+
+### Tidy ou Untidy
+
+```{r}
+tab <- tibble(pais=c("Brasil", "Uruguai", "Argentina"),
+       i_2010 = c(5, 1, 2), 
+       i_2014 = c(10, 9, 9),
+       i_2018 = c(0, 1, 2))
+tab 
+```
+
+### Tidy ou Untidy
+
+```{r}
+tab1 <- tibble(pais=c("Brasil", "Argentina"),
+       ano = c(2020, 2020),
+       presidente_vice = c("Bolsonaro-Mourão", "Fernandez-Kirchner"))
+
+tab1 
+```
+
+### Tidy ou Untidy
+
+```{r}
+tab2 <- tibble(pais=c("Brasil", "Brasil",  "Argentina", "Argentina"),
+       ano = c(2020, 2020, 2020, 2020), 
+       covid = c("Casos", "Vacinas", "Casos", "Vacinas"), 
+       numero= c(10500000, 6535363, 2100000, 1800000))
+
+```
+
+
+# tidyr
+
+Vamos usar `tidyr` para tranformar nossos dados de um formato untidy->tidy, e vice-versa. 
+
+## pivot_longer (Várias Colunas -> Uma Longa Coluna)
+
+![](./figs/gather.png){ width=50% }
+
+
+A função `pivot_longer` possui três inputs principais:
+
+- `cols`: as variáveis que você pretende empilhar.
+- `names_to`: nome da colunas para a nova variável. 
+- `values_to`: nome da coluna para os valores da nova variável. 
+
+```{r}
+# Antes = Wide - Aberto. Variáveis Espalhadas nas Colunas.
+wide
+
+# Rodando
+
+wide %>%
+  pivot_longer(cols=c(pres_ano_2010, pres_ano_2014, 
+                      pres_ano_2018), 
+               names_to="presidente_ano", 
+               values_to="presidente")
+
+```
+
+
+### Mais um exemplo:
+
+```{r}
+
+tab %>%
+  pivot_longer(cols = c(starts_with("i")), 
+               names_to="t", 
+               values_to="values")
+
+```
+
+## pivot_wider (Abrindo Uma Colunas -> Várias)
+
+![](./figs/spread.png){width=50%}
+
+
+### Uso Básico:
+
+A função `pivot_wider` possui dois inputs principais:
+
+- `names_from`: nome da coluna com variáveis que será aberta. 
+- `values_from`: nome da coluna  com valores que será aberta. 
+
+
+```{r}
+# Veja os dados
+tab2
+
+# tidying
+tab2 %>%
+  pivot_wider(names_from=covid, 
+              values_from=numero)
+```
+
+Ambas as funções pivot possuem diversos outros argumentos que são interessantes de explorar. Não cobrireremos estes argumentos em detalhes. Porém, sugiro ao alunos ler a documentação e praticar com exemplos on-line. 
+
+## Separate e Unite
+
+Para concluir, vamos aprender a usar as funções `separate()` e `unite()`. Ambas servem para separar ou agrupar colunas de forma bastante intuitiva. Por exemplo:
+
+```{r}
+tab1
+
+tab1 %>%
+  separate(presidente_vice, into=c("presidente", "vice"), 
+                            sep="-")
+```
+
+## Porque devo aprender isso tudo? 
+
+Como disse anteriormente, os pacotes do tidyverse usam dados organizados de forma tidy. O que significa que diversas da funções e vantagens dos pacotes tidyverse funcionarão de forma mais eficiente quando organizamos nossos dados neste formato. Outros formatos não estão errados, no entanto, ter um formato consistente para realizar análise de dados reduz consideravelmente o tempo gasto em manipulação, visualização e modelagem de dados. 
+
+Na próxima aula, entraremos em visualização de dados usando `ggplot`. Com ggplot ficará bastante evidente as vantagens de manter seus dados no formato `tidy`. 
+
+## Até!
+
+
+

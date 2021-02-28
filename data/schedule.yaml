@@ -35,15 +35,17 @@ lessons:
     class: "06-class"
     reading: "06-reading"
 
-  - title: "Manipulação de Dados: Tidyverse"
+  - title: "Manipulação de Dados: Tidyverse I (Dplyr)"
     date: "2021-03-01, Seg"
-    #reading: "05-reading"
-    #class: "wrangle1-class"
+    class: "07-class"
+    reading: "07-reading"
 
-  - title: "Manipulação de Dados: Hands-on"
+  - title: "Manipulação de Dados: Tidyverse II (Joins)"
     date: "2021-03-03, Quarta"
-    #reading: "06-reading"
-    #class: "wrangle2-class"
+    class: "07-class"
+    reading: "07-reading"
+    assignment: "exercicio-3.html"
+
 
   - title: "Visualização de Dados"
     date: "2021-03-08, Seg"

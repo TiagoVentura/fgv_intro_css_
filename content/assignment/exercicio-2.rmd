@@ -8,60 +8,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Instruções.
-
-Você pode responder este exercício baixando o RMD deste arquivo [aqui](exercicio-2.rmd), e abra em seu RStudio. Ou abrindo um novo .rmd em seu Rstudio. 
-
-Ambas as opções são fáceis e igualmente aceitáveis. 
-
-### Quando devo entregar os exercícios?
-
-Até que eu indique o contrário, o prazo para entrega dos exercícios é sempre sexta-feira, até meia noite. Exercícios entregues depois terão a nota reduzida. 
-
-### Onde devo entregar? 
-
-Toda nossa comunicação será via nossa canal de Slack. Para entregar os exercícios, abra um chat privado comigo no slack, e entregue os exercícios. 
-
-### Como devo entregar? 
-
-Os exercícios devem ser entregues em formato PDF, gerados a partir de um arquivo de Rmarkdown. Essa rotina será fundamental para vocês se familiarizarem com a geração de documentos dinâmicos em markdown. 
-
-Veremos somente na próxima aula como utilizar markdown. Por isto, neste exercício 2, sinta-se a vontade para entregar em outros formatos. 
-
-No entanto, segue aqui um pequeno tutorial para caso você queira entregar usando markdown. 
-
-### Passo 1. 
-
-Faça o download deste arquivo no formato .Rmd
-
-### Passo 2. 
-
-Abra o arquivo rmd no Rstudio. 
-
-### Passo 3
-
-Altera o parametro `author` no topo do arquivo com seu nome. 
-
-### Passo 4 
-
-Apague todas essas instruções. (linha 23 até linha 70)
-
-### Passo 5
-
-Adicione seus códigos nos chuncks abaixo, tipo esse:
-
-```{r}
-#Responda aqui
-```
-
-E suas explicações em formato normal de texto. 
-
-### Passo 6
-
-Aperte knit, e altero of formato para PDF. 
 
 
-## Questão 1
+## Questão 1    
 
 Baixe este banco de dados [mtcars](https://www.dropbox.com/s/zks9aom2ff085uw/mtcars.csv?dl=0). Abra ele usando a função read.csv. Depois, descreve a classe de cada coluna deste banco. 
 
@@ -82,7 +31,11 @@ Faça o mesmo para um banco de dados em outro formato. Pode ser Stata, excel, ar
 Crie um banco de dados com três variáveis: nome, sobrenome e data de nascimento. Inclua neste banco de dados você, e mais 5 amigos. Depois de criar o banco, filtre este banco para exibir somente as suas informações. 
 
 ```{r}
-#Responda aqui
+
+d <- data.frame(name=c("tiago"), sobrenome=c("ventura"))
+
+d[d$name=="tiago",  ]
+
 ```
 
 
@@ -150,8 +103,6 @@ Sua vez:
 ```{r}
 #Responda aqui
 ```
-
-
 
 
 

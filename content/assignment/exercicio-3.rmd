@@ -1,0 +1,103 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 3"
+author: "Tiago Ventura"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduções. 
+
+Seguimos com nossas instruções. 
+
+- Entrega dos exercícios até sexta-feira, meia noite. 
+
+- Entrega com documento em formato pdf. 
+
+- Entrega via slack. 
+
+Divirtam-se. 
+
+## Banco de dados
+
+Neste exercícios, usaremos o pacote do cepesp para baixar dados eleitorais do Brasil. Portanto, rode o código abaixo para fazer o download dos bancos de dados. 
+
+```{r}
+library(cepespR)
+library(tidyverse)
+# Banco Candidatos Brasil inteiro
+candidatos <- get_candidates(year=2018, position="Federal Deputy") %>% 
+                as_tibble()
+
+# Banco Votos
+votos <- get_votes(year = 2018, position="Federal Deputy", state="RJ") %>%
+            as_tibble()
+
+
+
+```
+
+## Questão 1.
+
+Usando o banco de candidatos. 
+
+- Quantos candidatos a deputados concorreram no Brasil em 2018 ?
+
+```{r}
+# responda aqui.
+
+```
+
+- Quantos partidos diferentes lançaram candidatos no Brasil ?
+
+```{r}
+# responda aqui.
+
+```
+
+- Qual o número de candidatos por Estado ?
+
+```{r}
+# responda aqui.
+
+```
+
+
+
+## Questão 2
+
+Usando o banco de votos para Deputado Federal no Rio de Janeiro. 
+
+- Quantos deputados receberam ao menos um voto ?
+
+```{r}
+# responda aqui
+```
+
+- Qual o candidato mais bem votado em números absolutos no Estado do Rio de Janeiro ?
+
+```{r}
+# responda aqui
+```
+
+- Quais os dez partidos com maior proporção de votos no Estado do Rio de Janeiro ?
+
+```{r}
+# responda aqui.
+
+```
+
+## Questão 3
+
+Considerando a profissão dos deputados (disponível no banco de candidatos), qual a profissão que recebeu mais votos no Estado  do Rio de Janeiro?
+
+```{r}
+
+```
+
+
+#### Até a próxima!
+
+
