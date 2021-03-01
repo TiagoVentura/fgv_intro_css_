@@ -15,22 +15,23 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE, 
                       message=FALSE,
                       warning=FALSE , 
-                      error=TRUE)
+                      error=TRUE, 
+                      cache=TRUE)
 ```
 
 # Introdução.
 
-Nas nossas duas primeiras semanas de aula, focamos em uma introdução básica ao R e a comunicar nossos resultados usando relatórios dinâmicos e de alta qualidade via RMarkdown. 
+Nas nossas duas primeiras semanas de aula, focamos em uma introdução básica ao R e sobre como comunicar nossos resultados usando relatórios dinâmicos e de alta qualidade via RMarkdown. 
 
-Pelas próximas três semanas, focaremos em três habilidades centrais para nosso trabalha enquanto cientista social computacional: i) manipulação de banco de dados, b) visualização de dados, e c) programação funcional. 
+No decorrer das próximas três semanas, focaremos em três habilidades centrais para nosso trabalho em ciência de dados: i) manipulação de banco de dados, b) visualização de dados, e c) programação funcional. 
 
-Para aprender estas três habilidades, faremos uso dos pacotes do `tidyverse`. 
+Para aprender estas três habilidades, faremos amplo uso dos pacotes do `tidyverse`. 
 
 # Tidyverse
 
 O `tidyverse` é uma família de pacotes em R. Estes pacotes foram e são desenvolvidos de forma integrada, compartilhando uma mesma filosofia de design, gramática e estruturas de dados subjacentes. Portanto, se você aprender um, os outros pacotes ficarão mais fáceis.
 
-O objetivo do `tidyverse` é prover um conjunto integrado de ferramentas para o uso do R como linguagem em Ciência de Dados. O que signifca que os pacotes do `tidyverse` cobrem temas como manipulação de dados, visualização, preparação, modelagem, limpeza, entre outros. Estes são os principais pacotes do `tidyverse`:
+O objetivo do `tidyverse` é prover um conjunto integrado de ferramentas para o uso do R para tarefas de ciência de dados. O que signifca que os pacotes do `tidyverse` cobrem temas variados como manipulação de dados, visualização, preparação, modelagem, limpeza, entre outros. Estes são os principais pacotes do `tidyverse`:
 
 - `dplyr`: para manipulação de dados.
 
@@ -49,7 +50,9 @@ O objetivo do `tidyverse` é prover um conjunto integrado de ferramentas para o 
 
 ## Porque devo usar o tidyverse ?  
 
-Você não **deve** usar o tidyverse. Porém, há diversas vantagens em usar os pacotes do tidyverse para sua dinâmica de trabalho em R. Algumas delas são:
+Você não **deve** usar o tidyverse. Porém, há diversas vantagens  para sua dinâmica de trabalho em R em usar os pacotes do tidyverse. Algumas delas são:
+
+- O `tidyverse` integra diversos pacotes em um. Ao fim, você precisa instalar um pacote para fazer basicamente tudo em R. 
 
 - O `tidyverse` facilita substancialmente as tarefas de análise de dados quando comparado com códigos do  R básico. 
 
@@ -57,7 +60,7 @@ Você não **deve** usar o tidyverse. Porém, há diversas vantagens em usar os 
 
 - Manipulação, visualização e modelagem estão integradas no tidyverse. 
 
-- É amplamente utilizado na comunidade de R. Portanto, provavelmente você precisa aprender para ler códigos de outros colegas.
+- É amplamente utilizado na comunidade de R. Portanto, provavelmente você irá se deparar com códigos escritos no estilo tidyverse no futuro. 
 
 No tutorial de hoje, faremos uma breve introdução ao `tidyverse` e em seguida focaremos no uso do do `dplyr` para manipulação de bancos de dados. 
 
@@ -79,9 +82,9 @@ library(tidyverse)
 
 ## Tibbles. 
 
-O objeto fundamental do `tidyverse` são bancos de dados. Sendo um pacote desenvolvido para ciência de dados, manipulação e visualização, todos os pacotes do `tidyverse` são desenvolvidos para funcionar com formatos básicos de banco de dados. 
+O objeto fundamental do `tidyverse` são bancos de dados. Sendo um pacote desenvolvido para ciência de dados,  todos os pacotes do `tidyverse` são desenvolvidos para funcionar com banco de dados como sua estrutura de dados fundamental. 
 
-O `tidyverse` usa objetos da classe "tibbles" para definir seus bancos de dados ao invés do tradicional data.frame, que aprendemos semana passada. Tibbles são exatamente iguais a banco de dados em sua estrutura básica, no entanto, tibbles possuem alguns ajustes para facilitar sua aplicabilidade. 
+O `tidyverse` usa objetos da classe "tibbles" para definir seus bancos de dados ao invés do tradicional `data.frame`, que aprendemos semana passada. Tibbles são exatamente iguais a banco de dados em sua estrutura básica, no entanto, tibbles possuem alguns ajustes para facilitar sua aplicabilidade e visualização. 
 
 
 ### Criando Tibbles. 
@@ -110,7 +113,7 @@ O `%>%`permite a você concatenar, conectar em cadeias as funções do seu códi
 
 Para entendermos a utilidade dos pipes, é bom perceber primeiro como o R conecta operações distintas. 
 
-O R funciona de dentro para fora:
+O R base funciona de dentro para fora:
 
 ```{r}
 # R
@@ -183,7 +186,7 @@ x
 
 # Manipulação de dados com `dplyr`.
 
-A partir deste ponto, focaremos no pacote `dplyr` para manipular e transformar banco de dados. Vamos utilizar dados eleitorais do Brasil, extraídos a partir do pacote [`cepespR`](https://workshop.cepesp.io/acessar/), para tornar nosso aprendizado mais intuitivo 
+A partir deste ponto, focaremos no pacote `dplyr` para manipular e transformar banco de dados. Em nossos exemplo, vamos utilizar dados eleitorais do Brasil, extraídos a partir do pacote [`cepespR`](https://workshop.cepesp.io/acessar/).
 
 ## Dados Eleitorais: cepespR
 
@@ -197,9 +200,9 @@ library(cepespR)
 library(tidyverse)
 
 pres_rio <- get_votes(year = 2018, 
-                         position = "Presidente", 
-                         regional_aggregation = "Municipio", 
-                         state="RJ") %>%
+                      position = "Presidente", 
+                      regional_aggregation = "Municipio", 
+                      state="RJ") %>%
                   as_tibble()
 
 ```
@@ -246,13 +249,13 @@ Estas são as funções mais úteis do `dplyr`:
 - `slice()`: filtra seu banco de dados por posições. 
 
 
-Todas essas funções seguem as mesmas características:
+**Todas essas funções seguem as mesmas características**:
 
 - O input é sempre um banco de dados. 
 
 - O banco de dados é sempre o primeiro argumento. 
 
-- Os argumentos seguintes acessão colunas dos bancos de dados diretamente, sem aspas. 
+- Os argumentos acessam colunas dos bancos de dados diretamente, sem aspas. 
 
 - O output é sempre um novo banco de dados. 
 
@@ -455,17 +458,17 @@ knitr::include_graphics("figs/group_by.png")
 
 Uma tarefa muito comum quando manipulamos bancos de dados é calcular valores para determinados subgroups. Por exemplo:
 
-- Qual a votação total dos candidatos a presidencia no Estado do Rio de Janeiro ?
+- Qual a votação total dos candidatos a presidência agregados ao nível do Estado do Rio de Janeiro ?
 
-- Qual o total de votos por município?
+- Qual o total de votos por município por candidato?
 
-- Em qual micro-região Jair Bolsonaro saiu com maior vantagem? 
+- Em qual micro-região Jair Bolsonaro saiu com maior vantagem no primeiro turno? 
 
-Para responder esta perguntas, faremos uso da função `group_by` + `summarize`. 
+Para responder esta perguntas, faremos uso da combinação entre as funções `group_by` e `summarize`. 
 
 ### Group_by
 
-O primeiro passo é agrupar de acordo com a variável de nosso interesse. 
+O **primeiro passo** é agrupar o banco de dados de acordo com a variável de nosso interesse. 
 
 ```{r}
 pres_rio %>%
@@ -473,7 +476,9 @@ pres_rio %>%
   group_by(NUMERO_CANDIDATO) 
 ```
 
-`group_by` somente agrupa seu banco. É como se criassêmos diversos mini-bancos de dados no background do R. A partir disso, podemos usar `summarize` para calcular valores de nosso interesse neste subgrupos. 
+**IMPORTANTE**: 0 `group_by` somente agrupa seu banco. É como se criassêmos diversos mini-bancos de dados no background do R. 
+
+A partir disso, podemos usar `summarize` para calcular valores de nosso interesse neste subgrupos. 
 
 ## Summarize.
 
@@ -500,6 +505,19 @@ pres_rio %>%
 ```
     
 Perceba: **o `summarize` transforma múltiplas linhas em uma para cada subgrupo**
+
+### Exemplos de operações com summarize
+
+- min(x) - minimo de x.
+- max(x) - máximo de x.
+- mean(x) - média de x.
+- median(x) - mediana de x.
+- quantile(x, p) - quantile de x.
+- sd(x) - desvio padrão de x.
+- var(x) - variancia de x.
+- n(x) - número de casos de x
+
+E muitas outras!!
 
 ### Mais Exemplos
 
@@ -573,7 +591,7 @@ pres_rio %>%
 
 ### Mutate x Summarize. 
 
-Qual a diferença entre as funções `mutate` and `summarize` ? Porque os dois exemplos abaixo geram resultados distintos?
+Qual a diferença entre as funções `mutate` and `summarize`? Porque os dois exemplos abaixo geram resultados distintos?
 
 ```{r}
 
@@ -624,9 +642,9 @@ Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3)` filtra some
 
 Raramente, você encontrará um banco de dados onde todas as informações da sua pesquisa estão contidas e prontas para serem analisadas.  
 
-Na maioria dos casos, e por boas razões, bancos de dados possuem informações distintas, e os pesquisadores precisam conectá-los com vistas a construir o material necessário para suas análises. 
+Na maioria dos casos, e por boas razões, bancos de dados possuem informações distintas e complementares, e os pesquisadores precisam conectá-los com vistas a construir o material necessário para suas análises. 
 
-Este tipo de dados conectados a partir de várias tabelas são chamados de **dados relacionais**.  dados eleitorais no Brasil providos pelo TSE vem em pedaços distintos de informação, que podem a depender dos objetivos de sua análise ser conectados. De forma mais concreta, estes são alguns exemplos de bancos disponíveis no TSE
+Este tipo de dados conectados a partir de várias tabelas são chamados de **dados relacionais**.  Dados eleitorais no Brasil providos pelo TSE, por exemplo, vem com pedaços distintos de informação, que podem, a depender dos objetivos de sua análise, ser conectados. De forma mais concreta, estes são alguns exemplos de bancos disponíveis no TSE:
 
 - **Candidatos**: arrecadação, nome, profissão, etc.
 
@@ -636,10 +654,9 @@ Este tipo de dados conectados a partir de várias tabelas são chamados de **dad
 
 ## Chaves (keys)
 
-Ainda nos casos dos bancos de dados do TSE, por exemplo, usando o número do candidato e a unidade eleitoral é possível conectar os bancos de **candidatos** e **votação**, ou usando o número da zona eleitoral por município, conectar **votação** e **eleitorado**. 
+Ainda nos casos dos bancos de dados do TSE, por exemplo, usando o número do candidato e a unidade eleitoral é possível conectar os bancos de **candidatos** e **votação**, ou usando o número da zona eleitoral por município, conectar **votação** e **eleitorado**. A partir dessa conexão, nossas análises ficam mais completes e interessantes. 
 
-
-Estas variáveis capazes de conectar bancos de dados são chamadas **chaves**.  Estas **chaves** são:
+Estas variáveis capazes de conectar bancos de dados são chamadas **chaves**.  Estas **chaves** devem ser:
 
 - Completas. Nunca tenha missing values nas suas chaves. 
 
@@ -706,6 +723,18 @@ left_join(data1, data3,
 
 ```
 
+### Múltiplas Chaves
+
+A lógica para múltiplas chaves é semelhante: precisamos específicar seus nomes na função by. 
+
+```{r}
+data3 <- data2 %>%
+          # alterando o nome
+          select(nome, value=value2)
+
+left_join(data1, data3, by=c("nome", "value"))
+```
+
 
 ### Desafio
 
@@ -753,4 +782,8 @@ bind_cols(data1, data2)
 ```
 
 Note: ao conectar por coluna, **as linhas precisam ter tamanho igual**.
+
+## Exercícios!
+
+No site do curso, estão disponíveis os exercícios da semana. Vamos praticar!
 
