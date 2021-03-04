@@ -16,7 +16,6 @@ knitr::opts_chunk$set(echo = TRUE)
 Baixe este banco de dados [mtcars](https://www.dropbox.com/s/zks9aom2ff085uw/mtcars.csv?dl=0). Abra ele usando a função read.csv. Depois, descreve a classe de cada coluna deste banco. 
 
 ```{r}
-setwd("./content/assignment/")
 library(tidyverse)
 d <- read.csv("mtcars.csv")
 class(d[   , "mpg"])
@@ -64,23 +63,16 @@ Dica II: Lembre-se de criar seus objetos para salvar fora do loop.
 m=c()
 class_ <- c()
 unique_v <- c()
-l <- list()
-nome_colunas <- colnames(mtcars)
+
 # Iterate for each collumn.
-for(i in nome_colunas){
-  l[[i]] <- mtcars[,i]
-}
-str(l)
-mtcars$mpg  
-  
-  
-  
-  
-  temp = mtcars[,i]  
+for(i in 1:ncol(mtcars)){
+temp=mtcars[,i]
 m[i]=mean(temp)
 class_[i]=class(temp)
 unique_v[i]=length(unique(temp))
-}
+
+  
+  }
 
 #Print
 m
@@ -150,7 +142,7 @@ tiago_morou <- function(x){
 cidades_onde_morei <- c("Belém", "São Paulo", "Rio de Janeiro", 
                         "Berlim", "Brasília", "Washington - DC")
 
-if("Rio de Janeiro"%in%cidades_onde_morei){
+if(x %in%cidades_onde_morei){
   print(TRUE)
 } else FALSE
 

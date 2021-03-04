@@ -404,7 +404,12 @@ summary {
 <div id="banco-de-dados" class="section level2">
 <h2>Banco de dados</h2>
 <p>Neste exercícios, usaremos o pacote do cepesp para baixar dados eleitorais do Brasil. Portanto, rode o código abaixo para fazer o download dos bancos de dados.</p>
-<pre class="r"><code>library(cepespR)
+<pre class="r"><code># instale caso você não tenha o pacote. 
+
+# if (!require(&quot;devtools&quot;)) install.packages(&quot;devtools&quot;)
+# devtools::install_github(&quot;Cepesp-Fgv/cepesp-r&quot;)
+
+library(cepespR)
 library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ────────────────────────────────── tidyverse 1.3.0.9000 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
@@ -459,9 +464,26 @@ votos &lt;- get_votes(year = 2018, position=&quot;Federal Deputy&quot;, state=&q
 </ul>
 <pre class="r"><code># responda aqui.</code></pre>
 </div>
-<div id="questão-3" class="section level2">
-<h2>Questão 3</h2>
-<p>Considerando a profissão dos deputados (disponível no banco de candidatos), qual a profissão que recebeu mais votos no Estado do Rio de Janeiro?</p>
+<div id="ponto-extra" class="section level2">
+<h2>Ponto Extra</h2>
+<p>Para ganhar pontos extras, tente responder estas questões que discutimos rapidamente em sala.</p>
+<p>Abra o banco de dados de candidatos a deputado federal no Rio de Janeiro.</p>
+<pre class="r"><code>dep_rio &lt;- get_candidates(year=2018,
+                          position=&quot;Federal Deputy&quot;) %&gt;%
+           as_tibble()</code></pre>
+<pre><code>## status: SUCCEEDED, elapsed: 1s</code></pre>
+<pre><code>## 
+## Parsing downloaded csv...</code></pre>
+<p>1 - Qual partido elegeu mais deputados? (3 linhas)</p>
+<pre class="r"><code># Dica: `data %&gt;% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. </code></pre>
+<p>2 - Qual candidato gastou mais recursos ? (2-3 linhas)</p>
+<pre class="r"><code># Dica: `data %&gt;% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. </code></pre>
+<p>3 - Qual valor médio declarado de gastos de campanha de acordo com o gênero dos candidatos? (3 linhas)</p>
+<pre class="r"><code># Dica: `data %&gt;% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. </code></pre>
+<!-- ## Questão 3 -->
+<!-- Considerando a profissão dos deputados (disponível no banco de candidatos), qual a profissão que recebeu mais votos no Estado  do Rio de Janeiro? -->
+<!-- ```{r} -->
+<!-- ``` -->
 <div id="até-a-próxima" class="section level4">
 <h4>Até a próxima!</h4>
 </div>

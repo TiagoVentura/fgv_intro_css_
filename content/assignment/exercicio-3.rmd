@@ -25,6 +25,11 @@ Divirtam-se.
 Neste exercícios, usaremos o pacote do cepesp para baixar dados eleitorais do Brasil. Portanto, rode o código abaixo para fazer o download dos bancos de dados. 
 
 ```{r}
+# instale caso você não tenha o pacote. 
+
+# if (!require("devtools")) install.packages("devtools")
+# devtools::install_github("Cepesp-Fgv/cepesp-r")
+
 library(cepespR)
 library(tidyverse)
 # Banco Candidatos Brasil inteiro
@@ -46,6 +51,7 @@ Usando o banco de candidatos.
 - Quantos candidatos a deputados concorreram no Brasil em 2018 ?
 
 ```{r}
+
 # responda aqui.
 
 ```
@@ -53,6 +59,7 @@ Usando o banco de candidatos.
 - Quantos partidos diferentes lançaram candidatos no Brasil ?
 
 ```{r}
+
 # responda aqui.
 
 ```
@@ -89,13 +96,52 @@ Usando o banco de votos para Deputado Federal no Rio de Janeiro.
 
 ```
 
-## Questão 3
+## Ponto Extra
 
-Considerando a profissão dos deputados (disponível no banco de candidatos), qual a profissão que recebeu mais votos no Estado  do Rio de Janeiro?
+Para ganhar pontos extras, tente responder estas questões que discutimos rapidamente em sala. 
+
+
+Abra o banco de dados de candidatos a deputado federal no Rio de Janeiro. 
 
 ```{r}
 
+dep_rio <- get_candidates(year=2018,
+                          position="Federal Deputy") %>%
+           as_tibble()
 ```
+
+
+1 - Qual partido elegeu mais deputados? (3 linhas)
+
+```{r}
+# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
+
+```
+
+2 - Qual candidato gastou mais recursos ? (2-3 linhas)
+
+
+```{r}
+# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
+
+```
+
+3 - Qual valor médio declarado de gastos de campanha de acordo com o gênero dos candidatos? (3 linhas)
+
+
+```{r}
+# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
+
+```
+
+
+<!-- ## Questão 3 -->
+
+<!-- Considerando a profissão dos deputados (disponível no banco de candidatos), qual a profissão que recebeu mais votos no Estado  do Rio de Janeiro? -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
 
 
 #### Até a próxima!
