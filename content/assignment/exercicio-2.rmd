@@ -2,6 +2,7 @@
 title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 2"
 author: "Tiago Ventura"
 output: html_document
+date: ""
 ---
 
 ```{r setup, include=FALSE}
@@ -11,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ## Questão 1    
-
+ 
 Baixe este banco de dados [mtcars](https://www.dropbox.com/s/zks9aom2ff085uw/mtcars.csv?dl=0). Abra ele usando a função read.csv. Depois, descreve a classe de cada coluna deste banco. 
 
 ```{r}

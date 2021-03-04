@@ -2,6 +2,7 @@
 title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 3"
 author: "Tiago Ventura"
 output: html_document
+date: ""
 ---
 
 ```{r setup, include=FALSE}
@@ -9,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introduções. 
-
+  
 Seguimos com nossas instruções. 
 
 - Entrega dos exercícios até sexta-feira, meia noite. 
