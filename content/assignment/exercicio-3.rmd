@@ -124,23 +124,15 @@ dep_rio <- get_candidates(year=2018,
 ```{r}
 # Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
 
-
+ 
 ```
 
-2 - Qual candidato gastou mais recursos ? (2-3 linhas)
+2 - Qual o número de candidatos eleitos de acordo com o gênero e partido ? (3 linhas)
+
 
 
 ```{r}
-# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
-
-```
-
-3 - Qual valor médio declarado de gastos de campanha de acordo com o gênero dos candidatos? (3 linhas)
-
-
-```{r}
-# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
-
+#responda aqui
 ```
 
 

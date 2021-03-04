@@ -156,7 +156,11 @@ votos <- votos %>%
 # Daqui pra frente é con vocês
 votos %>%
   group_by(NR_PARTIDO) %>%
-  summarise(votos_pt=sum(QTDE_VOTOS))
+  summarise(votos_pt=sum(QTDE_VOTOS)) %>%
+  mutate(votos_total=sum(votos_pt), 
+         prop_votos=votos_pt/votos_total) %>%
+  arrange(desc(prop_votos)) %>%
+  slice(1:10)
 
 ```
 
@@ -179,22 +183,20 @@ dep_rio <- get_candidates(year=2018,
 
 ```{r}
 # Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
-
+dep_rio %>%
+  filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) %>%
+  count(NUMERO_PARTIDO) %>%
+  arrange(desc(n))
 ```
 
-2 - Qual candidato gastou mais recursos ? (2-3 linhas)
+2 - Qual o número de candidatos eleitos de acordo com o gênero e partido ? (3 linhas)
 
 
 ```{r}
-# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
-
-```
-
-3 - Qual valor médio declarado de gastos de campanha de acordo com o gênero dos candidatos? (3 linhas)
-
-
-```{r}
-# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
+dep_rio %>%  
+  filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) %>%
+  count(DESCRICAO_SEXO, NUMERO_PARTIDO) %>%
+  arrange(NUMERO_PARTIDO)
 
 ```
 
