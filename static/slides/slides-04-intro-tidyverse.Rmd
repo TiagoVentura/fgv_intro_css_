@@ -716,7 +716,6 @@ dep_rio <- get_candidates(year=2018,
 
 ```
 
-
 2 - Qual candidato gastou mais recursos ? (2-3 linhas)
 
 

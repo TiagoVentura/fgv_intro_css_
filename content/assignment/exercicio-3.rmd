@@ -92,7 +92,15 @@ Usando o banco de votos para Deputado Federal no Rio de Janeiro.
 - Quais os dez partidos com maior proporção de votos no Estado do Rio de Janeiro ?
 
 ```{r}
-# responda aqui.
+
+# Esta é mais complexa. Para começar, estou criando para vocês a variável partido. 
+votos <- votos %>%
+          # nova variável com os primeiros dois numeros de cada candidato
+          # igual ao número do partido
+          mutate(NR_PARTIDO=str_sub(NUMERO_CANDIDATO, 1, 2)) 
+
+# Daqui pra frente é com vocês
+
 
 ```
 
@@ -115,6 +123,7 @@ dep_rio <- get_candidates(year=2018,
 
 ```{r}
 # Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
+
 
 ```
 

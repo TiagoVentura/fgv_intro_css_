@@ -6,8 +6,6 @@
     <meta name="author" content="Tiago Ventura" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/countdown/countdown.css" rel="stylesheet" />
-    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="styles.css" type="text/css" />
     <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
   </head>
@@ -85,7 +83,7 @@ O objetivo do `tidyverse` é prover um conjunto integrado de ferramentas para o 
 
 .center[
 
-&lt;img src="https://media.giphy.com/media/elUGwgiPOdq7e/giphy.gif" width="60%" /&gt;
+
 
 ]
 
@@ -143,33 +141,10 @@ Tibbles são exatamente iguais aos data.frames em sua estrutura básica.  No ent
 ```r
 # Classe do Banco de Dados mtcars
 class(mtcars)
-```
 
-```
-## [1] "data.frame"
-```
-
-```r
 # Converte para tibbles
 mtcars_tib &lt;- as_tibble(mtcars)
 mtcars_tib
-```
-
-```
-## # A tibble: 32 x 11
-##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-## # … with 22 more rows
 ```
 ]
 
@@ -182,14 +157,6 @@ tibble(a=c("Tiago", "Ventura"),
        b=c("nome", "sobrenome"))
 ```
 
-```
-## # A tibble: 2 x 2
-##   a       b        
-##   &lt;chr&gt;   &lt;chr&gt;    
-## 1 Tiago   nome     
-## 2 Ventura sobrenome
-```
-
 ]
 
 --
@@ -199,7 +166,7 @@ tibble(a=c("Tiago", "Ventura"),
 ## Pipe.
 
 .pull-left[
-&lt;img src="figs/pipe.jpg" width="60%" /&gt;
+
 ]
 
 .pull-right[
@@ -225,10 +192,6 @@ x &lt;- c(1:10)
 round(exp(sqrt(mean(x))), 1)
 ```
 
-```
-## [1] 10.4
-```
-
 ### O Pipe
 
 
@@ -238,10 +201,6 @@ x %&gt;%
   sqrt() %&gt;%
   exp() %&gt;%
   round(1) 
-```
-
-```
-## [1] 10.4
 ```
 
 ---
@@ -266,8 +225,6 @@ sample(1:1000, 500, replace=TRUE) %&gt;%
   plot() # função 2. 
 ```
 
-&lt;img src="slides-04-intro-tidyverse_files/figure-html/unnamed-chunk-10-1.png" width="30%" /&gt;
-
 ---
 
 **2. O input sempre pode ser omitido, ou representados pelo atalho `.`**
@@ -279,8 +236,6 @@ sample(1:1000, 500, replace=TRUE) %&gt;%
   plot(.) # função 2. 
 ```
 
-![](slides-04-intro-tidyverse_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
-
 ---
 
 **3. Os resultados do pipe não são salvos imediatamente. Você precisa atribuir à um novo objeto.** 
@@ -291,8 +246,6 @@ grafico &lt;- sample(1:1000, 500, replace=TRUE) %&gt;%
               density(.) %&gt;% # funcao 1.
               plot(.) # função 2. 
 ```
-
-![](slides-04-intro-tidyverse_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -311,13 +264,7 @@ x &lt;- str_to_title(x)
 x
 ```
 
-```
-## [1] "Cpdoc-Fgv"
-```
 
-<div class="countdown" id="timer_603f993c" style="right:0;bottom:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
 
 --
 
@@ -328,10 +275,6 @@ x  %&gt;%
   str_to_upper() %&gt;%
   str_c("-FGV") %&gt;%
   str_to_title()
-```
-
-```
-## [1] "Cpdoc-Fgv-Fgv"
 ```
 --
 
@@ -422,7 +365,7 @@ Todas essas funções seguem as mesmas características:
 # Select: Seleciona Colunas. 
 
 
-&lt;img src="figs/select.png" width="80%" /&gt;
+
 
 ---
 ## Uso Básico
@@ -431,23 +374,6 @@ Todas essas funções seguem as mesmas características:
 ```r
 pres_rio %&gt;% # Dados
   select(ANO_ELEICAO, SIGLA_UE, NOME_MUNICIPIO, COD_MUN_IBGE) # colunas
-```
-
-```
-## # A tibble: 1,374 x 4
-##    ANO_ELEICAO SIGLA_UE NOME_MUNICIPIO COD_MUN_IBGE
-##          &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                 &lt;int&gt;
-##  1        2018 BR       Angra dos Reis      3300100
-##  2        2018 BR       Angra dos Reis      3300100
-##  3        2018 BR       Angra dos Reis      3300100
-##  4        2018 BR       Angra dos Reis      3300100
-##  5        2018 BR       Angra dos Reis      3300100
-##  6        2018 BR       Angra dos Reis      3300100
-##  7        2018 BR       Angra dos Reis      3300100
-##  8        2018 BR       Angra dos Reis      3300100
-##  9        2018 BR       Angra dos Reis      3300100
-## 10        2018 BR       Angra dos Reis      3300100
-## # … with 1,364 more rows
 ```
 
 ---
@@ -460,23 +386,6 @@ pres_rio %&gt;% # Dados
   # seleciona colunas
   select(QTDE_VOTOS, ANO_ELEICAO, SIGLA_UE, 
          NOME_MUNICIPIO, COD_MUN_IBGE) # colunas
-```
-
-```
-## # A tibble: 1,374 x 5
-##    QTDE_VOTOS ANO_ELEICAO SIGLA_UE NOME_MUNICIPIO COD_MUN_IBGE
-##         &lt;int&gt;       &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                 &lt;int&gt;
-##  1       8696        2018 BR       Angra dos Reis      3300100
-##  2      13204        2018 BR       Angra dos Reis      3300100
-##  3        565        2018 BR       Angra dos Reis      3300100
-##  4         34        2018 BR       Angra dos Reis      3300100
-##  5      59499        2018 BR       Angra dos Reis      3300100
-##  6        662        2018 BR       Angra dos Reis      3300100
-##  7        349        2018 BR       Angra dos Reis      3300100
-##  8         32        2018 BR       Angra dos Reis      3300100
-##  9        998        2018 BR       Angra dos Reis      3300100
-## 10       1909        2018 BR       Angra dos Reis      3300100
-## # … with 1,364 more rows
 ```
 
 ---
@@ -492,23 +401,6 @@ pres_rio %&gt;%
          pais=SIGLA_UE, 
          mun=NOME_MUNICIPIO, 
          cod=COD_MUN_IBGE) # colunas
-```
-
-```
-## # A tibble: 1,374 x 5
-##    votos   ano pais  mun                cod
-##    &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;            &lt;int&gt;
-##  1  8696  2018 BR    Angra dos Reis 3300100
-##  2 13204  2018 BR    Angra dos Reis 3300100
-##  3   565  2018 BR    Angra dos Reis 3300100
-##  4    34  2018 BR    Angra dos Reis 3300100
-##  5 59499  2018 BR    Angra dos Reis 3300100
-##  6   662  2018 BR    Angra dos Reis 3300100
-##  7   349  2018 BR    Angra dos Reis 3300100
-##  8    32  2018 BR    Angra dos Reis 3300100
-##  9   998  2018 BR    Angra dos Reis 3300100
-## 10  1909  2018 BR    Angra dos Reis 3300100
-## # … with 1,364 more rows
 ```
 
 ---
@@ -549,23 +441,6 @@ pres_rio %&gt;%
   select(contains("NOME"))
 ```
 
-```
-## # A tibble: 1,374 x 5
-##    NOME_MACRO NOME_UF        NOME_MESO      NOME_MICRO          NOME_MUNICIPIO
-##    &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;               &lt;chr&gt;         
-##  1 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-##  2 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-##  3 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-##  4 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-##  5 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-##  6 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-##  7 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-##  8 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-##  9 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-## 10 Sudeste    Rio de Janeiro Sul Fluminense Baía da Ilha Grande Angra dos Reis
-## # … with 1,364 more rows
-```
-
 
 
 ```r
@@ -573,25 +448,6 @@ pres_rio %&gt;%
   # seleciona colunas que terminam com UF e 
   # todas as outras colunas restantes
   select(ends_with("UF"), everything())
-```
-
-```
-## # A tibble: 1,374 x 19
-##    UF    NOME_UF ANO_ELEICAO SIGLA_UE NUM_TURNO DESCRICAO_ELEIC… CODIGO_CARGO DESCRICAO_CARGO NUMERO_CANDIDATO
-##    &lt;chr&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;                      &lt;int&gt;
-##  1 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    12
-##  2 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    13
-##  3 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    15
-##  4 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    16
-##  5 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    17
-##  6 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    18
-##  7 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    19
-##  8 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    27
-##  9 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    30
-## 10 RJ    Rio de…        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    45
-## # … with 1,364 more rows, and 10 more variables: CODIGO_MACRO &lt;int&gt;, NOME_MACRO &lt;chr&gt;, CODIGO_MESO &lt;int&gt;,
-## #   NOME_MESO &lt;chr&gt;, CODIGO_MICRO &lt;int&gt;, NOME_MICRO &lt;chr&gt;, COD_MUN_TSE &lt;int&gt;, COD_MUN_IBGE &lt;int&gt;,
-## #   NOME_MUNICIPIO &lt;chr&gt;, QTDE_VOTOS &lt;int&gt;
 ```
 
 ---
@@ -602,7 +458,7 @@ pres_rio %&gt;%
       filter(data, coluna=="a")
 
 
-&lt;img src="figs/filter.png" width="80%" /&gt;
+
 
 ---
 
@@ -616,23 +472,6 @@ pres_rio %&gt;%
   filter(NUMERO_CANDIDATO==17) %&gt;%
   # seleciona
   select(DESCRICAO_CARGO, NUMERO_CANDIDATO, QTDE_VOTOS, NOME_MUNICIPIO)
-```
-
-```
-## # A tibble: 184 x 4
-##    DESCRICAO_CARGO NUMERO_CANDIDATO QTDE_VOTOS NOME_MUNICIPIO    
-##    &lt;chr&gt;                      &lt;int&gt;      &lt;int&gt; &lt;chr&gt;             
-##  1 PRESIDENTE                    17      59499 Angra dos Reis    
-##  2 PRESIDENTE                    17       4366 Aperibé           
-##  3 PRESIDENTE                    17      44108 Araruama          
-##  4 PRESIDENTE                    17       3816 Areal             
-##  5 PRESIDENTE                    17      13028 Armação dos Búzios
-##  6 PRESIDENTE                    17      13342 Arraial do Cabo   
-##  7 PRESIDENTE                    17      27178 Barra do Piraí    
-##  8 PRESIDENTE                    17      55972 Barra Mansa       
-##  9 PRESIDENTE                    17     138676 Belford Roxo      
-## 10 PRESIDENTE                    17       8077 Bom Jardim        
-## # … with 174 more rows
 ```
 
 ---
@@ -650,23 +489,13 @@ pres_rio %&gt;%
   select(DESCRICAO_CARGO, NUMERO_CANDIDATO, QTDE_VOTOS, NOME_MUNICIPIO)
 ```
 
-```
-## # A tibble: 4 x 4
-##   DESCRICAO_CARGO NUMERO_CANDIDATO QTDE_VOTOS NOME_MUNICIPIO
-##   &lt;chr&gt;                      &lt;int&gt;      &lt;int&gt; &lt;chr&gt;         
-## 1 PRESIDENTE                    13     398033 Rio de Janeiro
-## 2 PRESIDENTE                    17    1930657 Rio de Janeiro
-## 3 PRESIDENTE                    13    1105393 Rio de Janeiro
-## 4 PRESIDENTE                    17    2179896 Rio de Janeiro
-```
-
 ---
 
 ## Arrange: Ordena Linhas por Colunas.
 
     arrange(data, coluna)
 
-&lt;img src="figs/arrange.png" width="80%" /&gt;
+
 
 ---
 
@@ -682,23 +511,6 @@ pres_rio %&gt;%
          QTDE_VOTOS, NOME_MUNICIPIO) %&gt;%
   # ordena de forma crescente
   arrange(QTDE_VOTOS)
-```
-
-```
-## # A tibble: 184 x 4
-##    DESCRICAO_CARGO NUMERO_CANDIDATO QTDE_VOTOS NOME_MUNICIPIO               
-##    &lt;chr&gt;                      &lt;int&gt;      &lt;int&gt; &lt;chr&gt;                        
-##  1 PRESIDENTE                    13        830 São José do Vale do Rio Preto
-##  2 PRESIDENTE                    13       1111 Areal                        
-##  3 PRESIDENTE                    13       1115 Santa Maria Madalena         
-##  4 PRESIDENTE                    13       1129 Aperibé                      
-##  5 PRESIDENTE                    13       1152 São José de Ubá              
-##  6 PRESIDENTE                    13       1224 Macuco                       
-##  7 PRESIDENTE                    13       1241 Varre-Sai                    
-##  8 PRESIDENTE                    13       1342 Italva                       
-##  9 PRESIDENTE                    13       1448 São Sebastião do Alto        
-## 10 PRESIDENTE                    13       1455 Duas Barras                  
-## # … with 174 more rows
 ```
 
 ---
@@ -719,30 +531,13 @@ pres_rio %&gt;%
   arrange(desc(QTDE_VOTOS))
 ```
 
-```
-## # A tibble: 184 x 4
-##    DESCRICAO_CARGO NUMERO_CANDIDATO QTDE_VOTOS NOME_MUNICIPIO       
-##    &lt;chr&gt;                      &lt;int&gt;      &lt;int&gt; &lt;chr&gt;                
-##  1 PRESIDENTE                    13    1105393 Rio de Janeiro       
-##  2 PRESIDENTE                    13     398033 Rio de Janeiro       
-##  3 PRESIDENTE                    13     149075 São Gonçalo          
-##  4 PRESIDENTE                    13     136240 Duque de Caxias      
-##  5 PRESIDENTE                    13     110820 Nova Iguaçu          
-##  6 PRESIDENTE                    13     105606 Niterói              
-##  7 PRESIDENTE                    13      80858 São Gonçalo          
-##  8 PRESIDENTE                    13      79838 Campos dos Goytacazes
-##  9 PRESIDENTE                    13      77504 Duque de Caxias      
-## 10 PRESIDENTE                    13      70499 São João de Meriti   
-## # … with 174 more rows
-```
-
 ---
 
 ## Mutate: Adiciona uma nova coluna. 
 
     mutate(data, nome_nova_coluna=valores_nova_coluna)
 
-&lt;img src="figs/mutate.png" width="80%" /&gt;
+
 
 ---
 
@@ -755,23 +550,6 @@ pres_rio %&gt;%
   mutate(estado_cidade=paste(NOME_MUNICIPIO, "-", NOME_UF)) %&gt;%
   #seleciona para visualizar
   select(NOME_MUNICIPIO, NOME_UF, estado_cidade)
-```
-
-```
-## # A tibble: 1,374 x 3
-##    NOME_MUNICIPIO NOME_UF        estado_cidade                  
-##    &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;                          
-##  1 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-##  2 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-##  3 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-##  4 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-##  5 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-##  6 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-##  7 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-##  8 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-##  9 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-## 10 Angra dos Reis Rio de Janeiro Angra dos Reis - Rio de Janeiro
-## # … with 1,364 more rows
 ```
 
 ---
@@ -789,25 +567,6 @@ pres_rio %&gt;%
   select(NOME_UF, NOME_MUNICIPIO, estado_sigla, everything())
 ```
 
-```
-## # A tibble: 1,374 x 21
-##    NOME_UF NOME_MUNICIPIO estado_sigla ANO_ELEICAO SIGLA_UE NUM_TURNO DESCRICAO_ELEIC… CODIGO_CARGO DESCRICAO_CARGO
-##    &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;          
-##  1 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-##  2 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-##  3 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-##  4 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-##  5 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-##  6 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-##  7 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-##  8 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-##  9 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-## 10 Rio de… Angra dos Reis RJ                  2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE     
-## # … with 1,364 more rows, and 12 more variables: NUMERO_CANDIDATO &lt;int&gt;, CODIGO_MACRO &lt;int&gt;, NOME_MACRO &lt;chr&gt;,
-## #   UF &lt;chr&gt;, CODIGO_MESO &lt;int&gt;, NOME_MESO &lt;chr&gt;, CODIGO_MICRO &lt;int&gt;, NOME_MICRO &lt;chr&gt;, COD_MUN_TSE &lt;int&gt;,
-## #   COD_MUN_IBGE &lt;int&gt;, QTDE_VOTOS &lt;int&gt;, estado_cidade &lt;chr&gt;
-```
-
 ---
 
 ### Mutate: Operações Matemáticas. 
@@ -821,28 +580,11 @@ pres_rio %&gt;%
   select(QTDE_VOTOS, log_votos)
 ```
 
-```
-## # A tibble: 1,374 x 2
-##    QTDE_VOTOS log_votos
-##         &lt;int&gt;     &lt;dbl&gt;
-##  1       8696      9.07
-##  2      13204      9.49
-##  3        565      6.34
-##  4         34      3.53
-##  5      59499     11.0 
-##  6        662      6.50
-##  7        349      5.86
-##  8         32      3.47
-##  9        998      6.91
-## 10       1909      7.55
-## # … with 1,364 more rows
-```
-
 ---
 
 ## Group_by + Summarize. 
 
-&lt;img src="figs/group_by.png" width="60%" /&gt;
+
 
 ---
 
@@ -857,31 +599,11 @@ pres_rio %&gt;%
   group_by(NUMERO_CANDIDATO) 
 ```
 
-```
-## # A tibble: 1,374 x 19
-## # Groups:   NUMERO_CANDIDATO [13]
-##    ANO_ELEICAO SIGLA_UE NUM_TURNO DESCRICAO_ELEIC… CODIGO_CARGO DESCRICAO_CARGO NUMERO_CANDIDATO CODIGO_MACRO
-##          &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;                      &lt;int&gt;        &lt;int&gt;
-##  1        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    12            3
-##  2        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    13            3
-##  3        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    15            3
-##  4        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    16            3
-##  5        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    17            3
-##  6        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    18            3
-##  7        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    19            3
-##  8        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    27            3
-##  9        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    30            3
-## 10        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    45            3
-## # … with 1,364 more rows, and 11 more variables: NOME_MACRO &lt;chr&gt;, UF &lt;chr&gt;, NOME_UF &lt;chr&gt;, CODIGO_MESO &lt;int&gt;,
-## #   NOME_MESO &lt;chr&gt;, CODIGO_MICRO &lt;int&gt;, NOME_MICRO &lt;chr&gt;, COD_MUN_TSE &lt;int&gt;, COD_MUN_IBGE &lt;int&gt;,
-## #   NOME_MUNICIPIO &lt;chr&gt;, QTDE_VOTOS &lt;int&gt;
-```
-
 ---
 
 ## Summarize.
 
-&lt;img src="figs/summarize.png" width="60%" /&gt;
+
 
 ---
 
@@ -899,25 +621,6 @@ pres_rio %&gt;%
   summarise(voto_estado=sum(QTDE_VOTOS)) %&gt;%
   # Ordena
   arrange(desc(voto_estado))
-```
-
-```
-## # A tibble: 13 x 2
-##    NUMERO_CANDIDATO voto_estado
-##               &lt;int&gt;       &lt;int&gt;
-##  1               17     5107735
-##  2               12     1300292
-##  3               13     1255425
-##  4               51      211444
-##  5               45      208325
-##  6               30      139208
-##  7               18      130794
-##  8               15       77333
-##  9               50       57846
-## 10               19       41544
-## 11               16        6005
-## 12               27        4636
-## 13               54        2806
 ```
 
 ---
@@ -944,14 +647,6 @@ pres_rio %&gt;%
   # Ordena
   arrange(desc(voto_estado))
 ```
-
-```
-## # A tibble: 2 x 2
-##   NUMERO_CANDIDATO voto_estado
-##              &lt;int&gt;       &lt;int&gt;
-## 1               17     5669059
-## 2               13     2673386
-```
 ---
 
 **Total de Votos por Município**
@@ -965,23 +660,6 @@ pres_rio %&gt;%
   group_by(NOME_MUNICIPIO) %&gt;%
   # Somando os votos em todo o estado.
   summarise(voto_mun=sum(QTDE_VOTOS)) 
-```
-
-```
-## # A tibble: 92 x 2
-##    NOME_MUNICIPIO     voto_mun
-##  * &lt;chr&gt;                 &lt;int&gt;
-##  1 Angra dos Reis        88316
-##  2 Aperibé                6680
-##  3 Araruama              64481
-##  4 Areal                  6921
-##  5 Armação dos Búzios    19979
-##  6 Arraial do Cabo       20133
-##  7 Barra do Piraí        48942
-##  8 Barra Mansa           96980
-##  9 Belford Roxo         226785
-## 10 Bom Jardim            14090
-## # … with 82 more rows
 ```
 
 ---
@@ -1001,24 +679,6 @@ pres_rio %&gt;%
             voto_max=max(QTDE_VOTOS))
 ```
 
-```
-## # A tibble: 78 x 5
-## # Groups:   NUMERO_CANDIDATO [13]
-##    NUMERO_CANDIDATO NOME_MESO                       voto_media voto_min voto_max
-##               &lt;int&gt; &lt;chr&gt;                                &lt;dbl&gt;    &lt;int&gt;    &lt;int&gt;
-##  1               12 Baixadas                             4769.     1157    13478
-##  2               12 Centro Fluminense                    2558       403    16254
-##  3               12 Metropolitana do Rio de Janeiro     35187.      702   645674
-##  4               12 Noroeste Fluminense                  1393.      296     4684
-##  5               12 Norte Fluminense                     6909.      798    33042
-##  6               12 Sul Fluminense                       5412.      812    23860
-##  7               13 Baixadas                             4409.     1574    10310
-##  8               13 Centro Fluminense                    2954.     1111    10664
-##  9               13 Metropolitana do Rio de Janeiro     31261.      830   398033
-## 10               13 Noroeste Fluminense                  2789.     1129     8209
-## # … with 68 more rows
-```
-
 ---
 
 ## Desafio
@@ -1034,26 +694,6 @@ pres_rio %&gt;%
   group_by(NUMERO_CANDIDATO) %&gt;%
   # Nova variável somando os votos em todo o estado.
   mutate(voto_estado=sum(QTDE_VOTOS))
-```
-
-```
-## # A tibble: 1,190 x 20
-## # Groups:   NUMERO_CANDIDATO [13]
-##    ANO_ELEICAO SIGLA_UE NUM_TURNO DESCRICAO_ELEIC… CODIGO_CARGO DESCRICAO_CARGO NUMERO_CANDIDATO CODIGO_MACRO
-##          &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;                      &lt;int&gt;        &lt;int&gt;
-##  1        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    12            3
-##  2        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    13            3
-##  3        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    15            3
-##  4        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    16            3
-##  5        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    17            3
-##  6        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    18            3
-##  7        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    19            3
-##  8        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    27            3
-##  9        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    30            3
-## 10        2018 BR               1 ELEIÇÃO GERAL F…            1 PRESIDENTE                    45            3
-## # … with 1,180 more rows, and 12 more variables: NOME_MACRO &lt;chr&gt;, UF &lt;chr&gt;, NOME_UF &lt;chr&gt;, CODIGO_MESO &lt;int&gt;,
-## #   NOME_MESO &lt;chr&gt;, CODIGO_MICRO &lt;int&gt;, NOME_MICRO &lt;chr&gt;, COD_MUN_TSE &lt;int&gt;, COD_MUN_IBGE &lt;int&gt;,
-## #   NOME_MUNICIPIO &lt;chr&gt;, QTDE_VOTOS &lt;int&gt;, voto_estado &lt;int&gt;
 ```
 
 ---
@@ -1077,15 +717,12 @@ dep_rio &lt;- get_candidates(year=2018,
 # Dica: `data %&gt;% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
 ```
 
-
 2 - Qual candidato gastou mais recursos ? (2-3 linhas)
 
 
 3 - Qual valor médio declarado de gastos de campanha de acordo com o gênero dos candidatos? (3 linhas)
 
-<div class="countdown" id="timer_603f9a92" style="right:0;bottom:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+
 
 
 
@@ -1129,28 +766,7 @@ data1 &lt;- tibble(nome=c("A", "B", "C"),
 data2 &lt;- tibble(nome=c("A", "D", "C"), 
                 value2=c(10, 50, 30))
 data1
-```
-
-```
-## # A tibble: 3 x 2
-##   nome  value
-##   &lt;chr&gt; &lt;dbl&gt;
-## 1 A        10
-## 2 B        20
-## 3 C        30
-```
-
-```r
 data2
-```
-
-```
-## # A tibble: 3 x 2
-##   nome  value2
-##   &lt;chr&gt;  &lt;dbl&gt;
-## 1 A         10
-## 2 D         50
-## 3 C         30
 ```
 
 ---
@@ -1158,7 +774,7 @@ data2
 ### left_join()
 
 .pull-left[
-&lt;img src="figs/left-join.gif" width="80%" /&gt;
+
 ]
 
 .pull-right[
@@ -1168,36 +784,19 @@ data2
 left_join(data1, data2)
 ```
 
-```
-## # A tibble: 3 x 3
-##   nome  value value2
-##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 A        10     10
-## 2 B        20     NA
-## 3 C        30     30
-```
-
 ]
 ---
 
 ### inner_join()
 
 .pull-left[
-&lt;img src="figs/inner-join.gif" width="80%" /&gt;
+
 ]
 
 .pull-right[
 
 ```r
 inner_join(data1, data2)
-```
-
-```
-## # A tibble: 2 x 3
-##   nome  value value2
-##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 A        10     10
-## 2 C        30     30
 ```
 ]
 
@@ -1206,23 +805,13 @@ inner_join(data1, data2)
 ## full_join()
 
 .pull-left[
-&lt;img src="figs/full-join.gif" width="80%" /&gt;
+
 ]
 
 .pull-right[
 
 ```r
 full_join(data1, data2)
-```
-
-```
-## # A tibble: 4 x 3
-##   nome  value value2
-##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 A        10     10
-## 2 B        20     NA
-## 3 C        30     30
-## 4 D        NA     50
 ```
 ]
 
@@ -1240,15 +829,6 @@ data3 &lt;- data2 %&gt;%
 
 left_join(data1, data3, 
           by=c("nome"="chave")) # adicione argumento by.
-```
-
-```
-## # A tibble: 3 x 3
-##   nome  value value2
-##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 A        10     10
-## 2 B        20     NA
-## 3 C        30     30
 ```
 
 ---
@@ -1273,9 +853,7 @@ votos &lt;- get_votes(year = 2018, position="President", state="RJ") %&gt;%
 # Join? 
 ```
 
-<div class="countdown" id="timer_603f9a3b" style="right:0;bottom:0;margin:5%;padding:10px;font-size:3em;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+
 
 ---
 
@@ -1293,18 +871,6 @@ Além de juntar bancos de dados usando chaves, podemos concatecar bancos vertica
 bind_rows(data1, data2)
 ```
 
-```
-## # A tibble: 6 x 3
-##   nome  value value2
-##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 A        10     NA
-## 2 B        20     NA
-## 3 C        30     NA
-## 4 A        NA     10
-## 5 D        NA     50
-## 6 C        NA     30
-```
-
 Note: ao conectar por linha, **as colunas precisam ter os mesmos nomes**. Caso não, você adicionará uma nova variável ao resultado final. 
 
 ---
@@ -1314,15 +880,6 @@ Note: ao conectar por linha, **as colunas precisam ter os mesmos nomes**. Caso n
 
 ```r
 bind_cols(data1, data2)
-```
-
-```
-## # A tibble: 3 x 4
-##   nome...1 value nome...3 value2
-##   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
-## 1 A           10 A            10
-## 2 B           20 D            50
-## 3 C           30 C            30
 ```
 
 Note: ao conectar por coluna, **as linhas precisam ter tamanho igual**.

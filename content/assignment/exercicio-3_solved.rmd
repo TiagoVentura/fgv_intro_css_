@@ -5,7 +5,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+knitr::opts_chunk$set(echo = FALSE, eval=FALSE)
 ```
 
 ## Introduções. 
@@ -25,8 +25,13 @@ Divirtam-se.
 Neste exercícios, usaremos o pacote do cepesp para baixar dados eleitorais do Brasil. Portanto, rode o código abaixo para fazer o download dos bancos de dados. 
 
 ```{r}
-library(cepespR)
+# instale caso você não tenha o pacote. 
 
+# if (!require("devtools")) install.packages("devtools")
+# devtools::install_github("Cepesp-Fgv/cepesp-r")
+
+library(cepespR)
+library(tidyverse)
 # Banco Candidatos Brasil inteiro
 candidatos <- get_candidates(year=2018, position="Federal Deputy") %>% 
                 as_tibble()
@@ -46,23 +51,59 @@ Usando o banco de candidatos.
 - Quantos candidatos a deputados concorreram no Brasil em 2018 ?
 
 ```{r}
-# responda aqui.
+
+# Uma linha por candidato. Basta ver o número de linhas. 
+dim(candidatos)
+
+# Ou para confirmar
+n_candidatos <- candidatos %>%
+                    distinct(CPF_CANDIDATO) 
+dim(n_candidatos)
+
+# Você vê aqui que há uma diferença pequena. Algumas entradas estão duplicadas. 
+# isso é um exemplo do quanto você sempre deve checar seu banco! 
+# Ambas as respostas são aceitáveis.
 
 ```
+
+**Resposta: 8562 Candidatos.**
+
 
 - Quantos partidos diferentes lançaram candidatos no Brasil ?
 
 ```{r}
-# responda aqui.
+# Usando group_by
 
+partidos_n <- candidatos %>% 
+              group_by(NUMERO_PARTIDO) %>%
+              summarise(n=n())
+
+# 35 Linhas = 35 partidos.
+
+# Ou Count
+candidatos %>% 
+  count(NUMERO_PARTIDO) 
+
+# Ou distinct
+partidos <- candidatos %>%
+            distinct(NUMERO_PARTIDO)
+  
+length(partidos$NUMERO_PARTIDO)
 ```
+
+**Resposta: 35 Partidos**
 
 - Qual o número de candidatos por Estado ?
 
 ```{r}
-# responda aqui.
+
+candidatos %>%
+  group_by(SIGLA_UF) %>%
+  summarise(n_candidatos=n())
 
 ```
+
+**Resposta: A tabela acima apresenta os resultados**
 
 
 
@@ -73,34 +114,98 @@ Usando o banco de votos para Deputado Federal no Rio de Janeiro.
 - Quantos deputados receberam ao menos um voto ?
 
 ```{r}
-# responda aqui
+votos_mais1 <-votos %>%
+  filter(QTDE_VOTOS > 0) %>%
+  distinct(NUMERO_CANDIDATO)
+
+dim(votos_mais1)
 ```
+
+**Resposta: 1144, incluindo votos de legenda**
+
 
 - Qual o candidato mais bem votado em números absolutos no Estado do Rio de Janeiro ?
 
 ```{r}
-# responda aqui
+votos %>%
+  group_by(NUMERO_CANDIDATO) %>%
+  summarise(votos=sum(QTDE_VOTOS)) %>%
+  arrange(desc(votos))
+
+# Outra solução
+votos %>%
+  group_by(NUMERO_CANDIDATO) %>%
+  summarise(votos=sum(QTDE_VOTOS)) %>%
+  # usando a função top_n
+  top_n(n=1, wt=votos)
+
 ```
+
+**Resposta: Candidato de Número 1720. Como vocês devem lembrar, é o candidato Helio Barbosa do PSL**
+
 
 - Quais os dez partidos com maior proporção de votos no Estado do Rio de Janeiro ?
 
 ```{r}
-# responda aqui.
+# Esta é mais complexa. Para começar, estou criando para vocês a variável partido. 
+votos <- votos %>%
+          # nova variável com os primeiros dois numeros de cada candidato
+          # igual ao número do partido
+          mutate(NR_PARTIDO=str_sub(NUMERO_CANDIDATO, 1, 2)) 
+
+# Daqui pra frente é con vocês
+votos %>%
+  group_by(NR_PARTIDO) %>%
+  summarise(votos_pt=sum(QTDE_VOTOS))
 
 ```
 
-## Questão 3
+## Ponto Extra
 
-Considerando a profissão dos deputados (disponível no banco de candidatos), qual a profissão que recebeu mais votos no Estado  do Rio de Janeiro?
+Para ganhar pontos extras, tente responder estas questões que discutimos rapidamente em sala. 
+
+
+Abra o banco de dados de candidatos a deputado federal no Rio de Janeiro. 
 
 ```{r}
 
-inner_join(candidatos, votos, by=c("SIGLA_UF"="UF", "NUMERO_CANDIDATO")) %>%
-  group_by(DESCRICAO_OCUPACAO) %>%
-  summarise(votos=sum(QTDE_VOTOS)) %>%
-  arrange(desc(votos))
+dep_rio <- get_candidates(year=2018,
+                          position="Federal Deputy") %>%
+           as_tibble()
+```
+
+
+1 - Qual partido elegeu mais deputados? (3 linhas)
+
+```{r}
+# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
 
 ```
+
+2 - Qual candidato gastou mais recursos ? (2-3 linhas)
+
+
+```{r}
+# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
+
+```
+
+3 - Qual valor médio declarado de gastos de campanha de acordo com o gênero dos candidatos? (3 linhas)
+
+
+```{r}
+# Dica: `data %>% filter(COD_SIT_TOT_TURNO==2 | COD_SIT_TOT_TURNO==3) =  filtra somente os eleitos. 
+
+```
+
+
+<!-- ## Questão 3 -->
+
+<!-- Considerando a profissão dos deputados (disponível no banco de candidatos), qual a profissão que recebeu mais votos no Estado  do Rio de Janeiro? -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
 
 
 #### Até a próxima!
