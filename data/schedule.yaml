@@ -23,7 +23,7 @@ lessons:
     date:  "2021-02-10, Quarta"
     class: "04-class"
     reading: "04-reading"
-    assignment: "exercicio-2.html"
+    assignment: "exercicio-2"
 
   - title: "Rmarkdown"
     date: "2021-02-22, Seg"
@@ -44,8 +44,7 @@ lessons:
     date: "2021-03-03, Quarta"
     class: "07-class"
     reading: "07-reading"
-    assignment: "exercicio-3.html"
-
+    assignment: "exercicio-3"
 
   - title: "Visualização de Dados"
     date: "2021-03-08, Seg"
