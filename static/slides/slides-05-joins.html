@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tiago Ventura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução a Métodos Computacionais para Ciência Sociais
+## Intro ao Tidyverse: Joins
+### Tiago Ventura
+### CPDOC-FGV
+
+---
+
+
+
+
+## Semana Passada
+
+1. Introdução ao Tidyverse
+
+2. Dplyr 
+
+## Esta Semana
+
+1. Joins (Ainda no dplyr)
+
+2. Dados Tidy (tidyr)
+
+
+---
+
+
+# Conectando Bancos de Dados com Dplyr. 
+
+Raramente, você encontrará um banco de dados onde todas as informações da sua pesquisa estão contidas e prontas para serem analisadas.  
+
+
+Na maioria dos casos, e por boas razões, bancos de dados possuem informações distintas, e os pesquisadores precisam conectá-los com vistas a construir o material necessário para suas análises. 
+
+Este tipo de dados conectados a partir de várias **tabelas**. E são chamados de **dados relacionais**.  
+
+---
+
+# Exemplo TSE:
+
+Dados eleitorais no Brasil providos pelo TSE, por exemplo, vem com tabelas distintas de informação:
+
+- **Candidatos**: arrecadação, nome, profissão, etc.
+
+- **Votação**: dados de votação por município, zonal, seção eleitoral. 
+
+- **Eleitorado**: perfil dos eleitores registrados no nível da zona eleitoral. 
+
+
+A lógica é de que cada tabela se refere a informações em **unidades distintas.**
+
+---
+
+## Chaves (keys)
+
+São as variáveis capazes de conectar bancos de dados.  Estas **chaves** são, ou devem ser:
+
+- Completas. Nunca tenha missing values nas suas chaves. 
+
+- Únicas: cada observação deve possuir uma chave distinta. Evite sempre duplicações. 
+
+
+---
+class: middle, center, inverse
+
+## Joins
+
+---
+
+Inspirado na linguaguem **SQL**, o dplyr possui um conjunto de funções com foco em conectar bancos de dados distintos. 
+
+Vamos criar dois bancos bem simples para entendermos como estes joins funcionam. 
+
+
+```r
+data1 &lt;- tibble(nome=c("A", "B", "C"), 
+                value=c(10, 20, 30)) 
+data2 &lt;- tibble(nome=c("A", "D", "C"), 
+                value2=c(10, 50, 30))
+data1
+```
+
+```
+## # A tibble: 3 x 2
+##   nome  value
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 A        10
+## 2 B        20
+## 3 C        30
+```
+
+```r
+data2
+```
+
+```
+## # A tibble: 3 x 2
+##   nome  value2
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 A         10
+## 2 D         50
+## 3 C         30
+```
+
+---
+
+### left_join()
+
+.pull-left[
+&lt;img src="figs/left-join.gif" width="80%" /&gt;
+]
+
+.pull-right[
+
+
+```r
+left_join(data1, data2)
+```
+
+```
+## # A tibble: 3 x 3
+##   nome  value value2
+##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 A        10     10
+## 2 B        20     NA
+## 3 C        30     30
+```
+
+]
+---
+
+### inner_join()
+
+.pull-left[
+&lt;img src="figs/inner-join.gif" width="80%" /&gt;
+]
+
+.pull-right[
+
+```r
+inner_join(data1, data2)
+```
+
+```
+## # A tibble: 2 x 3
+##   nome  value value2
+##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 A        10     10
+## 2 C        30     30
+```
+]
+
+---
+
+## full_join()
+
+.pull-left[
+&lt;img src="figs/full-join.gif" width="80%" /&gt;
+]
+
+.pull-right[
+
+```r
+full_join(data1, data2)
+```
+
+```
+## # A tibble: 4 x 3
+##   nome  value value2
+##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 A        10     10
+## 2 B        20     NA
+## 3 C        30     30
+## 4 D        NA     50
+```
+]
+
+---
+
+### Chaves Distintas?
+
+
+```r
+data3 &lt;- data2 %&gt;%
+          # alterando o nome
+          select(chave=nome, everything())
+
+# Join
+
+left_join(data1, data3, 
+          by=c("nome"="chave")) # adicione argumento by.
+```
+
+```
+## # A tibble: 3 x 3
+##   nome  value value2
+##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 A        10     10
+## 2 B        20     NA
+## 3 C        30     30
+```
+
+---
+
+### Múltiplas Chaves
+
+
+```r
+colnames(data2)
+```
+
+```
+## [1] "nome"   "value2"
+```
+
+```r
+colnames(data3)
+```
+
+```
+## [1] "chave"  "value2"
+```
+
+```r
+left_join(data2, data3, 
+          by=c("nome"="chave", "value2")) # adicione argumento by e separe ,
+```
+
+```
+## # A tibble: 3 x 2
+##   nome  value2
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 A         10
+## 2 D         50
+## 3 C         30
+```
+
+
+---
+
+### Desafio
+
+Abra os bancos de dados de candidatos e votos para deputado federal Estado do Rio de Janeiro. Faça um join entre eles, e salve o banco de dados. Responda:
+
+- Considerando a profissão dos deputados (disponível no banco de candidatos), quais asprofissões que receberam mais votos no Estado do Rio de Janeiro ?
+
+
+
+```r
+library(cepespR)
+library(tidyverse)
+# Banco Candidatos Brasil inteiro
+candidatos &lt;- get_candidates(year=2018, position="Federal Deputy") %&gt;% 
+                as_tibble()
+
+# Banco Votos
+votos &lt;- get_votes(year = 2018, position="Federal Deputy", state="RJ") %&gt;%
+            as_tibble()
+```
+
+
+
+
+
+---
+
+
+## Concatenando Bancos de Dados
+
+Além de juntar bancos de dados usando chaves, podemos concatecar bancos verticalmente (pelas linhas) ou horizontalmente (pelas colunas). 
+
+---
+
+### bind_rows: por linhas
+
+
+```r
+bind_rows(data1, data2)
+```
+
+```
+## # A tibble: 6 x 3
+##   nome  value value2
+##   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 A        10     NA
+## 2 B        20     NA
+## 3 C        30     NA
+## 4 A        NA     10
+## 5 D        NA     50
+## 6 C        NA     30
+```
+
+Note: ao conectar por linha, **as colunas precisam ter os mesmos nomes**. Caso não, você adicionará uma nova variável ao resultado final. 
+
+---
+
+### bind_cols: por colunas
+
+
+```r
+bind_cols(data1, data2)
+```
+
+```
+## # A tibble: 3 x 4
+##   nome...1 value nome...3 value2
+##   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+## 1 A           10 A            10
+## 2 B           20 D            50
+## 3 C           30 C            30
+```
+
+Note: ao conectar por coluna, **as linhas precisam ter tamanho igual**.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

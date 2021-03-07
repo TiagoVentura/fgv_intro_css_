@@ -1,0 +1,26 @@
+---
+title: "Introdução do Tidyverse: Joins e Dados Tidy"
+citeproc: true
+menu: 
+  reading:
+    parent: Reading
+    weight: 4
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras
+
+Do nosso livro texto:
+
+- [R for Data Science, Cap 13](https://r4ds.had.co.nz/relational-data.html).
+- [R for Data Science, Cap 12](https://r4ds.had.co.nz/tidy-data.html)
+
+E este artigo mais completo do Hadley Wickham explicando o conceito de dados tidy:
+
+- [Wickham, Hadley. "Tidy data." Journal of statistical software 59.10 2014: 1-23](https://vita.had.co.nz/papers/tidy-data.pdf)
+

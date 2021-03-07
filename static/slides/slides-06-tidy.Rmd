@@ -1,0 +1,303 @@
+---
+title: "Introdução a Métodos Computacionais para Ciência Sociais"
+subtitle: "Intro ao Tidyverse: Dados Tidy"
+author: "Tiago Ventura"
+institute: "CPDOC-FGV"
+date: ""
+output:
+  xaringan::moon_reader:
+    css: ["default", "styles.css", "fontsrladies.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message=FALSE, warning = FALSE, error = FALSE, cache = TRUE)
+
+``` 
+
+
+class: middle, center, inverse
+
+# Dados Tidy
+
+---
+
+# Introdução.
+
+Na semana passada, fizemos nossa primeira imersão no uso de tidyverse para manipulação de banco de dados. 
+
+Hoje daremos um novo passo. Aprenderemos o conceito de **banco de dados tidy**. 
+
+
+Para aprender e praticar sobre bancos de dados tidy, usaremos o pacote `tidyr`. 
+
+---
+
+# Tidy Data.
+
+O nome `tidyverse` vem do conceito de `tidy` data.  Todos os pacotes do tidyverse foram pensados para funcionar com dados organizados de forma tidy. 
+
+As três propriedades mais importantes que definem um banco de dados `tidy` são:
+
+- Cada coluna é uma variável. 
+
+- Cada linha é uma observação. 
+
+- Cada valor em uma linha.
+
+---
+# Visualmente
+
+![](./figs/tidy-1.png)
+
+
+---
+# Vantagens
+
+Estas três simples definições trazem diversas vantagens:
+
+- Uma forma consistente para organizar nossos bancos de dados. 
+
+- Salvar uma variável por coluna facilita operações de manipulação (R trabalha melhor com vetores em coluna). 
+
+- Integra com outros pacotes do `tidyverse`
+
+
+---
+
+## Dados Tidy: Gapminder
+
+```{r}
+library(gapminder)
+gapminder 
+```
+
+---
+
+## Tidy vs Untidy
+
+
+```{r out.width="30%", echo=FALSE}
+knitr::include_graphics("figs/untidy.png")
+```
+
+---
+
+## Untidy: Dados Abertos.
+
+Dados untidy são em geral chamados de banco de dados abertos (*wide* em inglês). 
+Vejamos um exemplo:
+
+```{r}
+wide <- tibble(pais=c("Brasil", "Uruguai", "Chile"), 
+               pres_ano_2010= c("Lula", "Mujica", "Pinera"), 
+               pres_ano_2014=c("Dilma", "Tabare", "Bachelet"), 
+               pres_ano_2018=c("Temer", "Lacalle", "Pinera"))
+wide
+```
+
+---
+
+## Desafio
+
+### Tidy ou Untidy
+
+```{r}
+tab <- tibble(pais=c("Brasil", "Uruguai", "Argentina"),
+       i_2010 = c(5, 1, 2), 
+       i_2014 = c(10, 9, 9),
+       i_2018 = c(0, 1, 2))
+tab 
+```
+
+---
+
+### Tidy ou Untidy
+
+```{r}
+tab1 <- tibble(pais=c("Brasil", "Argentina"),
+       ano = c(2020, 2020),
+       presidente_vice = c("Bolsonaro-Mourão", "Fernandez-Kirchner"))
+
+tab1 
+```
+
+---
+
+### Tidy ou Untidy
+
+```{r}
+tab2 <- tibble(pais=c("Brasil", "Brasil",  "Argentina", "Argentina"),
+       ano = c(2020, 2020, 2020, 2020), 
+       covid = c("Casos", "Vacinas", "Casos", "Vacinas"), 
+       numero= c(10500000, 6535363, 2100000, 1800000))
+tab2
+```
+
+---
+
+# tidyr
+
+Vamos usar `tidyr` para tranformar nossos dados de um formato untidy->tidy, e vice-versa.
+
+Quatro funções principais
+
+- `pivot_longer()`
+
+- `pivot_wider()`
+
+- `separate()`
+
+- `unite()`
+
+---
+
+## pivot_longer (Várias Colunas -> Uma Longa Coluna)
+
+![](./figs/gather.png)
+
+
+A função `pivot_longer` possui três inputs principais:
+
+- `cols`: as variáveis que você pretende empilhar.
+- `names_to`: nome da colunas para a nova variável. 
+- `values_to`: nome da coluna para os valores da nova variável. 
+
+---
+
+## Exemplo
+
+```{r}
+# Antes = Wide - Aberto. Variáveis Espalhadas nas Colunas.
+wide
+
+# Rodando
+
+wide %>%
+  pivot_longer(cols=c(pres_ano_2010, pres_ano_2014, 
+                      pres_ano_2018), 
+               names_to="presidente_ano", 
+               values_to="presidente")
+
+```
+
+---
+
+### Mais um exemplo:
+
+```{r}
+
+tab %>%
+  pivot_longer(cols = c(starts_with("i")), 
+               names_to="t", 
+               values_to="values")
+
+```
+
+---
+
+## pivot_wider (Abrindo Uma Colunas -> Várias)
+
+
+```{r out.width="80%", echo=FALSE}
+knitr::include_graphics("./figs/spread.png")
+```
+
+
+### Uso Básico:
+
+A função `pivot_wider` possui dois inputs principais:
+
+- `names_from`: nome da coluna com variáveis que será aberta. 
+- `values_from`: nome da coluna  com valores que será aberta. 
+
+---
+
+## Exemplo
+
+```{r}
+# Veja os dados
+tab2
+
+# tidying
+tab2 %>%
+  pivot_wider(names_from=covid, 
+              values_from=numero)
+```
+---
+
+## Exemplo II: Preenchendo NAs
+
+```{r}
+# Veja os dados
+tab2 <- tab2 %>%
+        add_row(pais="Uruguai", 
+                ano=2020, 
+                covid="Casos", 
+                numero=8919)
+```
+
+--
+
+.pull-left[
+
+### Com Missings.
+
+```{r}
+# tidying Com Missings
+tab2 %>%
+  pivot_wider(names_from=covid, 
+              values_from=numero)
+
+```
+
+]
+
+--
+.pull-right[
+
+### Preenchendo Missings.
+
+```{r}
+
+# tidying Com Missings
+tab2 %>%
+  pivot_wider(names_from=covid, 
+              values_from=numero, 
+              values_fill=0) #<<
+
+```
+
+]
+--
+
+---
+## Separate e Unite
+
+Para concluir, vamos aprender a usar as funções `separate()` e `unite()`. 
+
+
+Ambas servem para separar ou agrupar colunas de forma bastante intuitiva. Por exemplo:
+
+```{r}
+tab1
+
+tab1 %>%
+  separate(presidente_vice, into=c("presidente", "vice"), 
+                            sep="-")
+```
+
+---
+
+class:middle, inverse, center
+
+## Porque devo aprender isso tudo? 
+
+---
+
+
+

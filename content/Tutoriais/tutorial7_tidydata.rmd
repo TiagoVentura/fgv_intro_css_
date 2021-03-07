@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 7: Bancos de Dados Tidy"
+title: "Tutorial 8: Bancos de Dados Tidy"
 output:
     rmdformats::robobook:
       code_folding: show
@@ -22,21 +22,21 @@ knitr::opts_chunk$set(echo = TRUE,
 
 Na semana passada, fizemos nossa primeira imersão no uso de tidyverse para manipulação de banco de dados. Hoje daremos um novo passo. Aprenderemos o conceito de banco de dados tidy, e como colocar nosso banco de dados neste formato. 
 
-Para aprender e praticar sobre bancos de dados tidy, usaremos o pacote `tidyr`. E o banco de dados `gapminder`. 
+Para aprender e praticar sobre bancos de dados tidy, usaremos o pacote `tidyr`. 
 
 
-## Gapminder
+<!-- ## Gapminder -->
 
-O Gapminder é um banco de dados com informações socio-demográficas por país e ano. É bem simples e útil para manipulação e visualização de dados. 
+<!-- O Gapminder é um banco de dados com informações socio-demográficas por país e ano. É bem simples e útil para manipulação e visualização de dados.  -->
 
-```{r eval=FALSE}
-install.packages("gapminder")
-```
+<!-- ```{r eval=FALSE} -->
+<!-- install.packages("gapminder") -->
+<!-- ``` -->
 
-```{r}
-library(gapminder)
-gapminder
-```
+<!-- ```{r} -->
+<!-- library(gapminder) -->
+<!-- gapminder -->
+<!-- ``` -->
 
 
 # Tidy Data.

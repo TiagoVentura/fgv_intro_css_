@@ -35,84 +35,82 @@ lessons:
     class: "06-class"
     reading: "06-reading"
 
-  - title: "Manipulação de Dados: Tidyverse I (Dplyr)"
+  - title: "Manipulação de Dados: Tidyverse I (Intro)"
     date: "2021-03-01, Seg"
     class: "07-class"
     reading: "07-reading"
 
-  - title: "Manipulação de Dados: Tidyverse II (Joins)"
+  - title: "Manipulação de Dados: Tidyverse II (Dplyr)"
     date: "2021-03-03, Quarta"
     class: "07-class"
     reading: "07-reading"
     assignment: "exercicio-3"
 
-  - title: "Visualização de Dados"
+  - title: "Manipulação de Dados: Tidyverse III (Joins)"
     date: "2021-03-08, Seg"
-    #reading: "03-reading"
-    #class: "tidy2-class"
+    class: "08-class"
+    reading: "08-reading"
 
-  - title: "Visualização de Dados: Hands-on"
+  - title: "Manipulação de Dados: Tidyverse III (Tidy Data)"
     date: "2021-03-10, Quarta"
-    #reading: "04-reading"
-    #class: "tidy1-class"
+    class: "08-class"
+    reading: "08-reading"
 
-  - title: "Programação Funcional em R"
+  - title: "Visualização de Dados I"
     date: "2021-03-15, Seg"
     #reading: "11-reading"
     #class: "corr1-class"
 
-  - title: "Programação Funcional em R: Hands-on"
+  - title: "Visualização de Dados II"
     date:  "2021-03-17, Quarta"
 
-  - title: "Raspagem de Dados I: Raspando Websites"
+
+  - title: "Programação Funcional em R"
     date: "2021-03-22, Seg"
     #reading: "11-reading"
     #class: "corr1-class"
 
+  - title: "Programação Funcional em R: Hands-on"
+    date:  "2021-03-24, Quarta"
+
   - title: "Raspagem de Dados I: Raspando Websites"
-    date:  "2021-03-24, Thu"
+    date: "2021-03-29, Seg"
+    #reading: "11-reading"
+    #class: "corr1-class"
+
+  - title: "Raspagem de Dados I: Raspando Websites"
+    date:  "2021-03-31, Thu"
 
   - title: "Raspagem de Dados II: APIs"
-    date: "2021-03-29, Tue"
+    date: "2021-04-19, Tue"
     #reading: "11-reading"
     #class: "corr1-class"
 
   - title: "Raspagem de Dados II: APIs"
-    date:  "2021-03-31, Thu"
+    date:  "2021-04-21, Thu"
 
   - title: '<i class="fas fa-star"></i> **Semana A1: Sem Aula**'
     date: ""
 
   - title: '<span class="fake-header-table">Ciência Social Computacional: Artigos Aplicados</span>'
 
+  - title: "Research Speed Dating"
+    date:  "2021-04-28"
+
   - title: "Análise de Dados de Mídias Sociais"
-    date: "2021-04-19, Seg"
+    date: "2021-05-03, Seg"
     #reading: "11-reading"
     #class: "corr1-class"
 
   - title: "Aplicações: API do Twitter, Mapping News, Escalonamento"
-    date:  "2021-04-26, Seg"
+    date:  "2021-05-05, Seg"
 
-
-  - title: "Experimentos sobre mídias digitais"
-    date: "2021-04-28, Quarta"
-    #reading: "11-reading"
-    #class: "corr1-class"
-
-  - title: "Aplicações: Intro a experimento, randomização. "
-    date:  "2021-05-03, Seg"
-
-  - title: "Recrutamento para Surveys On-line"
-    date: "2021-05-05, Quarta"
-    #reading: "11-reading"
-    #class: "corr1-class"
-
-  - title: " Experimento Digitais de Campo"
+  - title: " Experimentos e Experimentos Digitais de Campo"
     date: "2021-05-10, Seg"
     #reading: "11-reading"
     #class: "corr1-class"
 
-  - title: "Aplicações: Robôs no Twitter, Facebook Ads, Mturk."
+  - title: "Aplicações: Experimentos, Robôs no Twitter, Facebook Ads, Mturk."
     date:  "2021-05-12, Quarta"
 
   - title: "Análise de Texto: Visão Geral"
@@ -133,10 +131,10 @@ lessons:
     #reading: "11-reading"
     #class: "corr1-class"
 
-  - title: '<span class="fake-header-table">Projeto Final</span>'
-
-  - title: "Research Speed Dating"
+  - title: "Bias Algoríthmico e Antropologia Digital"
     date:  "2021-05-31 e 2021-06-02"
+
+  - title: '<span class="fake-header-table">Projeto Final</span>'
 
   - title: "Mãos a obra"
     date:  "2021-06-07 e 2021-06-09"

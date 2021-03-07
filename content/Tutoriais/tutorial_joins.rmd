@@ -1,0 +1,171 @@
+---
+title: "Tutorial 7: Intro ao Tidyverse II: Joins"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      message=FALSE,
+                      warning=FALSE , 
+                      error=TRUE, 
+                      cache=TRUE)
+```
+
+# Introdução: Conectando Bancos de Dados com Dplyr. 
+
+Raramente, você encontrará um banco de dados onde todas as informações da sua pesquisa estão contidas e prontas para serem analisadas.  
+
+Na maioria dos casos, e por boas razões, bancos de dados possuem informações distintas e complementares, e os pesquisadores precisam conectá-los com vistas a construir o material necessário para suas análises. 
+
+Este tipo de dados conectados a partir de várias tabelas são chamados de **dados relacionais**.  Dados eleitorais no Brasil providos pelo TSE, por exemplo, vem com pedaços distintos de informação, que podem, a depender dos objetivos de sua análise, ser conectados. De forma mais concreta, estes são alguns exemplos de bancos disponíveis no TSE:
+
+- **Candidatos**: arrecadação, nome, profissão, etc.
+
+- **Votação**: dados de votação por município, zonal, seção eleitoral. 
+
+- **Eleitorado**: perfil dos eleitores registrados no nível da zona eleitoral. 
+
+## Chaves (keys)
+
+Ainda nos casos dos bancos de dados do TSE, por exemplo, usando o número do candidato e a unidade eleitoral é possível conectar os bancos de **candidatos** e **votação**, ou usando o número da zona eleitoral por município, conectar **votação** e **eleitorado**. A partir dessa conexão, nossas análises ficam mais completes e interessantes. 
+
+Estas variáveis capazes de conectar bancos de dados são chamadas **chaves**.  Estas **chaves** devem ser:
+
+- Completas. Nunca tenha missing values nas suas chaves. 
+
+- Únicas: cada observação deve possuir uma chave distinta. Evite sempre duplicações. 
+
+# Joins
+
+Inspirado na linguaguem **SQL**, o dplyr possui um conjunto de funções com foco em conectar bancos de dados distintos. 
+
+Vamos criar dois bancos bem simples para entendermos como estes joins funcionam. 
+
+```{r}
+library(tidyverse)
+data1 <- tibble(nome=c("A", "B", "C"), 
+                value=c(10, 20, 30)) 
+data2 <- tibble(nome=c("A", "D", "C"), 
+                value2=c(10, 50, 30))
+```
+
+### left_join()
+
+```{r echo=FALSE,out.width="60%"}
+knitr::include_graphics("figs/left-join.gif")
+```
+
+```{r}
+left_join(data1, data2)
+```
+
+### inner_join()
+
+```{r echo=FALSE,out.width="60%"}
+knitr::include_graphics("figs/inner-join.gif")
+```
+
+```{r}
+inner_join(data1, data2)
+
+```
+
+### full_join()
+
+```{r echo=FALSE,out.width="60%"}
+knitr::include_graphics("figs/full-join.gif")
+```
+
+```{r}
+full_join(data1, data2)
+
+```
+
+### Chaves Distintas?
+
+Em inúmeros casos, os bancos que precisamos conectar terá nomes diferentes. Este problema é fácil de resolver. É preciso adicionar o argumento dos nomes, e ajudar as funções joins a fazerem seu serviço. 
+
+```{r}
+data3 <- data2 %>%
+          # alterando o nome
+          select(chave=nome, everything())
+
+# Join
+
+left_join(data1, data3, 
+          by=c("nome"="chave")) # adicione argumento by.
+
+```
+
+### Múltiplas Chaves
+
+A lógica para múltiplas chaves é semelhante: precisamos específicar seus nomes na função by. 
+
+```{r}
+data3 <- data2 %>%
+          # alterando o nome
+          select(nome, value=value2)
+
+left_join(data1, data3, by=c("nome", "value"))
+```
+
+
+### Desafio
+
+Abra os bancos de dados de candidatos e votos do TSE. Faça um join entre eles, e salve o banco de dados.
+
+- Quantas linhas este novo banco de dados possuí?
+
+- Explique o número de linhas. 
+
+```{r}
+# Banco Candidatos
+candidatos <- get_candidates(year=2018, position="President") %>% 
+                as_tibble()
+
+# Banco Votos
+votos <- get_votes(year = 2018, position="President", state="RJ") %>%
+            as_tibble()
+# Join? 
+```
+
+```{r echo=FALSE, eval=FALSE}
+cand_votes <- left_join(candidatos, votos, by=c("NUM_TURNO", "NUMERO_CANDIDATO"))
+
+glimpse(cand_votes)
+```
+
+
+# Concatenando Bancos de Dados
+
+Além de juntar bancos de dados usando chaves, podemos concatecar bancos verticalmente (pelas linhas) ou horizontalmente (pelas colunas). 
+
+### bind_rows: por linhas
+
+```{r}
+bind_rows(data1, data2)
+```
+
+Note: ao conectar por linha, **as colunas precisam ter os mesmos nomes**. Caso não, você adicionará uma nova variável ao resultado final. 
+
+
+### bind_cols: por colunas
+
+```{r}
+bind_cols(data1, data2)
+```
+
+Note: ao conectar por coluna, **as linhas precisam ter tamanho igual**.
+
+## Exercícios!
+
+No site do curso, estão disponíveis os exercícios da semana. Vamos praticar!
+

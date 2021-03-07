@@ -1,0 +1,37 @@
+---
+title: "Aula 9-10: Introdução ao Tidyverse II: Joins e Dados Tidy"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais 
+
+Continuaremos nossas aulas sobre sobre manipulação, preparação e limpeza de bancos de dados.
+
+Esta semana, focaremos em: 
+
+- Joins - Como juntar bancos de dados. 
+
+- Tidy - Como organizar nossos bancos de dados. 
+
+## Tutoriais
+
+Tutorial 7: Introdução ao Tidyverse: Joins. [(HTML)](/Tutoriais/tutorial_joins.html) / [(RMarkdown)](/Tutoriais/tutorial_joins.rmd)
+
+
+Tutorial 8: Introdução ao Tidyverse: Dados Tidy. [(HTML)](/Tutoriais/tutorial7_tidydata.html) / [(RMarkdown)](/Tutoriais/tutorial7_tidydata.rmd)
+
+## Slides
+
+[Slides: Joins](/slides/slides-05-joins.html)
+
+[Slides: Tidy](/slides/slides-06-tidy.html)

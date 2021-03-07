@@ -24,7 +24,7 @@ Divirtam-se.
 
 Neste exercícios, usaremos o pacote do cepesp para baixar dados eleitorais do Brasil. Portanto, rode o código abaixo para fazer o download dos bancos de dados. 
 
-```{r}
+```{r eval=FALSE}
 # instale caso você não tenha o pacote. 
 
 # if (!require("devtools")) install.packages("devtools")
