@@ -27,8 +27,8 @@ Neste exercícios, usaremos o pacote do cepesp para baixar dados eleitorais do B
 ```{r eval=FALSE}
 # instale caso você não tenha o pacote. 
 
-# if (!require("devtools")) install.packages("devtools")
-# devtools::install_github("Cepesp-Fgv/cepesp-r")
+if (!require("devtools")) install.packages("devtools")
+devtools::install_github("Cepesp-Fgv/cepesp-r")
 
 library(cepespR)
 library(tidyverse)
@@ -114,9 +114,13 @@ Usando o banco de votos para Deputado Federal no Rio de Janeiro.
 - Quantos deputados receberam ao menos um voto ?
 
 ```{r}
-votos_mais1 <-votos %>%
-  filter(QTDE_VOTOS > 0) %>%
-  distinct(NUMERO_CANDIDATO)
+
+votos <- get_votes(year = 2018, position="Federal Deputy", state="RJ") %>%
+            as_tibble()
+
+votos_mais1 <- votos %>%
+                 filter(QTDE_VOTOS > 0) %>%
+                 distinct(NUMERO_CANDIDATO)
 
 dim(votos_mais1)
 ```
@@ -127,6 +131,7 @@ dim(votos_mais1)
 - Qual o candidato mais bem votado em números absolutos no Estado do Rio de Janeiro ?
 
 ```{r}
+
 votos %>%
   group_by(NUMERO_CANDIDATO) %>%
   summarise(votos=sum(QTDE_VOTOS)) %>%
@@ -153,7 +158,7 @@ votos <- votos %>%
           # igual ao número do partido
           mutate(NR_PARTIDO=str_sub(NUMERO_CANDIDATO, 1, 2)) 
 
-# Daqui pra frente é con vocês
+# Daqui pra frente é com vocês
 votos %>%
   group_by(NR_PARTIDO) %>%
   summarise(votos_pt=sum(QTDE_VOTOS)) %>%
@@ -200,14 +205,6 @@ dep_rio %>%
 
 ```
 
-
-<!-- ## Questão 3 -->
-
-<!-- Considerando a profissão dos deputados (disponível no banco de candidatos), qual a profissão que recebeu mais votos no Estado  do Rio de Janeiro? -->
-
-<!-- ```{r} -->
-
-<!-- ``` -->
 
 
 #### Até a próxima!

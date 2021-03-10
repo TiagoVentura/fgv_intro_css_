@@ -1,0 +1,132 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 4"
+author: "Tiago Ventura"
+output: html_document
+date: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE )
+```
+
+## Introduções. 
+  
+Seguimos com nossas instruções. 
+
+- Entrega dos exercícios até sexta-feira, meia noite. 
+
+- Entrega com documento em formato pdf. 
+
+- Entrega via slack. 
+
+Divirtam-se. 
+
+## Banco de dados
+
+Neste exercícios, usaremos mais uma vez o pacote do cepesp para baixar dados eleitorais do Brasil. Portanto, rode o código abaixo para fazer o download dos bancos de dados. 
+
+Estamos utilizando os dados de candidatos e de declaração de bens. Ambos no nível do Rio de Janeiro.
+
+```{r}
+# instale caso você não tenha o pacote. 
+
+# if (!require("devtools")) install.packages("devtools")
+# devtools::install_github("Cepesp-Fgv/cepesp-r")
+
+library(cepespR)
+library(tidyverse)
+# Banco Votos Deputado
+candidatos <- get_candidates(year=2018, position="Federal Deputy") %>% 
+                as_tibble()
+
+# Banco Bens Candidatos
+bens <- get_assets(year = 2018, state = "RJ")   %>%
+                as_tibble()
+```
+
+## Questão 1.
+
+Usando o banco bens. 
+
+- Agregue o banco de dados e crie um novo banco com a soma do valor dos bens declarados por candidato.
+
+```{r}
+# Dica: Use este código para limpar a variável VALOR_BEM. Tente entender o que estou fazendo neste código. 
+bens <- bens %>%
+  mutate(VALOR_BEM=str_remove_all(VALOR_BEM, "\\."), 
+         VALOR_BEM=str_replace_all(VALOR_BEM, ",", "\\."), 
+         VALOR_BEM=parse_number(VALOR_BEM)       ) %>%
+
+# responda o restante aqui.
+
+```
+
+- Faça um merge entre o banco de candidatos e o seu nome banco de bens declarados
+
+```{r}
+# Dica: O banco de candidatos é nacional e o de bens é estadual
+# Dica II: O banco final terá alguns missings. Não se preocupe com isso. 
+
+# responda aqui.
+
+```
+
+## Questão 2
+
+Usando este novo banco, responda:
+
+- Qual candidato declarou mais bens?
+
+```{r}
+# responda aqui.
+
+```
+
+- Qual partido possui em números absolutos maior declaração de bens?
+
+```{r}
+# Dica= Use sum(x, na.rm=TRUE) para fazer somas desconsiderando os valores missings
+
+# responda aqui
+```
+
+
+- Quem declara mais bens, homens ou mulheres?
+```{r}
+# Responda aqui
+```
+
+
+## Questão 2
+
+Usando o banco de dados *billboard* do pacote `tidyr`, responda:
+
+```{r}
+library(tidyr)
+construction
+# responda aqui
+```
+
+- Este banco de dados está no formato tidy? Sim ou não? E porquê?
+
+- Caso você responda que este banco de dados não está no formato tidy, use `pivot_longer()` para converter este banco de dados para tidy. 
+
+```{r}
+
+# Dica: A solução mais intuitiva irá usar pivot_longer duas vezes. 
+
+# Responda
+
+
+```
+
+## Ponto Extra
+
+Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados *fishencounters* abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)
+
+```{r}
+fish_encounters
+
+# responda aqui
+
+```

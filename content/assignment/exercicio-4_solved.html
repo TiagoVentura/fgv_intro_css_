@@ -1,0 +1,124 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 4"
+author: "Tiago Ventura"
+output: html_document
+date: ""
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="introduções." class="section level2">
+<h2>Introduções.</h2>
+<p>Seguimos com nossas instruções.</p>
+<ul>
+<li><p>Entrega dos exercícios até sexta-feira, meia noite.</p></li>
+<li><p>Entrega com documento em formato pdf.</p></li>
+<li><p>Entrega via slack.</p></li>
+</ul>
+<p>Divirtam-se.</p>
+</div>
+<div id="banco-de-dados" class="section level2">
+<h2>Banco de dados</h2>
+<p>Neste exercícios, usaremos mais uma vez o pacote do cepesp para baixar dados eleitorais do Brasil. Portanto, rode o código abaixo para fazer o download dos bancos de dados.</p>
+<p>Estamos utilizando os dados de candidatos e de declaração de bens. Ambos no nível do Rio de Janeiro.</p>
+<pre class="r"><code># instale caso você não tenha o pacote. 
+
+# if (!require(&quot;devtools&quot;)) install.packages(&quot;devtools&quot;)
+# devtools::install_github(&quot;Cepesp-Fgv/cepesp-r&quot;)
+
+library(cepespR)
+library(tidyverse)
+# Banco Votos Deputado
+candidatos &lt;- get_candidates(year=2018, position=&quot;Federal Deputy&quot;) %&gt;% 
+                as_tibble()
+
+# Banco Bens Candidatos
+bens &lt;- get_assets(year = 2018, state = &quot;RJ&quot;)   %&gt;%
+                as_tibble()</code></pre>
+</div>
+<div id="questão-1." class="section level2">
+<h2>Questão 1.</h2>
+<p>Usando o banco bens.</p>
+<ul>
+<li>Agregue o banco de dados e crie um novo banco com a soma do valor dos bens declarados por candidato.</li>
+</ul>
+<pre class="r"><code>bens &lt;- bens %&gt;%
+  mutate(VALOR_BEM=str_remove_all(VALOR_BEM, &quot;\\.&quot;), 
+         VALOR_BEM=str_replace_all(VALOR_BEM, &quot;,&quot;, &quot;\\.&quot;)) 
+
+
+# responda aqui.
+
+bens_agg &lt;- bens %&gt;%
+              group_by(SIGLA_UF, CODIGO_CARGO, DESCRICAO_CARGO, NUMERO_CANDIDATO, CPF_CANDIDATO)%&gt;%
+              summarise(bens_total=sum(parse_number(VALOR_BEM))) %&gt;%
+              filter(CODIGO_CARGO==6)
+candidatos %&gt;%
+  filter(CODIGO_CARGO==6, SIGLA_UF==&quot;RJ&quot;) %&gt;%
+  distinct(NUMERO_CANDIDATO)</code></pre>
+<ul>
+<li>Faça um merge entre o banco de candidatos e o seu nome banco de bens declarados</li>
+</ul>
+<pre class="r"><code>candidatos &lt;- candidatos 
+bens_agg %&gt;% filter(NUMERO_CANDIDATO==1002)
+candidatos %&gt;% filter(SIGLA_UF==&quot;RJ&quot;, NUMERO_CANDIDATO==1010) %&gt;% select(SIGLA_UF, CODIGO_CARGO,NUMERO_CANDIDATO, CPF_CANDIDATO)
+# responda aqui.
+
+join_banco &lt;- left_join(candidatos, bens_agg, by=c(&quot;SIGLA_UF&quot;, &quot;CODIGO_CARGO&quot;, 
+                                      &quot;NUMERO_CANDIDATO&quot;, 
+                                     &quot;CPF_CANDIDATO&quot;)) %&gt;%
+              filter(SIGLA_UF==&quot;RJ&quot;)</code></pre>
+</div>
+<div id="questão-2" class="section level2">
+<h2>Questão 2</h2>
+<p>Usando este novo banco, responda:</p>
+<ul>
+<li>Qual candidato declarou mais bens?</li>
+</ul>
+<pre class="r"><code># responda aqui.
+join_banco %&gt;% arrange(desc(bens_total)) %&gt;%
+  select(bens_total, NOME_URNA_CANDIDATO)</code></pre>
+<ul>
+<li>Qual partido possui em números absolutos maior declaração de bens?</li>
+</ul>
+<pre class="r"><code># responda aqui
+join_banco %&gt;%
+  group_by(NUMERO_PARTIDO) %&gt;%
+  summarise(total_pt=sum(bens_total, na.rm = TRUE)) %&gt;%
+  arrange(desc(total_pt))</code></pre>
+<ul>
+<li>Quem declara mais bens, homens ou mulheres?</li>
+</ul>
+</div>
+<div id="questão-2-1" class="section level2">
+<h2>Questão 2</h2>
+<p>Usando o banco de dados <em>billboard</em> do pacote <code>tidyr</code>, responda:</p>
+<pre class="r"><code>library(tidyr)
+construction
+# responda aqui</code></pre>
+<ul>
+<li><p>Este banco de dados está no formato tidy? Sim ou não? E porquê?</p></li>
+<li><p>Caso você responda que este banco de dados não está no formato tidy, use <code>pivot_longer()</code> para converter este banco de dados para tidy.</p></li>
+</ul>
+<pre class="r"><code># Dica: A solução mais intuitiva irá usar pivot_longer duas vezes. 
+construction %&gt;%
+  pivot_longer(cols=contains(&quot;unit&quot;), 
+               names_to=&quot;units&quot;, 
+               values_to=&quot;units_value&quot;) %&gt;%
+  pivot_longer(cols=3:6, 
+               names_to=&quot;region&quot;, 
+               values_to=&quot;region_values&quot;) 
+
+# Responda</code></pre>
+</div>
+<div id="ponto-extra" class="section level2">
+<h2>Ponto Extra</h2>
+<p>Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados <em>fishencounters</em> abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)</p>
+<pre class="r"><code>fish_encounters
+fish_encounters %&gt;%
+  pivot_wider(names_from = &quot;station&quot;, 
+              values_from=&quot;seen&quot;, 
+              values_fill=0)
+# responda aqui</code></pre>
+</div>

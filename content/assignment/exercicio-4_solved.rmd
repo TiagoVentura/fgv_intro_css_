@@ -1,0 +1,153 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 4"
+author: "Tiago Ventura"
+output: html_document
+date: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE )
+```
+
+## Introduções. 
+  
+Seguimos com nossas instruções. 
+
+- Entrega dos exercícios até sexta-feira, meia noite. 
+
+- Entrega com documento em formato pdf. 
+
+- Entrega via slack. 
+
+Divirtam-se. 
+
+## Banco de dados
+
+Neste exercícios, usaremos mais uma vez o pacote do cepesp para baixar dados eleitorais do Brasil. Portanto, rode o código abaixo para fazer o download dos bancos de dados. 
+
+Estamos utilizando os dados de candidatos e de declaração de bens. Ambos no nível do Rio de Janeiro.
+
+```{r}
+# instale caso você não tenha o pacote. 
+
+# if (!require("devtools")) install.packages("devtools")
+# devtools::install_github("Cepesp-Fgv/cepesp-r")
+
+library(cepespR)
+library(tidyverse)
+# Banco Votos Deputado
+candidatos <- get_candidates(year=2018, position="Federal Deputy") %>% 
+                as_tibble()
+
+# Banco Bens Candidatos
+bens <- get_assets(year = 2018, state = "RJ")   %>%
+                as_tibble()
+```
+
+## Questão 1.
+
+Usando o banco bens. 
+
+- Agregue o banco de dados e crie um novo banco com a soma do valor dos bens declarados por candidato.
+
+```{r}
+
+bens <- bens %>%
+  mutate(VALOR_BEM=str_remove_all(VALOR_BEM, "\\."), 
+         VALOR_BEM=str_replace_all(VALOR_BEM, ",", "\\.")) 
+
+
+# responda aqui.
+
+bens_agg <- bens %>%
+              group_by(SIGLA_UF, CODIGO_CARGO, DESCRICAO_CARGO, NUMERO_CANDIDATO, CPF_CANDIDATO)%>%
+              summarise(bens_total=sum(parse_number(VALOR_BEM))) %>%
+              filter(CODIGO_CARGO==6)
+candidatos %>%
+  filter(CODIGO_CARGO==6, SIGLA_UF=="RJ") %>%
+  distinct(NUMERO_CANDIDATO)
+```
+
+- Faça um merge entre o banco de candidatos e o seu nome banco de bens declarados
+
+```{r}
+candidatos <- candidatos 
+bens_agg %>% filter(NUMERO_CANDIDATO==1002)
+candidatos %>% filter(SIGLA_UF=="RJ", NUMERO_CANDIDATO==1010) %>% select(SIGLA_UF, CODIGO_CARGO,NUMERO_CANDIDATO, CPF_CANDIDATO)
+# responda aqui.
+
+join_banco <- left_join(candidatos, bens_agg, by=c("SIGLA_UF", "CODIGO_CARGO", 
+                                      "NUMERO_CANDIDATO", 
+                                     "CPF_CANDIDATO")) %>%
+              filter(SIGLA_UF=="RJ")
+                    
+```
+
+## Questão 2
+
+Usando este novo banco, responda:
+
+- Qual candidato declarou mais bens?
+
+```{r}
+# responda aqui.
+join_banco %>% arrange(desc(bens_total)) %>%
+  select(bens_total, NOME_URNA_CANDIDATO)
+```
+
+- Qual partido possui em números absolutos maior declaração de bens?
+
+```{r}
+
+# responda aqui
+join_banco %>%
+  group_by(NUMERO_PARTIDO) %>%
+  summarise(total_pt=sum(bens_total, na.rm = TRUE)) %>%
+  arrange(desc(total_pt))
+```
+
+
+- Quem declara mais bens, homens ou mulheres?
+
+## Questão 2
+
+Usando o banco de dados *billboard* do pacote `tidyr`, responda:
+
+```{r}
+library(tidyr)
+construction
+# responda aqui
+```
+
+- Este banco de dados está no formato tidy? Sim ou não? E porquê?
+
+- Caso você responda que este banco de dados não está no formato tidy, use `pivot_longer()` para converter este banco de dados para tidy. 
+
+```{r}
+
+# Dica: A solução mais intuitiva irá usar pivot_longer duas vezes. 
+construction %>%
+  pivot_longer(cols=contains("unit"), 
+               names_to="units", 
+               values_to="units_value") %>%
+  pivot_longer(cols=3:6, 
+               names_to="region", 
+               values_to="region_values") 
+
+# Responda
+
+```
+
+## Ponto Extra
+
+Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados *fishencounters* abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)
+
+```{r}
+fish_encounters
+fish_encounters %>%
+  pivot_wider(names_from = "station", 
+              values_from="seen", 
+              values_fill=0)
+# responda aqui
+
+```
