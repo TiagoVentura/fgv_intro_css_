@@ -122,7 +122,7 @@ construction
 
 ## Ponto Extra
 
-Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados *fishencounters* abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)
+Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados *fish_counters* abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)
 
 ```{r}
 fish_encounters
