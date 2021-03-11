@@ -99,7 +99,7 @@ Usando este novo banco, responda:
 
 ## Questão 2
 
-Usando o banco de dados *billboard* do pacote `tidyr`, responda:
+Usando o banco de dados *construction* do pacote `tidyr`, responda:
 
 ```{r}
 library(tidyr)
