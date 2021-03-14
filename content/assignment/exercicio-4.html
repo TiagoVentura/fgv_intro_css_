@@ -47,7 +47,7 @@ bens &lt;- get_assets(year = 2018, state = &quot;RJ&quot;)   %&gt;%
 bens &lt;- bens %&gt;%
   mutate(VALOR_BEM=str_remove_all(VALOR_BEM, &quot;\\.&quot;), 
          VALOR_BEM=str_replace_all(VALOR_BEM, &quot;,&quot;, &quot;\\.&quot;), 
-         VALOR_BEM=parse_number(VALOR_BEM)       ) %&gt;%
+         VALOR_BEM=parse_number(VALOR_BEM)) 
 
 # responda o restante aqui.</code></pre>
 <ul>
@@ -92,7 +92,7 @@ construction
 </div>
 <div id="ponto-extra" class="section level2">
 <h2>Ponto Extra</h2>
-<p>Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados <em>fish_counters</em> abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)</p>
+<p>Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados <em>fish_encounters</em> abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)</p>
 <pre class="r"><code>fish_encounters
 
 # responda aqui</code></pre>

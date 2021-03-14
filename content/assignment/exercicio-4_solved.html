@@ -53,17 +53,11 @@ bens &lt;- get_assets(year = 2018, state = &quot;RJ&quot;)   %&gt;%
 bens_agg &lt;- bens %&gt;%
               group_by(SIGLA_UF, CODIGO_CARGO, DESCRICAO_CARGO, NUMERO_CANDIDATO, CPF_CANDIDATO)%&gt;%
               summarise(bens_total=sum(parse_number(VALOR_BEM))) %&gt;%
-              filter(CODIGO_CARGO==6)
-candidatos %&gt;%
-  filter(CODIGO_CARGO==6, SIGLA_UF==&quot;RJ&quot;) %&gt;%
-  distinct(NUMERO_CANDIDATO)</code></pre>
+              filter(CODIGO_CARGO==6)</code></pre>
 <ul>
 <li>Faça um merge entre o banco de candidatos e o seu nome banco de bens declarados</li>
 </ul>
-<pre class="r"><code>candidatos &lt;- candidatos 
-bens_agg %&gt;% filter(NUMERO_CANDIDATO==1002)
-candidatos %&gt;% filter(SIGLA_UF==&quot;RJ&quot;, NUMERO_CANDIDATO==1010) %&gt;% select(SIGLA_UF, CODIGO_CARGO,NUMERO_CANDIDATO, CPF_CANDIDATO)
-# responda aqui.
+<pre class="r"><code># responda aqui.
 
 join_banco &lt;- left_join(candidatos, bens_agg, by=c(&quot;SIGLA_UF&quot;, &quot;CODIGO_CARGO&quot;, 
                                       &quot;NUMERO_CANDIDATO&quot;, 
@@ -90,6 +84,9 @@ join_banco %&gt;%
 <ul>
 <li>Quem declara mais bens, homens ou mulheres?</li>
 </ul>
+<pre class="r"><code>join_banco %&gt;%
+  group_by(DESCRICAO_SEXO) %&gt;%
+  summarise(total_pt=sum(bens_total, na.rm = TRUE)) </code></pre>
 </div>
 <div id="questão-2-1" class="section level2">
 <h2>Questão 2</h2>
@@ -98,8 +95,12 @@ join_banco %&gt;%
 construction
 # responda aqui</code></pre>
 <ul>
-<li><p>Este banco de dados está no formato tidy? Sim ou não? E porquê?</p></li>
-<li><p>Caso você responda que este banco de dados não está no formato tidy, use <code>pivot_longer()</code> para converter este banco de dados para tidy.</p></li>
+<li>Este banco de dados está no formato tidy? Sim ou não? E porquê?</li>
+</ul>
+<div id="não.-uma-variável-espalhada-em-diversas-colunas." class="section level3">
+<h3>Não. Uma variável espalhada em diversas colunas.</h3>
+<ul>
+<li>Caso você responda que este banco de dados não está no formato tidy, use <code>pivot_longer()</code> para converter este banco de dados para tidy.</li>
 </ul>
 <pre class="r"><code># Dica: A solução mais intuitiva irá usar pivot_longer duas vezes. 
 construction %&gt;%
@@ -111,6 +112,7 @@ construction %&gt;%
                values_to=&quot;region_values&quot;) 
 
 # Responda</code></pre>
+</div>
 </div>
 <div id="ponto-extra" class="section level2">
 <h2>Ponto Extra</h2>

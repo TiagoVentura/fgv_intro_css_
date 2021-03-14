@@ -1,0 +1,320 @@
+---
+title: "Tutorial 8: Visualização de Dados com ggplot I"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      message=FALSE,
+                      warning=FALSE , 
+                      error=TRUE, 
+                      cache=TRUE)
+```
+
+# Introdução: Visualização de Dados com ggplot II.
+
+No tutorial anterior, aprendemos três a parte obrigatório do ggplot: definir seus dados, conectar variáveis a representações gráficas, e definir como mostrar seus dados usando as funções `geoms`. 
+
+Hoje, daremos um passo adiante. Aprenderemos como customizar nossos gráfico. 
+
+# Customização: Escalas + Labels + Temas.
+
+A idéia de customização consiste em ajustar seu gráfico para apresentá-lo da forma mis efetiva possível. Este processo vai desde quais cores utilizar, nomes dos eixos, background dos gráficos, posição de legendas, entre outros. 
+
+Começaremos com os ajustes de escalas (`scale_function`). 
+
+## Scales
+
+As funções do tipo `scale_function` controlam como você apresenta cada representação gráfica (aes) do seu gráfico.  Por exemplo, estas funções permitem alterações nos eixos `x` e `y`, e nas outras representações como `color`, `fill`, `shape`, entre outros. 
+
+## Ajustando os eixos. 
+
+Os exemplos mais básicos das funções `scale_` se referem aos eixos `x` e `y`. Alguns exemplos:
+
+- `scale_x_log10` e `scale_y_log10` : converte um eixo númerico para escala de log. 
+- `scale_y_reverse` e `scale_x_reverse` : inverte os valores de x e y. 
+- `scale_x_continuous` e `scale_y_continous`: formata x e y quando são variáveis continuas. 
+- `scale_x_discrete` e `scale_y_discrete`: formata x e y quando são variáveis discretas. 
+- `scale_x_date` e `scale_y_date`: formata x e y quando são variáveis discretas. 
+
+
+
+### Exemplos
+
+Convertando o eixo x para log10 e alterando o nome. 
+
+```{r}
+library(gapminder)
+library(tidyverse)
+
+# Convertendo scale x para log. 
+ggplot(data=gapminder, 
+       aes(y=lifeExp, x=gdpPercap)) + 
+      geom_point()  +
+      scale_x_log10(name="Log gdp") 
+
+```
+
+
+Alterando intervalos em variável continua e alterando limites:
+
+```{r}
+
+gap_grouped <- gapminder %>%
+                group_by(year, continent) %>%
+                summarise(m=mean(lifeExp, na.rm = TRUE))
+
+ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100))
+
+```
+
+
+## Ajustando outras representações gráficas. 
+
+As funções scale são também muito úteis para ajustar outras representações gráficas, como fill, color, shape, size, entre outras. Alguns exemplos destas funções:
+
+- `scale_aes_manual`: altera cores, shapes, fill para cada grupo de sua variável. 
+- `scale_aes_gradient`: altera escalas de cores de forma continua. 
+- `scale_aes_brewer`: altera palleta de cores para representação gráfica. 
+
+
+### scale_aes_manual
+
+```{r}
+
+ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100)) +
+      scale_color_manual(name="Continent", 
+                         values = c("white", "blue", "red", "yellow", "green"))
+```
+
+Usualmente, não adicionamos as cores de forma manual. O R possui paletas de cores pensadas de forma cuidadosa para representar seus gráficas. Dentre elas, minha favorita é do pacote `wesanderson`. 
+
+```{r}
+#devtools::install_github("karthik/wesanderson")
+library(wesanderson)
+pal < wes_palette("Royal2")
+
+# Novo gráfico
+ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100)) +
+      scale_color_manual(name="Continent", 
+                         values = pal)
+
+```
+
+
+### scale_aes_gradient
+
+```{r}
+ggplot(data=gapminder, 
+       aes(y=lifeExp, x=gdpPercap, 
+           fill=lifeExp)) + 
+      geom_point(shape=21, size=2) +
+  scale_x_log10() +
+  scale_fill_gradient(low="yellow", high="red", 
+                      name="Life Expectancy")
+```
+
+### scale_aes_brewer
+
+```{r}
+
+# Exemplo 1
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5)  # Etapa do Geom
+
+
+# Exemplo 2
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5) +  # Etapa do Geom
+
+    scale_fill_brewer(palette = "Blues")
+
+# Examplo 3
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+    geom_boxplot(size=1.5, 
+                 alpha=.5) +  # Etapa do Geom
+  
+    # fill 
+
+    scale_fill_brewer(palette = "Set1")
+
+```
+
+Para ver todas as paletas disponíveis:
+
+```{r}
+#install.packages("RColorBrewer")
+library(RColorBrewer)
+RColorBrewer::display.brewer.all()
+```
+
+## Labels e Títulos
+
+Ajustar os labels dos seus gráficos e títulos usando ggplot é super intuitivo. Como você pode imaginas, precisamos somente adicionar uma nova camada com a função `labs()`
+
+```{r}
+ggplot(data=gapminder,  aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+    geom_boxplot(size=1.5, alpha=.5) +  # Etapa do Geom
+    scale_fill_brewer(palette = "Set1") +
+  
+    # Nova camada
+  
+  labs(
+    x = "Continentes", 
+    y = "Expectativa de Vida", 
+    fill = "Continente",
+    title = "Expectativa de Vida Por Continente",
+    subtitle = "Fonte: gapminder", 
+    caption = " Author: Tiago Ventura"
+  )
+
+
+```
+
+## Facetting. 
+
+O último truque do ggplot que é muito útil quando trabalhamos com dados agrupados são as funções `facet_`. 
+
+Estas funções nos permitem dividir os gráficos em pequenas partes (sub-gráficos) a partir de determinados grupos. Essas funções funcionam como formulas em R. O que vem depois do tilda  `~` será dividido em pequenos gráficos. 
+Vejamos alguns exemplos:
+
+```{r}
+
+# Colunas
+ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap)) +
+  geom_line(color="gray70", aes(group = country)) +
+  geom_smooth(size = 1.1, method = "loess", se = FALSE) +
+  scale_y_log10() +
+  labs(x = "Year",
+         y = "GDP per capita",
+         title = "GDP per capita on Five Continents") +
+  # facet
+  facet_wrap(~ continent) 
+  
+```
+
+
+## Customização de forma consistente. 
+
+A maioria dos ajustes que você pode fazer em seu gráfico vão dentro da função `theme`. Ao trabalhar em um projeto, é importante que seus gráficos sejam consistentes e que você adicione essa consistência ao seu fluxo de trabalho. Isso significa que é fundamental que seus gráficos possuam a mesma identidade para o projeto inteiro. E essa consistência é fácil de ser mantida com o ggplot
+
+Uma forma de ter gráficos consistentes é desenvolver seu própria tema e aplicar a todos os seus gráficos. Abaixo segue um exemplo de um tema que desenvolvi para meus gráficos. 
+
+```{r}
+# Set up my theme  ------------------------------------------------------------
+my_font <- "Palatino Linotype"
+my_bkgd <- "#f5f5f2"
+pal <- RColorBrewer::brewer.pal(9, "Spectral")
+my_theme <- theme(text = element_text(family = my_font, color = "#22211d"),
+                  rect = element_rect(fill = my_bkgd),
+                  plot.background = element_rect(fill = my_bkgd, color = NA),
+                  panel.background = element_rect(fill = my_bkgd, color = NA),
+                  panel.border = element_rect(color="black"), 
+                  strip.background = element_rect(color="black", fill="gray85"), 
+                  legend.background = element_rect(fill = my_bkgd, color = NA),
+                  legend.key = element_rect(size = 6, fill = "white", colour = NA), 
+                  legend.key.size = unit(1, "cm"),
+                  legend.text = element_text(size = 14, family = my_font),
+                  legend.title = element_text(size=14),
+                  plot.title = element_text(size = 22, face = "bold", family=my_font),
+                  plot.subtitle = element_text(size=16, family=my_font),
+                  axis.title= element_text(size=10),
+                  
+                  axis.text = element_text(size=10, family=my_font),
+                  axis.title.x = element_text(hjust=1),
+                  strip.text = element_text(family = my_font, color = "#22211d",
+                                            size = 10, face="italic"))
+
+my_theme  <- theme_bw() + my_theme
+```
+
+A partir daí, você precisa dizer ao seu ambiente em R para utilizar este tema como modelo:
+
+```{r eval=FALSE}
+# This sets up for all your plots
+theme_set(theme_bw() + my_theme)
+
+```
+
+Ou você pode fazer isto manualmente em cada gráfico: 
+
+```{r}
+graph <- ggplot(data=gapminder, 
+                aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+    geom_boxplot(size=1.5, alpha=.5) +  # Etapa do Geom
+    scale_fill_brewer(palette = "Set1") 
+
+graph +  my_theme
+
+```
+
+
+Outra opção, mais recomendada para quem está iniciando em R, é usar temas pré-construídos do ggplot e outros pacotes. 
+
+```{r}
+install.packages(c("ggthemes", "hbrthemes"))
+library(ggthemes)
+library(hrbrthemes)
+ 
+
+graph + 
+  theme_minimal()
+
+graph + 
+  theme_economist()
+
+graph + 
+  theme_fivethirtyeight()
+
+graph + 
+  theme_ipsum()
+```
+
+
+## Desafio (Valendo Ponto Extra). 
+
+Valendo ponto extra para o exercício da próxima semana. Eu compartilhei no slack alguns artigos que escrevi nos últimos anos usando ggplot. O desafio de vocês é escolher um gráfico favorito dentre estes artigos, e me mandar via slack.  Na próxima aula, vamos reproduzir integralmente os gráficos que vocês escolherem. 
+
+E nesta semana não teremos exercício. Podem descansar!

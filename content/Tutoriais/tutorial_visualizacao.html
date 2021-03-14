@@ -1,0 +1,300 @@
+---
+title: "Tutorial 8: Visualização de Dados com ggplot I"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="introdução-visualização-de-dados-com-ggplot." class="section level1">
+<h1>Introdução: Visualização de Dados com ggplot.</h1>
+<p>Nas semanas anteriores, cobrimos três tarefas fundamentais em R. Começamos com uma introdução básica ao R. Demos nosso segundo passo aprendendo a usar os pacotes do <code>tidyverse</code>. Neste ambiente, aprendemos a usar o <code>dplyr</code> para manipulação de dados, e conectar dados relacionais, e o <code>tidyr</code> para organizar nossos bancos de dados.</p>
+<p>Este semana vamos um passo adiante em nossa aprendizado. Aprenderemos sobre como utilizar o R para visualizar seus dados. Para isto, utilizaremos a pacote <code>ggplot</code>, que também faz parte do <code>tidyverse</code>.</p>
+<p>Este tutorial é inspirado no excelente livro <a href="https://socviz.co/index.html">Data Visualization:A practical introduction</a> de Kieran Healy.</p>
+</div>
+<div id="porque-investir-em-boas-visualizações" class="section level1">
+<h1>Porque investir em boas visualizações ?</h1>
+<p>Enquanto acadêmicos, uma das habilidades mais importantes que você precisa adquirir é a capacidade de comunicar de forma efetiva seus resultados, sejam esses simples dados exploratórios, até modelos estatísticos rebuscados. A meu ver, mma visualização efetiva e bem pensada é sempre mais atraente do que uma tabela. O público em geral, incluindo nossos colegas acadêmicos, não saberão onde olhar e como analisar uma tabela cheia de números, enquanto um bom gráfico pode ser bastante intuitivo de seguir.</p>
+</div>
+<div id="nosso-itinerário." class="section level1">
+<h1>Nosso itinerário.</h1>
+<p>Para aprendar sobre visualização de dados, vamos percorrer os seguintes passos.</p>
+<ol style="list-style-type: decimal">
+<li><p>Preparaçao de Dados: Porquê preciso dos meus dados Tidy?</p></li>
+<li><p>Introdução ao ggplot: Geoms and Aesthetics</p></li>
+<li><p>Acessários dos gráficos: labels, escalas, títulos, e outros.</p></li>
+<li><p>Casos Aplicados: reproduzindo gráficos de artigos acadêmicos.</p></li>
+</ol>
+<div id="preparação-dos-dados-porquê-preciso-dos-meus-dados-tidy" class="section level2">
+<h2>Preparação dos Dados: Porquê preciso dos meus dados Tidy?</h2>
+<p>Ter seus dados em formato tidy é fundamental para o uso do ggplot. 80% do trabalho de visualização de dados está em preparar seus dados, os outros 20% é pensar quais dados utilizar e como botar em código.</p>
+<p>Nós aprendemos semana passsada, porém a guisa de revisão. As três propriedades mais importantes que definem um banco de dados <code>tidy</code> são:</p>
+<ul>
+<li><p>Cada coluna é uma variável.</p></li>
+<li><p>Cada linha é uma observação.</p></li>
+<li><p>Cada valor em uma linha.</p></li>
+</ul>
+<p>Vamos ver estas regras visualmente:</p>
+<p><img src="figs/tidy-1.png" style="width:80.0%" /></p>
+<p>E porque é importante ter nossos dados em formato tidy quando pensamos em visualização? O ggplot funciona conectando colunas com visuais. E para fazer isto, precisamos de que cada coluna seja uma variável – exatament como dados tidy são organizados.</p>
+</div>
+</div>
+<div id="introducao-ao-ggplot." class="section level1">
+<h1>Introducao ao ggplot.</h1>
+<p>Visualização de dados envolve conectar (mapear) <strong>variáveis</strong> em seu banco de dados a <strong>representações gráficas</strong>. O <code>ggplot</code> fornece uma linguagem unificada para este processo de variáveis -&gt; gráfico. Há outras formas e outros pacotes de visualização em R. O ggplot é uma destas linguagens.</p>
+<div id="grammar-of-graphics." class="section level3">
+<h3>Grammar of Graphics.</h3>
+<p>O ggplot é baseado na <a href="https://www.springer.com/gp/book/9780387245447">Grammar of Graphics</a>. A grammar of graphics é uma linguagem desenvolvida para criar e descrever de forma unificada visualizações gráficas. Esta linaguem funciona com duas regras fundamentais:</p>
+<ul>
+<li><p>Os gráficos são construídos em camadas.</p></li>
+<li><p>Cada variável precisa ser mapeada a uma representação gráfica.</p></li>
+</ul>
+<p>Segue abaixo uma visualização gráfica da <strong>Grammar of Graphics.</strong>. Discutiremos ao longo destas aulas cada uma das camadas de funcionamento da <strong>Grammar of Graphics.</strong></p>
+<p><img src="figs/grammar_graphics.png" style="width:30.0%" /></p>
+</div>
+<div id="ggplot-intuição." class="section level2">
+<h2>ggplot: intuição.</h2>
+<p>O <code>ggplot</code> implementa o framework do <strong>Grammar of Graphics</strong> em R. Como esperado, Cada gráfico é construído camada por camada:</p>
+<ul>
+<li>Começando com seus dados,</li>
+<li>Mapeamento Dados -&gt; Visuais (aes),</li>
+<li>Decisões geométricas (geoms) e,</li>
+<li>Embelezamento do gráfico (scale, theme e labels).</li>
+</ul>
+<p>E sua lógica fundamental funciona conectando <strong>variáveis</strong> a <strong>representações gráficas</strong> por meio de uma função chamada <strong>aesthethics mapping</strong> (aes).</p>
+<p>O gráfico abaixo de <a href="https://socviz.co/makeplot.html#makeplot">Kieran Healy</a> resume bem a lógica:</p>
+<p><img src="figs/ggplot_flow.png" style="width:30.0%" /></p>
+</div>
+<div id="ggplot-na-prática." class="section level2">
+<h2>ggplot: na prática.</h2>
+<p>Quatro “grande” etapas definem nosso trabalho de visualização:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Etapa dos Dados</strong>: Define qual banco de dados você pretende visualizar</p></li>
+<li><p><strong>Etapa de Mapear</strong>: Define quais <strong>variáveis -&gt; representações gráficas</strong> você pretende visualizar.</p></li>
+<li><p><strong>Etapa de Geom</strong>: Define como você pretende visualizar.</p></li>
+<li><p><strong>Etapa de Embelezamento</strong>: Labels, escalas, coordenados, temas….</p></li>
+</ol>
+</div>
+<div id="exemplo-básico." class="section level2">
+<h2>Exemplo Básico.</h2>
+<p>Vamos ver um exemplo básico de como funciona o <code>ggplot</code> utilizando o banco de dados gapminder.</p>
+<div id="em-abstrato" class="section level4">
+<h4>Em abstrato</h4>
+<p><img src="figs/gg-syntax.png" /></p>
+</div>
+<div id="com-dados." class="section level4">
+<h4>Com Dados.</h4>
+<pre class="r"><code>library(tidyverse)
+library(gapminder)
+
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa de Mapear
+      geom_point() # Etapa do Geom</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="geoms-como-queremos-visualizar-nossos-dados" class="section level1">
+<h1>Geoms: Como queremos visualizar nossos dados?</h1>
+<p>As <code>geom_function</code> controlam o tipo de gráfico que pretendemos visualizar. Por exemplo, gráficos de dispersão, barras, mapas, linhas, boxplots, densidade, cada tipo de gráfico representa uma <code>geom_function()</code> diferente. Vamos ver diversos exemplos a seguir.</p>
+<div id="tipos-de-gráfico-uma-variável." class="section level2">
+<h2>Tipos de Gráfico: Uma variável.</h2>
+<p><img src="figs/one_variable.png" /></p>
+<p>Todos estes gráficos necessitam desomente uma variável como input (no eixo x). Os valores do eixo y são calculados diretamente pelo <code>ggplot</code>, de acordo com o gráfico do seu interesse. Vamos ver alguns exemplos.</p>
+<div id="geom_density" class="section level3">
+<h3>geom_density</h3>
+<p>Vamos gerar um gráfico simples de densidade. Vamos plotar a densidade dos valores de expectativa de vida usando os dados do <code>gapminder</code>.</p>
+<pre class="r"><code>ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp)) + # mapear
+      geom_density() # forma geométrica</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Customizar o gráfico usando as representações gráficas <code>fill</code> e <code>alpha</code>.</p>
+<pre class="r"><code>ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp)) + # mapear
+      geom_density(alpha=.5, fill=&quot;tomato2&quot;) # forma geométrica</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="geom_histogram" class="section level3">
+<h3>geom_histogram</h3>
+<p>Semelhante à densidade, porém, com histograms, os valores do eixo x são agrupados em intervalos (bins), e os valores do y são a soma de casos nestes intervalos.</p>
+<pre class="r"><code>ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp)) + # mapear
+      geom_histogram() # forma geométrica</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Mais algumas customizações, utilizando as representações gráficas <code>color</code> e <code>fill</code> e ajudstando a largura dos intervalos em x.</p>
+<pre class="r"><code>ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp)) + # mapear
+      geom_histogram(bins=50, color=&quot;black&quot;, 
+                     fill=&quot;lightgreen&quot;) # forma geométrica</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="geom_bar-variável-discreta" class="section level2">
+<h2>geom_bar (variável discreta)</h2>
+<p><code>geom_bar</code> funciona da mesma forma que <code>geom_hist</code>, porém a variável <code>x</code> é categórica (discreta). Dessa forma, o <code>y</code> será a soma de observações em cada grupo presente em x.</p>
+<pre class="r"><code>ggplot(data=gapminder,  # dados
+        mapping=aes(x=continent)) + # mapear
+      geom_bar() </code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Perceba, o eixo y é a soma de cada continente. Internamente, o <code>ggplot</code> usa o <code>group_by() + summarize()</code> para somar as observações em cada grupo. Isto é diferente de plotar dados já agrupados. Para isto, precisamos alterar o input de geom_bar. Por exemplo:</p>
+<pre class="r"><code>g_grouped &lt;- gapminder %&gt;%
+              count(continent)
+
+
+ggplot(data=g_grouped,  # dados
+       # adiciona o y
+        mapping=aes(x=continent, y=n)) + # mapear
+        # adiciona identity
+        geom_bar(stat=&quot;identity&quot;)   </code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="tipos-de-gráfico-contínua-x-contínua." class="section level2">
+<h2>Tipos de Gráfico: Contínua x Contínua.</h2>
+<p><img src="figs/two_continous.png" /></p>
+<div id="geom_point" class="section level3">
+<h3>geom_point</h3>
+<p>Quando trabalhamos com duas variáveis contínuas, o uso de gráfico de dispersão (com pontos) é em geral a escolha mais intuitiva. Como esperado, este tipo de gráfico necessita de no mínimo duas variáveis (<code>x</code>e <code>y</code>), e ambas precisam ser contínuas. Vejamos um exemplo.</p>
+<pre class="r"><code>ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa de Mapear
+      geom_point() # Etapa do Geom</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Vamos alterar outras representações gráficas: <code>shape</code> altera a formato dos pontos e <code>size</code> controla o tamanho dos pontos.</p>
+<pre class="r"><code>ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa de Mapear
+      geom_point(shape=22, alpha=.5, 
+                 fill=&quot;tomato2&quot;, 
+                 color=&quot;black&quot;, 
+                 size=2) # Etapa do Geom</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="geom_smooth" class="section level3">
+<h3>geom_smooth</h3>
+<p>O <code>geom_smooth</code> adiciona uma curva para descrever de forma intuitiva o padrão de associação dos seus dados.</p>
+<pre class="r"><code>ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa de Mapear
+      geom_smooth(fill=&quot;steelblue&quot;, 
+                 color=&quot;black&quot;, 
+                 size=1, alpha=.3) # Etapa do Geom</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div id="múltiplos-geoms." class="section level4">
+<h4>Múltiplos geoms.</h4>
+<p>O gŕafico acima é pouco intuitivo sem a inclusão dos pontos em si. Lembre-se que o ggplot funciona em camadas, portanto, podemos facilmente combinar múltiplas formas geométricas em um único gráfico. Somente precisamos incluir todos os dados e variáveis nas nossas representações gráficas.</p>
+<pre class="r"><code>ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa de Mapear
+      
+      # Pontos
+      
+    geom_point(shape=22, alpha=.2, 
+                 fill=&quot;tomato2&quot;, 
+                 color=&quot;black&quot;, 
+                 size=2) + # Etapa do Geom
+
+  
+      # Tendência
+    
+      geom_smooth(fill=&quot;tomato2&quot;, 
+                 color=&quot;black&quot;, 
+                 size=1, alpha=.6) # Etapa do Geom</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="tipos-de-gráfico-discreta-x-contínua." class="section level2">
+<h2>Tipos de Gráfico: Discreta x Contínua.</h2>
+<p><img src="figs/continous_discrete.png" /></p>
+<div id="geom_boxplot" class="section level3">
+<h3>geom_boxplot</h3>
+<p>O <code>geom_boxplot</code> combina variáveis de tipo distintos. Utilizamos esta forma geométrica quando pretendemos apresentar um valor contínuo dividiso por outros valores categórico (grupos). O boxplot agrega esta variável contínua e apresenta de forma intuitiva sua dispersão e medida central de cada grupo (mediana).</p>
+<pre class="r"><code>ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=continent)) + # Etapa de Mapear
+      
+      # Pontos
+      
+    geom_boxplot(fill=&quot;tomato2&quot;, 
+                 color=&quot;black&quot;, 
+                 size=1.5, 
+                 alpha=.5)  # Etapa do Geom</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="representações-gráficas-aes" class="section level1">
+<h1>Representações Gráficas (aes)</h1>
+<p>Até aqui, usamos basicamente duas representações gráficas dentro das nossa função de mapear (aes): os eixos <code>x</code> e <code>y</code>. Intuitivamente, costumamos pensar nos eixos x e y como as únicas variáveis no banco de dados e consideramos outros elementos dos gráficos – cores, transparência, formato – como acessórios.</p>
+<p>Esta <strong>não</strong> é a forma como o <code>ggplot</code> funciona.</p>
+<p>Todas as representações gráficas – <code>color, fill, shape, alpha, linetype</code>, etc… – podem ser mapeadas a variáveis do seu banco de dados. Este processo funciona adicionando mais elementos dentro da nossa função de mapear (<code>aes</code>).</p>
+<div id="quais-representações-gráficas-aes-estão-disponíveis" class="section level2">
+<h2>Quais Representações gráficas (aes) estão disponíveis?</h2>
+<p><img src="figs/aes.png" /></p>
+<p>As principais representações gráficas são as seis acima apresentadas.</p>
+<p>Cada uma destas representações combinará melhor com gráficos distintos, e com objetivos distintos da sua análise.
+Todas as variáveis que você pretende visualizar do seu banco de dados precisar ser mapeada em seu objeto do <code>ggplot</code>. Este mapeamento se dá a partir da função <code>aes()</code>. As suas representações gráficas não definem como você mostrará seus dados, mas somente o que você pretende mostrar e usando qual representação gráfica.</p>
+<p>Vamos ver alguns exemplos de como mapear variáveis -&gt; representações gráficas.</p>
+</div>
+<div id="color-para-colorir-dados-agrupados." class="section level2">
+<h2>Color: Para Colorir Dados Agrupados.</h2>
+<pre class="r"><code>ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap, # Etapa de Mapear
+           color=continent)) + # Com fill
+      geom_point() # Etapa do Geom</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="fill-para-preencher-dados-agrupados." class="section level2">
+<h2>Fill: Para Preencher Dados Agrupados.</h2>
+<pre class="r"><code>ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp, fill=continent)) + # mapear
+      geom_density(alpha=.5) # forma geométrica</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>gap_grouped &lt;- gapminder %&gt;%
+                group_by(year, continent) %&gt;%
+                summarise(m=mean(lifeExp, na.rm = TRUE))
+
+ggplot(data=gap_grouped,  # dados
+        mapping=aes(x=year, y=m, 
+                    fill=continent)) + # mapear
+      geom_bar(stat=&quot;identity&quot;, position=&quot;dodge&quot;) </code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="alpha-e-size-para-mostrar-variação-em-valores." class="section level2">
+<h2>Alpha e size: Para mostrar variação em valores.</h2>
+<pre class="r"><code>ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa mapear 
+      geom_point(aes(alpha=pop, 
+           size=log(pop))) + # addicionar representações gráficas
+      geom_smooth(color=&quot;red&quot;) + # Etapa do Geom
+      scale_x_log10()</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="shape" class="section level2">
+<h2>Shape</h2>
+<pre class="r"><code>gap_grouped &lt;- gapminder %&gt;%
+                group_by(year, continent) %&gt;%
+                summarise(m=mean(lifeExp, na.rm = TRUE))
+
+ggplot(data=gap_grouped, ## Etapa dos Dados
+       aes(y=m, x=year, 
+           shape=continent)) + # Etapa mapear 
+      geom_point(size=3) +
+      geom_line()</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="desafio" class="section level2">
+<h2>Desafio:</h2>
+<p>Descreva o gráfico abaixo usando o que aprendemos do ggplot e grammar of graphics.</p>
+<ul>
+<li><p>Quantas Variáveis?</p></li>
+<li><p>Quantas Representações Gráficas?</p></li>
+<li><p>Quais Geoms?</p></li>
+<li><p>Quais Representações Gráficas?</p></li>
+</ul>
+<p><img src="figs/res_no_band.png" /></p>
+</div>
+</div>

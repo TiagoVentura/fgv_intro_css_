@@ -63,17 +63,11 @@ bens_agg <- bens %>%
               group_by(SIGLA_UF, CODIGO_CARGO, DESCRICAO_CARGO, NUMERO_CANDIDATO, CPF_CANDIDATO)%>%
               summarise(bens_total=sum(parse_number(VALOR_BEM))) %>%
               filter(CODIGO_CARGO==6)
-candidatos %>%
-  filter(CODIGO_CARGO==6, SIGLA_UF=="RJ") %>%
-  distinct(NUMERO_CANDIDATO)
 ```
 
 - Faça um merge entre o banco de candidatos e o seu nome banco de bens declarados
 
 ```{r}
-candidatos <- candidatos 
-bens_agg %>% filter(NUMERO_CANDIDATO==1002)
-candidatos %>% filter(SIGLA_UF=="RJ", NUMERO_CANDIDATO==1010) %>% select(SIGLA_UF, CODIGO_CARGO,NUMERO_CANDIDATO, CPF_CANDIDATO)
 # responda aqui.
 
 join_banco <- left_join(candidatos, bens_agg, by=c("SIGLA_UF", "CODIGO_CARGO", 
@@ -109,6 +103,13 @@ join_banco %>%
 
 - Quem declara mais bens, homens ou mulheres?
 
+```{r}
+join_banco %>%
+  group_by(DESCRICAO_SEXO) %>%
+  summarise(total_pt=sum(bens_total, na.rm = TRUE)) 
+
+```
+
 ## Questão 2
 
 Usando o banco de dados *billboard* do pacote `tidyr`, responda:
@@ -120,6 +121,8 @@ construction
 ```
 
 - Este banco de dados está no formato tidy? Sim ou não? E porquê?
+
+### Não. Uma variável espalhada em diversas colunas.
 
 - Caso você responda que este banco de dados não está no formato tidy, use `pivot_longer()` para converter este banco de dados para tidy. 
 

@@ -1,0 +1,16 @@
+base
+tidyr
+cepespR
+tidyverse
+ggplot2
+tibble
+readr
+purrr
+dplyr
+stringr
+forcats
+gapminder
+wesanderson
+RColorBrewer
+ggthemes
+hrbrthemes

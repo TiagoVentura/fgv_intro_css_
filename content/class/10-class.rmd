@@ -1,0 +1,37 @@
+---
+title: "Aula 10-11: Visualização de Dados"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais 
+
+Esta semana entramos na parte de visualização de dados. Focaremos em: 
+
+
+- Introdução ao ggplot: aes e geoms. 
+
+- Customização: scales, labels, axis, facets, themes. 
+
+
+## Tutoriais
+
+Tutorial 9: Introdução ao ggplot I: geoms e representações gráficas. [(HTML)](/Tutoriais/tutorial_visualizacao.html) / [(RMarkdown)](/Tutoriais/tutorial_visualizacao.rmd)
+
+
+Tutorial 10: Introdução ao ggplot II: Customizaçao. [(HTML)](/Tutoriais/tutorial_visualizacao_II.html) / [(RMarkdown)](/Tutoriais/tutorial_visualizacao_II.rmd)
+
+## Slides
+
+[Slides: Joins](/slides/slides-visualizacao_I.html)
+
+[Slides: Tidy](/slides/slides-visualizacao_II.html)

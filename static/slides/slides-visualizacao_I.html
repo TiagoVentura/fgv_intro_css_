@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tiago Ventura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução a Métodos Computacionais para Ciência Sociais
+## Visualização de Dados I
+### Tiago Ventura
+### CPDOC-FGV
+
+---
+
+
+
+class: middle, center, inverse
+
+# Survey
+---
+class: middle, center
+
+## Nestas primeiras semanas, o que você mais gostou do curso?
+
+
+&lt;br&gt;&lt;br&gt;
+
+*A dinâmica da aula.*
+
+*sair do R base e começar tidyverse :)*
+
+*De ter exercícios toda semana. Está ajudando bastante a praticar e entender melhor o que aprendemos durante as aulas.*
+
+*Tudo! As aulas são muito didáticas e os exercícios são mais puxados e ajudam a fixar o conteúdo e entender a útilidade prática dos recursos.*
+---
+class: middle, center
+
+## Nestas primeiras semanas, o que você menos gostou da proposta de curso?
+
+
+&lt;br&gt;&lt;br&gt;
+
+
+*O prazo do exercício ser sexta.*
+
+*Nada*
+
+*Os exercícios em grupo durantes a aula são legais, mas acaba sendo pouco tempo para debater e fazer as atividades. Mas de resto está tudo ótimo.*
+
+*O horário do escritório virtual. Na maioria das vezes não consigo entrar porque tenho aula na hora e ainda não deu tempo de começar os exercícios.*
+
+---
+class: middle, center
+
+## O que você acha que poderíamos mudar para nossas próximas semanas?
+
+&lt;br&gt;&lt;br&gt;
+
+*Acho que o prazo do exercício podia ser sábado.*
+
+*Poderíamos ver a aplicação do R em alguma pesquisa.*
+
+*Se possível, o horário do escritório virtual (se for melhor para a maioria). Mas se não tiver como, se problemas!*
+
+---
+class: middle, center, inverse
+
+# Visualização de Dados. 
+
+---
+
+--
+
+# Ciência de Dados em R.
+
+
+&lt;img src="figs/data-science.png" width="50%" /&gt;
+
+--
+
+# Onde Estamos
+
+&lt;img src="figs/data-science_we.png" width="50%" /&gt;
+
+--
+
+---
+
+# Introdução: Visualização de Dados com ggplot.
+
+
+Para aprendar sobre visualização de dados, vamos percorrer os seguintes passos. 
+
+
+1. Preparaçao de Dados: Porquê preciso dos meus dados Tidy?
+
+2. Introdução ao ggplot: Geoms and Aesthetics
+
+3. Acessários dos gráficos: labels, escalas, títulos, e outros. 
+
+4. Casos Aplicados: reproduzindo gráficos de artigos acadêmicos. 
+
+
+
+---
+
+## Preparação dos Dados: Porquê preciso dos meus dados Tidy?
+
+80% do trabalho de visualização de dados está em preparar seus dados. 
+
+&lt;img src="figs/tidy-1.png" width="50%" /&gt;
+
+
+O `ggplot` funciona conectando colunas com visuais. 
+
+E para fazer isto, precisamos de que cada coluna seja uma variável -- exatamente como dados tidy são organizados. 
+
+---
+
+### Grammar of Graphics.
+
+
+.pull-left[
+
+&lt;img src="figs/grammar_graphics.png" width="50%" /&gt;
+
+]
+
+.pull-right[
+O ggplot é baseado na [Grammar of Graphics](https://www.springer.com/gp/book/9780387245447).
+
+A grammar of graphics é uma linguagem desenvolvida para criar e descrever de forma unificada visualizações gráficas. Esta linaguem funciona com duas regras fundamentais:
+
+- Os gráficos são construídos em camadas. 
+
+- Cada variável precisa ser mapeada a uma representação gráfica. 
+]
+---
+
+## ggplot: intuição.
+
+O `ggplot` implementa o framework do **Grammar of Graphics** em R. Como esperado,  Cada gráfico é construído camada por camada: 
+
+- Começando com seus dados, 
+- Mapeamento Dados -&gt; Visuais (aes), 
+- Decisões geométricas (geoms) e,
+- Embelezamento do gráfico (scale, theme e labels). 
+
+E sua lógica fundamental funciona conectando **variáveis** a  **representações gráficas** por meio de uma função chamada __aesthethics mapping__ (aes). 
+
+---
+
+## ggplot: na prática.
+
+Quatro "grande" etapas definem nosso trabalho de visualização:
+
+1. **Etapa dos Dados**: Define qual banco de dados você pretende visualizar
+
+2. **Etapa de Mapear**: Define quais **variáveis -&gt; representações gráficas** você pretende visualizar. 
+
+3. **Etapa de Geom**: Define como você pretende visualizar. 
+
+4. **Etapa de Embelezamento**: Labels, escalas, coordenados, temas....
+
+---
+
+## Funções do ggplot: em abstrato
+
+![](figs/gg-syntax.png)
+
+---
+
+## Funções do ggplot: em abstrato II
+
+
+.pull-left[
+&lt;img src="figs/ggplot_flow1.png" width="70%" /&gt;
+]
+
+.pull-right[
+&lt;img src="figs/ggplot_flow2.png" width="62%" /&gt;
+]
+
+---
+
+
+## Funções do ggplot: Com Dados.
+
+
+
+```r
+library(tidyverse)
+library(gapminder)
+
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa de Mapear
+      geom_point() # Etapa do Geom
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-7-1.png" width="40%" /&gt;
+
+---
+class: center, middle, inverse
+
+
+# Geoms:
+
+## Como queremos visualizar nossos dados? 
+
+## Pontos? Linhas? Densidade? Barras?
+
+---
+
+## Tipos de Gráfico: Uma variável. 
+
+.pull-left[
+![](figs/one_variable.png)
+]
+
+- Somente uma variável como input (no eixo x). 
+
+- Os valores do eixo y são calculados diretamente pelo `ggplot`, de acordo com o gráfico do seu interesse. 
+
+---
+
+### geom_density
+
+--
+.pull-left[
+
+```r
+ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp)) + # mapear
+      geom_density() # forma geométrica
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-8-1.png" width="80%" /&gt;
+]
+
+--
+
+.pull-right[
+
+```r
+ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp)) + # mapear
+      geom_density(alpha=.5, 
+                   fill="tomato2") 
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-9-1.png" width="80%" /&gt;
+]
+
+--
+
+---
+
+### geom_histogram
+
+--
+.pull-left[
+
+```r
+ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp)) + # mapear
+      geom_histogram() # forma geométrica
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-10-1.png" width="80%" /&gt;
+]
+
+--
+
+.pull-right[
+
+```r
+# Adiciona Color e Fill
+ggplot(data=gapminder,  # dados
+        mapping=aes(x=lifeExp)) + # mapear
+      geom_histogram(bins=50, 
+                     color="black", 
+                     fill="lightgreen") # forma geométrica
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-11-1.png" width="80%" /&gt;
+]
+
+--
+
+---
+
+## geom_bar (variável discreta)
+
+`geom_bar` funciona da mesma forma que `geom_hist`, porém a variável `x` é categórica (discreta).  O `y` será a soma de observações em cada grupo presente em x. 
+
+
+
+```r
+ggplot(data=gapminder,  # dados
+        mapping=aes(x=continent)) + # mapear
+      geom_bar() 
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-12-1.png" width="50%" /&gt;
+
+---
+
+## Tipos de Gráfico: Contínua x Contínua.
+
+![](figs/two_continous.png)
+
+---
+
+### geom_point
+
+--
+
+.pull-left[
+
+```r
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, 
+           x=gdpPercap)) + # Etapa de Mapear
+      geom_point() # Etapa do Geom
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-13-1.png" width="80%" /&gt;
+]
+
+--
+
+.pull-right[
+
+```r
+# Adiciona Shape e alpha.
+
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp,
+           x=gdpPercap)) + # Etapa de Mapear
+      geom_point(shape=22, alpha=.5, 
+                 fill="tomato2", 
+                 color="black", 
+                 size=2) # Etapa do Geom
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-14-1.png" width="80%" /&gt;
+]
+--
+
+---
+
+### geom_smooth
+
+
+
+```r
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa de Mapear
+      geom_smooth(fill="steelblue", 
+                 color="black", 
+                 size=1, alpha=.3) # Etapa do Geom
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-15-1.png" width="50%" /&gt;
+
+---
+
+## Múltiplos geoms. 
+
+.pull-left[
+
+```r
+ggplot(data=gapminder,
+       aes(y=lifeExp,
+           x=gdpPercap)) + 
+      
+      # Pontos
+      
+*   geom_point(shape=22, alpha=.2,
+                 fill="tomato2", 
+                 color="black", 
+                 size=2) + 
+
+  
+      # Tendência
+    
+*     geom_smooth(fill="tomato2",
+                 color="black", 
+                 size=1, alpha=.6)
+```
+]
+
+
+.pull-right[
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-17-1.png" width="80%" /&gt;
+]
+---
+
+## Tipos de Gráfico: Discreta x Contínua.
+
+![](figs/continous_discrete.png)
+
+---
+
+### geom_boxplot
+
+
+```r
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=continent)) + # Etapa de Mapear
+      
+      # Pontos
+      
+*   geom_boxplot(fill="tomato2",
+                 color="black", 
+                 size=1.5, 
+                 alpha=.5)  # Etapa do Geom
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-18-1.png" width="50%" /&gt;
+
+---
+
+# Representações Gráficas (aes)
+
+Até aqui, usamos basicamente duas representações gráficas dentro das nossa função de mapear (aes): os eixos `x` e `y`. 
+
+Intuitivamente, costumamos pensar nos eixos x e y como as únicas variáveis no banco de dados e consideramos outros elementos dos gráficos -- cores, transparência, formato -- como acessórios. 
+
+Esta **não** é a forma como o `ggplot` funciona.
+
+Todas as representações gráficas -- `color, fill, shape, alpha, linetype`, etc... -- podem ser mapeadas a variáveis do seu banco de dados. Este processo funciona adicionando mais elementos dentro da nossa função de mapear (`aes`). 
+
+
+---
+
+## Quais Representações gráficas (aes) estão disponíveis?
+
+![](figs/aes.png)
+
+---
+
+## Color: Para Colorir Dados Agrupados. 
+
+
+```r
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap, # Etapa de Mapear
+*          color=continent)) + # Com fill
+      geom_point() # Etapa do Geom
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-19-1.png" width="50%" /&gt;
+
+---
+
+## Fill: Para Preencher Dados Agrupados.
+
+
+```r
+ggplot(data=gapminder,  # dados
+*       mapping=aes(x=lifeExp, fill=continent)) +
+      geom_density(alpha=.5) # forma geométrica
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-20-1.png" width="50%" /&gt;
+
+---
+
+
+```r
+gap_grouped &lt;- gapminder %&gt;%
+                group_by(year, continent) %&gt;%
+                summarise(m=mean(lifeExp, na.rm = TRUE))
+
+ggplot(data=gap_grouped,  # dados
+        mapping=aes(x=year, y=m, 
+*                   fill=continent)) +
+*     geom_bar(stat="identity", position="dodge")
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-21-1.png" width="50%" /&gt;
+
+---
+
+## Alpha e size: Para mostrar variação em valores. 
+
+
+```r
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=gdpPercap)) + # Etapa mapear 
+*     geom_point(aes(alpha=pop,
+*          size=log(pop))) +
+      geom_smooth(color="red") + # Etapa do Geom
+      scale_x_log10()
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-22-1.png" width="50%" /&gt;
+
+---
+
+## Shape
+
+
+```r
+gap_grouped &lt;- gapminder %&gt;%
+                group_by(year, continent) %&gt;%
+                summarise(m=mean(lifeExp, na.rm = TRUE))
+
+ggplot(data=gap_grouped, ## Etapa dos Dados
+       aes(y=m, x=year, 
+*          shape=continent)) +
+      geom_point(size=3) +
+      geom_line()
+```
+
+&lt;img src="slides-visualizacao_I_files/figure-html/unnamed-chunk-23-1.png" width="50%" /&gt;
+
+
+---
+
+### Desafio:
+
+Descreva o gráfico abaixo usando o que aprendemos do ggplot e grammar of graphics. 
+
+- Quantas Variáveis? Quantas Representações Gráficas?
+
+- Quais Geoms? Quais Representações Gráficas?
+
+&lt;img src="figs/res_no_band.png" width="80%" /&gt;
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

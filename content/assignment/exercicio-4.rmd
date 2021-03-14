@@ -55,7 +55,7 @@ Usando o banco bens.
 bens <- bens %>%
   mutate(VALOR_BEM=str_remove_all(VALOR_BEM, "\\."), 
          VALOR_BEM=str_replace_all(VALOR_BEM, ",", "\\."), 
-         VALOR_BEM=parse_number(VALOR_BEM)       ) %>%
+         VALOR_BEM=parse_number(VALOR_BEM)) 
 
 # responda o restante aqui.
 
@@ -122,7 +122,7 @@ construction
 
 ## Ponto Extra
 
-Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados *fish_counters* abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)
+Para ganhar pontos extras, use as funções do tidyr para converter o banco de dados *fish_encounters* abaixo para um banco no formato aberto (wide) onde a coluna station será aberta em um conjunto de variáveis dummies (valores iguais a zero ou um)
 
 ```{r}
 fish_encounters

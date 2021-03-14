@@ -1,0 +1,259 @@
+---
+title: "Tutorial 8: Visualização de Dados com ggplot I"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="introdução-visualização-de-dados-com-ggplot-ii." class="section level1">
+<h1>Introdução: Visualização de Dados com ggplot II.</h1>
+<p>No tutorial anterior, aprendemos três a parte obrigatório do ggplot: definir seus dados, conectar variáveis a representações gráficas, e definir como mostrar seus dados usando as funções <code>geoms</code>.</p>
+<p>Hoje, daremos um passo adiante. Aprenderemos como customizar nossos gráfico.</p>
+</div>
+<div id="customização-escalas-labels-temas." class="section level1">
+<h1>Customização: Escalas + Labels + Temas.</h1>
+<p>A idéia de customização consiste em ajustar seu gráfico para apresentá-lo da forma mis efetiva possível. Este processo vai desde quais cores utilizar, nomes dos eixos, background dos gráficos, posição de legendas, entre outros.</p>
+<p>Começaremos com os ajustes de escalas (<code>scale_function</code>).</p>
+<div id="scales" class="section level2">
+<h2>Scales</h2>
+<p>As funções do tipo <code>scale_function</code> controlam como você apresenta cada representação gráfica (aes) do seu gráfico. Por exemplo, estas funções permitem alterações nos eixos <code>x</code> e <code>y</code>, e nas outras representações como <code>color</code>, <code>fill</code>, <code>shape</code>, entre outros.</p>
+</div>
+<div id="ajustando-os-eixos." class="section level2">
+<h2>Ajustando os eixos.</h2>
+<p>Os exemplos mais básicos das funções <code>scale_</code> se referem aos eixos <code>x</code> e <code>y</code>. Alguns exemplos:</p>
+<ul>
+<li><code>scale_x_log10</code> e <code>scale_y_log10</code> : converte um eixo númerico para escala de log.</li>
+<li><code>scale_y_reverse</code> e <code>scale_x_reverse</code> : inverte os valores de x e y.</li>
+<li><code>scale_x_continuous</code> e <code>scale_y_continous</code>: formata x e y quando são variáveis continuas.</li>
+<li><code>scale_x_discrete</code> e <code>scale_y_discrete</code>: formata x e y quando são variáveis discretas.</li>
+<li><code>scale_x_date</code> e <code>scale_y_date</code>: formata x e y quando são variáveis discretas.</li>
+</ul>
+<div id="exemplos" class="section level3">
+<h3>Exemplos</h3>
+<p>Convertando o eixo x para log10 e alterando o nome.</p>
+<pre class="r"><code>library(gapminder)
+library(tidyverse)
+
+# Convertendo scale x para log. 
+ggplot(data=gapminder, 
+       aes(y=lifeExp, x=gdpPercap)) + 
+      geom_point()  +
+      scale_x_log10(name=&quot;Log gdp&quot;) </code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Alterando intervalos em variável continua e alterando limites:</p>
+<pre class="r"><code>gap_grouped &lt;- gapminder %&gt;%
+                group_by(year, continent) %&gt;%
+                summarise(m=mean(lifeExp, na.rm = TRUE))
+
+ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100))</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+</div>
+<div id="ajustando-outras-representações-gráficas." class="section level2">
+<h2>Ajustando outras representações gráficas.</h2>
+<p>As funções scale são também muito úteis para ajustar outras representações gráficas, como fill, color, shape, size, entre outras. Alguns exemplos destas funções:</p>
+<ul>
+<li><code>scale_aes_manual</code>: altera cores, shapes, fill para cada grupo de sua variável.</li>
+<li><code>scale_aes_gradient</code>: altera escalas de cores de forma continua.</li>
+<li><code>scale_aes_brewer</code>: altera palleta de cores para representação gráfica.</li>
+</ul>
+<div id="scale_aes_manual" class="section level3">
+<h3>scale_aes_manual</h3>
+<pre class="r"><code>ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100)) +
+      scale_color_manual(name=&quot;Continent&quot;, 
+                         values = c(&quot;white&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot;))</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Usualmente, não adicionamos as cores de forma manual. O R possui paletas de cores pensadas de forma cuidadosa para representar seus gráficas. Dentre elas, minha favorita é do pacote <code>wesanderson</code>.</p>
+<pre class="r"><code>#devtools::install_github(&quot;karthik/wesanderson&quot;)
+library(wesanderson)
+pal &lt; wes_palette(&quot;Royal2&quot;)</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;pal&#39; not found</code></pre>
+<pre class="r"><code># Novo gráfico
+ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100)) +
+      scale_color_manual(name=&quot;Continent&quot;, 
+                         values = pal)</code></pre>
+<pre><code>## Error in is_reference(x, quote(expr = )): object &#39;pal&#39; not found</code></pre>
+</div>
+<div id="scale_aes_gradient" class="section level3">
+<h3>scale_aes_gradient</h3>
+<pre class="r"><code>ggplot(data=gapminder, 
+       aes(y=lifeExp, x=gdpPercap, 
+           fill=lifeExp)) + 
+      geom_point(shape=21, size=2) +
+  scale_x_log10() +
+  scale_fill_gradient(low=&quot;yellow&quot;, high=&quot;red&quot;, 
+                      name=&quot;Life Expectancy&quot;)</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="scale_aes_brewer" class="section level3">
+<h3>scale_aes_brewer</h3>
+<pre class="r"><code># Exemplo 1
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5)  # Etapa do Geom</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code># Exemplo 2
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5) +  # Etapa do Geom
+
+    scale_fill_brewer(palette = &quot;Blues&quot;)</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<pre class="r"><code># Examplo 3
+ggplot(data=gapminder, ## Etapa dos Dados
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+    geom_boxplot(size=1.5, 
+                 alpha=.5) +  # Etapa do Geom
+  
+    # fill 
+
+    scale_fill_brewer(palette = &quot;Set1&quot;)</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
+<p>Para ver todas as paletas disponíveis:</p>
+<pre class="r"><code>#install.packages(&quot;RColorBrewer&quot;)
+library(RColorBrewer)
+RColorBrewer::display.brewer.all()</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+</div>
+<div id="labels-e-títulos" class="section level2">
+<h2>Labels e Títulos</h2>
+<p>Ajustar os labels dos seus gráficos e títulos usando ggplot é super intuitivo. Como você pode imaginas, precisamos somente adicionar uma nova camada com a função <code>labs()</code></p>
+<pre class="r"><code>ggplot(data=gapminder,  aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+    geom_boxplot(size=1.5, alpha=.5) +  # Etapa do Geom
+    scale_fill_brewer(palette = &quot;Set1&quot;) +
+  
+    # Nova camada
+  
+  labs(
+    x = &quot;Continentes&quot;, 
+    y = &quot;Expectativa de Vida&quot;, 
+    fill = &quot;Continente&quot;,
+    title = &quot;Expectativa de Vida Por Continente&quot;,
+    subtitle = &quot;Fonte: gapminder&quot;, 
+    caption = &quot; Author: Tiago Ventura&quot;
+  )</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="facetting." class="section level2">
+<h2>Facetting.</h2>
+<p>O último truque do ggplot que é muito útil quando trabalhamos com dados agrupados são as funções <code>facet_</code>.</p>
+<p>Estas funções nos permitem dividir os gráficos em pequenas partes (sub-gráficos) a partir de determinados grupos. Essas funções funcionam como formulas em R. O que vem depois do tilda <code>~</code> será dividido em pequenos gráficos.
+Vejamos alguns exemplos:</p>
+<pre class="r"><code># Colunas
+ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap)) +
+  geom_line(color=&quot;gray70&quot;, aes(group = country)) +
+  geom_smooth(size = 1.1, method = &quot;loess&quot;, se = FALSE) +
+  scale_y_log10() +
+  labs(x = &quot;Year&quot;,
+         y = &quot;GDP per capita&quot;,
+         title = &quot;GDP per capita on Five Continents&quot;) +
+  # facet
+  facet_wrap(~ continent) </code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="customização-de-forma-consistente." class="section level2">
+<h2>Customização de forma consistente.</h2>
+<p>A maioria dos ajustes que você pode fazer em seu gráfico vão dentro da função <code>theme</code>. Ao trabalhar em um projeto, é importante que seus gráficos sejam consistentes e que você adicione essa consistência ao seu fluxo de trabalho. Isso significa que é fundamental que seus gráficos possuam a mesma identidade para o projeto inteiro. E essa consistência é fácil de ser mantida com o ggplot</p>
+<p>Uma forma de ter gráficos consistentes é desenvolver seu própria tema e aplicar a todos os seus gráficos. Abaixo segue um exemplo de um tema que desenvolvi para meus gráficos.</p>
+<pre class="r"><code># Set up my theme  ------------------------------------------------------------
+my_font &lt;- &quot;Palatino Linotype&quot;
+my_bkgd &lt;- &quot;#f5f5f2&quot;
+pal &lt;- RColorBrewer::brewer.pal(9, &quot;Spectral&quot;)
+my_theme &lt;- theme(text = element_text(family = my_font, color = &quot;#22211d&quot;),
+                  rect = element_rect(fill = my_bkgd),
+                  plot.background = element_rect(fill = my_bkgd, color = NA),
+                  panel.background = element_rect(fill = my_bkgd, color = NA),
+                  panel.border = element_rect(color=&quot;black&quot;), 
+                  strip.background = element_rect(color=&quot;black&quot;, fill=&quot;gray85&quot;), 
+                  legend.background = element_rect(fill = my_bkgd, color = NA),
+                  legend.key = element_rect(size = 6, fill = &quot;white&quot;, colour = NA), 
+                  legend.key.size = unit(1, &quot;cm&quot;),
+                  legend.text = element_text(size = 14, family = my_font),
+                  legend.title = element_text(size=14),
+                  plot.title = element_text(size = 22, face = &quot;bold&quot;, family=my_font),
+                  plot.subtitle = element_text(size=16, family=my_font),
+                  axis.title= element_text(size=10),
+                  
+                  axis.text = element_text(size=10, family=my_font),
+                  axis.title.x = element_text(hjust=1),
+                  strip.text = element_text(family = my_font, color = &quot;#22211d&quot;,
+                                            size = 10, face=&quot;italic&quot;))
+
+my_theme  &lt;- theme_bw() + my_theme</code></pre>
+<p>A partir daí, você precisa dizer ao seu ambiente em R para utilizar este tema como modelo:</p>
+<pre class="r"><code># This sets up for all your plots
+theme_set(theme_bw() + my_theme)</code></pre>
+<p>Ou você pode fazer isto manualmente em cada gráfico:</p>
+<pre class="r"><code>graph &lt;- ggplot(data=gapminder, 
+                aes(y=lifeExp, x=continent, 
+           fill=continent)) + # Etapa de Mapear
+    geom_boxplot(size=1.5, alpha=.5) +  # Etapa do Geom
+    scale_fill_brewer(palette = &quot;Set1&quot;) 
+
+graph +  my_theme</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Outra opção, mais recomendada para quem está iniciando em R, é usar temas pré-construídos do ggplot e outros pacotes.</p>
+<pre class="r"><code>install.packages(c(&quot;ggthemes&quot;, &quot;hbrthemes&quot;))
+library(ggthemes)
+library(hrbrthemes)
+ 
+
+graph + 
+  theme_minimal()</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>graph + 
+  theme_economist()</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<pre class="r"><code>graph + 
+  theme_fivethirtyeight()</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-13-3.png" width="672" /></p>
+<pre class="r"><code>graph + 
+  theme_ipsum()</code></pre>
+<p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-13-4.png" width="672" /></p>
+</div>
+<div id="desafio-valendo-ponto-extra." class="section level2">
+<h2>Desafio (Valendo Ponto Extra).</h2>
+<p>Valendo ponto extra para o exercício da próxima semana. Eu compartilhei no slack alguns artigos que escrevi nos últimos anos usando ggplot. O desafio de vocês é escolher um gráfico favorito dentre estes artigos, e me mandar via slack. Na próxima aula, vamos reproduzir integralmente os gráficos que vocês escolherem.</p>
+<p>E nesta semana não teremos exercício. Podem descansar!</p>
+</div>
+</div>

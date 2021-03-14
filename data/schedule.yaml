@@ -60,11 +60,16 @@ lessons:
 
   - title: "Visualização de Dados I"
     date: "2021-03-15, Seg"
-    #reading: "11-reading"
-    #class: "corr1-class"
+    class: "10-class"
+    reading: "09-reading"
+
 
   - title: "Visualização de Dados II"
     date:  "2021-03-17, Quarta"
+    class: "10-class"
+    reading: "09-reading"
+
+
 
   - title: "Programação Funcional em R"
     date: "2021-03-22, Seg"
