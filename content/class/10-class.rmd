@@ -32,6 +32,6 @@ Tutorial 10: Introdução ao ggplot II: Customizaçao. [(HTML)](/Tutoriais/tutor
 
 ## Slides
 
-[Slides: Joins](/slides/slides-visualizacao_I.html)
+[Slides: Visualização I](/slides/slides-visualizacao_I.html)
 
-[Slides: Tidy](/slides/slides-visualizacao_II.html)
+[Slides: Visualização II](/slides/slides-visualizacao_II.html)
