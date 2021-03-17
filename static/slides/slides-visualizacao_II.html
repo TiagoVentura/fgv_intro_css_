@@ -73,7 +73,7 @@ ggplot(data=gapminder,
 ]
 
 .pull-right[
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-10-1.png" width="80%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
 ]
 
 ---
@@ -100,7 +100,7 @@ ggplot(data=gapminder,
 
 .pull-right[
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-12-1.png" width="80%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
 
 ]
 
@@ -166,7 +166,7 @@ ggplot(data=gapminder,
       scale_x_log10(name="Log gdp") 
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-14-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-6-1.png" width="50%" /&gt;
 
 ---
 ## Limites e Separação
@@ -186,7 +186,7 @@ ggplot(data=gap_grouped,
       scale_y_continuous(limits = c(25,100))
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-15-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-7-1.png" width="50%" /&gt;
 
 ---
 
@@ -215,7 +215,7 @@ ggplot(data=gap_grouped,
                          values = c("white", "blue", "red", "yellow", "green"))
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-16-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-8-1.png" width="50%" /&gt;
 
 
 ---
@@ -232,7 +232,7 @@ pal &lt;- wes_palette("Royal2")
 pal
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-17-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-9-1.png" width="50%" /&gt;
 
 ---
 
@@ -249,7 +249,7 @@ ggplot(data=gap_grouped,
                          values = pal)
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-18-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-10-1.png" width="50%" /&gt;
 
 ---
 
@@ -266,7 +266,7 @@ ggplot(data=gapminder,
                       name="Life Expectancy")
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-19-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-11-1.png" width="50%" /&gt;
 
 ---
 
@@ -286,7 +286,7 @@ ggplot(data=gapminder,
                  alpha=.5)  
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-20-1.png" width="100%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-12-1.png" width="100%" /&gt;
 ]
 
 .pull-rigth[
@@ -305,7 +305,7 @@ ggplot(data=gapminder,
 *   scale_fill_brewer(palette = "Set1")
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-21-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-13-1.png" width="50%" /&gt;
 ]
 
 ---
@@ -319,7 +319,7 @@ library(RColorBrewer)
 RColorBrewer::display.brewer.all()
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-22-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-14-1.png" width="50%" /&gt;
 
 ---
 
@@ -348,7 +348,7 @@ ggplot(data=gapminder,
 ]
 
 .pull-right[
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-24-1.png" width="80%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-16-1.png" width="80%" /&gt;
 ]
 
 ---
@@ -371,7 +371,7 @@ ggplot(data=gapminder,
     guides(fill="none")
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-25-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-17-1.png" width="50%" /&gt;
 ]
 
 .pull-right[
@@ -392,7 +392,7 @@ ggplot(data=gapminder,
     guides(color="none")
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-26-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-18-1.png" width="50%" /&gt;
 ]
 
 ---
@@ -415,7 +415,7 @@ ggplot(data=gapminder,
     theme(legend.position="bottom")
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-27-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-19-1.png" width="50%" /&gt;
 
 
 
@@ -443,7 +443,7 @@ ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap)) +
   facet_wrap(~ continent) 
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-28-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-20-1.png" width="50%" /&gt;
 
 ---
 
@@ -508,7 +508,7 @@ graph +
 ]
 
 .pull-right[
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-32-1.png" width="80%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-24-1.png" width="80%" /&gt;
 ]
 
 ---
@@ -525,7 +525,7 @@ graph +
   theme_minimal()
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-33-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-25-1.png" width="50%" /&gt;
 
 ---
 
@@ -535,7 +535,7 @@ graph +
   theme_economist()
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-34-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-26-1.png" width="50%" /&gt;
 
 ---
 
@@ -545,7 +545,7 @@ graph +
   theme_fivethirtyeight()
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-35-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-27-1.png" width="50%" /&gt;
 
 ---
 
@@ -555,7 +555,7 @@ graph +
   theme_ipsum()
 ```
 
-&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-36-1.png" width="50%" /&gt;
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-28-1.png" width="50%" /&gt;
 
 ---
 
