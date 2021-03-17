@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 8: Visualização de Dados com ggplot I"
+title: "Tutorial 9: Visualização de Dados com ggplot I"
 output:
     rmdformats::robobook:
       code_folding: show
@@ -14,14 +14,15 @@ editor_options:
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<div id="introdução-visualização-de-dados-com-ggplot-ii." class="section level1">
-<h1>Introdução: Visualização de Dados com ggplot II.</h1>
-<p>No tutorial anterior, aprendemos três a parte obrigatório do ggplot: definir seus dados, conectar variáveis a representações gráficas, e definir como mostrar seus dados usando as funções <code>geoms</code>.</p>
-<p>Hoje, daremos um passo adiante. Aprenderemos como customizar nossos gráfico.</p>
+<div id="introdução-visualização-de-dados-com-ggplot2-ii." class="section level1">
+<h1>Introdução: Visualização de Dados com ggplot2 II.</h1>
+<p>No tutorial anterior, aprendemos a parte obrigatória do ggplot2: definir seus dados, conectar variáveis a representações gráficas, e definir como mostrar seus dados usando as funções <code>geoms</code>. Qualquer gráfico em ggplot2 terá estes três elementos.</p>
+<p>Hoje, daremos um passo adiante. Aprenderemos como customizar nossos gráfico. Este processo de customização envolve diversas opções e diversos detalhes. Portanto, aqui não discutiremos a maior parte das opções disponíveis de customização no ggplot2.</p>
+<p>Em meu caso, na maioria das vezes, eu uso o google quando preciso customizar algo nos meus gráficos. Uma opção interessante é o tutorial <a href="https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r">A ggplot2 Tutorial for Beautiful Plotting in R</a> escrito por Cédric Scherer. A meu ver, este é um dos tutoriais mais detalhados e completos sobre opções de customização em ggpltot2.</p>
 </div>
 <div id="customização-escalas-labels-temas." class="section level1">
 <h1>Customização: Escalas + Labels + Temas.</h1>
-<p>A idéia de customização consiste em ajustar seu gráfico para apresentá-lo da forma mis efetiva possível. Este processo vai desde quais cores utilizar, nomes dos eixos, background dos gráficos, posição de legendas, entre outros.</p>
+<p>A idéia de customização consiste em ajustar seu gráfico para apresentá-lo da forma mais efetiva possível. Este processo de decisões consiste em definir as cores que irá utilizar no gráfico, nomes dos eixos, background dos gráficos, posição de legendas, entre outros.</p>
 <p>Começaremos com os ajustes de escalas (<code>scale_function</code>).</p>
 <div id="scales" class="section level2">
 <h2>Scales</h2>
@@ -66,7 +67,7 @@ ggplot(data=gap_grouped,
 </div>
 <div id="ajustando-outras-representações-gráficas." class="section level2">
 <h2>Ajustando outras representações gráficas.</h2>
-<p>As funções scale são também muito úteis para ajustar outras representações gráficas, como fill, color, shape, size, entre outras. Alguns exemplos destas funções:</p>
+<p>As funções scale são também muito úteis para ajustar outras representações gráficas, como <code>fill</code>, <code>color</code>, <code>shape</code>, <code>size</code>, entre outras. Alguns exemplos destas funções:</p>
 <ul>
 <li><code>scale_aes_manual</code>: altera cores, shapes, fill para cada grupo de sua variável.</li>
 <li><code>scale_aes_gradient</code>: altera escalas de cores de forma continua.</li>
@@ -136,7 +137,7 @@ ggplot(data=gapminder, ## Etapa dos Dados
 
     scale_fill_brewer(palette = &quot;Blues&quot;)</code></pre>
 <p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
-<pre class="r"><code># Examplo 3
+<pre class="r"><code># Exemplo 3
 ggplot(data=gapminder, ## Etapa dos Dados
        aes(y=lifeExp, x=continent, 
            fill=continent)) + # Etapa de Mapear
@@ -156,7 +157,7 @@ RColorBrewer::display.brewer.all()</code></pre>
 </div>
 <div id="labels-e-títulos" class="section level2">
 <h2>Labels e Títulos</h2>
-<p>Ajustar os labels dos seus gráficos e títulos usando ggplot é super intuitivo. Como você pode imaginas, precisamos somente adicionar uma nova camada com a função <code>labs()</code></p>
+<p>Ajustar os labels dos seus gráficos e títulos usando ggplot2 é super intuitivo. Como você pode imaginar, precisamos somente adicionar uma nova camada com a função <code>labs()</code></p>
 <pre class="r"><code>ggplot(data=gapminder,  aes(y=lifeExp, x=continent, 
            fill=continent)) + # Etapa de Mapear
     geom_boxplot(size=1.5, alpha=.5) +  # Etapa do Geom
@@ -177,7 +178,8 @@ RColorBrewer::display.brewer.all()</code></pre>
 <div id="facetting." class="section level2">
 <h2>Facetting.</h2>
 <p>O último truque do ggplot que é muito útil quando trabalhamos com dados agrupados são as funções <code>facet_</code>.</p>
-<p>Estas funções nos permitem dividir os gráficos em pequenas partes (sub-gráficos) a partir de determinados grupos. Essas funções funcionam como formulas em R. O que vem depois do tilda <code>~</code> será dividido em pequenos gráficos.
+<p>Estas funções nos permitem dividir os gráficos em pequenas partes (sub-gráficos) a partir de determinados grupos.</p>
+<p>Essas funções funcionam como formulas em R. O que vem depois do tilda <code>~</code> será dividido em pequenos gráficos.
 Vejamos alguns exemplos:</p>
 <pre class="r"><code># Colunas
 ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap)) +
@@ -193,8 +195,9 @@ ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap)) +
 </div>
 <div id="customização-de-forma-consistente." class="section level2">
 <h2>Customização de forma consistente.</h2>
-<p>A maioria dos ajustes que você pode fazer em seu gráfico vão dentro da função <code>theme</code>. Ao trabalhar em um projeto, é importante que seus gráficos sejam consistentes e que você adicione essa consistência ao seu fluxo de trabalho. Isso significa que é fundamental que seus gráficos possuam a mesma identidade para o projeto inteiro. E essa consistência é fácil de ser mantida com o ggplot</p>
-<p>Uma forma de ter gráficos consistentes é desenvolver seu própria tema e aplicar a todos os seus gráficos. Abaixo segue um exemplo de um tema que desenvolvi para meus gráficos.</p>
+<p>A maioria dos ajustes que você pode fazer em seu gráfico vão dentro da função <code>theme</code>. Ao trabalhar em um projeto, é importante que seus gráficos sejam consistentes e que você adicione essa consistência ao seu fluxo de trabalho.</p>
+<p>Isso significa que é fundamental que seus gráficos possuam a mesma identidade para o projeto inteiro. E essa consistência é fácil de ser mantida com o ggplot2.</p>
+<p>Uma forma de ter gráficos consistentes é desenvolver seu própria tema e aplicar este mesmo tema a todos os seus gráficos. Abaixo segue um exemplo de um tema que desenvolvi para meus gráficos.</p>
 <pre class="r"><code># Set up my theme  ------------------------------------------------------------
 my_font &lt;- &quot;Palatino Linotype&quot;
 my_bkgd &lt;- &quot;#f5f5f2&quot;
@@ -232,8 +235,8 @@ theme_set(theme_bw() + my_theme)</code></pre>
 
 graph +  my_theme</code></pre>
 <p><img src="/Tutoriais/tutorial_visualizacao_II_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p>Outra opção, mais recomendada para quem está iniciando em R, é usar temas pré-construídos do ggplot e outros pacotes.</p>
-<pre class="r"><code>install.packages(c(&quot;ggthemes&quot;, &quot;hbrthemes&quot;))
+<p>Outra opção, mais recomendada para quem está iniciando em R, é usar temas pré-construídos do ggplot2 e outros pacotes.</p>
+<pre class="r"><code>#install.packages(c(&quot;ggthemes&quot;, &quot;hbrthemes&quot;))
 library(ggthemes)
 library(hrbrthemes)
  

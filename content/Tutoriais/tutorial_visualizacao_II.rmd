@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 8: Visualização de Dados com ggplot I"
+title: "Tutorial 9: Visualização de Dados com ggplot I"
 output:
     rmdformats::robobook:
       code_folding: show
@@ -19,15 +19,18 @@ knitr::opts_chunk$set(echo = TRUE,
                       cache=TRUE)
 ```
 
-# Introdução: Visualização de Dados com ggplot II.
+# Introdução: Visualização de Dados com ggplot2 II.
 
-No tutorial anterior, aprendemos três a parte obrigatório do ggplot: definir seus dados, conectar variáveis a representações gráficas, e definir como mostrar seus dados usando as funções `geoms`. 
+No tutorial anterior, aprendemos a parte obrigatória do ggplot2: definir seus dados, conectar variáveis a representações gráficas, e definir como mostrar seus dados usando as funções `geoms`. Qualquer gráfico em ggplot2 terá estes três elementos.
 
-Hoje, daremos um passo adiante. Aprenderemos como customizar nossos gráfico. 
+Hoje, daremos um passo adiante. Aprenderemos como customizar nossos gráfico. Este processo de customização envolve diversas opções e diversos detalhes. Portanto, aqui não discutiremos a maior parte das opções disponíveis de customização no ggplot2. 
+
+Em meu caso, na maioria das vezes, eu uso o google quando preciso customizar algo nos meus gráficos. Uma opção interessante é o tutorial [A ggplot2 Tutorial for Beautiful Plotting in R](https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r)  escrito por Cédric Scherer. A meu ver, este é um dos tutoriais mais detalhados e completos sobre opções de customização em ggpltot2.
+ 
 
 # Customização: Escalas + Labels + Temas.
 
-A idéia de customização consiste em ajustar seu gráfico para apresentá-lo da forma mis efetiva possível. Este processo vai desde quais cores utilizar, nomes dos eixos, background dos gráficos, posição de legendas, entre outros. 
+A idéia de customização consiste em ajustar seu gráfico para apresentá-lo da forma mais efetiva possível. Este processo de decisões consiste em definir as cores que irá utilizar no gráfico, nomes dos eixos, background dos gráficos, posição de legendas, entre outros. 
 
 Começaremos com os ajustes de escalas (`scale_function`). 
 
@@ -85,7 +88,7 @@ ggplot(data=gap_grouped,
 
 ## Ajustando outras representações gráficas. 
 
-As funções scale são também muito úteis para ajustar outras representações gráficas, como fill, color, shape, size, entre outras. Alguns exemplos destas funções:
+As funções scale são também muito úteis para ajustar outras representações gráficas, como `fill`, `color`, `shape`, `size`, entre outras. Alguns exemplos destas funções:
 
 - `scale_aes_manual`: altera cores, shapes, fill para cada grupo de sua variável. 
 - `scale_aes_gradient`: altera escalas de cores de forma continua. 
@@ -167,7 +170,7 @@ ggplot(data=gapminder, ## Etapa dos Dados
 
     scale_fill_brewer(palette = "Blues")
 
-# Examplo 3
+# Exemplo 3
 ggplot(data=gapminder, ## Etapa dos Dados
        aes(y=lifeExp, x=continent, 
            fill=continent)) + # Etapa de Mapear
@@ -190,7 +193,7 @@ RColorBrewer::display.brewer.all()
 
 ## Labels e Títulos
 
-Ajustar os labels dos seus gráficos e títulos usando ggplot é super intuitivo. Como você pode imaginas, precisamos somente adicionar uma nova camada com a função `labs()`
+Ajustar os labels dos seus gráficos e títulos usando ggplot2 é super intuitivo. Como você pode imaginar, precisamos somente adicionar uma nova camada com a função `labs()`
 
 ```{r}
 ggplot(data=gapminder,  aes(y=lifeExp, x=continent, 
@@ -216,7 +219,9 @@ ggplot(data=gapminder,  aes(y=lifeExp, x=continent,
 
 O último truque do ggplot que é muito útil quando trabalhamos com dados agrupados são as funções `facet_`. 
 
-Estas funções nos permitem dividir os gráficos em pequenas partes (sub-gráficos) a partir de determinados grupos. Essas funções funcionam como formulas em R. O que vem depois do tilda  `~` será dividido em pequenos gráficos. 
+Estas funções nos permitem dividir os gráficos em pequenas partes (sub-gráficos) a partir de determinados grupos. 
+
+Essas funções funcionam como formulas em R. O que vem depois do tilda  `~` será dividido em pequenos gráficos. 
 Vejamos alguns exemplos:
 
 ```{r}
@@ -237,9 +242,11 @@ ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap)) +
 
 ## Customização de forma consistente. 
 
-A maioria dos ajustes que você pode fazer em seu gráfico vão dentro da função `theme`. Ao trabalhar em um projeto, é importante que seus gráficos sejam consistentes e que você adicione essa consistência ao seu fluxo de trabalho. Isso significa que é fundamental que seus gráficos possuam a mesma identidade para o projeto inteiro. E essa consistência é fácil de ser mantida com o ggplot
+A maioria dos ajustes que você pode fazer em seu gráfico vão dentro da função `theme`. Ao trabalhar em um projeto, é importante que seus gráficos sejam consistentes e que você adicione essa consistência ao seu fluxo de trabalho. 
 
-Uma forma de ter gráficos consistentes é desenvolver seu própria tema e aplicar a todos os seus gráficos. Abaixo segue um exemplo de um tema que desenvolvi para meus gráficos. 
+Isso significa que é fundamental que seus gráficos possuam a mesma identidade para o projeto inteiro. E essa consistência é fácil de ser mantida com o ggplot2.
+
+Uma forma de ter gráficos consistentes é desenvolver seu própria tema e aplicar este mesmo tema a todos os seus gráficos. Abaixo segue um exemplo de um tema que desenvolvi para meus gráficos. 
 
 ```{r}
 # Set up my theme  ------------------------------------------------------------
@@ -291,10 +298,10 @@ graph +  my_theme
 ```
 
 
-Outra opção, mais recomendada para quem está iniciando em R, é usar temas pré-construídos do ggplot e outros pacotes. 
+Outra opção, mais recomendada para quem está iniciando em R, é usar temas pré-construídos do ggplot2 e outros pacotes. 
 
 ```{r}
-install.packages(c("ggthemes", "hbrthemes"))
+#install.packages(c("ggthemes", "hbrthemes"))
 library(ggthemes)
 library(hrbrthemes)
  

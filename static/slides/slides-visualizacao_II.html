@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tiago Ventura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução a Métodos Computacionais para Ciência Sociais
+## Visualização de Dados II
+### Tiago Ventura
+### CPDOC-FGV
+
+---
+
+
+
+# Revisão sobre ggplot2
+
+
+.pull-left[
+![](figs/gg-syntax.png)
+
+]
+
+.pull-right[
+
+Quatro "grande" etapas definem nosso trabalho de visualização:
+
+1. **Etapa dos Dados**: Define qual banco de dados você pretende visualizar
+
+2. **Etapa de Mapear**: Define quais **variáveis -&gt; representações gráficas** você pretende visualizar. 
+
+3. **Etapa de Geom**: Define como você pretende visualizar. 
+
+4. **Etapa de Embelezamento**: Labels, escalas, coordenados, temas....
+
+
+]
+
+---
+
+## Múltiplos Geoms
+
+.pull-left[
+
+
+```r
+ggplot(data=gapminder, 
+       aes(y=lifeExp, x=gdpPercap)) + 
+      
+      # Pontos
+      
+*   geom_point(shape=22, alpha=.2,
+                 fill="tomato2", 
+                 color="black", 
+                 size=2) + 
+
+  
+      # Tendência
+    
+*     geom_smooth(fill="tomato2",
+                 color="black", 
+                 size=1, alpha=.6)
+```
+]
+
+.pull-right[
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-10-1.png" width="80%" /&gt;
+]
+
+---
+
+## Representações Gráficas como Variáveis.
+
+.pull-left[
+
+
+```r
+ggplot(data=gapminder, 
+       aes(y=lifeExp, x=gdpPercap)) + 
+  
+* geom_point(aes(alpha=pop,
+*          size=log(pop))) +
+  
+  geom_smooth(color="red") +
+  
+  scale_x_log10()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-12-1.png" width="80%" /&gt;
+
+]
+
+
+---
+### Desafio:
+
+Descreva o gráfico abaixo usando o que aprendemos do ggplot e grammar of graphics. 
+
+- Quantas Variáveis? Quantas Representações Gráficas?
+
+- Quais Geoms? Quais Representações Gráficas?
+
+&lt;img src="figs/res_no_band.png" width="80%" /&gt;
+
+---
+
+class: middle, center, inverse
+
+# Visualização de Dados II. 
+
+---
+# Customização: Escalas + Labels + Temas.
+
+A idéia de customização consiste em ajustar seu gráfico para apresentá-lo da forma mais efetiva possível. 
+
+Este processo vai desde definir quais cores utilizar, nomes dos eixos, background dos gráficos, posição de legendas, entre outros. 
+
+Começaremos com os ajustes de escalas.
+
+
+---
+
+## Scales
+
+As funções do tipo `scale_function` controlam como você apresenta cada representação gráfica (aes) do seu gráfico.  
+
+Por exemplo, estas funções permitem alterações nos eixos `x` e `y`, e nas outras representações como `color`, `fill`, `shape`, entre outros. 
+
+Os exemplos mais básicos das funções `scale_` se referem aos eixos `x` e `y`. Alguns exemplos:
+
+- `scale_x_log10` e `scale_y_log10` : converte um eixo númerico para escala de log. 
+- `scale_y_reverse` e `scale_x_reverse` : inverte os valores de x e y. 
+- `scale_x_continuous` e `scale_y_continous`: formata x e y quando são variáveis continuas. 
+- `scale_x_discrete` e `scale_y_discrete`: formata x e y quando são variáveis discretas. 
+- `scale_x_date` e `scale_y_date`: formata x e y quando são variáveis discretas. 
+
+---
+
+### Exemplos
+
+Convertando o eixo x para log10 e alterando o nome. 
+
+
+```r
+library(gapminder)
+library(tidyverse)
+
+# Convertendo scale x para log. 
+ggplot(data=gapminder, 
+       aes(y=lifeExp, x=gdpPercap)) + 
+      geom_point()  +
+      scale_x_log10(name="Log gdp") 
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-14-1.png" width="50%" /&gt;
+
+---
+## Limites e Separação
+
+
+```r
+gap_grouped &lt;- gapminder %&gt;%
+                group_by(year, continent) %&gt;%
+                summarise(m=mean(lifeExp, na.rm = TRUE))
+
+ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100))
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-15-1.png" width="50%" /&gt;
+
+---
+
+## Ajustando Outras Representações. 
+
+As funções `scale` são também muito úteis para ajustar outras representações gráficas, como fill, color, shape, size, entre outras. Alguns exemplos destas funções:
+
+- `scale_aes_manual`: altera cores, shapes, fill para cada grupo de sua variável. 
+- `scale_aes_gradient`: altera escalas de cores de forma continua. 
+- `scale_aes_brewer`: altera palleta de cores para representação gráfica. 
+
+---
+
+### scale_aes_manual
+
+
+```r
+ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100)) +
+      scale_color_manual(name="Continent", 
+                         values = c("white", "blue", "red", "yellow", "green"))
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-16-1.png" width="50%" /&gt;
+
+
+---
+
+## Usando Paletas
+
+Usualmente, não adicionamos as cores de forma manual. O R possui paletas de cores pensadas de forma cuidadosa para representar seus gráficas. Dentre elas, minha favorita é do pacote `wesanderson`. 
+
+
+```r
+#devtools::install_github("karthik/wesanderson")
+library(wesanderson)
+pal &lt;- wes_palette("Royal2")
+pal
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-17-1.png" width="50%" /&gt;
+
+---
+
+```r
+# Novo gráfico
+ggplot(data=gap_grouped, 
+       aes(y=m, x=year, 
+           color=continent)) + 
+      geom_point(size=3) +
+      geom_line() +
+      scale_x_continuous(breaks = unique(gap_grouped$year)) +
+      scale_y_continuous(limits = c(25,100)) +
+      scale_color_manual(name="Continent", 
+                         values = pal)
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-18-1.png" width="50%" /&gt;
+
+---
+
+### scale_aes_gradient
+
+
+```r
+ggplot(data=gapminder, 
+       aes(y=lifeExp, x=gdpPercap, 
+           fill=lifeExp)) + 
+      geom_point(shape=21, size=2) +
+  scale_x_log10() +
+  scale_fill_gradient(low="yellow", high="red", 
+                      name="Life Expectancy")
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-19-1.png" width="50%" /&gt;
+
+---
+
+### scale_aes_brewer
+
+.pull-left[
+
+```r
+# Exemplo 1
+ggplot(data=gapminder,
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) +
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5)  
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-20-1.png" width="100%" /&gt;
+]
+
+.pull-rigth[
+
+```r
+# Exemplo 2
+ggplot(data=gapminder,
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + 
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5) +  
+
+*   scale_fill_brewer(palette = "Set1")
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-21-1.png" width="50%" /&gt;
+]
+
+---
+
+Para ver algumas paletas disponíveis:
+
+
+```r
+#install.packages("RColorBrewer")
+library(RColorBrewer)
+RColorBrewer::display.brewer.all()
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-22-1.png" width="50%" /&gt;
+
+---
+
+## Labels e Títulos
+
+.pull-left[
+
+```r
+ggplot(data=gapminder, 
+       aes(y=lifeExp, x=continent, 
+          fill=continent)) + 
+    geom_boxplot(size=1.5, alpha=.5) +  
+    scale_fill_brewer(palette = "Set1") +
+  
+    # Nova camada
+  
+  labs(
+    x = "Continentes", 
+    y = "Expectativa de Vida", 
+    fill = "Continente",
+    title = "Expectativa de Vida Por Continente",
+    subtitle = "Fonte: gapminder", 
+    caption = " Author: Tiago Ventura"
+  )
+```
+]
+
+.pull-right[
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-24-1.png" width="80%" /&gt;
+]
+
+---
+
+## Removendo Legendas
+.pull-left[
+
+```r
+ggplot(data=gapminder,
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + 
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5) +  
+
+    scale_fill_brewer(palette = "Set1") +
+  
+    guides(fill="none")
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-25-1.png" width="50%" /&gt;
+]
+
+.pull-right[
+
+```r
+ggplot(data=gapminder,
+       aes(y=lifeExp, x=continent, 
+           fill=continent, 
+           color=continent)) + 
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5) +  
+
+    scale_fill_brewer(palette = "Set1") +
+  
+    guides(color="none")
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-26-1.png" width="50%" /&gt;
+]
+
+---
+
+## Alterando Posições da Legenda
+
+
+```r
+ggplot(data=gapminder,
+       aes(y=lifeExp, x=continent, 
+           fill=continent)) + 
+      
+      # Pontos
+      
+    geom_boxplot(size=1.5, 
+                 alpha=.5) +  
+
+    scale_fill_brewer(palette = "Set1") +
+  
+    theme(legend.position="bottom")
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-27-1.png" width="50%" /&gt;
+
+
+
+---
+
+## Facetting. 
+
+O último truque do ggplot que é muito útil quando trabalhamos com dados agrupados são as funções `facet_`.  
+
+Estas funções nos permitem dividir os gráficos em pequenas partes (sub-gráficos) a partir de determinados grupos. 
+
+---
+
+
+```r
+# Colunas
+ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap)) +
+  geom_line(color="gray70", aes(group = country)) +
+  geom_smooth(size = 1.1, method = "loess", se = FALSE) +
+  scale_y_log10() +
+  labs(x = "Year",
+         y = "GDP per capita",
+         title = "GDP per capita on Five Continents") +
+  # facet
+  facet_wrap(~ continent) 
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-28-1.png" width="50%" /&gt;
+
+---
+
+## Customização de forma consistente: usando theme. 
+
+
+```r
+# Set up my theme  ------------------------------------------------------------
+my_font &lt;- "Palatino Linotype"
+my_bkgd &lt;- "#f5f5f2"
+pal &lt;- RColorBrewer::brewer.pal(9, "Spectral")
+my_theme &lt;- theme(text = element_text(family = my_font, color = "#22211d"),
+                  rect = element_rect(fill = my_bkgd),
+                  plot.background = element_rect(fill = my_bkgd, color = NA),
+                  panel.background = element_rect(fill = my_bkgd, color = NA),
+                  panel.border = element_rect(color="black"), 
+                  strip.background = element_rect(color="black", fill="gray85"), 
+                  legend.background = element_rect(fill = my_bkgd, color = NA),
+                  legend.key = element_rect(size = 6, fill = "white", colour = NA), 
+                  legend.key.size = unit(1, "cm"),
+                  legend.text = element_text(size = 14, family = my_font),
+                  legend.title = element_text(size=14),
+                  plot.title = element_text(size = 22, face = "bold", family=my_font),
+                  plot.subtitle = element_text(size=16, family=my_font),
+                  axis.title= element_text(size=10),
+                  
+                  axis.text = element_text(size=10, family=my_font),
+                  axis.title.x = element_text(hjust=1),
+                  strip.text = element_text(family = my_font, color = "#22211d",
+                                            size = 10, face="italic"))
+
+my_theme  &lt;- theme_bw() + my_theme
+```
+
+---
+### Salva como Template no seu R
+
+
+```r
+# This sets up for all your plots
+theme_set(theme_bw() + my_theme)
+```
+
+
+### Ou Adiciona Manualmente. 
+
+.pull-left[
+
+```r
+graph &lt;- ggplot(data=gapminder, 
+                
+            aes(y=lifeExp, x=continent, 
+           fill=continent)) + 
+  
+  geom_boxplot(size=1.5, alpha=.5) +  
+  
+* scale_fill_brewer(palette = "Set1")
+
+graph + 
+  my_theme
+```
+]
+
+.pull-right[
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-32-1.png" width="80%" /&gt;
+]
+
+---
+
+## Temas Pré-Construídos.
+
+
+```r
+#install.packages(c("ggthemes", "hbrthemes"))
+library(ggthemes)
+library(hrbrthemes)
+ 
+graph + 
+  theme_minimal()
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-33-1.png" width="50%" /&gt;
+
+---
+
+
+```r
+graph + 
+  theme_economist()
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-34-1.png" width="50%" /&gt;
+
+---
+
+
+```r
+graph + 
+  theme_fivethirtyeight()
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-35-1.png" width="50%" /&gt;
+
+---
+
+
+```r
+graph + 
+  theme_ipsum()
+```
+
+&lt;img src="slides-visualizacao_II_files/figure-html/unnamed-chunk-36-1.png" width="50%" /&gt;
+
+---
+
+
+## Exercício da Semana (Valendo Ponto Extra). 
+
+Esta semana vocês **não farão exercício de programação**.
+
+Porém terão uma tarefa simples.  Dentre os quatro artigos abaixo:
+
+[Will I Get Covid?](http://tiagoventura.rbind.io/publication/will_i_get_covid/Calvo_Ventura_Covid_Social_Media.pdf)
+
+[Connective Effervescence and Streaming Chat During Political Debates](http://tiagoventura.rbind.io/files/CCMV_Bringing_Audience.pdf)
+
+[Trustful Voters, Trustworthy Politicians: A Survey Experiment on the Influence of Social Mediain Politics](http://tiagoventura.rbind.io/publication_wp/trust/trust.pdf)
+
+[The Effect of Streaming Chat on Perceptions of Debates](http://tiagoventura.rbind.io/files/ACMMV_the_effect_of_streaming_chat_on_perceptions_of_debates.pdf)
+
+Você deve: 
+
+- Selecionar **um gráfico** entre os cinco artigos para reproduzirmos na segunda.
+
+- Envie via slack, até sexta-feira, meia noite. 
+
+- Vamos reproduzir os gráficos na próxima segunda. 
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
