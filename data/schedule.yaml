@@ -69,14 +69,11 @@ lessons:
     class: "10-class"
     reading: "09-reading"
 
-
-
-  - title: "Programação Funcional em R"
+  - title: "Visualização de Dados III: Aplicações"
     date: "2021-03-22, Seg"
-    #reading: "11-reading"
-    #class: "corr1-class"
+    class: "12-class"
 
-  - title: "Programação Funcional em R: Hands-on"
+  - title: "Manipulação de Dados: Lesser Known Tricks do Tidyverse"
     date:  "2021-03-24, Quarta"
 
   - title: "Raspagem de Dados I: Raspando Websites"
@@ -87,6 +84,10 @@ lessons:
   - title: "Raspagem de Dados I: Raspando Websites"
     date:  "2021-03-31, Thu"
 
+  - title: '<i class="fas fa-star"></i> **Semana A1: Sem Aula**'
+    date: ""
+
+
   - title: "Raspagem de Dados II: APIs"
     date: "2021-04-19, Tue"
     #reading: "11-reading"
@@ -94,9 +95,6 @@ lessons:
 
   - title: "Raspagem de Dados II: APIs"
     date:  "2021-04-21, Thu"
-
-  - title: '<i class="fas fa-star"></i> **Semana A1: Sem Aula**'
-    date: ""
 
   - title: '<span class="fake-header-table">Ciência Social Computacional: Artigos Aplicados</span>'
 

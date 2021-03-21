@@ -28,7 +28,7 @@ Esta semana entramos na parte de visualização de dados. Focaremos em:
 Tutorial 9: Introdução ao ggplot I: geoms e representações gráficas. [(HTML)](/Tutoriais/tutorial_visualizacao.html) / [(RMarkdown)](/Tutoriais/tutorial_visualizacao.rmd)
 
 
-Tutorial 10: Introdução ao ggplot II: Customizaçao. [(HTML)](/Tutoriais/tutorial_visualizacao_II.html) / [(RMarkdown)](/Tutoriais/tutorial_visualizacao_II.rmd)
+Tutorial 10: Introdução ao ggplot II: Customizaçao e Temas. [(HTML)](/Tutoriais/tutorial_visualizacao_II.html) / [(RMarkdown)](/Tutoriais/tutorial_visualizacao_II.rmd)
 
 ## Slides
 

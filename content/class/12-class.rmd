@@ -1,0 +1,31 @@
+---
+title: "Aula 12: Exemplos Aplicados de Visualização de Dados"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais  
+
+Para a aula de hoje, eu solicitei a vocês que escolhessem alguns gráficos retirados de alguns dos meus artigos acadêmicos para que possamos reproduzir estas visualizações. Os objetivos desta aula são três:
+
+- Mostrar de forma integrada o processo de manipulação de dados + visualização.
+
+- Fazer uma breve revisão das aulas de manipulação de dados. 
+
+- Treinar o que aprendemos de ggplot2. 
+
+
+## Materiais.
+
+Todo o material da aula de hoje está disponível nesta [pasta](../aplicacao_graficos.zip). 
+
+A pasta está dividida em tres sub-pastas: código, dados e outputs. Como aprendemos no tutorial de fluxo de trabalho, a pasta possui um arquivo de  Projeto de R (.Rproj). Abram este projeto, e o código para cada gráfico deve rodar sem problemas maiores em seus computadores. 
