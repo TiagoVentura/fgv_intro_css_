@@ -73,8 +73,15 @@ lessons:
     date: "2021-03-22, Seg"
     class: "12-class"
 
-  - title: "Manipulação de Dados: Lesser Known Tricks do Tidyverse"
+  - title: "Manipulação de Dados: Extra Tidyverse - Strings e scoped verbs"
     date:  "2021-03-24, Quarta"
+    class: "13-class"
+    reading: "13-reading"
+    assignment: "exercicio-5"
+
+
+
+
 
   - title: "Raspagem de Dados I: Raspando Websites"
     date: "2021-03-29, Seg"

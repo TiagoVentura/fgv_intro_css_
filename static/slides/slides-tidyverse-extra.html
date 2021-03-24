@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tiago Ventura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução a Métodos Computacionais para Ciência Sociais
+## Lesser Known Tricks on Tidyverse
+### Tiago Ventura
+### CPDOC-FGV
+
+---
+
+
+
+# Plano de Hoje
+
+Até aqui, cobrimos as seguintes áreas do processo de manipulação de dados: 
+
+- Básico do dplyr.
+
+- Dados tidy.
+
+- Visualização.
+
+Hoje vamos fazer uma aula extra com alguns funcionalidades mais avançadas. São elas:
+
+- Verbos Complementares no Dplyr. 
+
+- Manipulação de Strings (`stringr`).
+
+- Expressões Regulares.
+
+---
+class: center, inverse, middle
+
+# Verbos Complementares (Scoped Verbs)
+
+---
+
+## O que são?
+
+Verbos complementares são o `dplyr` com esteroídes. 
+
+#### Principal Funcionalidade: 
+
+- Aplicar funções do dplyr em múltiplas variáveis com uma única função.
+
+#### Exemplos:
+
+- `summarise_at`, `mutate_at`,`filter_at`,
+
+- `select_if`, `mutate_if`, `filter_if`.
+
+- `rename_all`, `mutate_all`, `summarise_all`.
+
+
+---
+## Dados
+
+Vamos mostrar alguns exemplos com nossos dados eleitorais:
+
+
+```r
+library(cepespR)
+library(tidyverse)
+d &lt;- get_votes(year = 2018, 
+                         position = "Federal Deputy", 
+                         regional_aggregation = "Municipio", 
+                         state="RJ") %&gt;%
+                  as_tibble()
+cand &lt;- get_candidates(year=2018,
+                       position="Federal Deputy") %&gt;%
+          as_tibble()
+```
+
+---
+## `function_if`: 
+
+### Altera variáveis que satisfaçam um critério lógico
+
+#### Estrutura Básica
+
+      function_if(critério_lógico, função alterando)
+      
+      
+#### Dois Componentes
+
+- Um condições lógica (is.numeric, is.character, is.na)
+
+- função alterando quando a condições lógica for TRUE. 
+
+---
+## select_if
+
+
+```r
+d %&gt;%
+  select_if(is.numeric)
+```
+
+```
+## # A tibble: 51,768 x 10
+##    ANO_ELEICAO NUM_TURNO CODIGO_CARGO NUMERO_CANDIDATO CODIGO_MACRO CODIGO_MESO CODIGO_MICRO
+##          &lt;int&gt;     &lt;int&gt;        &lt;int&gt;            &lt;int&gt;        &lt;int&gt;       &lt;int&gt;        &lt;int&gt;
+##  1        2018         1            6               10            3           5           13
+##  2        2018         1            6             1000            3           5           13
+##  3        2018         1            6             1001            3           5           13
+##  4        2018         1            6             1002            3           5           13
+##  5        2018         1            6             1003            3           5           13
+##  6        2018         1            6             1004            3           5           13
+##  7        2018         1            6             1005            3           5           13
+##  8        2018         1            6             1007            3           5           13
+##  9        2018         1            6             1009            3           5           13
+## 10        2018         1            6             1010            3           5           13
+## # … with 51,758 more rows, and 3 more variables: COD_MUN_TSE &lt;int&gt;, COD_MUN_IBGE &lt;int&gt;,
+## #   QTDE_VOTOS &lt;int&gt;
+```
+
+---
+## mutate_if
+
+Altera e salva novas variáveis de acordo com uma condição.
+
+
+```r
+d %&gt;% 
+  mutate_if(is.character, str_to_title) 
+```
+
+```
+## # A tibble: 51,768 x 19
+##    ANO_ELEICAO SIGLA_UE NUM_TURNO DESCRICAO_ELEIC… CODIGO_CARGO DESCRICAO_CARGO
+##          &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;          
+##  1        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+##  2        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+##  3        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+##  4        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+##  5        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+##  6        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+##  7        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+##  8        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+##  9        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+## 10        2018 Rj               1 Eleições Gerais…            6 Deputado Feder…
+## # … with 51,758 more rows, and 13 more variables: NUMERO_CANDIDATO &lt;int&gt;, CODIGO_MACRO &lt;int&gt;,
+## #   NOME_MACRO &lt;chr&gt;, UF &lt;chr&gt;, NOME_UF &lt;chr&gt;, CODIGO_MESO &lt;int&gt;, NOME_MESO &lt;chr&gt;,
+## #   CODIGO_MICRO &lt;int&gt;, NOME_MICRO &lt;chr&gt;, COD_MUN_TSE &lt;int&gt;, COD_MUN_IBGE &lt;int&gt;,
+## #   NOME_MUNICIPIO &lt;chr&gt;, QTDE_VOTOS &lt;int&gt;
+```
+
+---
+## mutate_if: alterando os nomes. 
+
+
+```r
+d %&gt;% 
+  # dica para se quiser alterar o nome ao mesmo tempo.
+  mutate_if(is.character, list(to_title= ~ str_to_title(.x))) 
+```
+
+```
+## # A tibble: 51,768 x 28
+##    ANO_ELEICAO SIGLA_UE NUM_TURNO DESCRICAO_ELEIC… CODIGO_CARGO DESCRICAO_CARGO
+##          &lt;int&gt; &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;          
+##  1        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+##  2        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+##  3        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+##  4        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+##  5        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+##  6        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+##  7        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+##  8        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+##  9        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+## 10        2018 RJ               1 ELEIÇÕES GERAIS…            6 DEPUTADO FEDER…
+## # … with 51,758 more rows, and 22 more variables: NUMERO_CANDIDATO &lt;int&gt;, CODIGO_MACRO &lt;int&gt;,
+## #   NOME_MACRO &lt;chr&gt;, UF &lt;chr&gt;, NOME_UF &lt;chr&gt;, CODIGO_MESO &lt;int&gt;, NOME_MESO &lt;chr&gt;,
+## #   CODIGO_MICRO &lt;int&gt;, NOME_MICRO &lt;chr&gt;, COD_MUN_TSE &lt;int&gt;, COD_MUN_IBGE &lt;int&gt;,
+## #   NOME_MUNICIPIO &lt;chr&gt;, QTDE_VOTOS &lt;int&gt;, SIGLA_UE_to_title &lt;chr&gt;,
+## #   DESCRICAO_ELEICAO_to_title &lt;chr&gt;, DESCRICAO_CARGO_to_title &lt;chr&gt;,
+## #   NOME_MACRO_to_title &lt;chr&gt;, UF_to_title &lt;chr&gt;, NOME_UF_to_title &lt;chr&gt;,
+## #   NOME_MESO_to_title &lt;chr&gt;, NOME_MICRO_to_title &lt;chr&gt;, NOME_MUNICIPIO_to_title &lt;chr&gt;
+```
+
+---
+
+## summarise_if
+
+
+```r
+# pouco sentido nesse contexto, mas somente para mostrar como funciona. 
+d %&gt;% 
+  summarise_if(is.numeric, max)
+```
+
+```
+## # A tibble: 1 x 10
+##   ANO_ELEICAO NUM_TURNO CODIGO_CARGO NUMERO_CANDIDATO CODIGO_MACRO CODIGO_MESO CODIGO_MICRO
+##         &lt;int&gt;     &lt;int&gt;        &lt;int&gt;            &lt;int&gt;        &lt;int&gt;       &lt;int&gt;        &lt;int&gt;
+## 1        2018         1            6             9099            3           6           18
+## # … with 3 more variables: COD_MUN_TSE &lt;int&gt;, COD_MUN_IBGE &lt;int&gt;, QTDE_VOTOS &lt;int&gt;
+```
+
+---
+## `function_at`
+
+### Altera variáveis específicadas pelo nome. 
+
+
+    verb_at(vars(variaveis), fun(alterações))
+    
+
+### Dois Componentes:
+
+- Variáveis (onde é permitido usar as funções de ajuda do select)
+
+- O que você pretende alterar nestas variáveis. 
+
+---
+
+## mutate_at
+
+
+```r
+# Converter Descricao para Minusculo
+cand %&gt;%
+ mutate_at(vars(contains("DESCRICAO")), 
+                 str_to_lower) %&gt;%
+  select(contains("DESCRICAO"))
+```
+
+```
+## # A tibble: 8,588 x 8
+##    DESCRICAO_ELEIC… DESCRICAO_UE DESCRICAO_CARGO DESCRICAO_OCUPA… DESCRICAO_SEXO
+##    &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;         
+##  1 eleições gerais… acre         deputado feder… vereador         masculino     
+##  2 eleições gerais… acre         deputado feder… empresário       masculino     
+##  3 eleições gerais… acre         deputado feder… empresário       masculino     
+##  4 eleições gerais… acre         deputado feder… empresário       masculino     
+##  5 eleições gerais… acre         deputado feder… outros           masculino     
+##  6 eleições gerais… acre         deputado feder… outros           feminino      
+##  7 eleições gerais… acre         deputado feder… servidor públic… masculino     
+##  8 eleições gerais… acre         deputado feder… professor de en… masculino     
+##  9 eleições gerais… acre         deputado feder… servidor públic… masculino     
+## 10 eleições gerais… acre         deputado feder… policial militar masculino     
+## # … with 8,578 more rows, and 3 more variables: DESCRICAO_GRAU_INSTRUCAO &lt;chr&gt;,
+## #   DESCRICAO_ESTADO_CIVIL &lt;chr&gt;, DESCRICAO_NACIONALIDADE &lt;chr&gt;
+```
+
+---
+
+## Rename_at
+
+
+```r
+cand %&gt;%
+  rename_at(vars(ends_with("CARGO")), 
+            ~ str_replace(.x, "CARGO", "Cargo")) %&gt;%
+  select(contains("Cargo"))
+```
+
+```
+## # A tibble: 8,588 x 2
+##    CODIGO_Cargo DESCRICAO_Cargo 
+##           &lt;int&gt; &lt;chr&gt;           
+##  1            6 DEPUTADO FEDERAL
+##  2            6 DEPUTADO FEDERAL
+##  3            6 DEPUTADO FEDERAL
+##  4            6 DEPUTADO FEDERAL
+##  5            6 DEPUTADO FEDERAL
+##  6            6 DEPUTADO FEDERAL
+##  7            6 DEPUTADO FEDERAL
+##  8            6 DEPUTADO FEDERAL
+##  9            6 DEPUTADO FEDERAL
+## 10            6 DEPUTADO FEDERAL
+## # … with 8,578 more rows
+```
+
+---
+
+## Calma lá Tiago... O que é essa `~`
+
+Tildas, cobrinhas, ou `~` são atalhos para funções em R. Ao invés de você escrever uma função completa, ou uma função anônima, você usa a ~ e o .x como atalhos. 
+
+Alguns exemplos:
+
+--
+.pull-left[
+
+```r
+map(list(a=sample(100, 10), 
+         b=sample(100, 10), 
+         c=sample(100, 10)),
+    function(x) mean(x))
+```
+
+```
+## $a
+## [1] 42.8
+## 
+## $b
+## [1] 41.6
+## 
+## $c
+## [1] 46
+```
+]
+
+
+.pull-right[
+
+```r
+map(list(a=sample(100, 10), 
+         b=sample(100, 10), 
+         c=sample(100, 10)),
+    ~ mean(.x))
+```
+
+```
+## $a
+## [1] 43.4
+## 
+## $b
+## [1] 47
+## 
+## $c
+## [1] 52.7
+```
+]
+
+--
+
+Este é o básico de programação funcional, que aprenderemos mais na frente. 
+
+---
+## Exemplo 2
+
+.pull-left[
+
+```r
+cand %&gt;%
+  rename_at(vars(ends_with("CARGO")), 
+            ~ str_replace(.x, "CARGO", "Cargo")) %&gt;%
+  select(contains("Cargo"))
+```
+
+```
+## # A tibble: 8,588 x 2
+##    CODIGO_Cargo DESCRICAO_Cargo 
+##           &lt;int&gt; &lt;chr&gt;           
+##  1            6 DEPUTADO FEDERAL
+##  2            6 DEPUTADO FEDERAL
+##  3            6 DEPUTADO FEDERAL
+##  4            6 DEPUTADO FEDERAL
+##  5            6 DEPUTADO FEDERAL
+##  6            6 DEPUTADO FEDERAL
+##  7            6 DEPUTADO FEDERAL
+##  8            6 DEPUTADO FEDERAL
+##  9            6 DEPUTADO FEDERAL
+## 10            6 DEPUTADO FEDERAL
+## # … with 8,578 more rows
+```
+]
+
+.pull-right[
+
+
+```r
+cand %&gt;%
+  rename_at(vars(ends_with("CARGO")), 
+            function(x) str_replace(x, "CARGO", "Cargo")) %&gt;%
+  select(contains("Cargo"))
+```
+
+```
+## # A tibble: 8,588 x 2
+##    CODIGO_Cargo DESCRICAO_Cargo 
+##           &lt;int&gt; &lt;chr&gt;           
+##  1            6 DEPUTADO FEDERAL
+##  2            6 DEPUTADO FEDERAL
+##  3            6 DEPUTADO FEDERAL
+##  4            6 DEPUTADO FEDERAL
+##  5            6 DEPUTADO FEDERAL
+##  6            6 DEPUTADO FEDERAL
+##  7            6 DEPUTADO FEDERAL
+##  8            6 DEPUTADO FEDERAL
+##  9            6 DEPUTADO FEDERAL
+## 10            6 DEPUTADO FEDERAL
+## # … with 8,578 more rows
+```
+
+]
+
+---
+
+## `function_all`
+
+### Altera todas as variáveis de uma vez. 
+
+      function_all(var=all_by_default, função)
+      
+
+---
+
+### Mutate_all
+
+
+```r
+cand %&gt;%
+  mutate_all(str_trim)   # retira espaços extras. 
+```
+
+```
+## # A tibble: 8,588 x 42
+##    DATA_GERACAO HORA_GERACAO ANO_ELEICAO NUM_TURNO DESCRICAO_ELEIC… SIGLA_UF SIGLA_UE
+##    &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;   
+##  1 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+##  2 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+##  3 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+##  4 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+##  5 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+##  6 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+##  7 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+##  8 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+##  9 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+## 10 30/10/2018   10:39:17     2018        1         Eleições Gerais… AC       AC      
+## # … with 8,578 more rows, and 35 more variables: DESCRICAO_UE &lt;chr&gt;, CODIGO_CARGO &lt;chr&gt;,
+## #   DESCRICAO_CARGO &lt;chr&gt;, NOME_CANDIDATO &lt;chr&gt;, NUMERO_CANDIDATO &lt;chr&gt;, CPF_CANDIDATO &lt;chr&gt;,
+## #   NOME_URNA_CANDIDATO &lt;chr&gt;, COD_SITUACAO_CANDIDATURA &lt;chr&gt;,
+## #   DES_SITUACAO_CANDIDATURA &lt;chr&gt;, NUMERO_PARTIDO &lt;chr&gt;, SIGLA_PARTIDO &lt;chr&gt;,
+## #   NOME_PARTIDO &lt;chr&gt;, CODIGO_LEGENDA &lt;chr&gt;, SIGLA_LEGENDA &lt;chr&gt;, COMPOSICAO_LEGENDA &lt;chr&gt;,
+## #   NOME_COLIGACAO &lt;chr&gt;, CODIGO_OCUPACAO &lt;chr&gt;, DESCRICAO_OCUPACAO &lt;chr&gt;,
+## #   DATA_NASCIMENTO &lt;chr&gt;, NUM_TITULO_ELEITORAL_CANDIDATO &lt;chr&gt;, IDADE_DATA_ELEICAO &lt;chr&gt;,
+## #   CODIGO_SEXO &lt;chr&gt;, DESCRICAO_SEXO &lt;chr&gt;, COD_GRAU_INSTRUCAO &lt;chr&gt;,
+## #   DESCRICAO_GRAU_INSTRUCAO &lt;chr&gt;, CODIGO_ESTADO_CIVIL &lt;chr&gt;, DESCRICAO_ESTADO_CIVIL &lt;chr&gt;,
+## #   CODIGO_NACIONALIDADE &lt;chr&gt;, DESCRICAO_NACIONALIDADE &lt;chr&gt;, SIGLA_UF_NASCIMENTO &lt;chr&gt;,
+## #   CODIGO_MUNICIPIO_NASCIMENTO &lt;chr&gt;, NOME_MUNICIPIO_NASCIMENTO &lt;chr&gt;,
+## #   DESPESA_MAX_CAMPANHA &lt;chr&gt;, COD_SIT_TOT_TURNO &lt;chr&gt;, DESC_SIT_TOT_TURNO &lt;chr&gt;
+```
+
+---
+
+### Summarize_all
+
+Exemplo com o banco mtcars
+
+
+```r
+mtcars %&gt;%
+  summarise_all(mean)
+```
+
+```
+##        mpg    cyl     disp       hp     drat      wt     qsec     vs      am   gear   carb
+## 1 20.09062 6.1875 230.7219 146.6875 3.596563 3.21725 17.84875 0.4375 0.40625 3.6875 2.8125
+```
+
+---
+## Rename_all: usando nossa `~`
+
+
+```r
+cand %&gt;%
+  rename_all(~ str_replace_all(.x, "_", "x"))
+```
+
+```
+## # A tibble: 8,588 x 42
+##    DATAxGERACAO HORAxGERACAO ANOxELEICAO NUMxTURNO DESCRICAOxELEIC… SIGLAxUF SIGLAxUE
+##    &lt;chr&gt;        &lt;chr&gt;              &lt;int&gt;     &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;   
+##  1 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+##  2 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+##  3 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+##  4 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+##  5 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+##  6 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+##  7 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+##  8 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+##  9 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+## 10 30/10/2018   10:39:17            2018         1 Eleições Gerais… AC       AC      
+## # … with 8,578 more rows, and 35 more variables: DESCRICAOxUE &lt;chr&gt;, CODIGOxCARGO &lt;int&gt;,
+## #   DESCRICAOxCARGO &lt;chr&gt;, NOMExCANDIDATO &lt;chr&gt;, NUMEROxCANDIDATO &lt;int&gt;, CPFxCANDIDATO &lt;chr&gt;,
+## #   NOMExURNAxCANDIDATO &lt;chr&gt;, CODxSITUACAOxCANDIDATURA &lt;int&gt;,
+## #   DESxSITUACAOxCANDIDATURA &lt;chr&gt;, NUMEROxPARTIDO &lt;int&gt;, SIGLAxPARTIDO &lt;chr&gt;,
+## #   NOMExPARTIDO &lt;chr&gt;, CODIGOxLEGENDA &lt;int64&gt;, SIGLAxLEGENDA &lt;chr&gt;,
+## #   COMPOSICAOxLEGENDA &lt;chr&gt;, NOMExCOLIGACAO &lt;chr&gt;, CODIGOxOCUPACAO &lt;int&gt;,
+## #   DESCRICAOxOCUPACAO &lt;chr&gt;, DATAxNASCIMENTO &lt;chr&gt;, NUMxTITULOxELEITORALxCANDIDATO &lt;chr&gt;,
+## #   IDADExDATAxELEICAO &lt;int&gt;, CODIGOxSEXO &lt;int&gt;, DESCRICAOxSEXO &lt;chr&gt;,
+## #   CODxGRAUxINSTRUCAO &lt;int&gt;, DESCRICAOxGRAUxINSTRUCAO &lt;chr&gt;, CODIGOxESTADOxCIVIL &lt;int&gt;,
+## #   DESCRICAOxESTADOxCIVIL &lt;chr&gt;, CODIGOxNACIONALIDADE &lt;int&gt;, DESCRICAOxNACIONALIDADE &lt;chr&gt;,
+## #   SIGLAxUFxNASCIMENTO &lt;chr&gt;, CODIGOxMUNICIPIOxNASCIMENTO &lt;int&gt;,
+## #   NOMExMUNICIPIOxNASCIMENTO &lt;chr&gt;, DESPESAxMAXxCAMPANHA &lt;int&gt;, CODxSITxTOTxTURNO &lt;int&gt;,
+## #   DESCxSITxTOTxTURNO &lt;chr&gt;
+```
+
+---
+class:center, middle, inverse
+
+## stringr: manipulação de strings.
+
+---
+## Strings
+
+Strings = variável de texto. 
+
+Estas técnicas de manipulação de strings são fundamentais quando fazemos raspagem de texto, usamos dados de redes sociais, e até preparamos visualizações de dados. 
+
+Para aprendermos a manipular strings, vamos: 
+
+- Usar o pacote do tidyverse `stringr`
+
+- Aprender o básico de expressões regulares. 
+
+---
+## stringr
+
+O `stringr`, como todo o tidyverse, faz o que seu nome indica. Estas funções, em geral, possuem dois componentes. Todas as suas funções iniciam com `str`. Veja a lista completa de funções [aqui](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf)
+
+Vejamos alguns exemplos. 
+
+---
+## Detectar Padrões
+
+Dois Componentes:
+
+- Primeiro argumento: input
+
+- Segundo argumento: padrão para detectar
+
+--
+
+`str_detect()`
+
+
+```r
+str_detect(c("Tiago", "Ventura"), "Ventura")
+```
+
+```
+## [1] FALSE  TRUE
+```
+
+--
+
+`str_count()`
+
+
+```r
+str_count(c("Tiago", "Ventura"), "Ventura")
+```
+
+```
+## [1] 0 1
+```
+
+--
+
+`str_locate()`
+
+
+```r
+str_locate(c("Tiago#umd", "Ventura#fgv"), "#")
+```
+
+```
+##      start end
+## [1,]     6   6
+## [2,]     8   8
+```
+--
+
+---
+## Alterar strings. 
+
+
+`str_replace_all()`
+
+
+```r
+str_replace_all(c("Tiago#umd", "Ventura#fgv"), "#", " ")
+```
+
+```
+## [1] "Tiago umd"   "Ventura fgv"
+```
+
+`str_to_lower()`
+
+
+```r
+str_to_lower(c("Tiago#umd", "Ventura#fgv"))
+```
+
+```
+## [1] "tiago#umd"   "ventura#fgv"
+```
+
+
+---
+## Mais importante: Fácil de implementar com mutate. 
+
+
+```r
+cand %&gt;%
+  select(NOME_URNA_CANDIDATO) %&gt;%
+  mutate(nome_minusculo=str_to_lower(NOME_URNA_CANDIDATO))
+```
+
+```
+## # A tibble: 8,588 x 2
+##    NOME_URNA_CANDIDATO    nome_minusculo        
+##    &lt;chr&gt;                  &lt;chr&gt;                 
+##  1 "PASTOR MANUEL MARCOS" "pastor manuel marcos"
+##  2 "JUNIOR PARIS DAKAR"   "junior paris dakar"  
+##  3 "RUDILEI ESTRELA"      "rudilei estrela"     
+##  4 "NELSON SALES"         "nelson sales"        
+##  5 "EURICO CORDEIRO "     "eurico cordeiro "    
+##  6 "DJÊ CAVALCANTE"       "djê cavalcante"      
+##  7 "PAULO SORIANO"        "paulo soriano"       
+##  8 "JESUS SÉRGIO"         "jesus sérgio"        
+##  9 "CHICO DOIDO DA SAÚDE" "chico doido da saúde"
+## 10 "CABRAL"               "cabral"              
+## # … with 8,578 more rows
+```
+
+---
+
+## Extrair Padrões
+
+
+Dois Componentes:
+
+- Primeiro argumento: input
+
+- Segundo argumento: padrão para extrair-dividir. 
+
+
+```r
+nomes&lt;-cand$NOME_URNA_CANDIDATO[1:10]
+```
+
+
+
+`str_sub()`: Extrai por posição. 
+
+
+```r
+str_sub(nomes, 1, 5)
+```
+
+```
+##  [1] "PASTO" "JUNIO" "RUDIL" "NELSO" "EURIC" "DJÊ C" "PAULO" "JESUS" "CHICO" "CABRA"
+```
+
+`str_subset()`: retorna a string com o padrão. 
+
+
+```r
+str_subset(nomes, "PASTOR")
+```
+
+```
+## [1] "PASTOR MANUEL MARCOS"
+```
+
+]
+
+---
+
+
+`str_extract_all()`: Extrai somente o padrão. 
+
+
+```r
+str_extract_all(nomes, "PASTOR|CHICO") # | = or
+```
+
+```
+## [[1]]
+## [1] "PASTOR"
+## 
+## [[2]]
+## character(0)
+## 
+## [[3]]
+## character(0)
+## 
+## [[4]]
+## character(0)
+## 
+## [[5]]
+## character(0)
+## 
+## [[6]]
+## character(0)
+## 
+## [[7]]
+## character(0)
+## 
+## [[8]]
+## character(0)
+## 
+## [[9]]
+## [1] "CHICO"
+## 
+## [[10]]
+## character(0)
+```
+
+]
+
+---
+
+
+## Como escrever padrões mais gerais?
+
+Na maior parte das vezes, buscamos padrões mais gerais em nossas buscas textuais. Por exemplo:
+
+- Todas as frases que terminam com a letra "a"
+
+- Todas as strings com valores numéricos. 
+
+- Todas as strings se referindo a Jair Bolsonaro e algumas variações do nome. 
+
+Para fazer buscas textuais mais gerais, utilizaremos `regular expressions`. 
+
+Expressões regulares são atalhos usados por todas as linguagens de programação que tornam buscas textuais mais gerais. 
+
+Não é fácil memorizar expressões regulares, portanto, aqui darei somente um passada bem geral somente para mostrar para vocês como funcionam.
+
+---
+## Expressões Regulares
+
+### Anchors
+
+- `^` para encontrar padrões no início do texto. 
+- `$` para encontrar padrões no início do texto. 
+
+
+```r
+tweets &lt;- c("RT: Hello! Hello", "Hello World!")
+str_subset(tweets, "^RT")
+```
+
+```
+## [1] "RT: Hello! Hello"
+```
+
+```r
+# Com !
+str_subset(tweets, "!")
+```
+
+```
+## [1] "RT: Hello! Hello" "Hello World!"
+```
+
+```r
+# Terminando com !
+str_subset(tweets, "!$")
+```
+
+```
+## [1] "Hello World!"
+```
+
+---
+
+## Outros exemplos
+
+.pull-left[
+
+- `.`: qualquer character.
+- `\d`: digitos
+- \s: espaços.
+- [abc]:  a, b, or c.
+- [^abc]: Tudo menos a, b, ou c.
+
+]
+
+.pull-right[
+
+```r
+# Começa com R e qualquer digito.
+str_subset(tweets, "^R.")
+```
+
+```
+## [1] "RT: Hello! Hello"
+```
+
+```r
+# Algums digito
+str_subset(tweets, "\\d")
+```
+
+```
+## character(0)
+```
+
+```r
+# Contem Algum dos Valores
+str_detect(c("bolsonaro", "Bolsonaros"), "[b|B]olsonaro")
+```
+
+```
+## [1] TRUE TRUE
+```
+]
+
+---
+### Again... 
+
+--
+
+
+```r
+knitr::include_graphics("https://media.giphy.com/media/8ykJ4yAnwgK2I/giphy.gif")
+```
+
+&lt;img src="https://media.giphy.com/media/8ykJ4yAnwgK2I/giphy.gif" width="80%" /&gt;
+
+
+--
+
+---
+### Onde aprender mais:
+
+- [google](https://www.google.com/search?q=how+to+capture+email+with+regilar+expression+in+r&amp;oq=how+to+capture+email+with+regilar+expression+in+r&amp;aqs=chrome..69i57j33l7.10663j0j9&amp;sourceid=chrome&amp;ie=UTF-8)
+
+- [resumo](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf)
+
+---
+class: middle, center, inverse
+
+# [Exercício 5]()
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

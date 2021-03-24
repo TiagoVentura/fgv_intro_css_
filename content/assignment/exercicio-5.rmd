@@ -1,0 +1,147 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 5"
+author: "Tiago Ventura"
+output: html_document
+date: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+## Introduções. 
+  
+Seguimos com nossas instruções. 
+
+- Entrega dos exercícios até sexta-feira, meia noite. 
+
+- Entrega com documento em formato pdf. 
+
+- Entrega via slack. 
+
+Divirtam-se. 
+
+Neste exercício, a idéia fundamental é que vocês repliquem três exemplos de gráficos que eu colocarei aqui. 
+
+Todos so gráficos vem de bancos de dados criados por mim. 
+
+É importante que vocês acertem:
+
+- As representações gráficas (x, y, fill, color)
+
+- As formas geométricas (geoms). 
+
+- As quebras de gráficos (facets, coord_flip, entre outros.)
+
+**Não me importa a customização que escolherem**. 
+
+Divirtam-se!
+
+## Gráfico 1. 
+
+Reproduzam este gráfico:
+
+```{r echo=FALSE}
+library(tidyverse)
+
+set.seed(123)
+x <- rnorm(1000)
+y <- 1 + 2*x + 1*x^2 - .5*x^3  + rnorm(1000,sd=3)
+dados  <- tibble(y,x) %>% 
+  mutate(color = ifelse(x>=0,"Pos-Tratamento","Pre-Tratamento"),
+         y = ifelse(x>=0,y+5,y),
+         color = fct_rev(color))
+
+ggplot(dados, aes(x,y,color=color,pch=color)) +
+  geom_point(size=3,alpha=.5) +
+  geom_smooth() +
+  theme_minimal() +
+  scale_color_manual(values=c("grey30","steelblue")) +
+  labs(color="",pch="",x="X",y="Y",
+       title="Regressão Discontinuada",
+       caption = "\nSource: Eric Dunford") +
+  theme(legend.position = "bottom",
+        plot.title = element_text(size=20,family='serif'),
+        text = element_text(size=20,family='serif'),
+        axis.text = element_text(size=18,family='serif'),
+        axis.title = element_text(size=18,family='serif'))
+
+```
+
+#### Dados
+
+```{r}
+library(tidyverse)
+set.seed(123)
+x <- rnorm(1000)
+y <- 1 + 2*x + 1*x^2 - .5*x^3  + rnorm(1000,sd=3)
+dados  <- tibble(y,x) %>% 
+  mutate(color = ifelse(x>=0,"Pos-Tratamento","Pre-Tratamento"),
+         y = ifelse(x>=0,y+5,y),
+         color = fct_rev(color))
+
+# Gráfico Aqui:
+
+
+```
+## Gráfico 2. 
+
+Reproduzam este gráfico:
+
+```{r, echo=FALSE}
+dados <- pmap_df(list(x=c(0, 0.2, 0.5, 0.7), 
+              y=runif(4, 0.1, 0.5),  
+              z=c("A", "B", "C", "D"), 
+              w=c("1998", "2002", "2006", "2010")),
+              function(x, y, z, w) tibble(votacao=rnorm(1000, x, y), 
+                                    partido=z, ano=w))
+
+ggplot(dados, aes(x=votacao, fill=partido)) +
+  geom_density(alpha=.5) +
+  theme_light() +
+  facet_wrap(~ano) +
+  scale_fill_brewer(palette="Set1")
+
+```
+
+#### Dados
+
+```{r}
+dados <- pmap_df(list(x=c(0, 0.2, 0.5, 0.7), 
+              y=runif(4, 0.1, 0.5),  
+              z=c("A", "B", "C", "D"), 
+              w=c("1998", "2002", "2006", "2010")),
+              function(x, y, z, w) tibble(votacao=rnorm(1000, x, y), 
+                                    partido=z, ano=w))
+
+# grafico aqui. 
+
+```
+
+## Gráfico 3. 
+
+Reproduzam este gráfico:
+
+```{r echo=FALSE}
+library(gapminder)
+gapminder %>%
+  ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap)) +
+  geom_line(color="gray70", aes(group = country)) +
+    geom_smooth(size = 1.1, method = "loess", se = FALSE) +
+    scale_y_log10(labels=scales::dollar) +
+    facet_wrap(~ continent, ncol = 5) +
+    labs(x = "Year",
+         y = "Log GDP per capita",
+         title = "GDP per capita on Five Continents")  +
+  theme_minimal(base_size=10)
+
+```
+
+#### Dados
+
+```{r}
+library(gapminder)
+gapminder
+# grafico aqui
+```
+

@@ -1,0 +1,89 @@
+---
+title: "Introdução a Método Computacionais para as Ciências Sociais: Exercício 5"
+author: "Tiago Ventura"
+output: html_document
+date: ""
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="introduções." class="section level2">
+<h2>Introduções.</h2>
+<p>Seguimos com nossas instruções.</p>
+<ul>
+<li><p>Entrega dos exercícios até sexta-feira, meia noite.</p></li>
+<li><p>Entrega com documento em formato pdf.</p></li>
+<li><p>Entrega via slack.</p></li>
+</ul>
+<p>Divirtam-se.</p>
+<p>Neste exercício, a idéia fundamental é que vocês repliquem três exemplos de gráficos que eu colocarei aqui.</p>
+<p>Todos so gráficos vem de bancos de dados criados por mim.</p>
+<p>É importante que vocês acertem:</p>
+<ul>
+<li><p>As representações gráficas (x, y, fill, color)</p></li>
+<li><p>As formas geométricas (geoms).</p></li>
+<li><p>As quebras de gráficos (facets, coord_flip, entre outros.)</p></li>
+</ul>
+<p><strong>Não me importa a customização que escolherem</strong>.</p>
+<p>Divirtam-se!</p>
+</div>
+<div id="gráfico-1." class="section level2">
+<h2>Gráfico 1.</h2>
+<p>Reproduzam este gráfico:</p>
+<p><img src="/assignment/exercicio-5_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div id="dados" class="section level4">
+<h4>Dados</h4>
+<pre class="r"><code>library(tidyverse)
+set.seed(123)
+x &lt;- rnorm(1000)
+y &lt;- 1 + 2*x + 1*x^2 - .5*x^3  + rnorm(1000,sd=3)
+dados  &lt;- tibble(y,x) %&gt;% 
+  mutate(color = ifelse(x&gt;=0,&quot;Pos-Tratamento&quot;,&quot;Pre-Tratamento&quot;),
+         y = ifelse(x&gt;=0,y+5,y),
+         color = fct_rev(color))
+
+# Gráfico Aqui:</code></pre>
+</div>
+</div>
+<div id="gráfico-2." class="section level2">
+<h2>Gráfico 2.</h2>
+<p>Reproduzam este gráfico:</p>
+<p><img src="/assignment/exercicio-5_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div id="dados-1" class="section level4">
+<h4>Dados</h4>
+<pre class="r"><code>dados &lt;- pmap_df(list(x=c(0, 0.2, 0.5, 0.7), 
+              y=runif(4, 0.1, 0.5),  
+              z=c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;), 
+              w=c(&quot;1998&quot;, &quot;2002&quot;, &quot;2006&quot;, &quot;2010&quot;)),
+              function(x, y, z, w) tibble(votacao=rnorm(1000, x, y), 
+                                    partido=z, ano=w))
+
+# grafico aqui. </code></pre>
+</div>
+</div>
+<div id="gráfico-3." class="section level2">
+<h2>Gráfico 3.</h2>
+<p>Reproduzam este gráfico:</p>
+<p><img src="/assignment/exercicio-5_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div id="dados-2" class="section level4">
+<h4>Dados</h4>
+<pre class="r"><code>library(gapminder)
+gapminder</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.
+##  6 Afghanistan Asia       1977    38.4 14880372      786.
+##  7 Afghanistan Asia       1982    39.9 12881816      978.
+##  8 Afghanistan Asia       1987    40.8 13867957      852.
+##  9 Afghanistan Asia       1992    41.7 16317921      649.
+## 10 Afghanistan Asia       1997    41.8 22227415      635.
+## # … with 1,694 more rows</code></pre>
+<pre class="r"><code># grafico aqui</code></pre>
+</div>
+</div>

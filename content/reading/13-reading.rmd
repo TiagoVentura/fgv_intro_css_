@@ -1,0 +1,28 @@
+---
+title: "Extensões Tidyverse"
+citeproc: true
+menu: 
+  reading:
+    parent: Reading
+    weight: 4
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras
+
+Recomendo duas leituras esta semana. 
+
+Em primeiro lugar, o excelente tutorial de Rebecar Barter sobre scoped verbs. Segue o link:
+
+- [mutate_all(), select_if(), summarise_at()... what's the deal with scoped verbs?!](http://www.rebeccabarter.com/blog/2019-01-23_scoped-verbs/´)
+
+E em relação ao stringr, minha recomendação é mais uma vez o nosso livro texto `R for Data Science`. 
+
+- [R for Data Science Cap. 14](https://r4ds.had.co.nz/strings.html)
+
+
