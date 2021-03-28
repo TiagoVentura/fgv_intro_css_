@@ -37,7 +37,9 @@ h1, h2, h3 {
   font-size: 80px;
 }
 
-.alert h3{
+.alert h2{
   color: var(--inverse-header-color);
   font-size: 40px;
 }
+
+.red{ color: red; }

@@ -1,0 +1,26 @@
+---
+title: "Aula 14-15: Raspagem de Dados da Internet"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais 
+
+Nesta semana, vamos começar nossas aulas de raspagem de dados. Nesta primeira semana focaremos em raspar dados de sites, e faremos uma breve introdução a programação funcional. 
+
+## Tutoriais
+
+- Tutorial Raspagem de Dados [(HTML)](/Tutoriais/tutorial_raspagem.html) / [(RMarkdown)](/Tutoriais/tutorial_raspagem.rmd)
+
+## Slides
+
+[Slides Raspagem](/slides/slides-raspagem.html)

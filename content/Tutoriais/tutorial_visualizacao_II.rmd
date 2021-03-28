@@ -7,8 +7,6 @@ output:
       thumbnails: false
       lightbox: true
 number_sections: true
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}

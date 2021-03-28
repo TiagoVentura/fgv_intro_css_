@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Tiago Ventura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <link rel="stylesheet" href="fontsrladies.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introdução a Métodos Computacionais para Ciência Sociais
+## Raspagem de Dados I: Websites.
+### Tiago Ventura
+### CPDOC-FGV
+
+---
+
+
+
+
+
+
+
+# Plano de Hoje:
+
+Vamos dar primeiros passos de como coletar dados na internet. 
+
+- Nocões Teóricas de Raspagem de Dados
+
+
+- Básico de html
+
+- `rvest` para raspagem de sites. 
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+**Próxima Aula**: programação funcional e automatização de coleta de dados. 
+
+---
+## Introdução. 
+
+Há duas formas principais de acessar dados na internet:
+
+1. Raspar dados em websites
+
+2. Acessar APIs (Interface de Programação de Aplicações). 
+
+
+&lt;br&gt;&lt;br&gt;
+
+**Acessar dados via APIs é mais seguro, prático, e rápido. Raspar dados é mais difícil, e mais desafiador. Por isso, sempre opte pela segunda.** 
+
+---
+## O que é raspagem de dados ? 
+
+Raspagem de dados consiste em coletar automaticamente dados disponíveis em sites da internet. 
+
+Você pode fazer isto na mão. Porém, nosso esforço permanente aqui neste curso, é aprender a botar nosso computador para trabalhar. 
+
+Exemplos de sites que eu coletei dados: 
+
+- Dados eleitorais no congresso.
+
+- Composição de elites ao redor do mundo. 
+
+- Informação de municípios disponíveis no wikipedia, 
+
+- Programas de governo dos candidatos a prefeito no site do TSE. 
+
+- Preço de imóveis no site do Zap Móveis. 
+
+
+---
+## Rotina Básica.
+
+--
+.pull-left[
+
+### Teórica
+
+- Encontre o nome das páginas da internet
+
+- Fazer o download dos sites em formato HTML ou XML
+
+- Encontrar as partes do site que são do seu interesse (aqui dá bastante trabalho)
+
+- Limpar e processar os dados
+]
+
+--
+
+.pull-right[
+
+### Em R.
+
+- Tentar com apenas um site todos os passos acima
+
+- Escrever um funçao em R para você repetir de forma automática a operação
+
+- Aplicar a função a sua lista de sites. 
+
+]
+
+--
+
+---
+
+## Ética em Raspagem de Dados
+
+- Respeite o robots.txt
+
+- Não atinja servidores com muita frequência
+
+- Retarde  seu código para a velocidade que humanos fariam manualmente
+
+- Encontre sites de origem confiáveis
+
+- Não raspe durante o horário de pico
+
+- Melhore a velocidade do seu código
+
+- Use dados com responsabilidade (Como acadêmicos geralmente fazem) 
+
+---
+class: center, middle inverse
+
+# Raspando Sites Estáticos
+
+---
+
+## Rotinas
+
+- Encontre o site
+
+- Pratique com um caso
+
+- Torne-se o mestre nesse caso
+
+- Escreva uma funçao para expandir a coleta
+
+- Salve. 
+
+---
+
+## Encontre um site: Mas o que é um site?
+
+HTML + Javascript. 
+
+
+
+```r
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Michael Cohen's Email &lt;/title&gt;
+  &lt;script&gt;
+    var foot = bar;
+  &lt;script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="payments"&gt;
+  &lt;h2&gt;Second heading&lt;/h2&gt;
+  &lt;p class='slick'&gt;information about &lt;br/&gt;&lt;i&gt;payments&lt;/i&gt;&lt;/p&gt;
+  &lt;p&gt;Just &lt;a href="http://www.google.com"&gt;google it!&lt;/a&gt;&lt;/p&gt;
+  &lt;table&gt;
+```
+
+---
+
+--
+
+class:middle
+
+####  As tags de html são os elementos que precisamos acessar para fazer a raspagem
+
+--
+
+```r
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Michael Cohen's Email &lt;/title&gt;
+  &lt;script&gt;
+    var foot = bar;
+  &lt;script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+* &lt;div id="payments"&gt;
+  &lt;h2&gt;Second heading&lt;/h2&gt;
+  &lt;p class='slick'&gt;information about &lt;br/&gt;&lt;i&gt;payments&lt;/i&gt;&lt;/p&gt;
+  &lt;p&gt;Just &lt;a href="http://www.google.com"&gt;google it!&lt;/a&gt;&lt;/p&gt;
+  &lt;table&gt;
+```
+--
+
+---
+## Eu preciso aprender HTML?
+
+--
+.pull-left[
+&lt;img src="https://media.giphy.com/media/cCbf4ryl0UQWBwOLiQ/giphy.gif" width="80%" /&gt;
+]
+
+--
+
+.pull-rigt[
+
+&lt;br&gt;
+
+#### Caminhos para raspagem:
+
+- Inspecionar os sites e aprender html. 
+
+- Usar o [Selector Gadget]("https://selectorgadget.com/")
+]
+
+---
+
+## Exemplo 1: Municípios de Fronteira no Brasil. 
+
+
+![](figs/fronteira.png)
+
+---
+## Caminho 1: Pegar o Marcador Manualmente.
+
+![](./figs/pointer.png)
+
+---
+&lt;br&gt;
+
+![](./figs/table.png)
+
+---
+
+### Vamos começar nosso percurso no R
+
+
+```r
+# Pacotes
+install.packages("tidyverse")
+install.packages("purrr")
+install.packages("rvest")
+install.packages("stringr")
+install.packages("kableExtra")
+install.packages("Rcurl")
+library("tidyverse")
+library("purrr")
+library("rvest")
+library("stringr")
+library("kableExtra")
+```
+
+---
+
+#### Crie um objeto com o nome da sua url
+
+```r
+minha_url &lt;- "https://pt.wikipedia.org/wiki/Lista_de_munic%C3%ADpios_fronteiri%C3%A7os_do_Brasil"
+```
+
+#### Raspe os dados. Extrair o html a partir do site. 
+
+
+```r
+source &lt;- read_html(minha_url)
+```
+
+#### O que é esse objeto?
+
+```r
+class(source) # XML=HTML
+```
+
+```
+[1] "xml_document" "xml_node"    
+```
+
+---
+
+## html_table(): extraindo Tabelas
+
+
+```r
+tabelas &lt;- source %&gt;% 
+            rvest::html_table() 
+```
+
+#### O que eu tenho aqui?
+
+
+```r
+tabelas[[3]]
+```
+
+```
+                                 Município             Estado Área territorial População (IBGE/2007)
+1                               1 – Aceguá  Rio Grande do Sul            1.550                 4.138
+2                           2 – Acrelândia               Acre            1.575                11.520
+3                              3 – Alecrim  Rio Grande do Sul          315.000                 7.357
+4                             4 – Almeirim               Pará           72.960                30.903
+5                5 – Alta Floresta d'Oeste           Rondônia            7.067                23.857
+6                          6 - Alto Alegre            Roraima           25.567                14.386
+7              7 - Alto Alegre dos Parecis           Rondônia            3.959                11.615
+8                              8 - Amajari            Roraima           28.472                 7.586
+9                         9 - Antônio João Mato Grosso do Sul            1.144                 8.350
+10                       10 - Aral Moreira Mato Grosso do Sul            1.656                 9.236
+11                       11 - Assis Brasil               Acre            2.876                 5.351
+12                   12 - Atalaia do Norte           Amazonas           76.355                13.682
+13                               13 - Bagé  Rio Grande do Sul            4.096               112.550
+14                        14 - Bandeirante     Santa Catarina          146.000                 3.028
+15                           15 - Barcelos           Amazonas          122.476                24.567
+16                    16 - Barra do Quaraí  Rio Grande do Sul            1.056                 3.776
+17                           17 - Barracão             Paraná          164.000                 9.027
+18                         18 - Bela Vista Mato Grosso do Sul            4.896                22.868
+19                           19 - Belmonte     Santa Catarina           94.000                 2.681
+20                  20 - Benjamin Constant           Amazonas            8.793                 9.268
+21                   21 - Bom Jesus do Sul             Paraná          174.000                 3.835
+22                             22 - Bonfim            Roraima            8.095                10.231
+23                          23 - Brasiléia               Acre            4.336                19.065
+24                             24 - Cabixi           Rondônia            1.314                 6.575
+25                            25 - Cáceres        Mato Grosso           24.398                84.175
+26                           26 - Capanema             Paraná          419.000                18.103
+27                           27 - Capixaba               Acre            1.713                 8.446
+28                          28 - Caracaraí            Roraima           47.411                17.981
+29                            29 - Caracol Mato Grosso do Sul            2.939                 5.095
+30                            30 - Caroebe            Roraima           12.066                 7.086
+31                               31 - Chuí  Rio Grande do Sul          203.000                 5.278
+32                           32 - Comodoro        Mato Grosso           21.743                17.939
+33                   33 - Coronel Sapucaia Mato Grosso do Sul            1.029                13.979
+34                            34 - Corumbá Mato Grosso do Sul           65.304               114.279
+35                      35 - Costa Marques           Rondônia           12.722                13.664
+36                         36 - Crissiumal  Rio Grande do Sul          362.000                14.726
+37                    37 - Cruzeiro do Sul               Acre            7.925                73.948
+38                         38 - Derrubadas  Rio Grande do Sul          361.000                 3.378
+39                 39 - Dionísio Cerqueira     Santa Catarina          378.000                14.792
+40                        40 - Dom Pedrito  Rio Grande do Sul            5.192                38.148
+41            41 - Doutor Maurício Cardoso  Rio Grande do Sul          256.000                 5.494
+42                42 - Entre Rios do Oeste             Paraná          122.000                 3.842
+43                     43 - Epitaciolândia               Acre            1.659                13.434
+44                   44 - Esperança do Sul  Rio Grande do Sul          148.000                 3.445
+45                              45 - Feijó               Acre           24.202                31.288
+46                      46 - Foz do Iguaçu             Paraná          618.000               311.336
+47                          47 - Garruchos  Rio Grande do Sul          800.000                 3.457
+48                             48 - Guaíra             Paraná          561.000                28.683
+49                            49 - Guajará           Amazonas            8.904                14.102
+50                      50 - Guajará Mirim           Rondônia           24.856                39.451
+51                         51 - Guaraciaba     Santa Catarina          331.000                10.604
+52                             52 - Herval  Rio Grande do Sul            1.758                 6.873
+53                            53 - Iracema            Roraima           14.119                 5.863
+54                       54 - Itaipulândia             Paraná          336.000                 8.581
+55                         55 - Itapiranga     Santa Catarina          280.000                15.238
+56                             56 - Itaqui  Rio Grande do Sul            3.404                36.361
+57                           57 - Jaguarão  Rio Grande do Sul            2.054                27.944
+58                             58 - Japorã Mato Grosso do Sul          420.000                 7.362
+59                             59 - Japurá           Amazonas           55.791                 5.281
+60                             60 - Jordão               Acre            5.429                 6.059
+61                   61 - Laranjal do Jari              Amapá           30.966                37.491
+62                        62 - Mâncio Lima               Acre            4.672                13.785
+63                      63 - Manoel Urbano               Acre            9.387                 7.148
+64                    64 - Marechal Rondon             Paraná          748.000                44.562
+65               65 - Marechal Thaumaturgo               Acre            7.744                13.061
+66                           66 - Mercedes             Paraná          201.000                 4.713
+67                         67 - Mundo Novo Mato Grosso do Sul          479.000                15.968
+68                          68 - Normandia            Roraima            6.967                 7.118
+69                       69 - Novo Machado  Rio Grande do Sul          219.000                 4.246
+70                        70 - Nova Mamoré           Rondônia           10.072                21.162
+71                             71 - Óbidos               Pará           28.021                46.793
+72                           72 - Oiapoque              Amapá           22.625                19.181
+73                          73 - Oriximiná               Pará          107.603                55.175
+74                          74 - Pacaraima            Roraima            8.028                 8.640
+75                            75 - Paraíso     Santa Catarina          179.000                 4.195
+76                           76 - Paranhos Mato Grosso do Sul            1.302                11.092
+77                       77 - Pato Bragado             Paraná          135.000                 4.631
+78                       78 - Pedras Altas  Rio Grande do Sul            1.377                 2.546
+79                     79 - Pérola d'Oeste             Paraná          206.000                 7.046
+80               80 - Pimenteiras do Oeste           Rondônia            6.015                 2.358
+81                             81 - Pirapó  Rio Grande do Sul          292.000                 2.988
+82                  82 - Plácido de Castro               Acre            2.047                17.258
+83                           83 - Planalto             Paraná          346.000                13.649
+84                             84 - Poconé        Mato Grosso           17.261                31.118
+85                         85 - Ponta Porã Mato Grosso do Sul            5.329                72.207
+86                   86 - Porto Esperidião        Mato Grosso            5.815                 9.607
+87                       87 - Porto Lucena  Rio Grande do Sul          250.000                 5.631
+88                         88 - Porto Mauá  Rio Grande do Sul          106.000                 2.565
+89                     89 - Porto Murtinho Mato Grosso do Sul           17.735                14.861
+90                        90 - Porto Velho           Rondônia           34.082               369.345
+91                    91 - Porto Vera Cruz  Rio Grande do Sul          114.000                 2.084
+92                       92 - Porto Walter               Acre            6.136                 8.170
+93                       93 - Porto Xavier  Rio Grande do Sul          281.000                10.857
+94                          94 - Pranchita             Paraná          226.000                 5.811
+95                           95 - Princesa     Santa Catarina           86.000                 2.604
+96                             96 - Quaraí  Rio Grande do Sul            3.148                22.552
+97                    97 - Rodrigues Alves               Acre            3.305                12.428
+98                     98 - Roque Gonzales  Rio Grande do Sul          347.000                 7.297
+99                       99 - Santa Helena             Paraná          758.000                22.794
+100                     100 - Santa Helena     Santa Catarina           81.000                 2.437
+101        101 - Santa Isabel do Rio Negro           Amazonas           62.846                16.921
+102              102 - Santa Rosa do Purus               Acre            5.981                 3.948
+103          103 - Santa Vitória do Palmar  Rio Grande do Sul            5.244                31.183
+104            104 - Santana do Livramento  Rio Grande do Sul            6.950                83.479
+105             105 - Santo Antônio do Içá           Amazonas           12.308                29.249
+106        106 - Santo Antônio do Sudoeste             Paraná          326.000                18.565
+107                        107 - São Borja  Rio Grande do Sul            3.616                65.671
+108         108 - São Francisco do Guaporé           Rondônia            4.747                15.710
+109         109 - São Gabriel da Cachoeira           Amazonas          109.185                39.129
+110                110 - São José do Cedro     Santa Catarina          280.000                13.699
+111             111 - São Miguel do Iguaçu             Paraná          851.000                25.341
+112                      112 - São Nicolau  Rio Grande do Sul          485.000                 5.909
+113                   113 - Sena Madureira               Acre           25.278                34.230
+114           114 - Serranópolis do Iguaçu             Paraná          484.000                 4.327
+115                      115 - Sete Quedas Mato Grosso do Sul          826.000                10.659
+116                        116 - Tabatinga           Amazonas            3.225                45.293
+117                117 - Tiradentes do Sul  Rio Grande do Sul          234.000                 6.928
+118                        118 - Tunápolis      Santa Cataria          133.000                 4.650
+119                         119 - Uiramutã            Roraima            8.066                 7.403
+120                       120 - Uruguaiana  Rio Grande do Sul            5.716               123.743
+121 121 - Vila Bela da Santíssima Trindade        Mato Grosso           13.631                13.886
+122                           122 - Xapuri               Acre            5.251                14.314
+    Densidade demográfica (hab/km2) PIB (IBGE/2005 PIB per capita (R$) IDH/2000
+1                              2,66     71.638.000              17.266       ni
+2                              7,31    114.350.000               9.986    0,680
+3                             23,35     44.373.000               5.944    0,743
+4                              0,42    462.258.000              13.485    0,745
+5                              3,37    186.812.000               6.525    0,715
+6                              0,56    115.786.000               5.239    0,662
+7                              2,93     90.226.000               6.001       ni
+8                              0,26         31.897           5.240.000    0,654
+9                              7,29     39.989.000               5.067    0,702
+10                             5,57    105.697.000              13 132    0,723
+11                             1,86     30.298.000               5.984    0,670
+12                             0,17     29.028.000               2 570       ni
+13                            27,47    906.488.000               7.473    0,802
+14                            20,73     21 423.000               7 546    0,765
+15                             0,20     72.004.000               2.238       ni
+16                             3,57     61.540.000              14 429    0,777
+17                            55,04     60.601.000               6.718    0,764
+18                             4,67    132.870.000               5.676    0,755
+19                            28,52     21.670.000               9.954    0,759
+20                             3,32     82.120.000               3.135       ni
+21                            22,04     17.950.000               4.638    0,696
+22                             1,26     68.363.000              5. 414    0,654
+23                             4,39    117.525.000               6.632    0,669
+24                             5,00     77.125.000              10.372    0,705
+25                             3,45    596.654.000               6.700    0,737
+26                            43,20    180.519.000              10.297    0,803
+27                             4,93     78.389.000              11.092    0,607
+28                             0,37    100.885.000               5.685    0,702
+29                             1,73     45.533.000               9.094    0,725
+30                             0,58     42.296.000               7.207    0,661
+31                               26     67.525.000              10.574    0,811
+32                             0,82    169.919.000               9.010    0,724
+33                            13,58     54.797.000               4.041    0,713
+34                             1,74  1.557.253.000              13.234    0,771
+35                             1,07     63.022.000               5.553       ni
+36                            40,67    114.089.000               8.376    0,786
+37                             9,33    391.943.000               4.647    0,668
+38                             9,35     22.816.000               7.046    0,759
+39                            39,13     91.757.000               6.293    0,747
+40                             7,34    399.884.000               9.547    0,783
+41                            21,46     44.112.000               7.635    0,765
+42                            31,49     43.185.000              12.063    0,847
+43                             8,59     88.164.000               6.397    0,684
+44                            23,27     22.399.000               6.753    0,708
+45                             1,29    144.977.000               3.791    0,541
+46                            503,7  4.853.331.000              16 102    0,802
+47                             4,32    142.976.000              35.798    0,715
+48                            51,12    262.157.000               9.424    0,777
+49                             1,58     36.564.000               3.030       ni
+50                             1,58    345.511.000               8.332    0,740
+51                            32,03    103.642.000              10.111       ni
+52                             3,90     46.229.000               6.151    0,754
+53                             0,41     46.735.000              7. 712    0,713
+54                            25,53     83.158.000               9.782    0,760
+55                            54,42    298.682.000              22.447    0,832
+56                            10,68    487.062.000              11.494    0,801
+57                            13,60    193.018.000               6.116    0,764
+58                            17,52     23.976.000               3.350    0,636
+59                             0,09     27.100.000               2.080       ni
+60                             1,11     23.805.000               5.138    0,475
+61                             1,21    182.901.000               5.099       ni
+62                             2,95     49.705.000               3.899    0,642
+63                             0,76     31.268.000               4.095    0,601
+64                            59,57    632.818.000              14 155    0,829
+65                             1,68     37.645.000               4.452    0,533
+66                            23,44     54.480.000              11.210    0,816
+67                            33,33     98.247.000               6.884    0,761
+68                             1,02     51.071.000               9.573    0,600
+69                            19,38     25.210.000               5.922    0,773
+70                             2,10    124.538.000               6.388       ni
+71                             1,66    138.489.000               2 820    0,681
+72                             0,84    143.244.000               8.828       ni
+73                             0,51    776.845.000              14.620    0,717
+74                             0,10     60.608.000               7.378    0,718
+75                            23,43     33.605.000               8.312    0,773
+76                             8,51     43.703.000               4.094    0,676
+77                            34,30     41.697.000               9.542    0,821
+78                             1,84     27.829.000              10.135       ni
+79                            34,20     45.781.000               6.961    0,759
+80                             0,39     37.163.000              14 201    0,715
+81                            10,23     17.960.000               5.879    0,720
+82                             8,43    139.814.000               8.377    0,683
+83                            39,44     86.426.000               6.395    0,763
+84                             1,80    155.511.000               4.961    0,679
+85                            13,54    500.246.000               7.445    0,780
+86                             1,65     75.694.000               6 958    0,695
+87                            22,52     34.801.000               5 845    0,747
+88                            24,19     18.496.000               6 833    0,802
+89                             0,83    128.574.000               9 430    0,698
+90                            10,83  3.656.512.000               9.779    0,763
+91                            18,28     14.178.000               6.378    0,755
+92                             1,33     25.925.000               5.225    0,540
+93                            38,63     71.337.000               6.285    0,762
+94                            25,71     57.331.000              10.120    0,803
+95                            30,27     18.803.000               7.709       ni
+96                             7,16    162.412.000               6 444    0,776
+97                             3,76     51.468.000               5.254    0,550
+98                            21,02     54.655.000               7.626    0,749
+99                            30,07    219.973.000              10.226    0,799
+100                           30,08    165.449.000              14.812    0,787
+101                            0,26     24.231.000               3.181       ni
+102                            0,66     15.321.000               4.513    0,525
+103                            5,94    289.223.000               8.360    0,799
+104                           12,01    598.387.000               6 138    0,803
+105                            2,37     68.275.000               1.958       ni
+106                           56,94     92.521.000               5.101    0,715
+107                           17,10    596.804.000               8 862    0,798
+108                            3,30    108.183.000               6 453       ni
+109                            0,35    111.093.000               3.261    0,567
+110                           48,92    153.722.000              11.838    0,804
+111                           29,77    297.300.000              11.065    0,779
+112                           12,18     32.338.000               5.290    0,713
+113                            1,35    234.381.000               7 105    0,652
+114                            8,94     52.876.000              10.635    0,796
+115                           12,90     54.103.000               6.445    0,719
+116                           14,04    116.755.000               2.655       ni
+117                            29,6     42.926.000               6.577    0,746
+118                           34,96     40.845.000               9.420    0,821
+119                            0,91     27.251.000               4.238    0,542
+120                           21,64  1.187.038.000               8.798    0,788
+121                            1,01    116.908.000               8.047    0,715
+122                            2,72     82.377.000               6.016    0,669
+```
+
+---
+
+### Limpar e Salvar nossos primeiros dados
+
+
+```r
+tabela_limpa &lt;- tabelas[[3]] %&gt;% 
+            
+            # Converte para um banco de dados mais bonito
+            as.tibble() %&gt;% 
+  
+            # Cria Duas novas Colunas
+            mutate(city = Município, 
+                   uf_name = Estado) %&gt;%
+            select(city, uf_name) %&gt;%
+            
+            # consertar o enconding
+            mutate(city = str_sub(city,5),
+                   city = str_replace(city, pattern="- ", ""), 
+                   city =  str_trim(city),
+                   city_key = stringi::stri_trans_general(city, "Latin-ASCII"), 
+                   city_key= str_replace_all(city_key, " ", ""), 
+                   city_key=str_to_lower(city_key)) 
+
+tabela_limpa
+```
+
+```
+# A tibble: 122 x 3
+   city                    uf_name            city_key            
+   &lt;chr&gt;                   &lt;chr&gt;              &lt;chr&gt;               
+ 1 Aceguá                  Rio Grande do Sul  acegua              
+ 2 Acrelândia              Acre               acrelandia          
+ 3 Alecrim                 Rio Grande do Sul  alecrim             
+ 4 Almeirim                Pará               almeirim            
+ 5 Alta Floresta d'Oeste   Rondônia           altaflorestad'oeste 
+ 6 Alto Alegre             Roraima            altoalegre          
+ 7 Alto Alegre dos Parecis Rondônia           altoalegredosparecis
+ 8 Amajari                 Roraima            amajari             
+ 9 Antônio João            Mato Grosso do Sul antoniojoao         
+10 Aral Moreira            Mato Grosso do Sul aralmoreira         
+# … with 112 more rows
+```
+
+---
+
+# Raspagem de dados usando CSS Selector
+
+Raspar dados de tabelas é tarefa fácil. 
+
+Tudo fica mais complicado quando os sites possuem estruturas mais complexas, e precisamos usar os marcadores de HTML (chamados de CSS). Para isto, usaremos o CSS Selector Gadget. 
+
+Neste exemplo, vou acessar a pagina privada de cada um dos 71 deputados da Assembléia Legislativa do Estado do Rio de Janeiro. Vamos coletar: 
+
+- Nome
+- Email
+- Biografia
+- Partido
+
+---
+
+### Exemplo do CSS Selector
+
+![](../../content/Tutoriais/figs/rj.png)
+
+
+---
+
+### Passos do CSS Selector. 
+
+
+- Ative o CSS no seu borwser,
+
+- Dê um clique na informação que você quer extrair -&gt; Amarelo. 
+
+- Um segundo clique caso você esteja capturando mais do que precisa. 
+
+- Repita isso até isolar o seu alvo de interesse. 
+
+- Copie e cole o resultado dentro da função `html_nodes()`
+
+---
+
+### Processando os nomes (`html_text`)
+
+
+```r
+# Coleta de todos os nomes
+
+minha_url &lt;- "http://www.alerj.rj.gov.br/Deputados/QuemSao"
+
+nomes &lt;- read_html(minha_url) %&gt;%
+          html_nodes(css=".nome a") %&gt;%
+*         html_text()
+
+# Limpa os nomes
+
+nomes_limpos &lt;- nomes %&gt;% 
+                  str_to_title()
+
+nomes_limpos
+```
+
+```
+ [1] "Adriana Balthazar"       "Alana Passos"            "Alexandre Freitas"       "Alexandre Knoploch"     
+ [5] "Anderson Alexandre"      "Anderson Moraes "        "André Ceciliano"         "Andre Correa"           
+ [9] "Atila Nunes"             "Bebeto"                  "Brazão"                  "Carlos Macedo"          
+[13] "Carlos Minc"             "Celia Jordão"            "Charlles Batista "       "Chico Machado"          
+[17] "Chiquinho Da Mangueira"  "Coronel Salema"          "Dani Monteiro"           "Danniel Librelon"       
+[21] "Delegado Carlos Augusto" "Dionisio Lins"           "Dr. Deodalto"            "Eliomar Coelho"         
+[25] "Elton Cristo"            "Enfermeira Rejane"       "Eurico Junior"           "Fábio Silva"            
+[29] "Felipe Peixoto"          "Filipe Soares"           "Filippe Poubel"          "Flavio Serafini"        
+[33] "Franciane Motta"         "Giovani Ratinho"         "Gustavo Schmidt "        "Jair Bittencourt"       
+[37] "Leo Vieira"              "Lucinha"                 "Luiz Martins"            "Luiz Paulo"             
+[41] "Marcelo Cabeleireiro"    "Marcelo Dino"            "Márcio Canella"          "Márcio Gualberto "      
+[45] "Márcio Pacheco"          "Marcos Abrahão"          "Marcos Muller"           "Marcus Vinicius"        
+[49] "Martha Rocha"            "Max Lemos"               "Mônica Francisco"        "Noel De Carvalho"       
+[53] "Pedro Ricardo"           "Renata Souza"            "Renato Zaca"             "Rodrigo Amorim"         
+[57] "Rodrigo Bacellar"        "Rosane Felix"            "Rosenverg Reis"          "Rubens Bomtempo"        
+[61] "Samuel Malafaia"         "Sergio Fernandes"        "Sub Tenente Bernardo"    "Tia Ju"                 
+[65] "Val Ceasa"               "Valdecy Da Saúde"        "Vandro Familia"          "Waldeck Carneiro"       
+[69] "Wellington José"         "Zeidan"                 
+```
+
+---
+
+### Acessando os links. (`html_attr`)
+
+
+
+```r
+links &lt;- read_html(minha_url) %&gt;%
+          html_nodes(css=".nome a") %&gt;%
+*         html_attr("href")
+
+# Combina os links com a estrutura básica da página da UERJ. 
+
+links &lt;- paste0("http://www.alerj.rj.gov.br/", links)
+
+# Criar um banco de dados. 
+
+dados &lt;- tibble(nomes=nomes, 
+                links=links)
+```
+
+---
+
+### Raspando um caso
+
+
+
+
+```r
+# url
+link &lt;- dados$links[[1]]
+
+#source
+source &lt;- link %&gt;% read_html()
+
+# informacao
+
+nome &lt;- source %&gt;%
+            html_nodes(css=".paginacao_deputados .titulo") %&gt;%
+            html_text() %&gt;%
+              str_remove_all(., "\\r|\\n") %&gt;%
+              str_trim() %&gt;%
+              str_squish()
+
+
+partido &lt;-  source %&gt;% 
+              html_nodes(css=".partido") %&gt;%
+              html_text() 
+
+biografia &lt;- source %&gt;% 
+            html_nodes(css=".margintop11") %&gt;%
+            html_text() %&gt;% 
+            paste0(., collapse = " ")
+
+
+telefone &lt;- source %&gt;% 
+    html_nodes(css=".margin_bottom_5+ p") %&gt;%
+    html_text()
+
+email &lt;- source %&gt;% 
+    html_nodes(css="#formVisualizarPerfilDeputado p+ p") %&gt;%
+    html_text()
+
+# Combina tudo como um banco de dados
+
+deputados &lt;- tibble(nome, link, partido, biografia, telefone, email)
+```
+
+---
+
+```r
+deputados
+```
+
+```
+# A tibble: 1 x 6
+  nome         link                       partido  biografia                                 telefone  email        
+  &lt;chr&gt;        &lt;chr&gt;                      &lt;chr&gt;    &lt;chr&gt;                                     &lt;chr&gt;     &lt;chr&gt;        
+1 DEPUTADO Ad… http://www.alerj.rj.gov.b… Novo No… "\r\nAdriana Balthazar é formada em Dire… (21) 258… adrianabalth…
+```
+
+--
+&lt;br&gt;
+.alert[
+&lt;h2&gt; E agora? &lt;/h2&gt;]
+
+--
+
+Finalizamos agora nossa primeira etapa. Precisamos expandir isso para todos os deputados. 
+
+
+ - Converter nossa código para uma função. 
+ 
+ - Aplicar a função a uma lista de links(Programação funcional)
+ 
+ - Próxima Aula. 
+
+--
+
+---
+
+## Desafio de Hoje
+
+O exercício de hoje vai ser o seguinte. Quero que vocês repitam o exercício acima, porém, para outro o site da assembleia legislativa do Estado de São Paulo
+
+1. Colete o nome de todos os deputados-as.
+
+2. Colete o link das páginas pessoais de todos os deputados-as.
+
+3. Para um caso, extraia da da página pessoal todas as informações disponíveis sobre esse deputado-a. 
+
+---
+class: center, middle, inverse
+
+## Aula II: Raspagem e Programação Funcional. 
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

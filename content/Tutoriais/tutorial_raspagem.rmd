@@ -1,0 +1,573 @@
+---
+title: 'Tutorial 10: Raspagem de Dados em Sites'
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+
+library(knitr)
+library(rmdformats)
+
+## Global options
+opts_chunk$set(cache=TRUE,
+               prompt=FALSE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+
+
+```
+
+
+# Acessando dados na Internet. 
+
+No tutorial de hoje, vamos dar os primeiros passos de como coletar dados na internet. Há duas formas principais de acessar dados na internet. 
+
+1. Raspar dados em websites: coleta informação diretamente do site, da parte que qualquer pessoa visualiza. É como se você pudesse se multiplicar por mil, e coletar manualmente as informações. 
+
+2. Acessar APIs (Interface de Programação de Aplicações): acessar um canal por trás da webpage por onde dados são gerados e compartilhados. 
+
+Acessar dados via APIs é mais seguro, prático, e rápido. Raspar dados é mais difícil, e mais desafiador. Por isso, sempre opte pela segunda. Porém, a grande maioria dos sites não possuem APIs, por isso, é bom aprender ambos. 
+
+Este tutorial focará na raspagem de dados de sites. Na próxima semana, aprenderemos mais sobre APIs. 
+
+
+# O que é raspagem de dados ? 
+
+Raspagem de dados consiste em coletar automaticamente dados disponíveis em sites da internet. Teóricamente, você pode fazer isso a mão, ou pedir para amigos te ajudarem. Porém, neste mundo de dados abundantes, isso pode não ser viável, e, em geral, pode se tornar mais difícil depois de que você aprendeu a coletar automáticamente.
+
+Alguns exemplos de sites que eu coletei dados: dados eleitorais no congresso, composição de elites ao redor do mundo, informação de municípios disponíveis no wikipedia, programas de governo dos candidatos a prefeito no site do TSE, preço de imóveis no site do Zap Móveis, entre outros. 
+
+A rotina básica de raspagem consiste em três etapas:
+
+- Carregar o nome das páginas da internet
+- Fazer o download dos sites em formato HTML ou XML
+- Encontrar as partes do site que são do seu interesse (aqui dá bastante trabalho)
+- Limpar e processar os dados
+
+Em termos de programação, e é desta forma que sempre tentanto pensar,  este processo consiste em:
+
+- Tentar com apenas um site todos os passos acima
+- Escrever um funçao em R para você repetir de forma automática a operação
+- Aplicar a função a sua lista de sites. 
+
+![](./figs/scrapping_01.jpg)
+
+## Desafios Teóricos para raspagem de dados. 
+
+Raspar dados na internet traz diversas vantagens para as nossas atividades de pesquisadores. Entre elas, acesso à dados novos, coleta mais rápida de dados, informações mais detalhadas sobre determinados casos. Porém, há alguns desafios ao trabalhar com dados coletados em páginas da internet. 
+
+- Dados Incompletos: Apesar de serem Big data, dados coletados na internet em geral são incompletes. Por exemplo: comportamento tóxico no twitter. Você pode coletar os dados, porém, muitos dos comentários mais tóxicos já são banidos de início. 
+
+- Inacessíveis: Nem todos os dados são acessíveis. Por exemplo, o Facebook depois do escândalo da Cambridge Analytics interrompeu o funcionamento de sua APIs. 
+
+- Não-Representativos: 2 Bilhões de tweets no Brasil funcionam como uma boa representação da sociedade brasileira?
+
+- Bias nos algoritimos: Redes sociais e sites estão sempre modificando seus algoritimos. Isso torna muitas pesquisas difíceis de reproduzir. Portanto, um desafio ao conhecimento científico. 
+
+- Selection Bias: As pessoas posssuem incentivo para mentir nas redes, e se auto selecionarem em determinados grupos. É a velha história de só compartilhar as coisas boas no Instagram.
+
+
+Todas as vezes que coletamos dados on-line, devemos levar estes pontos em consideração.
+
+## Ética em Raspagem de Dados
+
+Antes de começar, é pertinente entender como os sites e seus servidores subjacentes funcionam, bem como algumas regras básicas que devemos seguir ao coletar dados deste sites. Cada chamada para um servidor web leva tempo, ciclos de servidor e memória. A maioria dos servidores pode lidar com tráfego significativo, mas não pode necessariamente lidar com a tensão induzida por solicitações automatizadas maciças. Seu código pode sobrecarregar o site, tirando-o do ar, ou levando o administrador do site a banir seu IP. 
+
+Não queremos ser vistos como comprometendo o funcionamento de um site somente por conta de nossas pesquisas. Primeiro, essa sobrecarga pode travar um servidor e impedir que outros usuários acessem o site. Segundo, servidores e hosters podem,  e implementam,  contramedidas (ou seja, bloqueiam nosso acesso a partir de nosso IP e assim por diante). Abordaremos mais tarde maneiras de impedir que nossos raspadores sejam vistos como cometendo esse tipo de ataque. Por isso, segue uma lista de boas práticas: 
+
+- Respeite o robots.txt
+- Não atinja servidores com muita frequência
+- Retarde  seu código para a velocidade que humanos fariam manualmente
+- Encontre sites de origem confiáveis
+- Não raspe durante o horário de pico
+- Melhore a velocidade do seu código
+- Use dados com responsabilidade (Como acadêmicos geralmente fazem) 
+
+# Raspando Sites Estáticos
+
+## Rotinas
+
+- Encontre o site
+- Pratique com um caso
+- Torne-se o mestre nesse caso
+- Escreva uma funçao para expandir a coleta
+- Salve. 
+
+## Encontre um site: Mas o que é um site?
+
+Um site em geral é uma combinação entre HTML e Javascript. HTML forma o que chamamos de sites estáticos - tudo o que você vê está lá na programação. Javascript produzem sites dinâmicos - aqueles que você navega e clica e a url não muda - e são sites normalmente alimentados por um banco de dados no fundo da programação. Aqui vamos tratar de sites estáticos usando o pacote de R `rvest`. Para sites dinâmicos, eu sugiro trabalhar com selenium, porém, não cobriremos selenium neste curso.
+
+Segue um exemplo simples de um site. Se você clicar com o botão direito do seu mouse em uma página da internet,  ir para inspecionar elemento, aparecerá algo parecido com isto:
+
+```{r, eval=FALSE}
+
+<html>
+<head>
+  <title> Michael Cohen's Email </title>
+  <script>
+    var foot = bar;
+  <script>
+</head>
+<body>
+  <div id="payments">
+  <h2>Second heading</h2>
+  <p class='slick'>information about <br/><i>payments</i></p>
+  <p>Just <a href="http://www.google.com">google it!</a></p>
+  <table>
+
+```
+
+
+Esta linguagem se chama HTML, e está por trás de todos os sites. É uma linguagem de texto estruturada por marcações (tags). O segredo para raspagem é basicamente identificar quais marcações você pretende coletar informação. 
+
+Para identificar o marcador do seu interesse, há dois caminhos. O primeiro caminho é inspecionar o elemento da página clicando no botão direito do seu mouse. A segunda opção é´usar esta ferramenta sensacional chamada [Selector Gadget]("https://selectorgadget.com/"). Esta ferramenta nos permite encontrar exatamente o marcador que queremos para pegar a informação, e fazer a raspagem a partir do R. 
+
+
+Vamos começar com exemplos simples. 
+
+
+## Exemplo 1: Municípios de Fronteira no Brasil. 
+
+Para um paper sobre efeitos da ditadura militar no Brasil, eu queria coletar dados sobre todos os municípios de fronteira no Brasil. Esta [página do wikipedia](https://pt.wikipedia.org/wiki/Lista_de_munic%C3%ADpios_fronteiri%C3%A7os_do_Brasil) tem a informação já processada. 
+
+![](./figs/fronteira.png)
+
+
+Para encontrar manualmente qual o marcador dessa tabela, fazemos algo assim:
+
+![](./figs/pointer.png)
+<br><br>
+
+E encontramos a tabela que nos interessa. 
+
+<br><br>
+
+![](./figs/table.png)
+
+
+### Vamos começar nosso percurso no R
+
+```{r, eval=FALSE}
+
+# Instalar pacotes
+install.packages("tidyverse")
+install.packages("purrr")
+install.packages("rvest")
+install.packages("stringr")
+install.packages("kableExtra")
+install.packages("Rcurl")
+
+
+```
+
+```{r}
+# Ativar os pacotes
+library("tidyverse")
+library("purrr")
+library("rvest")
+library("stringr")
+library("kableExtra")
+
+
+
+# Crie o nome da sua url
+
+minha_url <- "https://pt.wikipedia.org/wiki/Lista_de_munic%C3%ADpios_fronteiri%C3%A7os_do_Brasil"
+
+# Somente o nome
+print(minha_url)
+
+# Raspe os dados. Simples assim:
+
+source <- read_html(minha_url)
+
+# O que é esse objeto?
+
+class(source) # XML=HTML
+
+# Como extrair a tabela?
+
+tabelas <- source %>% 
+            rvest::html_table() 
+
+
+# O que eu tenho aqui?
+map(tabelas, head)
+```
+
+
+O que fizemos aqui ocorreu basicamente a partir de duas funções. O read_html foi responsável por converter a página da web em html.Eo html_table extraiu todas as tabelas desta webpage. 
+
+### Limpar e Salvar nossos primeiros dados
+
+```{r, results='asis'}
+tabela_limpa <- tabelas[[3]] %>% 
+            
+            # Converte para um banco de dados mais bonito
+            as.tibble() %>% 
+  
+            # Cria Duas novas Colunas
+            mutate(city = Município, 
+                   uf_name = Estado) %>%
+            select(city, uf_name) %>%
+            
+            # consertar o enconding
+            mutate(city = str_sub(city,5),
+                   city = str_replace(city, pattern="- ", ""), 
+                   city =  str_trim(city),
+                   city_key = stringi::stri_trans_general(city, "Latin-ASCII"), 
+                   city_key= str_replace_all(city_key, " ", ""), 
+                   city_key=str_to_lower(city_key)) 
+
+
+tabela_limpa %>% slice(1:5) %>% kable(.) %>%
+  kable_styling(full_width = F) 
+
+
+```
+
+## Exemplo 2: Municípios com Eleições em 1985
+
+
+```{r}
+
+# Selecione a URL
+
+minha_url <- "https://pt.wikipedia.org/wiki/Elei%C3%A7%C3%B5es_municipais_no_Brasil_em_1985"
+
+# Pega a página
+page <- read_html(minha_url)
+
+substr(html_text(page), 1, 1000) # first 1000 characters
+
+
+# Pegue as tabelas
+
+out <-  page %>% 
+        html_nodes(".wikitable") %>%
+        html_table()
+
+# Combinando as tabelas
+
+out_cap <- out[1]
+out_mun <- out[2:19]
+ot_municipios <- out_mun %>%  bind_rows()
+
+ot_municipios %>% 
+  slice(1:5) %>%
+  kable(.) %>%
+  kable_styling(full_width = F) 
+
+```
+
+
+Pronto. Temos uma tabela com os municípios e os prefeitos eleitos nas eleições extraordinárias de 1985. Agora, podemos salvar estes dado em .csv e tê-los em nosso computador. 
+
+
+### Saving
+
+```{r}
+write.csv(ot_municipios, "mun_1985.csv")
+```
+
+# Raspagem de dados usando CSS Selector
+
+Raspar dados de tabelas é tarefa fácil. Tudo fica mais complicado quando os sites possuem estruturas mais complexas, e precisamos usar os marcadores de HTML (chamados de CSS). Para isto, usaremos o CSS Selector Gadget. Neste exemplo, vou acessar a pagina privada de cada um dos 41 deputados da Assembléia Legislativa do Estado do Rio de Janeiro. Vamos coletar: 
+
+- Nome
+- Email
+- Biografia
+- Partido
+
+
+### Exemplo do CSS Selector
+
+![](./figs/rj.png)
+
+Quando você ativa o CSS no seu computador, basta dar um clique na informação que você quer extrair (amarelo), e um segundo clique caso você esteja capturando mais do que precisa. Na foto acima, eu estou selecionando todos os nomes dos deputados do Rio de Janeiro. Vejam que os nomes levam aos links da página de cada deputado, entao, vamos extrair essas informações também. 
+
+### Processando os nomes
+
+```{r}
+# Coleta de todos os nomes
+
+minha_url <- "http://www.alerj.rj.gov.br/Deputados/QuemSao"
+
+nomes <- read_html(minha_url) %>%
+          html_nodes(css=".nome a") %>%
+          html_text()
+
+# Limpa os nomes
+
+nomes_limpos <- nomes %>% 
+                  str_to_title()
+
+```
+
+### Acessando os links. 
+
+Dentro deste html com os nomes, há o link para a página de cada deputado. Vamos salvar. Para cessar atributos do html, usamos a função, `html_attr()`
+
+```{r}
+links <- read_html(minha_url) %>%
+          html_nodes(css=".nome a") %>%
+          html_attr("href")
+
+# Combina os links com a estrutura básica da página da UERJ. 
+
+links <- paste0("http://www.alerj.rj.gov.br/", links)
+
+# Criar um banco de dados. 
+
+dados <- tibble(nomes=nomes, 
+                links=links)
+
+
+```
+
+
+### Raspando um caso
+
+
+Vamos começar por um caso, e depois automatizar isso tudo com programação funcional. 
+
+
+```{r}
+
+# url
+link <- dados$links[[1]]
+
+#source
+source <- link %>% read_html()
+
+# informacao
+
+nome <- source %>%
+            html_nodes(css=".paginacao_deputados .titulo") %>%
+            html_text() %>%
+              str_remove_all(., "\\r|\\n") %>%
+              str_trim() %>%
+              str_squish()
+
+
+partido <-  source %>% 
+              html_nodes(css=".partido") %>%
+              html_text() 
+
+biografia <- source %>% 
+            html_nodes(css=".margintop11") %>%
+            html_text() %>% 
+            paste0(., collapse = " ")
+
+
+telefone <- source %>% 
+    html_nodes(css=".margin_bottom_5+ p") %>%
+    html_text()
+
+email <- source %>% 
+    html_nodes(css="#formVisualizarPerfilDeputado p+ p") %>%
+    html_text()
+
+# Combina tudo como um banco de dados
+
+deputados <- tibble(nome, link, partido, biografia, telefone, email)
+deputados
+```
+
+Finalizamos agora nossa primeira etapa. Precisamos expandir isso para todos os deputados. Para isso, vamos escrever uma função em R, e aplicar a função a todos os nossos deputados. Antes disso, vamos fazer um desafio para vocês praticarem o uso do rvest e selector gadget. 
+
+## Desafio de Hoje
+
+O exercício de hoje vai ser o seguinte. Quero que vocês repitam o exercício acima, porém, para outro o site da assembleia legislativa do Estado de São Paulo
+
+1. Colete o nome de todos os deputados-as.
+2. Colete o link das páginas pessoais de todos os deputados-as.
+3. Para um caso, extraia da da página pessoal todas as informações disponíveis sobre esse deputado-a. 
+
+
+### Programação Funcional e Raspagem de Dados. 
+
+Na exercício anterior, criamos um código para raspar dados para um caso. Porém, nosso objetivo é raspar dados para milhões de casos, e deixar nosso computador trabalhar enquanto pensamos em outras coisas. Para isto, vamos aprender um pouco de programação funcional. 
+
+A idéia fundamental é escrever uma função que nos permite repetir o que fizemos para um caso para os outros deputados que temos no nosso banco. A partir de quando tivermos essa função escrita, podemos aplicar ela múltiplas vezes. 
+
+Ou seja, precisamos escrever um função que altera o input de um caso específico para outros. E isto é bem simples. 
+
+
+### Escrevendo a função de raspagem. 
+
+```{r}
+url = dados$links[[7]]
+
+raspar_alerj <- function(url){
+  
+
+#source
+source <- url %>% read_html()
+
+# informacao
+
+nome <- source %>%
+            html_nodes(css=".paginacao_deputados .titulo") %>%
+            html_text() %>%
+              str_remove_all(., "\\r|\\n") %>%
+              str_trim() %>%
+              str_squish()
+
+
+partido <-  source %>% 
+              html_nodes(css=".partido") %>%
+              html_text() 
+
+biografia <- source %>% 
+            html_nodes(css=".margintop11") %>%
+            html_text() %>% 
+            paste0(., collapse = " ")
+
+
+telefone <- source %>% 
+    html_nodes(css=".margin_bottom_5+ p") %>%
+    html_text() %>%
+    paste0(., collapse = " ")
+
+email <- source %>% 
+    html_nodes(css="#formVisualizarPerfilDeputado p+ p") %>%
+    html_text() %>%
+    paste0(., collapse = " ") 
+
+# Combina tudo como um banco de dados
+
+deputados <- tibble(nome, link, partido, biografia, telefone, email)
+
+# Output
+
+return(deputados)
+
+# Desligando R um pouco para nao sobrecarregar os dados
+
+Sys.sleep(sample(1:3, 1))
+
+}
+
+
+# Vamos aplicar a função a somente um caso
+
+
+
+```
+
+
+### Aplicando uma função à multiplos elementos
+
+Há diversas formas de aplicar uma função à multiplos objetos. Esse processo é tecnicamente chamado **programação funcional**. Uma opção é fazer um loop sobre nossa função. No entanto, `R` é uma linguagem funcional e não gosta de loops, e loops podem ser difíceis de escrever. 
+
+Uma segunda opção é usar uma função como `lapply`. No entanto, lapply functions produzem resultados inconsistentes, e por isso, eu costumo evitá-las. 
+
+Para acelerar muito as coisas, e obter soluções mais consistentes, eu uso o pacote `purrr` e as funções map. 
+
+Caso vocês queiram aprender mais sobre as funções map, podem checar [aqui](https://jennybc.github.io/purrr-tutorial/), [aqui](http://www.rebeccabarter.com/blog/2019-08-19_purrr/), e [aqui](https://www.youtube.com/watch?v=bzUmK0Y07ck). Vamos abaixo ver somente o básico do uso do purr. 
+
+
+### Purrr
+
+O pacote `purrr` possui funções chamada `map`. Estas funções funcionam todas sob a mesma lógica: repetem determinada função para um conjunto de objetos (uma lista ou um vetor). Falamos um pouco disso quando aprendemos o uso da tilda e de funções anônimas. 
+
+As funções map variam de acordo com seu output, ou qual objeto que será retornado depois das múltiplas operações. Vejamos alguns exemplos:
+
+- `map(.x, .f)`: função principal, retorna uma lista. 
+
+- `map_df(.x, .f)` retorna um banco de dados. 
+
+- `map_dbl(.x, .f)` retorna vetor double.
+
+- `map_chr(.x, .f)` retorna character. 
+
+- `map_lgl(.x, .f)` retorna vetor lógico. 
+
+Vamos ver alguns exemplos antes de voltarmos ao nosso processo de raspagem de dados. 
+
+```{r}
+# Criar uma lista com diversas distribuições numéricas
+lista1 <- list(a=rnorm(1000, 0, 1),
+               b=rnorm(1000, 1, 1), 
+               c=rnorm(1000, 10, 1))
+
+
+# Aplicar uma mesma função a todos os elementos desta lista. 
+map(lista1, mean)
+
+# Igual a:
+mean(lista1$a); mean(lista1$b); mean(lista1$c)
+
+```
+
+Vejamos um exemplo do map_df. O output será um banco de dados com todas as médias. 
+
+```{r}
+map_df(lista1, mean)
+```
+Agora, vamos fingir que eu quero escrever uma função dentro do map. Aqui eu uso a tilda. 
+
+```{r}
+# Com Tilda
+map(lista1, ~ log(abs(sum(.x))) + 100)
+
+# Com funcao anonima. 
+map(lista1, function(x) log(abs(sum(x))) + 100)
+
+```
+
+Esta foi uma brevíssima introdução ao `purrr`. Vejam os tutoriais acima para aprenderem mais. 
+
+### Purrr e Raspagem de dados. 
+
+Agora nós temos as duas peças que faltavam para terminar nosso tutorial:
+
+1. Uma função de raspagem para cada caso, e
+
+2. Uma forma de automatizar esse percurso de caso por caso. 
+
+Vamos implementar agora. 
+
+
+```{r}
+
+# Converter os links para uma lista. 
+lista_links <- as.list(dados$links[1:10])
+
+# Aplicando nossa lista de links a uma funcção. 
+
+dados <- map(lista_links, raspar_alerj) 
+
+# Combine tudo como um banco de dados
+dados_alerj <- bind_rows(dados)
+
+# Vamos ver
+dados_alerj
+```
+
+![](https://media.giphy.com/media/OK27wINdQS5YQ/giphy.gif)
+
+ 
+### Saving
+
+```{r}
+write.csv(dados_alerj, "deputados_alerj.csv")
+```
+
+### Mais um exemplo. 
+
+Para concluir, vamos trabalhar junto neste [código](../../static/code/igor_latinnews.R) onde eu extraio notícias sobre a América Latina do site Latin News. Eu escrevi este código para um colega de doutorado que estava buscando usar estas notícias para detectar informações sobre uso de militares para funções de segurança pública na América Latina. 
+
+
+

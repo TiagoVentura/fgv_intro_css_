@@ -81,15 +81,13 @@ lessons:
 
 
 
-
-
   - title: "Raspagem de Dados I: Raspando Websites"
     date: "2021-03-29, Seg"
-    #reading: "11-reading"
-    #class: "corr1-class"
+    class: "14-class"
 
   - title: "Raspagem de Dados I: Raspando Websites"
-    date:  "2021-03-31, Thu"
+    date:  "2021-03-31, Wed"
+    class: "14-class"
 
   - title: '<i class="fas fa-star"></i> **Semana A1: Sem Aula**'
     date: ""
