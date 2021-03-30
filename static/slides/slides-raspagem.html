@@ -785,6 +785,294 @@ class: center, middle, inverse
 
 ## Aula II: Raspagem e Programação Funcional. 
 
+---
+
+### Programação Funcional e Raspagem de Dados. 
+
+Na exercício anterior, criamos um código para raspar dados para um caso. 
+
+Porém, nosso objetivo é raspar dados para milhões de casos, e deixar nosso computador trabalhar enquanto pensamos em outras coisas. 
+
+
+Para isto, vamos aprender um pouco de **programação funcional**
+
+---
+## No que consiste programação funcional ?
+
+
+O **R** é uma linguagem de programação funcional. Possui diversas ferramentas para facilitar o uso e aplicação de funções. Funções são objetos como qualquer outro vetor, e você pode criar, armazenar e rodar funções de forma bem fácil. 
+
+A idéia fundamental de programação funcional é preparar todo seu código em termos de funções distintas. E aplicar esta função à casos semelhantes. 
+
+**Raspagem de Dados**: escrever uma função que nos permite repetir o que fizemos para um caso para as outras páginas que pretendemos raspar. 
+
+Com esta função escrita, nos resta somente aplicar ela a múltiplos elementos (`purrr`)
+
+---
+
+
+### Escrevendo a função de raspagem. 
+
+
+```r
+raspar_alerj &lt;- function(url){
+
+source &lt;- url %&gt;% read_html()
+
+# informacao
+
+nome &lt;- source %&gt;%
+            html_nodes(css=".paginacao_deputados .titulo") %&gt;%
+            html_text() %&gt;% str_remove_all(., "\\r|\\n") %&gt;%
+              str_trim() %&gt;% str_squish()
+partido &lt;-  source %&gt;% 
+              html_nodes(css=".partido") %&gt;%
+              html_text() 
+biografia &lt;- source %&gt;% 
+            html_nodes(css=".margintop11") %&gt;%
+            html_text() %&gt;%   paste0(., collapse = " ")
+telefone &lt;- source %&gt;% 
+            html_nodes(css=".margin_bottom_5+ p") %&gt;%
+            html_text() %&gt;%   paste0(., collapse = " ")
+email &lt;- source %&gt;% 
+            html_nodes(css="#formVisualizarPerfilDeputado p+ p") %&gt;%
+            html_text() %&gt;%  paste0(., collapse = " ") 
+
+# Combina tudo como um banco de dados
+
+deputados &lt;- tibble(nome, link, partido, biografia, telefone, email)
+
+# Output
+
+return(deputados)
+
+# Desligando R um pouco para nao sobrecarregar os dados
+
+Sys.sleep(sample(1:3, 1))
+
+}
+```
+
+---
+### Aplicar a um caso
+
+
+```r
+raspar_alerj(dados$links[[5]])
+```
+
+```
+# A tibble: 1 x 6
+  nome     link           partido    biografia           telefone email         
+  &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt;    &lt;chr&gt;         
+1 DEPUTAD… http://www.al… SDD SDD -… Anderson Alexandre… (21) 25… andersonalexa…
+```
+
+---
+
+### Aplicando uma função à multiplos elementos
+
+Há diversas formas de aplicar uma função à multiplos objetos.
+
+- Loop
+
+- apply functions
+
+- `purr::map` 
+
+Caso vocês queiram aprender mais sobre as funções map, podem checar [aqui](https://jennybc.github.io/purrr-tutorial/), [aqui](http://www.rebeccabarter.com/blog/2019-08-19_purrr/), e [aqui](https://www.youtube.com/watch?v=bzUmK0Y07ck). 
+
+---
+
+### Purrr
+
+O pacote `purrr` possui funções chamadas `map`. Estas funções funcionam todas sob a mesma lógica
+
+- Repetem determinada função para um conjunto de objetos (uma lista ou um vetor). 
+
+As funções map variam de acordo com seu output. 
+
+- `map(.x, .f)`: função principal, retorna uma lista. 
+
+- `map_df(.x, .f)` retorna um banco de dados. 
+
+- `map_dbl(.x, .f)` retorna vetor double.
+
+- `map_chr(.x, .f)` retorna character. 
+
+- `map_lgl(.x, .f)` retorna vetor lógico. 
+
+
+---
+### Exemplos
+
+
+```r
+# Criar uma lista com diversas distribuições numéricas
+lista1 &lt;- list(a=rnorm(1000, 0, 1),
+               b=rnorm(1000, 1, 1), 
+               c=rnorm(1000, 10, 1))
+
+
+# Aplicar uma mesma função a todos os elementos desta lista. 
+map(lista1, mean)
+```
+
+```
+$a
+[1] 0.00743204
+
+$b
+[1] 0.9932557
+
+$c
+[1] 10.04563
+```
+
+```r
+# Igual a:
+mean(lista1$a); mean(lista1$b); mean(lista1$c)
+```
+
+```
+[1] 0.00743204
+```
+
+```
+[1] 0.9932557
+```
+
+```
+[1] 10.04563
+```
+
+---
+### map_df
+
+
+```r
+map_df(lista1, mean)
+```
+
+```
+# A tibble: 1 x 3
+        a     b     c
+    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 0.00743 0.993  10.0
+```
+
+---
+## A tilda de novo
+
+Agora, vamos fingir que eu quero escrever uma função dentro do map. Aqui eu uso a tilda. 
+
+
+```r
+# Com Tilda
+map(lista1, ~ log(abs(sum(.x))) + 100)
+```
+
+```
+$a
+[1] 102.0058
+
+$b
+[1] 106.901
+
+$c
+[1] 109.2149
+```
+
+```r
+# Com funcao anonima. 
+map(lista1, function(x) log(abs(sum(x))) + 100)
+```
+
+```
+$a
+[1] 102.0058
+
+$b
+[1] 106.901
+
+$c
+[1] 109.2149
+```
+
+Esta foi uma brevíssima introdução ao `purrr`. Vejam os tutoriais acima para aprenderem mais. 
+
+---
+
+### Purrr e Raspagem de dados. 
+
+Agora nós temos as duas peças que faltavam para terminar nosso tutorial:
+
+1. Uma função de raspagem para cada caso, e
+
+2. Uma forma de automatizar esse percurso de caso por caso. 
+
+Vamos implementar agora. 
+
+
+
+```r
+# Converter os links para uma lista. 
+lista_links &lt;- as.list(dados$links[1:10])
+
+# Aplicando nossa lista de links a uma funcção. 
+
+dados &lt;- map(lista_links, raspar_alerj) 
+
+# Combine tudo como um banco de dados
+dados_alerj &lt;- bind_rows(dados)
+```
+
+---
+### Resultado
+
+```r
+dados_alerj
+```
+
+```
+# A tibble: 10 x 6
+   nome     link          partido      biografia        telefone    email       
+   &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;       &lt;chr&gt;       
+ 1 DEPUTAD… http://www.a… "Novo Novo"  "\r\nAdriana Ba… "(21) 2588… "adrianabal…
+ 2 DEPUTAD… http://www.a… "PSL PSL - … "Alana de Olive… "(21) 2588… "alanapasso…
+ 3 DEPUTAD… http://www.a… "Novo Novo"  "Advogado, Alex… "(21) 2588… "alexandref…
+ 4 DEPUTAD… http://www.a… "PSL PSL - … "  Alexandre Go… "(21) 2588… "alexandrek…
+ 5 DEPUTAD… http://www.a… "SDD SDD - … "Anderson Alexa… "(21) 2588… "andersonal…
+ 6 DEPUTAD… http://www.a… "PSL PSL - … "Anderson Morae… "(21) 2588… "andersonmo…
+ 7 DEPUTAD… http://www.a… "PT PT - Pa… "André Cecilian… " 28 de fe… "\r\n      …
+ 8 DEPUTAD… http://www.a… "DEM DEM"    "André Corrêa n… " 2 de jan… "\r\n      …
+ 9 DEPUTAD… http://www.a… "MDB MDB - … "É carioca, adv… " 14 de de… "\r\n      …
+10 DEPUTAD… http://www.a… "PODE Podem… "Nome completo:… " 16 de fe… "\r\n      …
+```
+
+---
+class: center, middle
+
+![](https://media.giphy.com/media/OK27wINdQS5YQ/giphy.gif)
+
+---
+ 
+### Saving
+
+
+```r
+write.csv(dados_alerj, "deputados_alerj.csv")
+```
+
+---
+### Mais um exemplo. 
+
+Para concluir, vamos trabalhar junto neste [código](../../static/code/igor_latinnews.R) onde eu extraio notícias sobre a América Latina do site Latin News. 
+
+
+
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

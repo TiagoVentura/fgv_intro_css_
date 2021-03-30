@@ -502,3 +502,209 @@ class: center, middle, inverse
 
 ## Aula II: Raspagem e Programação Funcional. 
 
+---
+
+### Programação Funcional e Raspagem de Dados. 
+
+Na exercício anterior, criamos um código para raspar dados para um caso. 
+
+Porém, nosso objetivo é raspar dados para milhões de casos, e deixar nosso computador trabalhar enquanto pensamos em outras coisas. 
+
+
+Para isto, vamos aprender um pouco de **programação funcional**
+
+---
+## No que consiste programação funcional ?
+
+
+O **R** é uma linguagem de programação funcional. Possui diversas ferramentas para facilitar o uso e aplicação de funções. Funções são objetos como qualquer outro vetor, e você pode criar, armazenar e rodar funções de forma bem fácil. 
+
+A idéia fundamental de programação funcional é preparar todo seu código em termos de funções distintas. E aplicar esta função à casos semelhantes. 
+
+**Raspagem de Dados**: escrever uma função que nos permite repetir o que fizemos para um caso para as outras páginas que pretendemos raspar. 
+
+Com esta função escrita, nos resta somente aplicar ela a múltiplos elementos (`purrr`)
+
+---
+
+
+### Escrevendo a função de raspagem. 
+
+```{r}
+
+raspar_alerj <- function(url){
+
+source <- url %>% read_html()
+
+# informacao
+
+nome <- source %>%
+            html_nodes(css=".paginacao_deputados .titulo") %>%
+            html_text() %>% str_remove_all(., "\\r|\\n") %>%
+              str_trim() %>% str_squish()
+partido <-  source %>% 
+              html_nodes(css=".partido") %>%
+              html_text() 
+biografia <- source %>% 
+            html_nodes(css=".margintop11") %>%
+            html_text() %>%   paste0(., collapse = " ")
+telefone <- source %>% 
+            html_nodes(css=".margin_bottom_5+ p") %>%
+            html_text() %>%   paste0(., collapse = " ")
+email <- source %>% 
+            html_nodes(css="#formVisualizarPerfilDeputado p+ p") %>%
+            html_text() %>%  paste0(., collapse = " ") 
+
+# Combina tudo como um banco de dados
+
+deputados <- tibble(nome, link, partido, biografia, telefone, email)
+
+# Output
+
+return(deputados)
+
+# Desligando R um pouco para nao sobrecarregar os dados
+
+Sys.sleep(sample(1:3, 1))
+
+}
+
+```
+
+---
+### Aplicar a um caso
+
+```{r}
+raspar_alerj(dados$links[[5]])
+```
+
+---
+
+### Aplicando uma função à multiplos elementos
+
+Há diversas formas de aplicar uma função à multiplos objetos.
+
+- Loop
+
+- apply functions
+
+- `purr::map` 
+
+Caso vocês queiram aprender mais sobre as funções map, podem checar [aqui](https://jennybc.github.io/purrr-tutorial/), [aqui](http://www.rebeccabarter.com/blog/2019-08-19_purrr/), e [aqui](https://www.youtube.com/watch?v=bzUmK0Y07ck). 
+
+---
+
+### Purrr
+
+O pacote `purrr` possui funções chamadas `map`. Estas funções funcionam todas sob a mesma lógica
+
+- Repetem determinada função para um conjunto de objetos (uma lista ou um vetor). 
+
+As funções map variam de acordo com seu output. 
+
+- `map(.x, .f)`: função principal, retorna uma lista. 
+
+- `map_df(.x, .f)` retorna um banco de dados. 
+
+- `map_dbl(.x, .f)` retorna vetor double.
+
+- `map_chr(.x, .f)` retorna character. 
+
+- `map_lgl(.x, .f)` retorna vetor lógico. 
+
+
+---
+### Exemplos
+
+```{r}
+# Criar uma lista com diversas distribuições numéricas
+lista1 <- list(a=rnorm(1000, 0, 1),
+               b=rnorm(1000, 1, 1), 
+               c=rnorm(1000, 10, 1))
+
+
+# Aplicar uma mesma função a todos os elementos desta lista. 
+map(lista1, mean)
+
+# Igual a:
+mean(lista1$a); mean(lista1$b); mean(lista1$c)
+
+```
+
+---
+### map_df
+
+```{r}
+map_df(lista1, mean)
+```
+
+---
+## A tilda de novo
+
+Agora, vamos fingir que eu quero escrever uma função dentro do map. Aqui eu uso a tilda. 
+
+```{r}
+# Com Tilda
+map(lista1, ~ log(abs(sum(.x))) + 100)
+
+# Com funcao anonima. 
+map(lista1, function(x) log(abs(sum(x))) + 100)
+
+```
+
+Esta foi uma brevíssima introdução ao `purrr`. Vejam os tutoriais acima para aprenderem mais. 
+
+---
+
+### Purrr e Raspagem de dados. 
+
+Agora nós temos as duas peças que faltavam para terminar nosso tutorial:
+
+1. Uma função de raspagem para cada caso, e
+
+2. Uma forma de automatizar esse percurso de caso por caso. 
+
+Vamos implementar agora. 
+
+
+```{r}
+
+# Converter os links para uma lista. 
+lista_links <- as.list(dados$links[1:10])
+
+# Aplicando nossa lista de links a uma funcção. 
+
+dados <- map(lista_links, raspar_alerj) 
+
+# Combine tudo como um banco de dados
+dados_alerj <- bind_rows(dados)
+```
+
+---
+### Resultado
+```{r}
+dados_alerj
+```
+
+---
+class: center, middle
+
+![](https://media.giphy.com/media/OK27wINdQS5YQ/giphy.gif)
+
+---
+ 
+### Saving
+
+```{r}
+write.csv(dados_alerj, "deputados_alerj.csv")
+```
+
+---
+### Mais um exemplo. 
+
+Para concluir, vamos trabalhar junto neste [código](../../static/code/igor_latinnews.R) onde eu extraio notícias sobre a América Latina do site Latin News. 
+
+
+
+
+
