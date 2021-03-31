@@ -23,7 +23,7 @@ Seguimos com nossas instruções.
 
 Divirtam-se! 
 
-Neste exercício, vocês irão criar um código completo de raspagem de dados. O nosso objetivo é coletar todas as informações da agenda de trabalho do Presidente Bolsonaro no ano de 2020 e 2021. 
+Neste exercício, vocês irão criar um código completo de raspagem de dados. O nosso objetivo é coletar todas as informações da [agenda de trabalho](https://www.gov.br/planalto/pt-br/acompanhe-o-planalto/agenda-do-presidente-da-republica/2020-01-01) do Presidente Bolsonaro no ano de 2020 e 2021. 
 
 Vocês precisam:
 
