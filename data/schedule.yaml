@@ -88,6 +88,7 @@ lessons:
   - title: "Raspagem de Dados I: Raspando Websites"
     date:  "2021-03-31, Wed"
     class: "14-class"
+    assignment: "exercicio-6"
 
   - title: '<i class="fas fa-star"></i> **Semana A1: Sem Aula**'
     date: ""
