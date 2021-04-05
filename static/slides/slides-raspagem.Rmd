@@ -702,7 +702,7 @@ write.csv(dados_alerj, "deputados_alerj.csv")
 ---
 ### Mais um exemplo. 
 
-Para concluir, vamos trabalhar junto neste [código](../../static/code/igor_latinnews.R) onde eu extraio notícias sobre a América Latina do site Latin News. 
+Para concluir, vamos trabalhar junto neste [código](code/igor_latinnews.R) onde eu extraio notícias sobre a América Latina do site Latin News. 
 
 
 
