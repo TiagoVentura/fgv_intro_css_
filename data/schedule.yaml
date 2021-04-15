@@ -86,26 +86,29 @@ lessons:
     class: "14-class"
 
   - title: "Raspagem de Dados I: Raspando Websites"
-    date:  "2021-03-31, Wed"
+    date:  "2021-03-31, Quarta"
     class: "14-class"
     assignment: "exercicio-6"
 
   - title: '<i class="fas fa-star"></i> **Semana A1: Sem Aula**'
     date: ""
 
+  - title: '<i class="fas fa-star"></i> **Semana de Integração: Sem Aula**'
+    date: ""
+
+  - title: "Research Speed Dating"
+    date:  "2021-04-19"
+    class: "15class"
 
   - title: "Raspagem de Dados II: APIs"
-    date: "2021-04-19, Tue"
-    #reading: "11-reading"
-    #class: "corr1-class"
+    date: "2021-04-26, Seg"
+    class: "16-class"
 
   - title: "Raspagem de Dados II: APIs"
-    date:  "2021-04-21, Thu"
+    date:  "2021-04-28, Quarta"
 
   - title: '<span class="fake-header-table">Ciência Social Computacional: Artigos Aplicados</span>'
 
-  - title: "Research Speed Dating"
-    date:  "2021-04-28"
 
   - title: "Análise de Dados de Mídias Sociais"
     date: "2021-05-03, Seg"
@@ -128,7 +131,7 @@ lessons:
     #reading: "11-reading"
     #class: "corr1-class"
 
-  - title: "Aplicações: análise de texto em R "
+  - title: "Aplicações: Análise de texto em R "
     date:  "2021-05-03, Quarta"
 
   - title: "Análise de Texto: Tópicos e Modelos Surpervisionados"
@@ -141,7 +144,7 @@ lessons:
     #reading: "11-reading"
     #class: "corr1-class"
 
-  - title: "Bias Algoríthmico e Antropologia Digital"
+  - title: "Bias Algorítimico e Antropologia Digital"
     date:  "2021-05-31 e 2021-06-02"
 
   - title: '<span class="fake-header-table">Projeto Final</span>'

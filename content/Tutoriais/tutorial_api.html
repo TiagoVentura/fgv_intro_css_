@@ -1,0 +1,369 @@
+---
+title: 'Tutorial 11: Acessando Dados via APIs'
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="acessando-dados-via-apis." class="section level1">
+<h1>Acessando dados via APIs.</h1>
+<p>No nosso último encontro, começamos a aprender sobre acesso de dados via meios digitais. Focamos em dois pontos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Introdução a acesso de dados digitais, melhores práticas e ética.</p></li>
+<li><p>Raspagem de dados em sites estáticos via <code>rvest</code></p></li>
+</ol>
+<p>Faltou cobrirmos uma segunda forma, e mais recomendada, de acesso a dados digitais: acesso via APIs. Este será o tema deste tutorial e de nossa últimas aula mais geral de programação em R.</p>
+</div>
+<div id="nossos-planos-para-hoje." class="section level1">
+<h1>Nossos planos para hoje.</h1>
+<p>Pretendo cobrir os seguintes pontos neste tutorial:</p>
+<ol style="list-style-type: decimal">
+<li><p>Introdução a APIs. O que fazem? Onde vivem? O que comem?</p></li>
+<li><p>Acessando APIs via http.</p>
+<ul>
+<li>Estudo de caso na API do Fogo Cruzado.</li>
+</ul></li>
+<li><p>Exemplos de pacotes de R para acessar APIs</p>
+<ul>
+<li>Fogo Cruzado</li>
+<li>Dados do Congresso (bRasilLegis)</li>
+</ul></li>
+</ol>
+</div>
+<div id="introdução-a-apis.-o-que-fazem-onde-vivem-o-que-comem" class="section level1">
+<h1>Introdução a APIs. O que fazem? Onde vivem? O que comem?</h1>
+<p>A sigla API corresponde ao termo em inglês “Application Programming Interface“. No português “Interface de Programação de Aplicações”. Em linguagem não técnica, uma API é um repositório on-line construído para facilitar troca de informações entre usuários de dados e os portadores de determinados dados. Muita empresas constroem este repositórios para diversas funções, entre elas, compartilhar dados, receber dados, gerenciamento conjunto de banco de dados, e fornecer funções ou maquinas de inteligência artificial para uso do público.</p>
+<p>Vamos pensar um exemplo capaz de motivar a criação de uma API. Imagine que você é o dono do Twitter. Você teria zilhões de hackers todos os dias tentar fazer raspagem dos seus dados, isso tornaria seu site mais instável, e inseguro. Qual a solução? Você cria uma API, e passa a controlar quem acessa a informação, quando acessam, qual tipo de informação você torna disponível. De quebra, quando você cria uma API você ainda ainda ganha uns pontos com os defensores da política de dados abertos.</p>
+<p>Para entender como uma API funciona, a metáfora do Matrix feita pelo <a href="%22https://www.curso-r.com/material/api/#header-o-que-e-uma-api%22">Curso-R</a> é excelente. Lembrem-se do filme Matrix. Os sobreviventes no mundo Matrix podiam conectar à uma maquina e pedir para aprender determinada habilidade - kung-fu, programação, língua, etc. Isso é exatamente o que uma API faz. Você conecta a site e pede dados, e recebe-os em retorno. É como enviar um email, porém fazendo tudo via linguagem de programação.</p>
+<div id="usos-de-api" class="section level2">
+<h2>Usos de API</h2>
+<p>Há duas formas principais em que nós acadêmicos comumente utilizamos APIs.</p>
+<ol style="list-style-type: decimal">
+<li><p>Acessar dados compartilhados por Empresas e ONGs.</p></li>
+<li><p>Processar nossos dados em Algoritmos desenvolvidos por terceiros.</p></li>
+</ol>
+<p>Nosso foco será no primeiro. Porém, podemos no decorrr do curso aprender mais sobre o uso de API para acessar modelos disponíveis na internet.</p>
+<p>APIs hoje são a principal forma de compartilhamento de dados. Há muitas APIs disponíveis para acesso. Por exemplo, Twitter, Facebook, Spotify, Yelp, Portal da Transparência, IPEA.. a lista é longa. Veja abaixo.</p>
+<p><img src="figs/api_growth.png" /></p>
+<p>E mais recentemente há diversas APIs sendo criadas para permitir análise de dados usando inteligência artificial. Por exemplo, você pode acessar o algoritmo do google para detectar <a href="https://www.perspectiveapi.com/#/home">toxicidade em comentários online</a> para <a href="https://cloud.google.com/vision/">classificação de imagens</a>, ou para detectar <a href="https://serenata.ai/">gastos suspeitos</a> de políticos no Brasil. Entre mutas outras opções.</p>
+<p>Vamos cobrir neste workshop somente o acesso a dados via APIs. Porém, fiquem de olho na segunda onda de inovações. Tudo se move muito rápido neste campo.</p>
+</div>
+<div id="uso-de-api-para-acesso-à-dados." class="section level2">
+<h2>Uso de API para acesso à dados.</h2>
+<p>Em seu formato mais simples, uma API é somente uma url. Veja o exemplo abaixo:</p>
+<p><code>http://meusite.com/key?param_1;param_2</code></p>
+<p>Principais elementos:</p>
+<ul>
+<li><strong><a href="http://meusite.com/" class="uri">http://meusite.com/</a></strong>: a base da API, chamado nas documentações de end-point.</li>
+<li><strong>key</strong>: as credenciais que muitos sites pedem - nem todos, como veremos.</li>
+<li><strong>?param_1;param_2</strong> parametros, ou filtros para refinar a busca da API.</li>
+</ul>
+<p>Com R, podemos simplesmente usar os parâmetros que informam a API para nos fornecer os dados. Acessamos e limpamos via R, e teremos nossos dados organizados. Para acessar a API utilizarmos o pacote <code>httr</code>. E para limpar, usaremos diversas das funções do <code>tidyverse</code> que aprendemos anteriormente</p>
+</div>
+<div id="como-acessar-essa-api" class="section level2">
+<h2>Como Acessar Essa API?</h2>
+<p>Nosso primeiro passo é descobrir se determinado site ou dados que estamos interessados possui API. Se sim, teremos duas formas de acessar esta API.</p>
+<p><strong>1. Verificar se há um pacote de R criado para acessar esta API.</strong></p>
+<p>Muita vezes, outros programadores precisaram dos meus dados que você. E por isso, estes colegas já criaram um pacote de R para acessar estes dados. Se o pacote existir, use-o. Isto lhe salvará muito tempo. Site como youtube, twitter, New York Times, Congresso Brasileiro, IPEA, entre muitos outros, possuem API já desenhada para acesso dos dados.</p>
+<p><strong>2. Caso não haja um pacote, crie suas funções para acessar os dados</strong>.</p>
+<p>Vamos iniciar pelo segundo caso para aprender como funcionam APIs, e depois veremos diversos exemplos de pacotes já desenvolvidos.</p>
+</div>
+</div>
+<div id="uso-simple-de-apis." class="section level1">
+<h1>Uso simple de APIs.</h1>
+<p>Vamos iniciar com um exemplo de API onde não precisamos solicitar senha de acesso. Começaremos com uma API bem simples chamada <a href="https://dog.ceo/dog-api/">DOG API</a>. Esta API contêm um repositório de imagens de cachorros, e a cada acesso a ela pegaremos uma imagem diferente.</p>
+<div id="primeiro-passo-encontre-as-endpoints" class="section level3">
+<h3>Primeiro Passo: Encontre as Endpoints</h3>
+<p>Abra o site e leia a documentação. A primeira informação que precisamos encontrar é quais são os endpoints de cada API. Os endpoints contêm o tipo de informação que a API disponibiliza.</p>
+<p><img src="figs/api_dog.png" /></p>
+<p>Esta API possui diversos endpoints</p>
+</div>
+<div id="segundo-passo-procure-filtros" class="section level3">
+<h3>Segundo Passo: Procure Filtros</h3>
+<p>Esta API é bem simples. Não possui filtros mais complexos. Vamos ver outros exemplos com filtros mais na frente.</p>
+</div>
+<div id="terceiro-passo-acesse-via-get." class="section level3">
+<h3>Terceiro Passo: Acesse via Get.</h3>
+<p>Todo o acesso para solicitar informação de uma API ocorre a partir da função GET. O retorno será uma arquivo do tipo “response”, e descreve exatamente o retorno da API.</p>
+<p>Vamos acessar uma foto aleatória da API.</p>
+<pre class="r"><code>library(httr)
+library(tidyverse)
+# Acesse a API
+endpoint = &quot;https://dog.ceo/api/breeds/image/random&quot;
+
+acesso = GET(endpoint)
+
+# O que é este arquivo?
+class(acesso) </code></pre>
+<pre><code>[1] &quot;response&quot;</code></pre>
+</div>
+<div id="quarto-passo-acesse-os-dados-via-content." class="section level3">
+<h3>Quarto Passo: Acesse os dados via content.</h3>
+<p>A função <code>content</code> dará a você o acesso as respostas de cada GET request da API. A partir daí, podemos limpar e usar nossos dados.</p>
+<pre class="r"><code># Veja os elementos
+content(acesso)</code></pre>
+<pre><code>$message
+[1] &quot;https://images.dog.ceo/breeds/dhole/n02115913_3863.jpg&quot;
+
+$status
+[1] &quot;success&quot;</code></pre>
+<pre class="r"><code># Acesso a mensagem de resposta
+link_image &lt;- content(acesso)$message
+download.file(&quot;https://images.dog.ceo/breeds/poodle-standard/n02113799_1439.jpg&quot;, 
+              destfile = &quot;cao.png&quot;)</code></pre>
+<p>Para cada tipo de API, a estrutura de dados de retorno será distinta. No entanto, a maioria retorna dados no formato JSON. Vamos mais na frente aprender um pouco mais sobre eles.</p>
+</div>
+</div>
+<div id="fogo-cruzado-api" class="section level1">
+<h1>Fogo Cruzado API</h1>
+<p>Vamos agorar usar como exemplo a API do projeto Fogo Cruzado.</p>
+<p>Neste caso, a API exige credenciais, e este sempre deve ser nosso primeiro passo. <a href="https://api.fogocruzado.org.br/">Aqui</a> vocês encontram a descrição sobre como ganhar sua senha de acesso. Vamos ver como fazer no código abaixo.</p>
+<div id="acessando-sua-senha" class="section level2">
+<h2>Acessando sua senha</h2>
+<pre><code>Error in curl::curl_fetch_memory(url, handle = handle): Could not resolve host: api.fogocruzado.org.br</code></pre>
+<pre><code>Error in is.response(x): object &#39;get_jwt&#39; not found</code></pre>
+<pre class="r"><code># Pacotes para acessar APIs
+library(httr) 
+library(jsonlite)
+library(tidyverse)
+
+# Solicitar a senha
+get_jwt &lt;- httr::POST(&quot;https://api.fogocruzado.org.br/api/v1/auth/login&quot;,
+                 query = list(email = &quot;venturat@umd.edu&quot;, password = &quot;xxxxxx&quot;))
+
+
+# Pegar a senha
+token &lt;- httr::content(get_jwt)$access_token
+
+# token = sua senha de acesso à API. Nao compartilhe por ai.</code></pre>
+<p>Agora que temos nossa credencial, vamos olhar a documentação da API. Neste <a href="https://api.fogocruzado.org.br/docs/1.0/overview">link</a> vocês encontrarão a documentação.</p>
+<div id="base-da-api-end-point" class="section level3">
+<h3>Base da API (End Point)</h3>
+<p><img src="figs/base_fogo_cruzado.png" /></p>
+</div>
+<div id="filtros-da-api" class="section level3">
+<h3>Filtros da API</h3>
+<p>A principal informação do site do fogo cruzado são as ocorrências de tiroteio no Rio de Janeiro e Recife. Na <a href="https://api.fogocruzado.org.br/docs/1.0/occurrences">documentação</a>, indica-se que há três endpoints principais para a APIÇ: cidades, estados e ocorrências.</p>
+<p>Vamos começar pelo endpoint cidades, um fácil que não exige filtros. Abre este link da <a href="https://api.fogocruzado.org.br/docs/1.0/cities">documentação</a></p>
+<pre class="r"><code># Passo 1. Crie a Url
+base_url &lt;- &quot;https://api.fogocruzado.org.br/api/v1&quot;
+cities &lt;- &quot;/cities&quot;
+api &lt;- paste0(base_url, cities)
+print(api)</code></pre>
+<pre><code>[1] &quot;https://api.fogocruzado.org.br/api/v1/cities&quot;</code></pre>
+</div>
+<div id="get-request" class="section level3">
+<h3>GET Request</h3>
+<p>Para solicitar os dados de uma API</p>
+<pre class="r"><code># Passo 2: Acesse a API
+
+response &lt;- GET(api,  
+                add_headers(&#39;Authorization&#39; = paste(&quot;Bearer&quot;, token, sep = &quot; &quot;)))</code></pre>
+<pre><code>Error in paste(&quot;Bearer&quot;, token, sep = &quot; &quot;): object &#39;token&#39; not found</code></pre>
+<pre class="r"><code># Qual o resultado?
+response</code></pre>
+<pre><code>Error in eval(expr, envir, enclos): object &#39;response&#39; not found</code></pre>
+</div>
+</div>
+<div id="limpando-resultado" class="section level2">
+<h2>Limpando Resultado</h2>
+<p>O retorno da API é um arquivo em JSON - que é um tipo mais eficiente para salvar arquivos grandes - e possui status 200 - que significa seu acesso funcionou. Vamos agora limpar esse arquivo JSON.</p>
+<p>Vamos limpar arquivos de json pode ser complicado, por isso, vamos tocar somente a superficie aqui.</p>
+<pre class="r"><code># Converter para um json
+json_fogo_cruzado &lt;- content(response, as=&quot;text&quot;, encoding = &quot;UTF-8&quot;)</code></pre>
+<pre><code>Error in is.response(x): object &#39;response&#39; not found</code></pre>
+<p>Isto é o que um arquivo de JSON parece. O código acima somente converte a conexão com a API para um longo texto. Esse texto possui separadores - muitas vezes hierarquicos - e chamamos esse arquivo de JSON. O pacote de R <code>rjson</code> permite-nos transformar este arquivo em um banco de dados</p>
+<p><img src="figs/json-exemplo.png" /></p>
+<pre class="r"><code># Limpando Jsons
+output &lt;- fromJSON(json_fogo_cruzado) %&gt;%
+              tibble::as_tibble()</code></pre>
+<pre><code>Error in fromJSON(json_fogo_cruzado): object &#39;json_fogo_cruzado&#39; not found</code></pre>
+<pre class="r"><code>output</code></pre>
+<pre><code>Error in eval(expr, envir, enclos): object &#39;output&#39; not found</code></pre>
+<div id="api-com-filtros." class="section level3">
+<h3>API com Filtros.</h3>
+<p>Todas as APIs de verdade possuem parâmetros para filtrar os acessos. Por exemplo, quando usamos a API do twitter e pedimos para buscar tweets mencionando determinada palavra, precisamos adicionar um filtro ao chamado principal da API.</p>
+<p>No caso do Fogo Cruzado, precisamos de filtros para o período de busca. Para acessarmos as ocorrências de tiroteio, é preciso pedir dados de no máximo 7 meses de intervalo.</p>
+<p>Para isso, devemos adicionar uma query de filtros na função GET. Estes filtros devem ser solicitados de acordo com a documentação da API. Veja <a href="https://api.fogocruzado.org.br/docs/1.0/occurrences">aqui</a> alguns exemplos</p>
+<pre class="r"><code># url basica de ocorrencias.
+base_url &lt;- &quot;https://api.fogocruzado.org.br/api/v1&quot;
+occurences &lt;- &quot;/occurrences&quot;
+api &lt;- paste0(base_url, occurences)
+print(api)</code></pre>
+<pre><code>[1] &quot;https://api.fogocruzado.org.br/api/v1/occurrences&quot;</code></pre>
+<pre class="r"><code># Cria Query
+query_list &lt;- list(data_ocorrencia=&quot;2019-01-01&quot;, 
+                   nome_cidade= &quot;Rio de Janeiro&quot;)
+# GET
+response &lt;- GET(api,
+                query=query_list,
+              add_headers(&#39;Authorization&#39; = paste(&quot;Bearer&quot;, token, sep = &quot; &quot;)))</code></pre>
+<pre><code>Error in paste(&quot;Bearer&quot;, token, sep = &quot; &quot;): object &#39;token&#39; not found</code></pre>
+<pre class="r"><code>output &lt;- jsonlite::fromJSON(httr::content(response, as=&quot;text&quot;, encoding = &quot;UTF-8&quot;)) %&gt;%
+    tibble::as_tibble()</code></pre>
+<pre><code>Error in is.response(x): object &#39;response&#39; not found</code></pre>
+<pre class="r"><code>View(output)</code></pre>
+<pre><code>Error in as.data.frame(x): object &#39;output&#39; not found</code></pre>
+</div>
+<div id="escrever-o-endpoint-inteiro" class="section level3">
+<h3>Escrever o endpoint inteiro</h3>
+<p>Uma opção é escrever o endpoint junto com os filtros diretamente. Qualquer caminho funciona bem, apesar do uso de query ser mais geral.</p>
+<pre class="r"><code># url basica de ocorrencias.
+base_url &lt;- &quot;https://api.fogocruzado.org.br/api/v1&quot;
+occurences &lt;- &quot;/occurrences&quot;
+filter= &quot;?data_ocorrencia[gt]=2019-01-01&amp;data_ocorrencia[lt]=2019-05-01&amp;CidadeID[]=3661&quot;
+api &lt;- paste0(base_url, occurences, filter)
+print(api)</code></pre>
+<pre><code>[1] &quot;https://api.fogocruzado.org.br/api/v1/occurrences?data_ocorrencia[gt]=2019-01-01&amp;data_ocorrencia[lt]=2019-05-01&amp;CidadeID[]=3661&quot;</code></pre>
+<pre class="r"><code># GET
+response &lt;- GET(api,
+              add_headers(&#39;Authorization&#39; = paste(&quot;Bearer&quot;, token, sep = &quot; &quot;)))</code></pre>
+<pre><code>Error in paste(&quot;Bearer&quot;, token, sep = &quot; &quot;): object &#39;token&#39; not found</code></pre>
+<pre class="r"><code>output &lt;- jsonlite::fromJSON(httr::content(response, as=&quot;text&quot;, encoding = &quot;UTF-8&quot;)) %&gt;%
+    tibble::as_tibble()</code></pre>
+<pre><code>Error in is.response(x): object &#39;response&#39; not found</code></pre>
+<pre class="r"><code>output</code></pre>
+<pre><code>Error in eval(expr, envir, enclos): object &#39;output&#39; not found</code></pre>
+</div>
+<div id="visualização-com-mapas" class="section level3">
+<h3>Visualização com Mapas</h3>
+<p>Podemos visualizar essa informação com mapas. A função get_googlemap na verdade acessa a API do google maps e faz download do mapa do Rio de Janeiro. Para isso, você precisa liberar o seu acesso à API via google <a href="https://console.cloud.google.com">aqui</a>. Isso fica como um exercício para quarta-feira.</p>
+<pre class="r"><code>library(ggmap)
+library(RColorBrewer)
+ggmap(get_googlemap(&quot;rio de janeiro&quot;, zoom = 11, maptype = &quot;roadmap&quot;, scale=2)) +
+    geom_point(data = output, 
+               aes(x = longitude_ocorrencia, 
+               y = latitude_ocorrencia), 
+               color=&quot;tomato2&quot;, alpha=.8, size = 2)</code></pre>
+<pre><code>Error in fortify(data): object &#39;output&#39; not found</code></pre>
+</div>
+</div>
+<div id="but-nós-chechamos-se-havia-algum-pacote-de-r-disponível-para-o-fogo-cruzado" class="section level2">
+<h2>But! Nós chechamos se havia algum pacote de R disponível para o Fogo Cruzado?</h2>
+<p>Uma das maiores vantagens do uso de R reside no fato de se tratar de uma linguagem gratuita e de código aberto. Como resultado, há milhares de programadores trabalhando em desenvolver pacotes e tornando-os acessíveis ao público. Há dois lugares onde esses pacotes são hospedados. O repositório oficial do R chamado CRAN, ou no github - um local onde programadores tornam seus códigos disponíveis.</p>
+<p>Se alguem tiver desenvolvido um pacote para acessar a API, você vai ganhar muito tempo usando o pacote diretamente, ao invés de entender toda a documentação da API, como fizemos. Vamos buscar o pacote de R para acessar o Fogo Cruzado.</p>
+<p>Este <a href="https://github.com/voltdatalab/crossfire">link</a> contém o site do pacote de R, e as recomendações de como utilizá-lo. Como disse, o pactoe está no github. Segue a instalação:</p>
+<pre class="r"><code>#Instalação do pacote
+install.packages(&quot;devtools&quot;) # pacote para acessar o github
+devtools::install_github(&quot;voltdatalab/crossfire&quot;)</code></pre>
+<pre><code>Error in curl::curl_fetch_memory(url, handle = handle): Could not resolve host: api.fogocruzado.org.br</code></pre>
+<pre><code>Error in fogocruzado_key(): There&#39;s no key available. Please check your sign-in information.
+If you haven&#39;t included an authorized e-mail and password in this R session yet, please do so using the fogocruzado_signin() function</code></pre>
+<pre><code>Error in fortify(data): object &#39;fogocruzado_rj&#39; not found</code></pre>
+<pre class="r"><code>library(crossfire)
+
+# Registra usuario e senha, e envia sua senha da API
+
+fogocruzado_signin(email = &quot;venturat@umd.edu&quot;, password = &quot;xxxxxx&quot;)
+
+# Extrair os dados que pegamos manualmente antes
+
+fogocruzado_rj &lt;- get_fogocruzado(state= &quot;RJ&quot;, security_agent = 1)
+
+# Colocar em gráfico mais uma vez. 
+
+ggmap(get_googlemap(&quot;rio de janeiro&quot;, zoom = 11, maptype = &quot;roadmap&quot;, scale=2)) +
+    geom_point(data = fogocruzado_rj, 
+               aes(x = longitude_ocorrencia, 
+               y = latitude_ocorrencia), 
+                alpha=.8, size = 0.5, color=&quot;darkred&quot;)</code></pre>
+<p>Muito mais fácil!</p>
+</div>
+<div id="congressbr" class="section level2">
+<h2>Congressbr</h2>
+<p>Para terminar o dia de hoje, vamos praticar um pouco mais com o excelente pacote <a href="%22https://github.com/duarteguilherme/congressbr%22">congressbr</a>. Este <a href="https://larrlasa.org/article/10.25222/larr.447/?fbclid=IwAR1vKKEpLWufTtuIA6LI_LNqsYJUXEbNnK8oDRHEJRG0E4LTRsXmJnseVRA">artigo</a> sobre o pacote oferece uma excelente introdução à como utilizá-lo, e um sumário de outros pacotes para facilitar acesso à APIs com dados brasileiros.</p>
+<pre class="r"><code># Instale o pacote
+install.packages(&quot;congressbr&quot;)
+devtools::install_github(&quot;RobertMyles/congressbr&quot;)</code></pre>
+<p>O pacote permite o acesso às APIs da <a href="https://www2.camara.leg.br/transparencia/dados-abertos/dados-abertos-legislativo">Câmara</a> e do <a href="https://www2.camara.leg.br/transparencia/dados-abertos/dados-abertos-legislativo">Senado</a>. Há quatro funções principais no pacote</p>
+<ul>
+<li>cham_votes(): retorna informação sobre votações na Câmara.</li>
+<li>cham_bills(): retorna informação sobre atividade legislativa na Câmara.</li>
+<li>sen_votes(): retona informação de voto no Senado.</li>
+<li>sen_bill_search(): Procura por atividade legislativa no Senado.</li>
+</ul>
+<p>Caso você queira entender mais sobre cada uma das funções, há alguns caminhos. Em primeiro lugar, procure a documentação da API. Em segundo, leia a <a href="%22https://cran.r-project.org/web/packages/congressbr/congressbr.pdf%22">documentação</a> do pacote ou a sua <a href="https://github.com/duarteguilherme/congressbr">página no github</a>. Outra opção, é pedir ajuda para entender a função de seu interesse.</p>
+<p>Vamos ver algumas das funções do pacote abaixo. Em primeiro lugar, darei um exemplo de como pedir ajudar, e entender a função.</p>
+<pre class="r"><code>library(congressbr)
+
+# Ajuda em R
+?cham_legislator_list</code></pre>
+<p><img src="figs/helpr.png" /></p>
+<p>Essa imagem irá aparecer diretamente no seu R Studio. Ela explica o que a função faz, o que retorna, e exemplo de como utilizá-la. Somente de copiar e colar o exemplo, você já terá uma boa dimensão da função.</p>
+<pre class="r"><code>all &lt;- cham_legislator_list()
+glimpse(all)</code></pre>
+<pre><code>Rows: 512
+Columns: 13
+$ legislator_id               &lt;chr&gt; &quot;73701&quot;, &quot;73696&quot;, &quot;73801&quot;, &quot;74848&quot;, &quot;74459…
+$ legislator_status           &lt;chr&gt; &quot;Titular&quot;, &quot;Titular&quot;, &quot;Titular&quot;, &quot;Titular&quot;…
+$ legislator_name             &lt;chr&gt; &quot;BENEDITA SOUZA DA SILVA SAMPAIO&quot;, &quot;ANGELA…
+$ legislator_cham_name        &lt;chr&gt; &quot;Benedita da Silva&quot;, &quot;Angela Amin&quot;, &quot;Renil…
+$ legislator_photo_url        &lt;chr&gt; &quot;http://www.camara.gov.br/internet/deputad…
+$ legislator_gender           &lt;chr&gt; &quot;feminino&quot;, &quot;feminino&quot;, &quot;masculino&quot;, &quot;femi…
+$ legislator_state            &lt;chr&gt; &quot;RJ&quot;, &quot;SC&quot;, &quot;PE&quot;, &quot;RJ&quot;, &quot;PI&quot;, &quot;PR&quot;, &quot;PE&quot;, …
+$ legislator_party            &lt;chr&gt; &quot;PT&quot;, &quot;PP&quot;, &quot;PCdoB&quot;, &quot;PCdoB&quot;, &quot;PP&quot;, &quot;CIDAD…
+$ legislator_cabinet          &lt;chr&gt; &quot;330&quot;, &quot;252&quot;, &quot;915&quot;, &quot;622&quot;, &quot;640&quot;, &quot;916&quot;, …
+$ legislator_building_address &lt;chr&gt; &quot;4&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4&quot;, &quot;4…
+$ legislator_telephone_number &lt;chr&gt; &quot;3215-5330&quot;, &quot;3215-5252&quot;, &quot;3215-5915&quot;, &quot;32…
+$ legislator_email            &lt;chr&gt; &quot;dep.beneditadasilva@camara.leg.br&quot;, &quot;dep.…
+$ legislator_comissions       &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…</code></pre>
+<p>Abaixo, vou dar um exemplo de uso do pacote.</p>
+<div id="número-de-proposições-por-ano" class="section level3">
+<h3>Número de Proposições por ano</h3>
+<pre class="r"><code>ano&lt;-c(2002:2018)
+
+proposicoes &lt;- map(ano, ~ 
+                     cham_plenary_bills(.x) %&gt;%
+                     mutate(ano=.x)) 
+
+# Vamos combinar tudo 
+
+proposicoes &lt;- bind_rows(proposicoes) 
+
+# Eliminar repeticoes 
+
+proposicoes &lt;- proposicoes %&gt;% distinct()
+
+# Agregar por ano
+
+proposicoes_ano &lt;- proposicoes %&gt;% count(ano)
+
+# Marcar anos pre eleitorais
+proposicoes_ano &lt;- proposicoes_ano %&gt;% 
+                      mutate(ano_eleitoral=ifelse(ano==2002|ano==2006|
+                                                    ano==2010|ano==2014|ano==2018, &quot;Ano Eleitoral&quot;, 
+                                                  &quot;Ano Não Eleitoral&quot;))
+
+ggplot(proposicoes_ano, aes(y=n, x=ano, fill=ano_eleitoral)) +
+  geom_col() +
+  scale_fill_manual(name=&quot;&quot;, values = c(&quot;darkred&quot;, &quot;darkblue&quot;)) +
+  theme_minimal() +
+  xlab(&quot;ano&quot;) + ylab(&quot;Proposições Votadas&quot;) </code></pre>
+<p><img src="/Tutoriais/tutorial_api_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>Mais uma vez. O pacote permite fácil e rápido acesso a uma quantidade enorme de dados. Basta nós cientistas sociais aprendermos como utilizar-los.</p>
+</div>
+</div>
+</div>
+<div id="exercício-quarta-feira" class="section level1">
+<h1>Exercício (Quarta-Feira)</h1>
+<ol style="list-style-type: decimal">
+<li><p>Encontre uma API com um pacote de R escrito. Instale o pacote, e utilize-o corretamente. A API do<a href="https://github.com/mkearney/nytimes">new york times</a>, o <a href="https://cran.r-project.org/web/packages/tuber/vignettes/tuber-ex.html">youtube</a>, o <a href="https://github.com/dkahle/ggmap">google maps</a>, o <a href="https://github.com/ropensci/rtweet">twitter</a> e o <a href="https://www.rcharlie.com/spotifyr/index.html">spotify</a> podem ser boas opções. Façam o cadastro necessário, acessam suas senhas, e brinquem com as apis.</p></li>
+<li><p>Encontre uma API para você praticar o use da função GET. Pode ser qualquer uma. A guisa de sugestão, você pode utilizar a API do <a href="http://www.portaltransparencia.gov.br/api-de-dados">Portal da Transparência</a>. É bem simples de acessar.</p></li>
+</ol>
+<ul>
+<li>Dica 1 : Escolha o tema, e vá em tentar agora. Depois que você encontrar o resultado, basta copiar para o R.</li>
+<li>Dica 2 : a url base é <a href="http://www.transparencia.gov.br/api-de-dados/" class="uri">http://www.transparencia.gov.br/api-de-dados/</a></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Colete uma informação desta API. Qualquer uma. Faça um GET que retorne um resultado interessante</li>
+</ol>
+</div>

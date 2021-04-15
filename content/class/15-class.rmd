@@ -1,0 +1,24 @@
+---
+title: "Aula 15: Research Speed Dating"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais  
+
+Nesta semana, vamos iniciar nossa preparação para os trabalhos finais de vocês.
+
+Para isto, vamos fazer uma dinâmica de trabalho em grupo que irá auxiliar vocês a decidir seus temas e seus grupos.
+
+## Slides
+
+[Slides Research Speed Dating](/slides/slides-speed_dating.html)
