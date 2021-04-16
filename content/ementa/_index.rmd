@@ -153,12 +153,15 @@ Na segunda reunião de cada semana, mostrarei como implementar alguns dos métod
 As leituras com um asterisco (*) são obrigatórias. Você vai ler no máximo dois artigos por semana. As outras leituras são apenas sugeridas. Algumas leituras sugeridas podem ser adicionadas ao programa ao longo do curso.
 
 
-### Semana  8: Análise de Dados de Mídias Sociais (Abril 19 - 26)
+### Semana: Análise de Dados de Mídias Sociais (Maio 03 - 05)
 
 #### Artigos Aplicados
 
 - Calvo, Ernesto and Natalia Aruguete. 2016. Time to Protest: Polarization and Time-to-Retweet in Argentina. Journal of Communication. *
-- Barberá, Pablo, John T. Jost, Jonathan Nagler, Joshua A. Tucker, and Richard Bonneau. "Tweeting from left to right: Is online political communication more than an echo chamber?." Psychological science 26, no. 10 (2015): 1531-1542. *
+
+- SOUZA, Rafael Martins de; GRAÇA, Luís Felipe Guedes da; SILVA, Ralph dos Santos. Politics on the Web: Using Twitter to Estimate the Ideological Positions of Brazilian Representatives. Bras. Political Sci. Rev., v. 11, n. 3, e0003, Nov. 2017. https://doi.org/10.1590/1981-3821201700030003 *
+
+- Barberá, Pablo, John T. Jost, Jonathan Nagler, Joshua A. Tucker, and Richard Bonneau. "Tweeting from left to right: Is online political communication more than an echo chamber?." Psychological science 26, no. 10 (2015): 1531-1542. 
 - Shugars, Sarah, and Nicholas Beauchamp. “Why Keep Arguing? Predicting Engagement in Political Conversations Online.” SAGE Open 9, no. 1 (January 1, 2019): 2158244019828850. https://doi.org/10.1177/2158244019828850.
 - Bakshy, E., Messing, S., & Adamic, L. 2015. Exposure to ideologically diverse news and opinion on Facebook. science, 348(6239), 1130-1132.
 
@@ -169,74 +172,73 @@ As leituras com um asterisco (*) são obrigatórias. Você vai ler no máximo do
 - Analizando Notícias e Ativação de Conteúdo com dados do Twitter. 
 - Escalonamento ideológico com dados do Twitter.
 
-### Semana  9: Experimentos sobre comportamento em mídias sociais. (Abril 28 - Maio 3)
+<!-- ### Semana: Experimentos sobre comportamento em mídias sociais. (Maio 12 - 12) -->
 
-#### Artigos Aplicados: 
+<!-- #### Artigos Aplicados:  -->
 
 
-- Calvo, E. and Ventura, T., 2020. Will I Get Covid? Partisanship, Social Media Frames, and Perceptions of Health Risk in Brazil? *
-    
-- Bond, R. M., Fariss, C. J., Jones, J. J., Kramer, A. D., Marlow, C., Settle, J. E., & Fowler, J. H. (2012). A 61-million-person experiment in social influence and political mobilization. Nature, 489(7415), 295-298. *
-    
-- Guess, A. M., Lerner, M., Lyons, B., Montgomery, J. M., Nyhan, B., Reifler, J., & Sircar, N. (2020). A digital media literacy intervention increases discernment between mainstream and false news in the United States and India. Proceedings of the National Academy of Sciences, 117(27), 15536-15545.
-    
- 
-#### Técnicas de Programação:
+<!-- - Calvo, E., & Ventura, T. (2021). Will I Get COVID-19? Partisanship, Social Media Frames, and Perceptions of Health Risk in Brazil. Latin American Politics and Society, 63(1), 1-26. * -->
 
-- Introdução a Experimentos e Randomização em Surveys On-line. 
+<!-- - Bond, R. M., Fariss, C. J., Jones, J. J., Kramer, A. D., Marlow, C., Settle, J. E., & Fowler, J. H. (2012). A 61-million-person experiment in social influence and political mobilization. Nature, 489(7415), 295-298. * -->
 
-### Semana  10: Recrutamento para Surveys On-line (Maio 5)}
+<!-- - Guess, A. M., Lerner, M., Lyons, B., Montgomery, J. M., Nyhan, B., Reifler, J., & Sircar, N. (2020). A digital media literacy intervention increases discernment between mainstream and false news in the United States and India. Proceedings of the National Academy of Sciences, 117(27), 15536-15545. -->
+
+
+<!-- #### Técnicas de Programação: -->
+
+<!-- - Introdução a Experimentos e Randomização em Surveys On-line.  -->
+
+<!-- ### Semana  10: Recrutamento para Surveys On-line (Maio 5)} -->
+
+<!-- #### Artigos Aplicados: -->
+
+
+<!-- - Samuels, D.J. and Zucco, C., 2013. Using Facebook as a subject recruitment tool for survey-experimental research. Available at SSRN 2101458. * -->
+
+<!-- - Berinsky, Adam J., Gregory A. Huber, and Gabriel S. Lenz. "Evaluating online labor markets for experimental research: Amazon. com's Mechanical Turk." Political analysis 20, no. 3 (2012): 351-368.  -->
+
+
+### Semana: Experimentos e Experimentos Digitais de Campo (Maio 10 - 12)
 
 #### Artigos Aplicados:
 
+- Calvo, E., & Ventura, T. (2021). Will I Get COVID-19? Partisanship, Social Media Frames, and Perceptions of Health Risk in Brazil. Latin American Politics and Society, 63(1), 1-26.*  (Resp: Jessica) 
 
-- Samuels, D.J. and Zucco, C., 2013. Using Facebook as a subject recruitment tool for survey-experimental research. Available at SSRN 2101458. *
-    
-- Berinsky, Adam J., Gregory A. Huber, and Gabriel S. Lenz. "Evaluating online labor markets for experimental research: Amazon. com's Mechanical Turk." Political analysis 20, no. 3 (2012): 351-368. 
-    
+- Bail et al (2018). Exposure to opposing views on social media can increase political polarization. Proceedings of the National Academy of Sciences, 115(37): 9216-9221. * 
 
-### Semana  12: Experimento Digitais de Campo (Maio 10 - 12)
+- Munger, K. (2017). Tweetment effects on the tweeted: Experimentally reducing racist harassment. Political Behavior, 39(3), 629–649. * (Resp: Barbara)
 
-#### Artigos Aplicados:
-
-
-- Munger, K. (2017). Tweetment effects on the tweeted: Experimentally reducing racist harassment. Political Behavior, 39(3), 629–649.*
-
-- Victoria Asbury, Keng-Chi Chang, Katherine McCabe, Kevin Munger, Tiago Ventura; The Effect of Streaming Chat on Perceptions of Debates. Under Review.*
-    
-- Bail et al (2018). Exposure to opposing views on social media can increase political polarization. Proceedings of the National Academy of Sciences, 115(37): 9216-9221.
+- Victoria Asbury, Keng-Chi Chang, Katherine McCabe, Kevin Munger, Tiago Ventura; The Effect of Streaming Chat on Perceptions of Debates. Under Review.
     
 - King, G., Pan, J., & Roberts, M. E. (2014). Reverse-engineering censorship in China: Randomized experimentation and participant observation. Science, 345(6199), 1251722.
     
 
-
 #### Técnicas de Programação:
-
+-  Experimentos on-line.
 -  Criando Robôs no Twitter. 
 -  Breve Introdução ao uso de Mturk e Facebook Ads. 
 
 
-
-### Semana  13: Análise de Texto: Visão Geral (Maio 17 - 19)}
+### Semana  13: Análise de Texto: Visão Geral (Maio 17 - 19)
 
 #### Applied Papers
 
+- Izumi, Mauricio Yoshida, and D. C. Moreira. 2018. “O Texto Como Dado: Desafios E Oportunidades Para as Ciências Sociais.” REVISTA BRASILEIRA DE INFORMAÇÃO BIBLIOGRÁFICA EM CIÊNCIAS SOCIAIS - BIB 2 (86): 138–74. * (Resp: Jessica)
 
 - Grimmer, J., & Stewart, B. M. (2013). Text as data: The promise and pitfalls of automatic content analysis methods for political texts. Political analysis, 21(3), 267-297.*
-- Izumi, Mauricio Yoshida, and D. C. Moreira. 2018. “O Texto Como Dado: Desafios E Oportunidades Para as Ciências Sociais.” REVISTA BRASILEIRA DE INFORMAÇÃO BIBLIOGRÁFICA EM CIÊNCIAS SOCIAIS - BIB 2 (86): 138–74. *
+
 - Wilkerson, J. and Casas, A. (2017). Large-Scale Computerized Text Analysis in Political Science: Opportunities and Challenges. Annual Review of Political Science, 20, 529:544.
 
 #### Técnicas de Programação:
 
-- Tidytext e Quanteda para Análise de Texto.
+-  Tidytext e Quanteda para Análise de Texto.
 -  Text mining with R: A tidy approach. O’Reilly Media, Inc.
 
 ### Semana  14: Análise de Texto: Aprendizado Supervisado e Módelo de Tópicos. (Maio 24 - 26)
 
 #### Artigos Aplicados:
 
-
-- Moreira, D., 2020. Com a Palavra os Nobres Deputados: Ênfase Temática dos Discursos dos Parlamentares Brasileiros. Dados, 63(1).*
+- Moreira, D., 2020. Com a Palavra os Nobres Deputados: Ênfase Temática dos Discursos dos Parlamentares Brasileiros. Dados, 63(1).* (Resp: Barbara)
 
 - Theocharis, Y., Barberá, P., Fazekas, Z., Popa, S. A. and Parnet, O. (2016). A Bad Workman Blames His Tweets: The Consequences of Citizens’ Uncivil Twitter Use When Interacting With Party Candidates. Journal of Communication, 66: 1007–1031.*
 
@@ -251,17 +253,26 @@ As leituras com um asterisco (*) são obrigatórias. Você vai ler no máximo do
 
 - Modelo de Tópicos Estruturais em R 
 
+
+### Semana: Bias Algorítimico (May 31 - June 2)
+
+- Machado, M., 2018. A teoria da antropologia digital para as humanidades digitais. Revista Z Cultural (UFRJ), Rio de Janeiro, 2, pp.1-7.
+
+- Mais Um
+
+#### Artigos Aplicados:
+
+
 ## Parte III: Projeto Final
 
-### Semana  16: Projeto Final: Research Speed Dating (May 31 - June 2)
 
--  Selecionando seus grupos e tópicos
-
-## Semana  17: Projeto Final: Mãos a Obra (June 7 - 9 )
+## Semana: Projeto Final: Mãos a Obra (June 7 - 9 )
 
 - Sessões dedicadas para vocês desenvolverem seus trabalhos finais
 
-## Semana  18: Projeto Final: Apresentação (June 14 - 16)
+## Semaan A2: Sem aula (June 14 - 16)
+
+## Semana Projeto Final: Apresentação (June 21)
 
 - Apresentação Final
 

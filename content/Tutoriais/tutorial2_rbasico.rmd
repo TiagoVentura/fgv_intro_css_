@@ -12,7 +12,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE , error=TRUE)
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE , error=TRUE, cache=TRUE)
 ```
 
 # Workflow: RStudio e Scripts. 
