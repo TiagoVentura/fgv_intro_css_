@@ -1,0 +1,20 @@
+---
+title: "Texto como dados. Visão Geral"
+citeproc: true
+menu: 
+  reading:
+    parent: Reading
+    weight: 4
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras Obrigatórias
+
+- [Izumi, Mauricio Yoshida, and D. C. Moreira. 2018. “O Texto Como Dado: Desafios E Oportunidades Para as Ciências Sociais.” REVISTA BRASILEIRA DE INFORMAÇÃO BIBLIOGRÁFICA EM CIÊNCIAS SOCIAIS - BIB 2 (86): 138–74.](../textos/izumi.pdf) 
+- [Grimmer, J., & Stewart, B. M. (2013). Text as data: The promise and pitfalls of automatic content analysis methods for political texts. Political analysis, 21(3), 267-297.](https://web.stanford.edu/~jgrimmer/tad2.pdf) (Resp: Jessica)
+

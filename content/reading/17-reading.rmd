@@ -1,0 +1,22 @@
+---
+title: "Experimentos On-line"
+citeproc: true
+menu: 
+  reading:
+    parent: Reading
+    weight: 4
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras Obrigatórias
+
+
+- [Calvo, E., & Ventura, T. (2021). Will I Get COVID-19? Partisanship, Social Media Frames, and Perceptions of Health Risk in Brazil. Latin American Politics and Society, 63(1), 1-26.](https://tiagoventura.rbind.io/publication/will_i_get_covid/Calvo_Ventura_Covid_Social_Media.pdf)  (Resp: Jessica) 
+
+- [Guess, A. M., Lerner, M., Lyons, B., Montgomery, J. M., Nyhan, B., Reifler, J., & Sircar, N. (2020). A digital media literacy intervention increases discernment between mainstream and false news in the United States and India. Proceedings of the National Academy of Sciences, 117(27), 15536-15545.](../textos/guess_digital_lit.pdf)
+

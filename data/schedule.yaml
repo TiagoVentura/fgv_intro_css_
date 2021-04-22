@@ -112,23 +112,24 @@ lessons:
 
   - title: "Análise de Dados de Mídias Sociais"
     date: "2021-05-03, Seg"
-    #reading: "11-reading"
+    reading: "15-reading"
     #class: "corr1-class"
 
   - title: "Aplicações: API do Twitter, Mapping News, Escalonamento"
     date:  "2021-05-05, Seg"
 
-  - title: " Experimentos e Experimentos Digitais de Campo"
+  - title: " Experimentos Digitais"
     date: "2021-05-10, Seg"
-    #reading: "11-reading"
+    reading: "17-reading"
     #class: "corr1-class"
 
-  - title: "Aplicações: Experimentos, Robôs no Twitter, Facebook Ads, Mturk."
-    date:  "2021-05-12, Quarta"
+  - title: " Experimentos Digitais de Campos"
+    date: "2021-05-12, Quarta"
+    reading: "19-reading"
 
   - title: "Análise de Texto: Visão Geral"
     date: "2021-05-17, Seg"
-    #reading: "11-reading"
+    reading: "21-reading"
     #class: "corr1-class"
 
   - title: "Aplicações: Análise de texto em R "
@@ -136,7 +137,7 @@ lessons:
 
   - title: "Análise de Texto: Tópicos e Modelos Surpervisionados"
     date: "2021-05-24, Seg"
-    #reading: "11-reading"
+    reading: "23-reading"
     #class: "corr1-class"
 
   - title: "Applicações: Modelo de Tópicos Estruturado"
@@ -146,6 +147,7 @@ lessons:
 
   - title: "Bias Algorítimico e Antropologia Digital"
     date:  "2021-05-31 e 2021-06-02"
+    reading: "25-reading"
 
   - title: '<span class="fake-header-table">Projeto Final</span>'
 

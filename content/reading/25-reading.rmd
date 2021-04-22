@@ -1,0 +1,20 @@
+---
+title: "Antropologia Digital e Bias Algoritimico"
+citeproc: true
+menu: 
+  reading:
+    parent: Reading
+    weight: 4
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras Obrigatórias
+
+- [Machado, M., 2018. A teoria da antropologia digital para as humanidades digitais. Revista Z Cultural (UFRJ), Rio de Janeiro, 2, pp.1-7](../textos/machado.pdf).
+
+- [SILVA, Tarcizio da. VISÃO COMPUTACIONAL E RACISMO ALGORÍTMICO: BRANQUITUDE E OPACIDADE NO APRENDIZADO DE MÁQUINA. Revista da Associação Brasileira de Pesquisadores/as Negros/as (ABPN), v. 12, n. 31, fev. 2020. ISSN 2177-2770.](../textos/silva_bias.pdf)

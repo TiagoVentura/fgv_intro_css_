@@ -1,0 +1,27 @@
+---
+title: "Análise de Dados de Mídias Sociais"
+citeproc: true
+menu: 
+  reading:
+    parent: Reading
+    weight: 4
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Leituras Obrigatórias
+
+- [Calvo, Ernesto and Natalia Aruguete. 2016. Time to Protest: Polarization and Time-to-Retweet in Argentina. Journal of Communication.](../textos/calvo_aruguete.pdf) 
+
+- [Souza, Rafael Martins de; Graça, Luís Felipe Guedes da; Silva, Ralph dos Santos. Politics on the Web: Using Twitter to Estimate the Ideological Positions of Brazilian Representatives. Bras. Political Sci. Rev., v. 11, n. 3, e0003, Nov. 2017.](../textos/politics_on_the_web.pdf) 
+
+Para o segundo artigo, vale a pena complementar a leitura com a ferramenta desenvolvida pela Folha de São Paulo para estimar a posição ideológica de usuários do Twitter. 
+
+- [GPS Ideológico da Folha](https://temas.folha.uol.com.br/gps-ideologico/reta-ideologica/bolsonaro-e-grupos-de-direita-no-twitter-tinham-pouca-influencia-ha-4-anos.shtml)
+
+
+
