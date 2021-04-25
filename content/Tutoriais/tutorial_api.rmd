@@ -52,7 +52,7 @@ Pretendo cobrir os seguintes pontos neste tutorial:
     
 3. Exemplos de pacotes de R para acessar APIs 
     - Fogo Cruzado
-    - Dados do Congresso (bRasilLegis)
+    - Dados do Congresso (congressbr)
     
 
 # Introdução a APIs. O que fazem? Onde vivem? O que comem?
@@ -71,7 +71,7 @@ Há duas formas principais em que nós acadêmicos comumente utilizamos APIs.
 
 2. Processar nossos dados em Algoritmos desenvolvidos por terceiros. 
 
-Nosso foco será no primeiro. Porém, podemos no decorrr do curso aprender mais sobre o uso de API para acessar modelos disponíveis na internet. 
+Nosso foco será no primeiro. Porém, podemos no decorrer do curso aprender mais sobre o uso de API para acessar modelos disponíveis na internet. 
 
 APIs hoje são a principal forma de compartilhamento de dados. Há muitas APIs disponíveis para acesso. Por exemplo, Twitter, Facebook, Spotify, Yelp, Portal da Transparência, IPEA.. a lista é longa. Veja abaixo. 
 
@@ -182,7 +182,6 @@ get_jwt <- httr::POST("https://api.fogocruzado.org.br/api/v1/auth/login",
 
 # Pegar a senha
 token <- httr::content(get_jwt)$access_token
-# token = sua senha de acesso à API. Nao compartilhe por ai.
 ```
 
 ```{r eval=FALSE}
@@ -308,11 +307,10 @@ response <- GET(api,
 
 output <- jsonlite::fromJSON(httr::content(response, as="text", encoding = "UTF-8")) %>%
     tibble::as_tibble()
-
+GET()
 output
 
 ```
-
 
 
 
@@ -347,7 +345,7 @@ Uma das maiores vantagens do uso de R reside no fato de se tratar de uma linguag
 
 Se alguem tiver desenvolvido um pacote para acessar a API, você vai ganhar muito tempo usando o pacote diretamente, ao invés de entender toda a documentação da API, como fizemos. Vamos buscar o pacote de R para acessar o Fogo Cruzado. 
 
-Este [link](https://github.com/voltdatalab/crossfire) contém o site do pacote de R, e as recomendações de como utilizá-lo. Como disse, o pactoe está no github. Segue a instalação:
+Este [link](https://github.com/voltdatalab/crossfire) contém o site do pacote de R, e as recomendações de como utilizá-lo.  Segue a instalação:
 
 ```{r eval=FALSE}
 
@@ -355,27 +353,6 @@ Este [link](https://github.com/voltdatalab/crossfire) contém o site do pacote d
 install.packages("devtools") # pacote para acessar o github
 devtools::install_github("voltdatalab/crossfire")
 ```
-
-```{r echo=FALSE}
-library(crossfire)
-
-# Registra usuario e senha, e envia sua senha da API
-
-crossfire::fogocruzado_signin(email = "venturat@umd.edu", password = "ptds42420678")
-
-# Extrair os dados que pegamos manualmente antes
-
-fogocruzado_rj <- crossfire::get_fogocruzado(state= "RJ", security_agent = 1)
-
-# Colocar em gráfico mais uma vez. 
-ggmap(get_googlemap("rio de janeiro", zoom = 11, maptype = "roadmap", scale=2)) +
-    geom_point(data = fogocruzado_rj, 
-               aes(x = longitude_ocorrencia, 
-               y = latitude_ocorrencia), 
-                alpha=.8, size = 0.5, color="darkred")
-    
-```
-
 
 ```{r eval=FALSE}
 library(crossfire)
@@ -397,6 +374,28 @@ ggmap(get_googlemap("rio de janeiro", zoom = 11, maptype = "roadmap", scale=2)) 
                 alpha=.8, size = 0.5, color="darkred")
     
 ```
+
+
+```{r echo=FALSE}
+library(crossfire)
+
+# Registra usuario e senha, e envia sua senha da API
+
+crossfire::fogocruzado_signin(email = "venturat@umd.edu", password = "ptds42420678")
+
+# Extrair os dados que pegamos manualmente antes
+
+fogocruzado_rj <- crossfire::get_fogocruzado(state= "RJ", security_agent = 1)
+
+# Colocar em gráfico mais uma vez. 
+ggmap(get_googlemap("rio de janeiro", zoom = 11, maptype = "roadmap", scale=2)) +
+    geom_point(data = fogocruzado_rj, 
+               aes(x = longitude_ocorrencia, 
+               y = latitude_ocorrencia), 
+                alpha=.8, size = 0.5, color="darkred")
+    
+```
+
 
 Muito mais fácil!
 
@@ -485,29 +484,14 @@ Mais uma vez. O pacote permite fácil e rápido acesso a uma quantidade enorme d
 
 # Exercício (Quarta-Feira)
 
-1. Encontre uma API com um pacote de R escrito. Instale o pacote, e utilize-o corretamente. A API do[new york times](https://github.com/mkearney/nytimes), o [youtube](https://cran.r-project.org/web/packages/tuber/vignettes/tuber-ex.html), o [google maps](https://github.com/dkahle/ggmap), o [twitter](https://github.com/ropensci/rtweet) e o [spotify](https://www.rcharlie.com/spotifyr/index.html) podem ser boas opções. Façam o cadastro necessário, acessam suas senhas, e brinquem com as apis. 
-
-2. Encontre uma API para você praticar o use da função GET. Pode ser qualquer uma. A guisa de sugestão, você pode utilizar a API do [Portal da Transparência](http://www.portaltransparencia.gov.br/api-de-dados). É bem simples de acessar. 
-  - Dica 1 : Escolha o tema, e vá em tentar agora. Depois que você encontrar o resultado, basta copiar para o R. 
-  - Dica 2 : a url base é http://www.transparencia.gov.br/api-de-dados/
-
+1. Pratique o que aprendemos buscando informações na API do Congresso. Aqui segue o endereço da [API](https://dadosabertos.camara.leg.br/swagger/api.html). O desafio é você conseguir acertar alguns requests usando GET e depois limpar os dados do json. 
+  - Dica 1: Esta é a base dos endpoints. "https://dadosabertos.camara.leg.br/api/v2/"
 
 ```{r eval=FALSE, echo=FALSE}
 
-base="http://www.transparencia.gov.br/"
-endpoint="api-de-dados/bolsa-familia-por-municipio"
-
-response <- GET(paste0(base, endpoint), 
-          query=list(mesAno="201812", pagina="1", codigoIbge="1501402"))
-
-output <- jsonlite::fromJSON(httr::content(response, as="text", encoding = "UTF-8")) %>%
-    tibble::as_tibble()
-
-
 ```
 
-
-3. Colete uma informação desta API. Qualquer uma. Faça um GET que retorne um resultado interessante
+2. Encontre uma API com um pacote de R escrito. Instale o pacote, e utilize-o corretamente. A API do [new york times](https://github.com/mkearney/nytimes), o [youtube](https://cran.r-project.org/web/packages/tuber/vignettes/tuber-ex.html), o [google maps](https://github.com/dkahle/ggmap), o [twitter](https://github.com/ropensci/rtweet) e o [spotify](https://www.rcharlie.com/spotifyr/index.html) podem ser boas opções. Façam o cadastro necessário, acessam suas senhas, e brinquem com as apis. 
 
 
 

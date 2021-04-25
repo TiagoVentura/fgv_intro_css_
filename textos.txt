@@ -1,0 +1,56 @@
+# Textos para serem definidos = total: 7, 5 textos com 1, e 3 textos com duas pessoas.
+
+Ana Giulia
+Ana Julia
+Taina
+Rene
+Gizelly
+Antonia
+Iasmim
+Vinicius
+Lucas
+Leo
+Maju
+
+
+Aula 1:
+
+- Calvo, Ernesto and Natalia Aruguete. 2016. Time to Protest: Polarization and Time-to-Retweet in Argentina. Journal of Communication. *
+
+- SOUZA, Rafael Martins de; GRAÇA, Luís Felipe Guedes da; SILVA, Ralph dos Santos. Politics on the Web: Using Twitter to Estimate the Ideological Positions of Brazilian Representatives. Bras. Political Sci. Rev., v. 11, n. 3, e0003, Nov. 2017. https://doi.org/10.1590/1981-3821201700030003 *
+
+Aula 2
+
+Abrir a aula com porque de experimentos # três slides e duas dags.
+
+### Calvo, E., & Ventura, T. (2021). Will I Get COVID-19? Partisanship, Social Media Frames, and Perceptions of Health Risk in Brazil. Latin American Politics and Society, 63(1), 1-26.* (Resp: Jessica)
+
+Guess, A. M., Lerner, M., Lyons, B., Montgomery, J. M., Nyhan, B., Reifler, J., & Sircar, N. (2020). A digital media literacy intervention increases discernment between mainstream and false news in the United States and India. Proceedings of the National Academy of Sciences, 117(27), 15536-15545.*
+
+
+Aula 3
+
+Bail et al (2018). Exposure to opposing views on social media can increase political polarization. Proceedings of the National Academy of Sciences, 115(37): 9216-9221.*
+
+### Munger, K. (2017). Tweetment effects on the tweeted: Experimentally reducing racist harassment. Political Behavior, 39(3), 629–649. * (Resp: Barbara)
+
+
+Aula 4
+
+### Izumi, Mauricio Yoshida, and D. C. Moreira. 2018. “O Texto Como Dado: Desafios E Oportunidades Para as Ciências Sociais.” REVISTA BRASILEIRA DE INFORMAÇÃO BIBLIOGRÁFICA EM CIÊNCIAS SOCIAIS - BIB 2 (86): 138–74. * (Resp: Jessica)
+
+### Grimmer, J., & Stewart, B. M. (2013). Text as data: The promise and pitfalls of automatic content analysis methods for political texts. Political analysis, 21(3), 267-297.* (Tiago)
+
+Aula 5
+
+Moreira, D., 2020. Com a Palavra os Nobres Deputados: Ênfase Temática dos Discursos dos Parlamentares Brasileiros. Dados, 63(1).*
+
+### Theocharis, Y., Barberá, P., Fazekas, Z., Popa, S. A. and Parnet, O. (2016). A Bad Workman Blames His Tweets: The Consequences of Citizens’ Uncivil Twitter Use When Interacting With Party Candidates. Journal of Communication, 66: 1007–1031.* (Resp: Barbara)
+
+
+Aula 6
+
+Machado, M., 2018. A teoria da antropologia digital para as humanidades digitais. Revista Z Cultural (UFRJ), Rio de Janeiro, 2, pp.1-7. *
+
+SILVA, Tarcizio da. VISÃO COMPUTACIONAL E RACISMO ALGORÍTMICO: BRANQUITUDE E OPACIDADE NO APRENDIZADO DE MÁQUINA. Revista da Associação Brasileira de Pesquisadores/as Negros/as (ABPN), [S.l.], v. 12, n. 31, fev. 2020. ISSN 2177-2770.*
+

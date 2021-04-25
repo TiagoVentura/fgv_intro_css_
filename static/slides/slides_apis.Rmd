@@ -1,0 +1,466 @@
+---
+title: "Introdução a Métodos Computacionais para Ciência Sociais"
+subtitle: "APIs"
+author: "Tiago Ventura"
+institute: "CPDOC-FGV"
+date: ""
+output:
+  xaringan::moon_reader:
+    css: ["default", "styles.css", "fontsrladies.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message=FALSE, warning = FALSE, error = FALSE, cache = TRUE, 
+                      out.width = "50%")
+
+``` 
+
+
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+
+library(knitr)
+library(rmdformats)
+
+## Global options
+opts_chunk$set(cache=TRUE,
+               prompt=FALSE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+
+
+```
+
+
+# Nossos planos para hoje.
+
+1. Introdução a APIs. O que fazem? Onde vivem? O que comem?
+
+2. Acessando APIs via http. 
+    - Estudo de caso na API do Fogo Cruzado.
+    
+3. Exemplos de pacotes de R para acessar APIs 
+    - Fogo Cruzado
+    - Dados do Congresso (congressbr)
+    
+---
+
+# Introdução a APIs. 
+
+A sigla API corresponde ao termo em inglês “Application Programming Interface“. 
+
+A APIs são um repositório on-line construído para facilitar troca de informações entre usuários de dados e os portadores de determinados dados. 
+
+Ao fim, você acessa esse repositório como acessa qualquer site, via URLs. A diferença principal é que o retorno **não é um html** e um página na web, mas sim **dados**
+
+<br>
+
+- **Exemplo do Twitter. Como seria o Twitter sem API?**
+
+---
+
+## Usos de API
+
+Há duas formas principais em que nós acadêmicos comumente utilizamos APIs. 
+
+1. Acessar dados compartilhados por Empresas e ONGs. (Twitter, Spotify, Yelp, NYT, Portal da Transparência, IPEA)
+
+2. Processar nossos dados em Algoritmos desenvolvidos por terceiros. (Perspective API)
+
+- Nosso foco será no primeiro tipo de APIs. 
+
+- Porém, podemos no decorrer do curso aprender mais sobre o uso de API para acessar modelos disponíveis na internet. 
+
+---
+
+## Uso de API para acesso à dados. 
+
+Em seu formato mais simples, uma API é somente uma url. Veja o exemplo abaixo: 
+
+`http://meusite.com/key?param_1;param_2`
+
+Principais elementos:
+ 
+- **http://meusite.com/**: a base da API, chamado nas documentações de end-point. 
+
+- **key**: as credenciais que muitos sites pedem - nem todos, como veremos. 
+
+- **?param_1;param_2** parametros, ou filtros para refinar a busca da API. 
+
+Para acessar a API utilizarmos o pacote `httr`. E para limpar, usaremos diversas das funções do `tidyverse` e `jsonlite`. 
+
+---
+
+# Uso simple de APIs.
+
+Vamos iniciar com um exemplo de API onde não precisamos solicitar senha de acesso. Começaremos com uma API bem simples chamada [DOG API](https://dog.ceo/dog-api/). 
+
+#### Primeiro Passo: Encontre as Endpoints
+
+Abra o site e leia a documentação. Os endpoints contêm o tipo de informação que a API disponibiliza. 
+
+#### Segundo Passo: Procure Filtros
+
+Esta API é bem simples. Não possui filtros. 
+
+#### Terceiro Passo: Acesse via Get.
+
+---
+### Exemplo com GET
+
+```{r}
+library(httr)
+library(tidyverse)
+# Acesse a API
+endpoint = "https://dog.ceo/api/breeds/image/random"
+
+acesso = GET(endpoint)
+
+# O que é este arquivo?
+class(acesso) 
+
+```
+
+---
+
+## Quarto Passo: Acesse os dados via content. 
+
+```{r}
+# Veja os elementos
+content(acesso)
+
+# Acesso a mensagem de resposta
+link_image <- content(acesso)$message
+download.file("https://images.dog.ceo/breeds/poodle-standard/n02113799_1439.jpg", 
+              destfile = "cao.png")
+```
+
+---
+
+```{r}
+knitr::include_graphics("cao.png")
+```
+
+---
+
+# Fogo Cruzado API
+
+Vamos agorar usar como exemplo a API do projeto Fogo Cruzado. Neste caso, a API exige credenciais. Este sempre deve ser nosso primeiro passo.  
+
+[Aqui](https://api.fogocruzado.org.br/) vocês encontram a descrição sobre como ganhar sua senha de acesso. 
+
+```{r echo=FALSE}
+
+# Pacotes para acessar APIs
+library(httr) 
+library(jsonlite)
+library(tidyverse)
+
+# Solicitar a senha
+
+get_jwt <- httr::POST("https://api.fogocruzado.org.br/api/v1/auth/login",
+                 query = list(email = "venturat@umd.edu", password = "ptds42420678"))
+
+
+# Pegar a senha
+token <- httr::content(get_jwt)$access_token
+```
+
+```{r eval=FALSE}
+
+# Pacotes para acessar APIs
+library(httr) 
+library(jsonlite)
+library(tidyverse)
+
+# Solicitar a senha
+get_jwt <- httr::POST("https://api.fogocruzado.org.br/api/v1/auth/login",
+                 query = list(email = "venturat@umd.edu", password = "xxxxxx"))
+
+
+# Pegar a senha
+token <- httr::content(get_jwt)$access_token
+
+# token = sua senha de acesso à API. Nao compartilhe por ai.
+```
+
+---
+
+## Base da API (End Point)
+
+![](../../content/Tutoriais/figs/base_fogo_cruzado.png)
+
+---
+
+## Filtros da API
+
+Na [documentação](https://api.fogocruzado.org.br/docs/1.0/occurrences), indica-se que há três endpoints principais para a API: cidades, estados e ocorrências. 
+
+Vamos começar pelo endpoint cidades, um fácil que não exige filtros. Abre este link da [documentação](https://api.fogocruzado.org.br/docs/1.0/cities)
+
+```{r}
+# Passo 1. Crie a Url
+base_url <- "https://api.fogocruzado.org.br/api/v1"
+cities <- "/cities"
+api <- paste0(base_url, cities)
+print(api) # somente um site
+```
+
+---
+
+### GET Request
+
+Para solicitar os dados de uma API
+
+```{r}
+
+# Passo 2: Acesse a API
+
+response <- GET(api,  
+                add_headers('Authorization' = paste("Bearer", token, sep = " ")))
+
+# Qual o resultado?
+response
+```
+
+---
+
+## Limpando Resultado
+
+O retorno da API é um arquivo em JSON - que é um tipo mais eficiente para salvar arquivos grandes - e possui status 200 - que significa seu acesso funcionou. 
+
+```{r}
+# Converter para um json
+json_fogo_cruzado <- content(response, as="text", encoding = "UTF-8")
+```
+
+![](../../content/Tutoriais/figs/json-exemplo.png)
+
+---
+## Limpando Jsons
+
+```{r}
+# Limpando Jsons
+output <- fromJSON(json_fogo_cruzado) %>%
+              tibble::as_tibble()
+output
+```
+
+---
+## API com Filtros. 
+
+Todas as APIs de verdade possuem parâmetros para filtrar os acessos. 
+
+Filtros são adicionados como uma query de filtros na função GET. Estes filtros devem ser solicitados de acordo com a documentação da API. 
+
+Vejamos [aqui](https://api.fogocruzado.org.br/docs/1.0/occurrences) alguns exemplos
+
+---
+## Exemplo de Filtros
+
+```{r}
+# url basica de ocorrencias.
+base_url <- "https://api.fogocruzado.org.br/api/v1"
+occurences <- "/occurrences"
+api <- paste0(base_url, occurences)
+print(api)
+
+# Cria Query
+query_list <- list(data_ocorrencia="2019-01-01", 
+                   nome_cidade= "Rio de Janeiro")
+# GET
+response <- GET(api,
+                query=query_list,
+              add_headers('Authorization' = paste("Bearer", token, sep = " ")))
+
+output <- jsonlite::fromJSON(httr::content(response, as="text", encoding = "UTF-8")) %>%
+    tibble::as_tibble()
+
+View(output)
+
+```
+
+---
+
+### Escrever o endpoint inteiro
+
+```{r}
+# url basica de ocorrencias.
+base_url <- "https://api.fogocruzado.org.br/api/v1"
+occurences <- "/occurrences"
+filter= "?data_ocorrencia[gt]=2019-01-01&data_ocorrencia[lt]=2019-05-01&CidadeID[]=3661"
+api <- paste0(base_url, occurences, filter)
+print(api)
+
+# GET
+response <- GET(api,
+              add_headers('Authorization' = paste("Bearer", token, sep = " ")))
+
+output <- jsonlite::fromJSON(httr::content(response, as="text", encoding = "UTF-8")) %>%
+    tibble::as_tibble()
+
+output
+
+```
+
+
+### Visualização com Mapas
+
+```{r echo=FALSE}
+#install.packages("ggmap")
+library(ggmap)
+register_google('AIzaSyDG-v66MvW5OjvlY8QlTAewh2YyZNt8iDs') # insert your API key here
+```
+
+
+```{r}
+library(ggmap)
+library(RColorBrewer)
+ggmap(get_googlemap("rio de janeiro", zoom = 11, maptype = "roadmap", scale=2)) +
+    geom_point(data = output, 
+               aes(x = longitude_ocorrencia, 
+               y = latitude_ocorrencia), 
+               color="tomato2", alpha=.8, size = 2)
+
+```
+
+---
+class: center, inverse, middle
+
+## Nós chechamos se havia algum pacote de R disponível para o Fogo Cruzado?
+
+---
+
+## Crossfire
+
+Este [link](https://github.com/voltdatalab/crossfire) contém o site do pacote de R, e as recomendações de como utilizá-lo. Segue a instalação:
+
+```{r eval=FALSE}
+
+#Instalação do pacote
+install.packages("devtools") # pacote para acessar o github
+devtools::install_github("voltdatalab/crossfire")
+```
+
+```{r eval=FALSE}
+library(crossfire)
+
+# Registra usuario e senha, e envia sua senha da API
+
+fogocruzado_signin(email = "venturat@umd.edu", password = "xxxxxx")
+
+# Extrair os dados que pegamos manualmente antes
+
+fogocruzado_rj <- get_fogocruzado(state= "RJ", security_agent = 1)
+```
+
+
+```{r echo=FALSE}
+library(crossfire)
+
+# Registra usuario e senha, e envia sua senha da API
+
+crossfire::fogocruzado_signin(email = "venturat@umd.edu", password = "ptds42420678")
+
+# Extrair os dados que pegamos manualmente antes
+
+fogocruzado_rj <- crossfire::get_fogocruzado(state= "RJ", security_agent = 1)
+
+fogocruzado_rj
+```
+
+
+---
+
+# Mapas
+
+```{r}
+
+ggmap(get_googlemap("rio de janeiro", zoom = 11, maptype = "roadmap", scale=2)) +
+    geom_point(data = fogocruzado_rj, 
+               aes(x = longitude_ocorrencia, 
+               y = latitude_ocorrencia), 
+                alpha=.8, size = 0.5, color="darkred")
+    
+
+```
+
+
+---
+
+## Congressbr
+
+Para terminar o dia de hoje, vamos praticar um pouco mais com o excelente pacote [congressbr]("https://github.com/duarteguilherme/congressbr").
+
+Este [artigo](https://larrlasa.org/article/10.25222/larr.447/?fbclid=IwAR1vKKEpLWufTtuIA6LI_LNqsYJUXEbNnK8oDRHEJRG0E4LTRsXmJnseVRA) sobre o pacote oferece uma excelente introdução à como utilizá-lo.
+
+
+```{r eval=FALSE}
+# Instale o pacote
+install.packages("congressbr")
+devtools::install_github("RobertMyles/congressbr")
+
+```
+
+O pacote permite o acesso às APIs da [Câmara](https://www2.camara.leg.br/transparencia/dados-abertos/dados-abertos-legislativo) e do [Senado](https://www2.camara.leg.br/transparencia/dados-abertos/dados-abertos-legislativo). Há quatro funções principais no pacote
+
+- cham_votes(): retorna informação sobre votações na Câmara. 
+- cham_bills(): retorna informação sobre atividade legislativa na Câmara. 
+- sen_votes(): retona informação de voto no Senado. 
+- sen_bill_search(): Procura por atividade legislativa no Senado. 
+
+
+---
+
+### Número de Proposições por ano
+
+```{r}
+
+ano<-c(2002:2018)
+
+proposicoes <- map(ano, ~ 
+                     cham_plenary_bills(.x) %>%
+                     mutate(ano=.x)) 
+
+# Vamos combinar tudo 
+
+proposicoes <- bind_rows(proposicoes) 
+
+# Eliminar repeticoes 
+
+proposicoes <- proposicoes %>% distinct()
+
+# Agregar por ano
+
+proposicoes_ano <- proposicoes %>% count(ano)
+
+# Marcar anos pre eleitorais
+proposicoes_ano <- proposicoes_ano %>% 
+                      mutate(ano_eleitoral=ifelse(ano==2002|ano==2006|
+                                                    ano==2010|ano==2014|ano==2018, "Ano Eleitoral", 
+                                                  "Ano Não Eleitoral"))
+```
+
+---
+
+```{r}
+
+ggplot(proposicoes_ano, aes(y=n, x=ano, fill=ano_eleitoral)) +
+  geom_col() +
+  scale_fill_manual(name="", values = c("darkred", "darkblue")) +
+  theme_minimal() +
+  xlab("ano") + ylab("Proposições Votadas") 
+
+```
+
+
+
+

@@ -11,7 +11,7 @@ output:
     toc: true
 editor_options: 
   chunk_output_type: console
----
+--- 
 
 ## Objetivos Gerais 
 
@@ -25,4 +25,13 @@ Na aula de segunda-feira, veremos a parte mais teórica. Os exercícios do tutor
 
 ## Slides
 
-[Slides Raspagem](/slides/slides-api.html)
+[Slides Aula 1: API](/slides/slides_apis.html)
+
+[Slides Aula 2: Preparando o Salto](/slides/slides_aula_textos_tutorial.html)
+
+## Para descontrair. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AvuFMu0brIM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  
+
+
