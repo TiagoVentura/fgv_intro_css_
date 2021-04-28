@@ -423,7 +423,7 @@ O pacote permite o acesso às APIs da [Câmara](https://www2.camara.leg.br/trans
 ### Número de Proposições por ano
 
 ```{r}
-
+library(congressbr)
 ano<-c(2002:2018)
 
 proposicoes <- map(ano, ~ 
