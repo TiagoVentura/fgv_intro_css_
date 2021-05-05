@@ -1,0 +1,26 @@
+---
+title: "Aula: Análise Captura de Dados no Twitter"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+--- 
+
+## Objetivos Gerais 
+
+Nesta semana, vamos fazer nossa primeira aula aplicada de programação. Vamos aprender a coletar dados no Twitter e fazer algumas análises com base na leitura do artigo de Aruguete e Calvo, #TimetoProtest. 
+
+Como estes dados são pesados, estou compartilhando somente o .rmd com vocês. Eu espero que vocês rodem este arquivo usando perguntas do seu interesse e suas próprias credenciais no Twitter. 
+
+## Tutoriais
+
+- Tutorial Análise de Dados no Twitter: [arquivo rmd](/Tutoriais/aula_twitter_final.rmd)
+
+ 

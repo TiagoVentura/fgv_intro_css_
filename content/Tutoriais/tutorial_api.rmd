@@ -488,6 +488,24 @@ Mais uma vez. O pacote permite fácil e rápido acesso a uma quantidade enorme d
   - Dica 1: Esta é a base dos endpoints. "https://dadosabertos.camara.leg.br/api/v2/"
 
 ```{r eval=FALSE, echo=FALSE}
+library(httr)
+library(tidyverse)
+
+api <- "https://dadosabertos.camara.leg.br/api/v2/"
+bloco <- "blocos"
+endpont <- paste0(api, bloco)
+endpont
+
+response <- GET(endpont)
+response
+
+dados <- content(response, as="text")
+
+list <- fromJSON(dados)
+
+
+fromJSON(dados)$dados %>%
+  as_tibble()
 
 ```
 

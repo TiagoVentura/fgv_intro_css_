@@ -115,7 +115,7 @@ lessons:
   - title: "Análise de Dados de Mídias Sociais"
     date: "2021-05-03, Seg"
     reading: "15-reading"
-    #class: "corr1-class"
+    class: "twitter-class"
 
   - title: "Aplicações: API do Twitter, Mapping News, Escalonamento"
     date:  "2021-05-05, Seg"
