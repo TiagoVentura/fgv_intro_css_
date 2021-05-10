@@ -17,4 +17,4 @@ editor_options:
 
 - [Bail et al (2018). Exposure to opposing views on social media can increase political polarization. Proceedings of the National Academy of Sciences, 115(37): 9216-9221.](../textos/bail.pdf) 
 
-- [Munger, K. (2017). Tweetment effects on the tweeted: Experimentally reducing racist harassment. Political Behavior, 39(3), 629–649. *](../textos/munger2017treatment.pdf) (Resp: Barbara)
+- [Munger, K. (2017). Tweetment effects on the tweeted: Experimentally reducing racist harassment. Political Behavior, 39(3), 629–649. *](../textos/munger2017tweetment.pdf) (Resp: Barbara)
