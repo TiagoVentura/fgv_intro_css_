@@ -36,7 +36,6 @@ library(rtweet)
 library(tidyverse)
 library(igraph)
 library(broom)
-
 ```
 
 ## Solicitando sua credenciais. 
@@ -61,8 +60,10 @@ Agora, vamos liberar nosso acesso.
 
 ```{r, eval=FALSE}
 create_token(app=app_name,
-             consumer_key=consumer_key, consumer_secret=consumer_secret,
-             access_token = access_token, access_secret = access_token_secret)
+             consumer_key=consumer_key, 
+             consumer_secret=consumer_secret,
+             access_token = access_token, 
+             access_secret = access_token_secret)
 ```
 
 Pronto. A função create_token salva no seu ambiente do R sua senha de acesso. A priori, se estiver funcionando corretamente, você não precisa repetir essa autorização outras vezes. Para testar, você pode abrir e fechar sua sessão no R para verificar o funcionamento. 
@@ -78,6 +79,7 @@ O Twitter possui duas API: Rest API e Stream API. Vamos começar com a REST API.
 Para usar esta função, você precisa entrar um termo de busca. A busca avançada no Twitter ajuda a formatar os termos de busca adequados quando seu interesse está em mais de uma simples palavras.  
 
 ```{r}
+
 bolsonaro_tweets<-search_tweets("bolsonaro", n=50, include_rts = TRUE)
 
 # Checa se vieram retuites
@@ -104,6 +106,7 @@ Esta função permite acessar os últimos 3.200 tweets a partir dos perfis.
 ```{r}
 # Tweets dos membros da CPI do COVID.
 timelines_covid <- get_timelines(c("renancalheiros", "ottoalencar", "EduGiraoOficial"), n=100)
+View(timelines_covid)
 ```
 
 ## Acessar informações de usuários
@@ -111,7 +114,8 @@ timelines_covid <- get_timelines(c("renancalheiros", "ottoalencar", "EduGiraoOfi
 Ou podemos acessar informações específicas de determinados usuários. 
 
 ```{r}
-users <-lookup_users(c("renancalheiros", "ottoalencar", "EduGiraoOficial"))
+
+users <- lookup_users(c("renancalheiros", "ottoalencar", "EduGiraoOficial"))
 
 # descrição do perfil
 
@@ -128,11 +132,13 @@ E seguidores
 
 ```{r}
 follow_renan <- get_followers("renancalheiros")
+
 ```
 
 E com a id dos seguidores, podemos montar um banco com a descrição dos seguidores de Renan Calheiros.
 
 ```{r}
+
 followers_renan <- lookup_users(follow_renan$user_id)
 followers_renan %>%
   slice(1:10) %>%
@@ -144,9 +150,15 @@ followers_renan %>%
 O Twitter possui uma segunda API onde você pode coletar uma amostra dos tweets sendo produzidos em tempo real. Esta API lhe dá mais acesso a dados, então é a melhor forma de coletar, você pode deixar algumas horas -- ou dias -- rodando no seu R. 
 
 ```{r}
+
 dados_bolsonaro_stream <- stream_tweets("bolsonaro", 
                                         timeout = 10, 
                                         file_name = "bolsonaro.json") # adicione o tempo que voce quer coletar 
+
+
+dados_paulo_freire=list()
+
+
 ```
 
 
@@ -164,6 +176,8 @@ Para construir a rede de conexões, vamos usar o pacote `igraph`. Este pacote ar
 ```{r}
 # Buscando mais dados
 ?search_tweets
+
+# Nao rodar!!!!!!!!
 dados_bolsonaro <- search_tweets("bolsonaro filter:retweets", n=18000, 
                                  include_rts = TRUE, 
                                  retryonratelimit = TRUE)
@@ -195,8 +209,11 @@ head(data)
 ### Passo 2: Crie a estrutura da rede
 
 ```{r}
+
 library(igraph)
-# Cria um gráfico vazio
+
+# Cria um rede vazia
+
 net <- graph.empty() 
 
 # Adiciona os nós = vertices
@@ -204,7 +221,11 @@ net <- add.vertices(net,
                     length(unique(c(data))), # número de nós
                     name=as.character(unique(c(data)))) # nomes unicos
 
+
+# Add edges
 net <- add.edges(net, t(data))
+
+summary(net)
 
 # Ou
 g <- graph_from_data_frame(d=data, vertices=unique(c(data)))
@@ -224,8 +245,6 @@ E(net)$namehub <- dados_bolsonaro_rt$retweet_screen_name
 E(net)$web <- dados_bolsonaro_rt$urls_expanded_url
 E(net)$hash <- dados_bolsonaro_rt$hashtags 
 
-summary(net)
-
 ```
 
 
@@ -241,6 +260,7 @@ Um usuário é chamado de autoridade quando seu in-degree é alto. Ou seja, muit
 # Adicionar indegree and outdegree
 V(net)$outdegree<-degree(net, mode="out")
 V(net)$indegree<-degree(net, mode="in")
+summary(net)
 ```
 
 ### Layout
@@ -248,7 +268,7 @@ V(net)$indegree<-degree(net, mode="in")
 Estima posições para os nós da sua rede, é um algoritimo que organiza a topologia das rede de conexões
 
 ```{r}
-
+# Nao rodar!!!!!!!!
 l <- layout_with_fr(net, grid = c("nogrid"))
 head(l)
 ```
@@ -258,7 +278,9 @@ head(l)
 Há vários algorítimos para encontrar comunidades (ou clusters) em sua rede. Estes algorítimos em geral buscam subgrupos com mais conexões dentro da sua rede. Não vamos entrar numa discussão detalhada sobre os diferentes algorítimos. Ao final, os resultados são semelhantes. 
 
 ```{r}
+# Nao rodar!!!!!!!!
 my.com.fast <- walktrap.community(net)
+
 ```
 
 
@@ -347,7 +369,7 @@ plot.igraph(net,
             vertex.size=log(V(net)$indegree),
             vertex.label.color=1,
             vertex.label=NA,
-            vertex.color=V(net)$membership, 
+            vertex.color=V(net)$new.color, 
             vertex.frame.color=gray(.8), 
             edge.color=gray(.8), 
             edge.arrow.size=.2, 
@@ -393,7 +415,6 @@ my.den.plot(l=cbind(V(net)$l1,V(net)$l2),new.color=V(net)$new.color, ind=V(net)$
 ### Most Popular Hashtags
 
 ```{r}
-
 
 hashtags <- dados_bolsonaro_rt %>% 
             unnest(hashtags) %>%
@@ -494,6 +515,8 @@ for(i in 1:N){
 # Setting the names of the media
 
 colnames(count.keynews)<- keynews.names
+count.keynews
+
 ```
 
 
@@ -502,9 +525,12 @@ colnames(count.keynews)<- keynews.names
 
 ```{r, eval=FALSE}
 # Conexoes de Vertices e Edges
+# Nao rodar!!!!!!!!
+
 # Vamos recuperar todos os nós e edges que estão ligados uns com os outros. 
 el <- get.adjedgelist(net, mode="all")
 al <- get.adjlist(net, mode="all")
+
 
 ```
 
@@ -528,8 +554,11 @@ for(i in 1:N){
   bb[bb[,1]=="NaN"]<-0
   resultado_hash[,i]<- bb[,1]
 }
+
+resultado_hash
 class(resultado_hash)
 colnames(resultado_hash)<- keynews.names
+resultado_hash
 ```
 
 
@@ -545,7 +574,8 @@ my.den.plot(l=cbind(V(net)$l1,V(net)$l2),new.color=V(net)$new.color, ind=V(net)$
 
 # CPI COVID
 plot(V(net)$l1,V(net)$l2,pch=16,  
-       col=V(net)$new.color, cex=log(resultado_hash[,1]+1),
+       col=V(net)$new.color, 
+       cex=log(resultado_hash[,1]+1),
        xlim=c(-160,140),ylim=c(-140,120), xlab="", ylab="",
        main=colnames(resultado_hash)[1], cex.main=1)
 

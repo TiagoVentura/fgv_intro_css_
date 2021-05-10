@@ -20,3 +20,10 @@ editor_options:
 
 - [Guess, A. M., Lerner, M., Lyons, B., Montgomery, J. M., Nyhan, B., Reifler, J., & Sircar, N. (2020). A digital media literacy intervention increases discernment between mainstream and false news in the United States and India. Proceedings of the National Academy of Sciences, 117(27), 15536-15545.](../textos/guess_digital_lit.pdf)
 
+
+## Slides
+
+Preparei alguns slides para explicar de forma breve a lógica por trás de experimentos. 
+
+[Slides](/slides/slides_experimentos.html)
+
