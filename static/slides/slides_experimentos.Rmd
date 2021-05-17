@@ -1,6 +1,6 @@
 ---
 title: "Introdução a Métodos Computacionais para Ciência Sociais"
-subtitle: "Introdução Experimentos"
+subtitle: "Introdução a Análise de Texto"
 author: "Tiago Ventura"
 institute: "CPDOC-FGV"
 date: ""
@@ -39,114 +39,82 @@ opts_chunk$set(cache=TRUE,
 
 ```
 
-# Plano de Hoje:
+## Grimmer and Stewart: Text as Data.
 
-- Porque Fazemos Experimentos?
+Política e conflitos políticos usualmente ocorrem a partir de textos:
 
-- Aleatorização.
+- Leis, discursos e propostas legislativas. 
 
-- Tipos de Experimento.
+- Tratados internacionais. 
+
+- Manifestos partidários
+
+- Análise de média social. 
+
+- Matérias de jornais...
+
+**Imensidão de dados**
+
+**Explosão de novos e mais eficientes métodos para análise destes dados de forma automatizada.**
 
 
 ---
-## Porquê Experimentos?
-
-**O que experimentos nos permitem fazer?**
-
-- Encontrar relações causais.
-
-- Controlar intervenções. 
-
-- Precisar o tamanho dos efeitos. 
-
-
-```{r echo=FALSE}
-knitr::include_graphics("aulas-estatistica.png")
+class: center, middle
+```{r out.width="100%", echo=TRUE}
+knitr::include_graphics("figs/text.png")
 ```
 
 ---
+## Classificação
 
-## Como Experimentos Funcionam? Aleatorização. 
+<br>
 
-.pull-left[
-Imaginem esta relação causal abaixo:
-
-- P = Pressão Social
-
-- I = Interesse por política.
-
-- V = Votar. 
-
-Como isolar os efeitos de P em V?
+.center[
+```{r out.width="70%", echo=FALSE}
+knitr::include_graphics("figs/text_cut.png")
+```
 ]
 
-```{r echo=FALSE}
-
-library(tidyverse)
-library(dagitty)
-library(ggdag)
-library(causaleffect)
-library(igraph)
-library(latex2exp)
-
-```
-
-.pull-right[
-```{r, echo=FALSE, out.width="100%"}
-vote_ca_dag <- dagify(v ~ i + p,
-       p ~ i,
-       labels = c("i" = "Interesse por \n Política" , 
-                  "v" = "Comparecimento",
-                  "p" = "Pressão \nSocial"))
-
-ggdag(vote_ca_dag) +
-  theme_minimal()
-
-```
-] 
 
 ---
-# E se aleatorizarmos pressão social?
+## Escalonamento
 
-Aleatorização: Seleção randômica entre tratamento e controle. 
-
-
-```{r, echo=FALSE, out.width="60%"}
-
-coords <- data.frame(matrix(c("v",1,1,
-                              "p",0,2,
-                              "i",2,2, 
-                              "a", 0, 3),
-                              nrow=4, ncol=3, byrow=T))
-
-colnames(coords) <- c("name","x","y")
-
-# model
-model7 <- dagify(v ~ p + i,
-                 p~a,
-                 labels = c("a"= "Aleatorização", 
-                          "i" = "Interesse por \n Política" , 
-                  "v" = "Comparecimento",
-                  "p" = "Pressão \nSocial"),
-                 coords=coords) 
-
-ggdag(model7, text = FALSE, use_labels = "label")
-
+<br>
+.center[
+```{r out.width="70%", echo=FALSE}
+knitr::include_graphics("figs/text_scaling.png")
 ```
+]
+
+---
+##  Quatro Principios + Um do Tiago. 
+
+1. Pense no seu objetivo e depois veja em qual caixa dos métodos você se encaixa. 
+
+2.  All quantitative models of language are wrong—but some are useful.
+
+3. Quantitative methods for text amplify resources and augment humans.
+
+4. There is no globally best method for automated text analysis.
+
+5. Validate, Validate, Validate.
 
 ---
 
-## Tipos de Experimentos
+class: center, middle, inverse
 
-- Experimentos de Survey (Hoje). 
-
-- Experimentos de Campo (Quarta-Feira).
-
-- Experimentos de Laboratório. 
-
+## Perguntas
 
 ---
-class:center, inverse, middle
 
-# Vamos a discussão dos textos. 
+## Exercício. 
+
+Em grupos, vocês farão o seguinte exercício:
+
+1. Pense em um banco de dados. 
+
+2. Elabore uma pergunta para ser respondida com este banco de dados. 
+
+3. Qual método acima você usaria para responder a esta pergunta?
+
 

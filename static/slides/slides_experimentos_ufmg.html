@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Introdução a Métodos Computacionais para Ciência Sociais</title>
+    <title>Considerações Aleatórias sobre Experimentos</title>
     <meta charset="utf-8" />
     <meta name="author" content="Tiago Ventura" />
     <script src="libs/header-attrs/header-attrs.js"></script>
@@ -13,10 +13,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Introdução a Métodos Computacionais para Ciência Sociais
-## Introdução a Análise de Texto
+# Considerações Aleatórias sobre Experimentos
 ### Tiago Ventura
-### CPDOC-FGV
+### University of Maryland, College Park
 
 ---
 
@@ -26,82 +25,118 @@ class: center, middle, inverse, title-slide
 
 
 
-## Grimmer and Stewart: Text as Data.
 
-Política e conflitos políticos usualmente ocorrem a partir de textos:
+## Custos de Experimentos
 
-- Leis, discursos e propostas legislativas. 
+A ciência política brasileira não acompanhou o *boom* do uso de experimentos da academia americana. 
 
-- Tratados internacionais. 
+Porque? Custos e Infraestrutura. 
 
-- Manifestos partidários
+### Como Recuperar?
 
-- Análise de média social. 
+--
 
-- Matérias de jornais...
+- Novas formas de recrutamento -&gt; mturk, lucid, facebook ads, twitter ads, entre outros. 
 
-**Imensidão de dados**
+--
 
-**Explosão de novos e mais eficientes métodos para análise destes dados de forma automatizada.**
+- Melhor capacidade técnica da formação em CP --&gt; programar experimentos é bem fácil. 
 
+--
 
----
-class: center, middle
+- Mais colaboração. CP se tornando cada vez mais uma disciplina de co-autoria e menos com base em livros solo. 
 
-```r
-knitr::include_graphics("figs/text.png")
-```
-
-&lt;img src="figs/text.png" width="100%" /&gt;
-
----
-## Classificação
-
-&lt;br&gt;
-
-.center[
-&lt;img src="figs/text_cut.png" width="70%" /&gt;
-]
+--
 
 
 ---
-## Escalonamento
+## Pré-Registro
 
-&lt;br&gt;
-.center[
-&lt;img src="figs/text_scaling.png" width="70%" /&gt;
-]
+Journal of Politics (Top-3 das revistas de cp americana) passou a exigir pré-registro para qualquer tipo de pesquisa experimental. Vai ser a tendência? 
 
----
-##  Quatro Principios + Um do Tiago. 
+--
+- **O que é Pré-Registro?** Escrever, antes de análisar os dados, suas hipóteses, desenho e método. 
 
-1. Pense no seu objetivo e depois veja em qual caixa dos métodos você se encaixa. 
+--
 
-2.  All quantitative models of language are wrong—but some are useful.
+- **Objetivo?** Diminuir p-hacking e mais transparência.
 
-3. Quantitative methods for text amplify resources and augment humans.
+--
 
-4. There is no globally best method for automated text analysis.
+- **O que fazer?** Sempre, absolumente sempre, escreve um Pré-Registro. Você não perde nada ao escrever, e aumenta sua possibilidade de publicar se seus resultados foram nulos. 
 
-5. Validate, Validate, Validate.
+--
 
 ---
+## Comitê de Ética. 
 
-class: center, middle, inverse
+Muito difícil publicar qualquer pesquisa experimental em jornais internacionais sem aprovação em Comitê de Ética. 
 
-## Perguntas
+Em discussões recentes (Workshop de Comportamento da ABCP), ouvi que  Comitês de Ética no Brasil demoram em torno de um ano para dar um parecer. 
+
+--
+
+### Soluções?
+
+--
+
+- Longo Prazo: Mudar perfil dos Comitês de Ética.
+
+--
+
+- Parceria com pesquisadores internacionais. 
+
+--
 
 ---
 
-## Exercício. 
+## Aproveite ao máximo o seu experimento.
 
-Em grupos, vocês farão o seguinte exercício:
 
-1. Pense em um banco de dados. 
+--
 
-2. Elabore uma pergunta para ser respondida com este banco de dados. 
+- Nunca faça um survey com somente uma pergunta de pesquisa. 
 
-3. Qual método acima você usaria para responder a esta pergunta?
+--
+
+- Se possível acrescente mais de um experimento no mesmo survey. 
+
+--
+
+- Seja criativo para evitar contaminação e post-treatment bias. 
+
+--
+
+---
+
+## Pense cuidadosamente nos diferentes tipos de experimento. 
+
+
+--
+
+- Vigneta: Unidimensional. É real? Social Desirability Bias?Hawthorne Effects?
+
+--
+
+- Experimento em Lista: Reduz Viés e Aumenta Variância. Há indícios de Social Desirability Bias? (Blair et al, 2020, APSR)
+
+--
+
+- Conjoint ou Fatoriais: Me interessam efeitos heterogeneos? Há muita chance de terminar under-powered. 
+
+--
+
+---
+
+class: inverse, center, middle
+
+# Obrigado!
+
+#### @_tiagoventura
+
+#### https://tiagoventura.rbind.io/
+
+
 
 
     </textarea>
