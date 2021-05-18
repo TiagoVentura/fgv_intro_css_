@@ -1,0 +1,435 @@
+---
+title: "Análise de Texto: Dados Tidy e Métodos de Dicionário"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="introdução" class="section level1">
+<h1>Introdução</h1>
+<p>Na aula de hoje, vamos dar nossos primeiros passos no uso de R para análise de texto. Vamos dividir a aula nos seguintes tópicos.</p>
+<ul>
+<li><p>Abrindo Textos em R.</p></li>
+<li><p>Texto como um banco “Tidy”.</p></li>
+<li><p>Análise de Sentimentos + Modelos de Dicionários.</p></li>
+</ul>
+<p>Recomendo fortemente aos alunos a leitura do livro <a href="https://www.tidytextmining.com/index.html">Text Mining with R: A Tidy Approach</a>. Este tutorial de hoje é fortemente inspirado neste belíssimo livro de Julia Silge e David Robinson.</p>
+<p>Todos os dados utilizados neste tutorial podem ser baixados <a href="data_txt.zip">aqui</a></p>
+</div>
+<div id="revisão-manipulação-de-strings-em-r" class="section level1">
+<h1>Revisão: Manipulação de Strings em R</h1>
+<p>Antes de iniciarmos este workshop, seria importante vocês fazerem uma revisão das nossas aulas sobre manipulação de strings em R usando o pacote <code>stringr</code>.</p>
+</div>
+<div id="abrindo-textos-em-r." class="section level1">
+<h1>Abrindo Textos em R.</h1>
+<p>Por ser uma linguagem de programação, o R é flexível sobre quais tipos de dados podem ser importados em seu ambiente de trabalho. Ao trabalhar com textos digitais, vocês vão em geral acessá-los diretamente da internet e salvar como um objeto de R. No entanto, há algumas outras opções que cobriremos aqui.</p>
+<div id="acessando-arquivos-digitais-diretamente-em-r." class="section level3">
+<h3>Acessando arquivos digitais diretamente em R.</h3>
+<p>Para nosso exemplo diretamente em R, vamos acessar dados da API do Twitter utilizando o pacote <code>rtweet</code>.</p>
+<pre class="r"><code>library(rtweet)
+library(tidyverse)
+bolsonaro_tweets&lt;-search_tweets(&quot;bolsonaro&quot;, n=50, include_rts = TRUE)
+
+# Selecionar somente o texto
+bolsonaro_tweets &lt;- bolsonaro_tweets %&gt;%
+                        select(user_id, screen_name, text)
+                            
+# Veja os dados
+bolsonaro_tweets</code></pre>
+<pre><code>## # A tibble: 50 x 3
+##    user_id         screen_name   text                                           
+##    &lt;chr&gt;           &lt;chr&gt;         &lt;chr&gt;                                          
+##  1 266277981       bagginsess    &quot;As referências do Heinze\n- Dr. Zelenko: Bani…
+##  2 169710067       marceloprate… &quot;As referências do Heinze\n- Dr. Zelenko: Bani…
+##  3 29762744        renatamagalh… &quot;\&quot;Didier Raoult, um dos maiores virologistas …
+##  4 4085994747      EderMoraesBr  &quot;BOMBA!!! 💣💣💣 Ernesto coloca Bolsonaro na cena…
+##  5 273115489       ricardoptrw   &quot;Senador Girão hoje na CPI denunciou ‘guerra o…
+##  6 12930580242743… Hellcifence   &quot;@randolfeap É a CPI da Profecia.\nPara adivin…
+##  7 62066601        takebrasilia  &quot;Ernesto Araújo acaba de dizer que Jair Bolson…
+##  8 10398472099723… VanioJunior5  &quot;Estamos assistindo um senador da República mo…
+##  9 10374057538318… cecibarral1   &quot;Não dá pra ter um minuto de felicidade nesse …
+## 10 92979491        eipaulorossi  &quot;Em CPI, Araújo deverá dizer o que fazia no It…
+## # … with 40 more rows</code></pre>
+<pre class="r"><code># Salvar como objeto de R
+save(bolsonaro_tweets,file=&quot;bolsonaro_tweets.Rdata&quot;)</code></pre>
+<p>Este processo serve para qualquer tipo de dados de texto acessado via API.</p>
+</div>
+<div id="acessando-dados-salvos-como-txt." class="section level3">
+<h3>Acessando Dados salvos como txt.</h3>
+<p>Em uma pasta “data_txt”, eu salvei dez discursos de deputados no plenário da câmara no formato <strong>.txt</strong>. Vamos aprender a importá-los no ambiente do R.</p>
+<pre class="r"><code># Ver arquivos
+list.files(&quot;data_txt&quot;)</code></pre>
+<pre><code>##  [1] &quot;discurso1.txt&quot;  &quot;discurso10.txt&quot; &quot;discurso2.txt&quot;  &quot;discurso3.txt&quot; 
+##  [5] &quot;discurso4.txt&quot;  &quot;discurso5.txt&quot;  &quot;discurso6.txt&quot;  &quot;discurso7.txt&quot; 
+##  [9] &quot;discurso8.txt&quot;  &quot;discurso9.txt&quot;</code></pre>
+<pre class="r"><code># Salvar nomes
+nomes &lt;- list.files(&quot;data_txt&quot;)
+
+# Criar endereço completo
+path &lt;- paste0(&quot;data_txt/&quot;, nomes)
+
+# Abrir
+dados &lt;- map_chr(path, read_lines) 
+
+dados &lt;- tibble(file=nomes, texto=dados)
+dados</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    file          texto                                                          
+##    &lt;chr&gt;         &lt;chr&gt;                                                          
+##  1 discurso1.txt &quot;\&quot;1\&quot; \&quot;O SR. GONZAGA PATRIOTA  (PSB-PE. Sem revisão do orado…
+##  2 discurso10.t… &quot;\&quot;1\&quot; \&quot;O SR. AUGUSTO CARVALHO  (Bloco/PPS-DF. Sem revisão do…
+##  3 discurso2.txt &quot;\&quot;1\&quot; \&quot;O SR. DR. UBIALI  (PSB-SP. Sem revisão do orador.) - …
+##  4 discurso3.txt &quot;\&quot;1\&quot; \&quot;O SR. DOMINGOS DUTRA  (PT-MA. Sem revisão do orador.)…
+##  5 discurso4.txt &quot;\&quot;1\&quot; \&quot;O SR. GONZAGA PATRIOTA  (PSB-PE. Pela ordem. Sem revi…
+##  6 discurso5.txt &quot;\&quot;1\&quot; \&quot;O SR. LEONARDO GADELHA  (PSC-PB. Sem revisão do orado…
+##  7 discurso6.txt &quot;\&quot;1\&quot; \&quot;O SR. DR. UBIALI  (PSB-SP. Pela ordem. Sem revisão do…
+##  8 discurso7.txt &quot;\&quot;1\&quot; \&quot;O SR. DOMINGOS DUTRA  (PT-MA. Pela ordem. Sem revisão…
+##  9 discurso8.txt &quot;\&quot;1\&quot; \&quot;O SR.  LINS  (PSD-AM. Sem revisão do orador.) - Sr. P…
+## 10 discurso9.txt &quot;\&quot;1\&quot; \&quot;O SR. IZALCI  (PSDB-DF. Sem revisão do orador.) - Sr.…</code></pre>
+</div>
+<div id="acessando-via-csv." class="section level3">
+<h3>Acessando via csv.</h3>
+<p>Algumas vezes, vocês encontrarão arquivos de texto salvos como <code>.csvs</code> Abri-los é tão simples como acessar qualquer outro tipo de arquivo csv. Abriremos um exemplo com discursos do plenário de deputados no Brasil e com este banco de dados vamos seguir no restante das aulas.</p>
+<pre class="r"><code>discursos &lt;- read_csv(&quot;speeches.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   nome = col_character(),
+##   partido = col_character(),
+##   uf = col_character(),
+##   speech = col_character()
+## )</code></pre>
+</div>
+<div id="texto-como-um-banco-tidy." class="section level2">
+<h2>Texto como um banco “Tidy”.</h2>
+<p>Aprendemos há algumas aulas atrás o conceito de banco de dados tidy. As três propriedades mais importantes que definem um banco de dados <code>tidy</code> são:</p>
+<ul>
+<li><p>Cada coluna é uma variável.</p></li>
+<li><p>Cada linha é uma observação.</p></li>
+<li><p>Cada valor em uma linha.</p></li>
+</ul>
+<p>Como já discutimos diversas vezes, o <code>tidyverse</code> é uma linguagem própria dentro do R. Por isso, há extensões do uso de dados <code>tidy</code> e de pacotes do <code>tidyverse</code> para a mais diversas áreas da Ciência Social Computacional, includindo modelos de análise de texto.</p>
+<div id="um-banco-de-dados-de-texto-tidy-é-organizado-como-um-token-por-linha." class="section level4">
+<h4>Um banco de dados de texto <strong>Tidy</strong> é organizado como um <strong>token</strong> por linha.</h4>
+<p>Um token é uma unidade significativa de texto, como uma palavra, que estamos interessados em usar para análise, e <strong>tokenização</strong> é o processo de dividir o texto em tokens.</p>
+<p>Para bancos de texto tidy, um token é geralmente uma palavra, porém você pusar um n-gram, uma sentença ou até um parágrafo.</p>
+<p>Para converter nosso banco de dados de texto para um formato tidy, vamos utilizar a função <code>unnest_tokens</code> do pacote <a href="https://github.com/juliasilge/tidytext">tidytext</a></p>
+</div>
+</div>
+</div>
+<div id="tidytext-unnest_tokens" class="section level1">
+<h1>Tidytext: unnest_tokens</h1>
+<pre class="r"><code>library(tidytext)
+# Convertendo para o formato tidy. 
+tidy_discursos &lt;- discursos %&gt;%
+                  mutate(id_discursos=1:nrow(.)) %&gt;%
+                   unnest_tokens(words, speech) #(output, input)</code></pre>
+<p>Os dois argumentos básicos para unnest_tokens usados aqui são nomes de colunas. Primeiro temos o nome da coluna de saída (o nome da nova coluna) que será criado, e, em seguida, a coluna de entrada de onde vem o texto (speech, neste caso).</p>
+<p>Note: pontuações são removidas e os textos são convertidos para letra minúscula.</p>
+<div id="outras-formas-de-textos-tidy." class="section level3">
+<h3>Outras formas de textos tidy.</h3>
+<p><strong>Sentenças</strong></p>
+<pre class="r"><code>discursos %&gt;%
+ unnest_tokens(words, speech, token=&quot;sentences&quot;) #(output, input)</code></pre>
+<pre><code>## # A tibble: 312,821 x 4
+##    nome          partido uf    words                                            
+##    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;                                            
+##  1 ABEL MESQUIT… PDT     RR    o sr.                                            
+##  2 ABEL MESQUIT… PDT     RR    abel mesquita jr.                                
+##  3 ABEL MESQUIT… PDT     RR    (pdt-rr.                                         
+##  4 ABEL MESQUIT… PDT     RR    sem revisão do orador.) - sr.                    
+##  5 ABEL MESQUIT… PDT     RR    presidente, eu queria dar como lido este meu pro…
+##  6 ABEL MESQUIT… PDT     RR    peço a v.exa. que receba como lido o meu pronunc…
+##  7 ABEL MESQUIT… PDT     RR    muito obrigado.                                  
+##  8 ABEL MESQUIT… PDT     RR    pronunciamento encaminhado pelo orador  sr.      
+##  9 ABEL MESQUIT… PDT     RR    presidente, sras. e srs.                         
+## 10 ABEL MESQUIT… PDT     RR    deputados, esta semana nós demos um importante p…
+## # … with 312,811 more rows</code></pre>
+<p><strong>n-gram</strong></p>
+<pre class="r"><code>discursos %&gt;%
+ unnest_tokens(words, speech, token=&quot;ngrams&quot;, n=2) #(output, input)</code></pre>
+<pre><code>## # A tibble: 5,859,418 x 4
+##    nome              partido uf    words        
+##    &lt;chr&gt;             &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;        
+##  1 ABEL MESQUITA JR. PDT     RR    o sr         
+##  2 ABEL MESQUITA JR. PDT     RR    sr abel      
+##  3 ABEL MESQUITA JR. PDT     RR    abel mesquita
+##  4 ABEL MESQUITA JR. PDT     RR    mesquita jr  
+##  5 ABEL MESQUITA JR. PDT     RR    jr pdt       
+##  6 ABEL MESQUITA JR. PDT     RR    pdt rr       
+##  7 ABEL MESQUITA JR. PDT     RR    rr sem       
+##  8 ABEL MESQUITA JR. PDT     RR    sem revisão  
+##  9 ABEL MESQUITA JR. PDT     RR    revisão do   
+## 10 ABEL MESQUITA JR. PDT     RR    do orador    
+## # … with 5,859,408 more rows</code></pre>
+</div>
+<div id="operações-básicas-com-textos-tidy" class="section level2">
+<h2>Operações Básicas com Textos Tidy</h2>
+<p>A principal vantagem de ter nossos textos em formato tidy consiste na facilidade de limpar e fazer análises básicas dos textos. Como casa linah de nosso banco de dados se refere a um token, é possível fazer operações usando as palavras como unidade de análise. Por exemplo, para eliminar “stop words”, agregar informação de dicionários, agregar sentimentos das palavra, basta conectar (“join”) diferentes bancos de dados também no formato tidy.</p>
+<div id="estatísticas-básicas" class="section level3">
+<h3>Estatísticas básicas</h3>
+<p>Vamos calcular algumas estatisticas básicas com base no nossos conhecimento prévios no tidyverse</p>
+<pre class="r"><code>tidy_discursos &lt;- tidy_discursos %&gt;%
+                  group_by(id_discursos) %&gt;%
+                  mutate(total_palavras=n()) %&gt;%
+                  ungroup() 
+
+# Informações sobre os discursos
+
+partido_st &lt;- discursos %&gt;%
+                   group_by(partido) %&gt;%
+                   summarise(n_partidos=n()) 
+
+nome_st &lt;- discursos %&gt;%
+                   group_by(nome) %&gt;%
+                   summarise(n_dep=n())
+
+uf_st &lt;- discursos %&gt;%
+          group_by(uf) %&gt;%
+            summarise(n_uf=n())
+
+tidy_discursos &lt;- left_join(tidy_discursos, partido_st) %&gt;%
+                  left_join(nome_st) %&gt;%
+                  left_join(uf_st)</code></pre>
+<pre><code>## Joining, by = &quot;partido&quot;</code></pre>
+<pre><code>## Joining, by = &quot;nome&quot;</code></pre>
+<pre><code>## Joining, by = &quot;uf&quot;</code></pre>
+</div>
+<div id="removendo-stop-words" class="section level3">
+<h3>Removendo stop words</h3>
+<p>“Stop Words” são palavras que comumente retiramos em nossas análises de texto. A idéia fundamental é de que estas palavras (artigos, preposições, pontuações) carregam pouco sentido substantivo.</p>
+<pre class="r"><code>library(stopwords)
+stop_words &lt;- tibble(words=stopwords(&quot;portuguese&quot;))
+
+# Elimina com um Join
+tidy_discursos &lt;- tidy_discursos %&gt;%
+                    anti_join(stop_words)</code></pre>
+<pre><code>## Joining, by = &quot;words&quot;</code></pre>
+<p>O que mais podemos eliminar? Nome dos Estados.</p>
+<pre class="r"><code>estados &lt;- tibble(words=unique(str_to_lower(tidy_discursos$uf)))
+
+# Elimina com um Join
+tidy_discursos &lt;- tidy_discursos %&gt;%
+                    anti_join(estados)</code></pre>
+<pre><code>## Joining, by = &quot;words&quot;</code></pre>
+<p>Palavras funcionais, que são marcantes do ambiente em debate, porém carregam pouco sentido.</p>
+<pre class="r"><code>function_names &lt;- tibble(words=c(&quot;candidato&quot;, &quot;candidata&quot;, &quot;brasileira&quot;, &quot;brasileiro&quot;, 
+                                 &quot;câmara&quot;, &quot;municipio&quot;,
+                    &quot;municipal&quot;, &quot;eleições&quot;, &quot;cidade&quot;, &quot;partido&quot;,
+                    &quot;cidadão&quot;, &quot;deputado&quot;, &quot;deputada&quot;, &quot;caro&quot;, &quot;cara&quot;, 
+                    &quot;plano&quot;, &quot;suplementar&quot;, 
+                    &quot;voto&quot;,&quot;votar&quot;, &quot;eleitor&quot;, &quot;querido&quot;, 
+                    &quot;sim&quot;, &quot;não&quot;, &quot;dia&quot;, &quot;hoje&quot;, &quot;amanhã&quot;, &quot;amigo&quot;, &quot;amiga&quot;, 
+                    &quot;seção&quot;, &quot;emenda&quot;, &quot;i&quot;, &quot;ii&quot;, &quot;iii&quot;, &quot;iv&quot;, 
+                    &quot;colegas&quot;, &quot;clausula&quot;, &quot;prefeit*&quot;, &quot;presidente&quot;,
+                    &quot;prefeitura&quot;, &#39;proposta&#39;,&#39;propostas&#39;,&#39;meta&#39;,
+                    &#39;metas&#39;,&#39;plano&#39;,&#39;governo&#39;,&#39;municipal&#39;,&#39;candidato&#39;,
+                    &#39;diretrizes&#39;,&#39;programa&#39;, &quot;deputados&quot;, &quot;federal&quot;,
+                    &#39;eleição&#39;,&#39;coligação&#39;,&#39;município&#39;, &quot;senhor&quot;, &quot;sr&quot;, &quot;dr&quot;, 
+                    &quot;excelentissimo&quot;, &quot;nobre&quot;, &quot;deputad*&quot;, &quot;srs&quot;, &quot;sras&quot;, &quot;v.exa&quot;,
+                    &quot;san&quot;, &quot;arial&quot;, &quot;sentido&quot;, &quot;fim&quot;, &quot;minuto&quot;, &quot;razão&quot;, &quot;v.exa&quot;, 
+                    &quot;país&quot;, &quot;brasil&quot;, &quot;tribuna&quot;, &quot;congresso&quot;, &quot;san&quot;, &quot;symbol&quot;, &quot;sans&quot;, &quot;serif&quot;,
+                    &quot;ordem&quot;, &quot;revisão&quot;, &quot;orador&quot;, &quot;obrigado&quot;, &quot;parte&quot;, &quot;líder&quot;, &quot;bloco&quot;, &quot;esc&quot;, 
+                    &quot;sra&quot;, &quot;oradora&quot;, &quot;bloco&quot;, &quot;times&quot;, &quot;new&quot;, &quot;colgano&quot;, &quot;pronuncia&quot;, &quot;colega&quot;, 
+                    &quot;presidenta&quot;, &quot;pronunciamento&quot;, &quot;mesa&quot;, &quot;parlamentares&quot;, &quot;secretário&quot;, &quot;seguinte&quot;, 
+                    &quot;discurso&quot;,&quot;mato&quot;, &quot;sul&quot;, &quot;norte&quot;, &quot;nordeste&quot;, &quot;sudeste&quot;, &quot;centro-oeste&quot;, &quot;sul&quot;, &quot;grosso&quot;,
+                    &quot;é&quot;, &quot;ser&quot;, &quot;casa&quot;, &quot;todos&quot;, &quot;sobre&quot;, &quot;aqui&quot;, &quot;nacional&quot;))
+
+
+tidy_discursos &lt;- tidy_discursos %&gt;%
+                    anti_join(function_names)</code></pre>
+<pre><code>## Joining, by = &quot;words&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="stringr-para-limpeza" class="section level1">
+<h1>stringr para limpeza</h1>
+<p>Uma das vantagens de manter seus dados em formato Tidy é a possibilidade de usar as funções do stringr para manipulação de caracteres. Vamos ver alguns exemplos para limpar os dados um pouco mais.</p>
+<div id="str_remove_all" class="section level3">
+<h3>str_remove_all</h3>
+<pre class="r"><code>tidy_discursos &lt;- tidy_discursos %&gt;%
+                  mutate(words=str_remove_all(words, &quot;[[:digit:]]&quot;), 
+                         words=str_remove_all(words, &quot;[:punct:]&quot;)) </code></pre>
+</div>
+<div id="remover-acentos-espacos-e-outros" class="section level3">
+<h3>Remover Acentos, espacos e outros</h3>
+<pre class="r"><code>tidy_discursos &lt;- tidy_discursos %&gt;%
+                  mutate(words=str_trim(words), 
+                         words=str_squish(words), 
+                         words=stringi::stri_trans_general(words, &quot;Latin-ASCII&quot;))%&gt;%
+                  filter(words!=&quot;&quot;)</code></pre>
+</div>
+<div id="palavras-mais-comuns" class="section level2">
+<h2>Palavras mais comuns</h2>
+<pre class="r"><code>tidy_discursos %&gt;%
+  count(words, sort = TRUE) </code></pre>
+<pre><code>## # A tibble: 76,846 x 2
+##    words        n
+##    &lt;chr&gt;    &lt;int&gt;
+##  1 estado   14790
+##  2 anos     10169
+##  3 grande    9753
+##  4 porque    8823
+##  5 ainda     7721
+##  6 quero     6958
+##  7 povo      6877
+##  8 fazer     6772
+##  9 projeto   6600
+## 10 politica  6537
+## # … with 76,836 more rows</code></pre>
+<pre class="r"><code># Gráfico
+tidy_discursos %&gt;%
+count(words, sort = TRUE) %&gt;%
+  slice(1:25) %&gt;%
+  mutate(word = reorder(words, n)) %&gt;%
+  ggplot(aes(n, word)) +
+  geom_col() +
+  labs(y = NULL) +
+  theme_minimal()</code></pre>
+<p><img src="/Tutoriais/aula_texto_I_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="comparando-palavras-mais-comuns-por-partidos" class="section level2">
+<h2>Comparando palavras mais comuns por partidos</h2>
+<p>Vamos separar os discursos do PT e PSDB e verificar se os principais termos destes deputados divergem.</p>
+<pre class="r"><code>library(scales)
+# Total palavras por partido
+total_palavras &lt;- tidy_discursos %&gt;%
+                  select(partido, total_palavras) %&gt;%
+                  distinct() %&gt;%
+                  group_by(partido) %&gt;%
+                  summarize(total_words_per_party=sum(total_palavras)) %&gt;%
+                  filter(partido%in%c(&quot;PT&quot;, &quot;PSDB&quot;))
+
+# Soma cada palavra por partido
+palavras_partido &lt;- tidy_discursos %&gt;%
+                          count(partido, words) %&gt;%
+                           filter(partido%in%c(&quot;PT&quot;, &quot;PSDB&quot;))
+
+# Merge
+partidos &lt;- left_join(palavras_partido, total_palavras) %&gt;%
+             mutate(prop=n/total_words_per_party) %&gt;%
+              #untidy
+            select(words, partido, prop) %&gt;%
+            pivot_wider(names_from=partido,
+                        values_from=prop) %&gt;%
+            drop_na() %&gt;%
+            mutate(more=ifelse(PT&gt;PSDB, &quot;More PT&quot;, &quot;More PSDB&quot;))</code></pre>
+<pre><code>## Joining, by = &quot;partido&quot;</code></pre>
+<pre class="r"><code># Graph  
+ggplot(partidos, aes(x = PSDB, y = PT, 
+                     alpha = abs(PT - PSDB), 
+                     color=more)) +
+  geom_abline(color = &quot;gray40&quot;, lty = 2) +
+  geom_jitter(alpha = 0.1, size = 2.5, width = 0.3, height = 0.3) +
+  geom_text(aes(label = words), check_overlap = TRUE, vjust = 1.5, alpha=.8) +
+  scale_x_log10(labels = percent_format()) +
+  scale_y_log10(labels = percent_format()) +
+  scale_color_manual(values=c(&quot;#5BBCD6&quot;,&quot;#FF0000&quot;), name=&quot;&quot;) +
+  theme(legend.position=&quot;none&quot;) +
+  labs(y = &quot;Proportion of Words (PT)&quot;, x = &quot;Proportion of Words (PSDB)&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/Tutoriais/aula_texto_I_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+</div>
+<div id="análise-de-sentimento." class="section level1">
+<h1>Análise de Sentimento.</h1>
+<p>Como vocês devem imaginar, com os dados em formato tidy, fazer análise de sentimento com base em dicionário é super intuitivo. Basta um banco de dados com um dicionário de sentimentos. Há muitas opções de dicionários em inglês. Em Português é preciso procurar um pouco mais, e provavelmente fazer pequenos ajustes.</p>
+<pre class="r"><code># Usaremos este dicionário.
+#devtools::install_github(&quot;sillasgonzaga/lexiconPT&quot;)
+library(lexiconPT)
+
+# Ver Dicionario
+data(&quot;sentiLex_lem_PT02&quot;)
+sent_pt &lt;- as_tibble(sentiLex_lem_PT02)
+
+# -1 negative +1 positive
+
+tidy_discursos &lt;- left_join(tidy_discursos, sent_pt, by=c(&quot;words&quot;=&quot;term&quot;))
+
+# clean words with no sentiment
+tidy_discursos_sent &lt;- tidy_discursos %&gt;%
+                        mutate(polarity=ifelse(is.na(polarity), 0, polarity)) %&gt;%
+                        filter(polarity!=7)
+          
+tidy_discursos_sent</code></pre>
+<pre><code>## # A tibble: 2,865,805 x 13
+##    nome   partido uf    id_discursos words total_palavras n_partidos n_dep  n_uf
+##    &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;          &lt;int&gt;      &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1 SIMÃO… PP      RJ               1 sess…            301        493    43   836
+##  2 SIMÃO… PP      RJ               1 pp               301        493    43   836
+##  3 SIMÃO… PP      RJ               1 gost…            301        493    43   836
+##  4 SIMÃO… PP      RJ               1 regi…            301        493    43   836
+##  5 SIMÃO… PP      RJ               1 torc…            301        493    43   836
+##  6 SIMÃO… PP      RJ               1 prof…            301        493    43   836
+##  7 SIMÃO… PP      RJ               1 educ…            301        493    43   836
+##  8 SIMÃO… PP      RJ               1 rio              301        493    43   836
+##  9 SIMÃO… PP      RJ               1 jane…            301        493    43   836
+## 10 SIMÃO… PP      RJ               1 greve            301        493    43   836
+## # … with 2,865,795 more rows, and 4 more variables: grammar_category &lt;chr&gt;,
+## #   polarity &lt;dbl&gt;, polarity_target &lt;chr&gt;, polarity_classification &lt;chr&gt;</code></pre>
+<pre class="r"><code># sentimento por discursos
+tidy_dicursos_av &lt;- tidy_discursos_sent %&gt;%
+                          group_by(id_discursos) %&gt;%
+                          summarize(polarity=mean(polarity)) %&gt;%
+                          arrange(polarity)</code></pre>
+<p>Temos portanto uma medida dos sentimentos por discursos. Vamos gerar três gráficos com esta informação:</p>
+<ul>
+<li><p>Nuvem de Palavras com sentimentos</p></li>
+<li><p>Distribuição dos sentimentos no decorrer dos anos</p></li>
+<li><p>Distribuição dos sentimento de acordo com partidos.</p></li>
+</ul>
+<div id="palavras-mais-negativas-e-positivas" class="section level3">
+<h3>Palavras Mais Negativas e Positivas</h3>
+<pre class="r"><code>library(reshape2)
+library(wordcloud)
+
+tidy_discursos_sent %&gt;%
+  filter(polarity!=0) %&gt;%
+  mutate(polarity=ifelse(polarity==1, &quot;Positiva&quot;, &quot;Negativa&quot;)) %&gt;%
+  count(words, polarity, sort = TRUE) %&gt;%
+  acast(words ~ polarity, value.var = &quot;n&quot;, fill = 0) %&gt;%
+  comparison.cloud(colors = c(&quot;gray20&quot;, &quot;gray80&quot;),
+                   max.words = 200)</code></pre>
+<p><img src="/Tutoriais/aula_texto_I_files/figure-html/unnamed-chunk-16-1.png" width="80%" /></p>
+</div>
+<div id="sentimento-over-time" class="section level3">
+<h3>Sentimento Over Time</h3>
+<pre class="r"><code>part_pol &lt;- discursos %&gt;%
+  mutate(id_discursos=1:nrow(.)) %&gt;%
+  left_join(tidy_dicursos_av) %&gt;%
+  mutate(polarity_binary=ifelse(polarity&gt;0,&quot;Positivo&quot;, &quot;Negativo&quot;),)%&gt;%
+  count(partido, polarity_binary) %&gt;%
+  mutate(n=ifelse(polarity_binary==&quot;Negativo&quot;, -1*n, n)) %&gt;%
+  filter(partido!=&quot;\n&quot;, 
+         n!=0) %&gt;%
+  arrange(polarity_binary, n) %&gt;%
+  mutate(partido=fct_inorder(partido))</code></pre>
+<pre><code>## Joining, by = &quot;id_discursos&quot;</code></pre>
+<pre class="r"><code># Graph
+ggplot(part_pol,
+       aes(x = partido, y = n, fill = polarity_binary)) + 
+    geom_col(alpha=.6, color=&quot;black&quot;) +
+    coord_flip() +
+    scale_fill_manual(values=c(&quot;#5BBCD6&quot;,&quot;#FF0000&quot;), 
+                       name=&quot;Polaridade em \n Discursos Legislativos&quot;) +
+    labs(x=&quot;Partidos&quot;, y=&quot;Numero de Discursos&quot;) +
+  theme_bw() +
+  theme(legend.position = &quot;bottom&quot;) </code></pre>
+<p><img src="/Tutoriais/aula_texto_I_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="outras-formas-de-analisar-texto-em-r." class="section level2">
+<h2>Outras formas de analisar texto em R.</h2>
+<p>Existem diversos outros pacotes para fazer análise de texto em R. O mais famoso e mais útil de todos é o <a href="https://quanteda.io/">quanteda</a>. O Quanteda é muito completo e permite que você faça análise muito complexas, e rode modelos estatísticos em dados de texto de forma bastante intuitiva.</p>
+<p>Porque então não aprendemos quanteda? Porque o Quanteda possui uma forma própria de organizar os dados (corpus e document feature matrices) e como estamos aqui dando nossos passos iniciais usando tidy, minha opção foi por manter nosso aprendizado consistente.</p>
+<p>No entanto, eu recomendo fortemente que vocês aprendam quanteda. O site do pacote é super intuitivo e tem vários tutoriais. Vale a pena praticar durante as férias!</p>
+</div>
+</div>

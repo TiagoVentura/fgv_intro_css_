@@ -66,6 +66,8 @@ Estas duas simples definições trazem diversas vantagens:
 ## Dados Tidy: Gapminder
 
 ```{r}
+library(gapminder)
+library(tidyverse)
 gapminder 
 ```
 

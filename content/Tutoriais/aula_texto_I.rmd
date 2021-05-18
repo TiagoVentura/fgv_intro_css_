@@ -1,0 +1,420 @@
+---
+title: "Análise de Texto: Dados Tidy e Métodos de Dicionário"
+output:
+    rmdformats::robobook:
+      code_folding: show
+      self_contained: true
+      thumbnails: false
+      lightbox: true
+number_sections: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE, cache=TRUE, warning = FALSE)
+```
+
+# Introdução
+
+Na aula de hoje, vamos dar nossos primeiros passos no uso de R para análise de texto. Vamos dividir a aula nos seguintes tópicos. 
+
+- Abrindo Textos em R.
+
+- Texto como um banco "Tidy".
+
+- Análise de Sentimentos + Modelos de Dicionários. 
+
+Recomendo fortemente aos alunos a leitura do livro [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com/index.html). Este tutorial de hoje é fortemente inspirado neste belíssimo livro de Julia Silge e David Robinson.  
+
+Todos os dados utilizados neste tutorial podem ser baixados [aqui](data_txt.zip)
+
+# Revisão: Manipulação de Strings em R
+
+Antes de iniciarmos este workshop, seria importante vocês fazerem uma revisão das nossas aulas sobre manipulação de strings em R usando o pacote `stringr`. 
+
+
+# Abrindo Textos em R. 
+
+Por ser uma linguagem de programação, o R é flexível sobre quais tipos de dados podem ser importados em seu ambiente de trabalho. Ao trabalhar com textos digitais, vocês vão em geral acessá-los diretamente da internet e salvar como um objeto de R. No entanto, há algumas outras opções que cobriremos aqui. 
+
+### Acessando arquivos digitais diretamente em R. 
+
+Para nosso exemplo diretamente em R, vamos acessar dados da API do Twitter utilizando o pacote `rtweet`. 
+
+```{r}
+library(rtweet)
+library(tidyverse)
+bolsonaro_tweets<-search_tweets("bolsonaro", n=50, include_rts = TRUE)
+
+# Selecionar somente o texto
+bolsonaro_tweets <- bolsonaro_tweets %>%
+                        select(user_id, screen_name, text)
+                            
+# Veja os dados
+bolsonaro_tweets
+
+# Salvar como objeto de R
+save(bolsonaro_tweets,file="bolsonaro_tweets.Rdata")
+```
+
+Este processo serve para qualquer tipo de dados de texto acessado via API. 
+
+### Acessando Dados salvos como txt.
+
+Em uma pasta "data_txt", eu salvei dez discursos de deputados no plenário da câmara no formato **.txt**. Vamos aprender a importá-los no ambiente do R. 
+
+```{r}
+# Ver arquivos
+list.files("data_txt")
+
+# Salvar nomes
+nomes <- list.files("data_txt")
+
+# Criar endereço completo
+path <- paste0("data_txt/", nomes)
+
+# Abrir
+dados <- map_chr(path, read_lines) 
+
+dados <- tibble(file=nomes, texto=dados)
+dados
+```
+
+### Acessando via csv. 
+
+Algumas vezes, vocês encontrarão arquivos de texto salvos como `.csvs` Abri-los é tão simples como acessar qualquer outro tipo de arquivo csv. Abriremos um exemplo com discursos do plenário de deputados no Brasil e com este banco de dados vamos seguir no restante das aulas. 
+
+```{r}
+discursos <- read_csv("speeches.csv")
+
+```
+
+## Texto como um banco "Tidy".
+
+Aprendemos há algumas aulas atrás o conceito de banco de dados tidy.  As três propriedades mais importantes que definem um banco de dados `tidy` são:
+
+- Cada coluna é uma variável. 
+
+- Cada linha é uma observação. 
+
+- Cada valor em uma linha.
+
+Como já discutimos diversas vezes, o `tidyverse` é uma linguagem própria dentro do R. Por isso, há extensões do uso de dados `tidy` e de pacotes do `tidyverse` para a mais diversas áreas da Ciência Social Computacional, includindo modelos de análise de texto. 
+
+#### Um banco de dados de texto **Tidy** é organizado como um **token** por linha. 
+
+Um token é uma unidade significativa de texto, como uma palavra, que estamos interessados em usar para análise, e **tokenização** é o processo de dividir o texto em tokens. 
+
+Para bancos de texto tidy, um token é geralmente uma palavra, porém você pusar um n-gram, uma sentença ou até um parágrafo.
+
+Para converter nosso banco de dados de texto para um formato tidy, vamos utilizar a função `unnest_tokens` do pacote [tidytext](https://github.com/juliasilge/tidytext)
+
+# Tidytext: unnest_tokens
+
+```{r}
+library(tidytext)
+# Convertendo para o formato tidy. 
+tidy_discursos <- discursos %>%
+                  mutate(id_discursos=1:nrow(.)) %>%
+                   unnest_tokens(words, speech) #(output, input)
+
+```
+
+Os dois argumentos básicos para unnest_tokens usados aqui são nomes de colunas. Primeiro temos o nome da coluna de saída (o nome da nova coluna) que será criado, e, em seguida, a coluna de entrada de onde vem o texto (speech, neste caso). 
+
+Note: pontuações são removidas e os textos são convertidos para letra minúscula. 
+
+### Outras formas de textos tidy. 
+
+**Sentenças**
+
+```{r}
+discursos %>%
+ unnest_tokens(words, speech, token="sentences") #(output, input)
+```
+
+**n-gram**
+
+```{r}
+discursos %>%
+ unnest_tokens(words, speech, token="ngrams", n=2) #(output, input)
+```
+
+
+## Operações Básicas com Textos Tidy
+
+A principal vantagem de ter nossos textos em formato tidy consiste na facilidade de limpar e fazer análises básicas dos textos. Como casa linah de nosso banco de dados se refere a um token, é possível fazer operações usando as palavras como unidade de análise. Por exemplo, para eliminar "stop words", agregar informação de dicionários, agregar sentimentos das palavra, basta conectar ("join") diferentes bancos de dados também no formato tidy.
+
+### Estatísticas básicas
+
+Vamos calcular algumas estatisticas básicas com base no nossos conhecimento prévios no tidyverse
+
+```{r} 
+tidy_discursos <- tidy_discursos %>%
+                  group_by(id_discursos) %>%
+                  mutate(total_palavras=n()) %>%
+                  ungroup() 
+
+# Informações sobre os discursos
+
+partido_st <- discursos %>%
+                   group_by(partido) %>%
+                   summarise(n_partidos=n()) 
+
+nome_st <- discursos %>%
+                   group_by(nome) %>%
+                   summarise(n_dep=n())
+
+uf_st <- discursos %>%
+          group_by(uf) %>%
+            summarise(n_uf=n())
+
+tidy_discursos <- left_join(tidy_discursos, partido_st) %>%
+                  left_join(nome_st) %>%
+                  left_join(uf_st)
+```
+
+
+### Removendo stop words
+
+"Stop Words" são palavras que comumente retiramos em nossas análises de texto. A idéia fundamental é de que estas palavras (artigos, preposições, pontuações) carregam pouco sentido substantivo. 
+
+```{r}
+library(stopwords)
+stop_words <- tibble(words=stopwords("portuguese"))
+
+# Elimina com um Join
+tidy_discursos <- tidy_discursos %>%
+                    anti_join(stop_words)
+
+```
+
+O que mais podemos eliminar? Nome dos Estados. 
+
+```{r}
+estados <- tibble(words=unique(str_to_lower(tidy_discursos$uf)))
+
+# Elimina com um Join
+tidy_discursos <- tidy_discursos %>%
+                    anti_join(estados)
+```
+
+Palavras funcionais, que são marcantes do ambiente em debate, porém carregam pouco sentido. 
+
+```{r}
+function_names <- tibble(words=c("candidato", "candidata", "brasileira", "brasileiro", 
+                                 "câmara", "municipio",
+                    "municipal", "eleições", "cidade", "partido",
+                    "cidadão", "deputado", "deputada", "caro", "cara", 
+                    "plano", "suplementar", 
+                    "voto","votar", "eleitor", "querido", 
+                    "sim", "não", "dia", "hoje", "amanhã", "amigo", "amiga", 
+                    "seção", "emenda", "i", "ii", "iii", "iv", 
+                    "colegas", "clausula", "prefeit*", "presidente",
+                    "prefeitura", 'proposta','propostas','meta',
+                    'metas','plano','governo','municipal','candidato',
+                    'diretrizes','programa', "deputados", "federal",
+                    'eleição','coligação','município', "senhor", "sr", "dr", 
+                    "excelentissimo", "nobre", "deputad*", "srs", "sras", "v.exa",
+                    "san", "arial", "sentido", "fim", "minuto", "razão", "v.exa", 
+                    "país", "brasil", "tribuna", "congresso", "san", "symbol", "sans", "serif",
+                    "ordem", "revisão", "orador", "obrigado", "parte", "líder", "bloco", "esc", 
+                    "sra", "oradora", "bloco", "times", "new", "colgano", "pronuncia", "colega", 
+                    "presidenta", "pronunciamento", "mesa", "parlamentares", "secretário", "seguinte", 
+                    "discurso","mato", "sul", "norte", "nordeste", "sudeste", "centro-oeste", "sul", "grosso",
+                    "é", "ser", "casa", "todos", "sobre", "aqui", "nacional"))
+
+
+tidy_discursos <- tidy_discursos %>%
+                    anti_join(function_names)
+
+
+```
+
+# stringr para limpeza
+
+Uma das vantagens de manter seus dados em formato Tidy é a possibilidade de usar as funções do stringr para manipulação de caracteres. Vamos ver alguns exemplos para limpar os dados um pouco mais.
+
+### str_remove_all
+
+```{r}
+tidy_discursos <- tidy_discursos %>%
+                  mutate(words=str_remove_all(words, "[[:digit:]]"), 
+                         words=str_remove_all(words, "[:punct:]")) 
+
+```
+
+### Remover Acentos, espacos e outros
+
+```{r}
+tidy_discursos <- tidy_discursos %>%
+                  mutate(words=str_trim(words), 
+                         words=str_squish(words), 
+                         words=stringi::stri_trans_general(words, "Latin-ASCII"))%>%
+                  filter(words!="")
+
+```
+
+
+## Palavras mais comuns
+
+```{r}
+tidy_discursos %>%
+  count(words, sort = TRUE) 
+
+# Gráfico
+tidy_discursos %>%
+count(words, sort = TRUE) %>%
+  slice(1:25) %>%
+  mutate(word = reorder(words, n)) %>%
+  ggplot(aes(n, word)) +
+  geom_col() +
+  labs(y = NULL) +
+  theme_minimal()
+
+```
+
+## Comparando palavras mais comuns por partidos
+
+Vamos separar os discursos do PT e PSDB e verificar se os principais termos destes deputados divergem. 
+
+
+```{r}
+library(scales)
+# Total palavras por partido
+total_palavras <- tidy_discursos %>%
+                  select(partido, total_palavras) %>%
+                  distinct() %>%
+                  group_by(partido) %>%
+                  summarize(total_words_per_party=sum(total_palavras)) %>%
+                  filter(partido%in%c("PT", "PSDB"))
+
+# Soma cada palavra por partido
+palavras_partido <- tidy_discursos %>%
+                          count(partido, words) %>%
+                           filter(partido%in%c("PT", "PSDB"))
+
+# Merge
+partidos <- left_join(palavras_partido, total_palavras) %>%
+             mutate(prop=n/total_words_per_party) %>%
+              #untidy
+            select(words, partido, prop) %>%
+            pivot_wider(names_from=partido,
+                        values_from=prop) %>%
+            drop_na() %>%
+            mutate(more=ifelse(PT>PSDB, "More PT", "More PSDB"))
+
+
+# Graph  
+ggplot(partidos, aes(x = PSDB, y = PT, 
+                     alpha = abs(PT - PSDB), 
+                     color=more)) +
+  geom_abline(color = "gray40", lty = 2) +
+  geom_jitter(alpha = 0.1, size = 2.5, width = 0.3, height = 0.3) +
+  geom_text(aes(label = words), check_overlap = TRUE, vjust = 1.5, alpha=.8) +
+  scale_x_log10(labels = percent_format()) +
+  scale_y_log10(labels = percent_format()) +
+  scale_color_manual(values=c("#5BBCD6","#FF0000"), name="") +
+  theme(legend.position="none") +
+  labs(y = "Proportion of Words (PT)", x = "Proportion of Words (PSDB)") +
+  theme_minimal()
+  
+```
+
+# Análise de Sentimento. 
+
+Como vocês devem imaginar, com os dados em formato tidy, fazer análise de sentimento com base em dicionário é super intuitivo. Basta um banco de dados com um dicionário de sentimentos. Há muitas opções de dicionários em inglês. Em Português é preciso procurar um pouco mais, e provavelmente fazer pequenos ajustes. 
+
+```{r}
+# Usaremos este dicionário.
+#devtools::install_github("sillasgonzaga/lexiconPT")
+library(lexiconPT)
+
+# Ver Dicionario
+data("sentiLex_lem_PT02")
+sent_pt <- as_tibble(sentiLex_lem_PT02)
+
+# -1 negative +1 positive
+
+tidy_discursos <- left_join(tidy_discursos, sent_pt, by=c("words"="term"))
+
+# clean words with no sentiment
+tidy_discursos_sent <- tidy_discursos %>%
+                        mutate(polarity=ifelse(is.na(polarity), 0, polarity)) %>%
+                        filter(polarity!=7)
+          
+tidy_discursos_sent
+# sentimento por discursos
+tidy_dicursos_av <- tidy_discursos_sent %>%
+                          group_by(id_discursos) %>%
+                          summarize(polarity=mean(polarity)) %>%
+                          arrange(polarity)
+    
+
+```
+
+Temos portanto uma medida dos sentimentos por discursos. Vamos gerar três gráficos com esta informação:
+
+- Nuvem de Palavras com sentimentos
+
+- Distribuição dos sentimentos no decorrer dos anos
+
+- Distribuição dos sentimento de acordo com partidos. 
+
+
+### Palavras Mais Negativas e Positivas
+
+```{r, out.width="80%"}
+library(reshape2)
+library(wordcloud)
+
+tidy_discursos_sent %>%
+  filter(polarity!=0) %>%
+  mutate(polarity=ifelse(polarity==1, "Positiva", "Negativa")) %>%
+  count(words, polarity, sort = TRUE) %>%
+  acast(words ~ polarity, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("gray20", "gray80"),
+                   max.words = 200)
+
+```
+
+### Sentimento Over Time
+
+```{r}
+part_pol <- discursos %>%
+  mutate(id_discursos=1:nrow(.)) %>%
+  left_join(tidy_dicursos_av) %>%
+  mutate(polarity_binary=ifelse(polarity>0,"Positivo", "Negativo"),)%>%
+  count(partido, polarity_binary) %>%
+  mutate(n=ifelse(polarity_binary=="Negativo", -1*n, n)) %>%
+  filter(partido!="\n", 
+         n!=0) %>%
+  arrange(polarity_binary, n) %>%
+  mutate(partido=fct_inorder(partido))
+
+# Graph
+ggplot(part_pol,
+       aes(x = partido, y = n, fill = polarity_binary)) + 
+    geom_col(alpha=.6, color="black") +
+    coord_flip() +
+    scale_fill_manual(values=c("#5BBCD6","#FF0000"), 
+                       name="Polaridade em \n Discursos Legislativos") +
+    labs(x="Partidos", y="Numero de Discursos") +
+  theme_bw() +
+  theme(legend.position = "bottom") 
+
+```
+
+## Outras formas de analisar texto em R. 
+
+Existem diversos outros pacotes para fazer análise de texto em R. O mais famoso e mais útil de todos é o [quanteda](https://quanteda.io/). O Quanteda é muito completo e permite que você faça análise muito complexas, e rode modelos estatísticos em dados de texto de forma bastante intuitiva. 
+
+Porque então não aprendemos quanteda? Porque o Quanteda possui uma forma própria de organizar os dados (corpus e document feature matrices)  e como estamos aqui dando nossos passos iniciais usando tidy, minha opção foi por manter nosso aprendizado consistente.
+
+No entanto, eu recomendo fortemente que vocês aprendam quanteda. O site do pacote é super intuitivo e tem vários tutoriais. Vale a pena praticar durante as férias!
+
+
+
+
+

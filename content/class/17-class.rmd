@@ -1,0 +1,22 @@
+---
+title: "Aula 16-17: Acesso a dados digitais via APIs"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+--- 
+
+## Objetivos Gerais 
+
+Nesta semana, vamos fazer nossa aula introdutória sobre análise de texto em R. 
+
+## Tutoriais
+
+- Tutorial Análise de texto [(HTML)](/Tutoriais/aula_texto_I.html)[(RMD)](/Tutoriais/aula_texto_I.rmd)

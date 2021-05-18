@@ -1,0 +1,28 @@
+---
+title: "Aula Extra: Introdução ao Tidyverse III: Scopped Verbs e Strings"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivos Gerais 
+
+
+Nesta semana, vamos focar em duas extensões dos pacotes do tidyverse:
+
+- verbos complementares em R
+
+- strings e expressões regulares. 
+
+## Slides
+
+
+[Slides: Tidy Extra](/slides/slides-tidyverse-extra.html)

@@ -46,17 +46,15 @@ lessons:
     reading: "07-reading"
     assignment: "exercicio-3"
 
-  - title: "Manipulação de Dados: Tidyverse III (Joins)"
+  - title: "Manipulação de Dados: Tidyverse III (Joins e Tidy)"
     date: "2021-03-08, Seg"
     class: "08-class"
     reading: "08-reading"
 
-  - title: "Manipulação de Dados: Tidyverse III (Tidy Data)"
+  - title: "Manipulação de Dados: Tidyverse III (Extra: Strings + Scopped Verbs)"
     date: "2021-03-10, Quarta"
-    class: "08-class"
-    reading: "08-reading"
+    class: "09-class"
     assignment: "exercicio-4"
-
 
   - title: "Visualização de Dados I"
     date: "2021-03-15, Seg"
@@ -136,6 +134,7 @@ lessons:
 
   - title: "Aplicações: Análise de texto em R "
     date:  "2021-05-03, Quarta"
+    class: "17-class"
 
   - title: "Análise de Texto: Tópicos e Modelos Surpervisionados"
     date: "2021-05-24, Seg"
