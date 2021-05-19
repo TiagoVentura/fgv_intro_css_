@@ -83,7 +83,7 @@ dados
 
 ### Acessando via csv. 
 
-Algumas vezes, vocês encontrarão arquivos de texto salvos como `.csvs` Abri-los é tão simples como acessar qualquer outro tipo de arquivo csv. Abriremos um exemplo com discursos do plenário de deputados no Brasil e com este banco de dados vamos seguir no restante das aulas. 
+Algumas vezes, vocês encontrarão arquivos de texto salvos como `.csv` Abri-los é tão simples como acessar qualquer outro tipo de arquivo csv. Abriremos um exemplo com discursos do plenário de deputados no Brasil e com este banco de dados vamos seguir no restante das aulas. 
 
 ```{r}
 discursos <- read_csv("speeches.csv")
@@ -92,7 +92,7 @@ discursos <- read_csv("speeches.csv")
 
 ## Texto como um banco "Tidy".
 
-Aprendemos há algumas aulas atrás o conceito de banco de dados tidy.  As três propriedades mais importantes que definem um banco de dados `tidy` são:
+Aprendemos em aulas anteriores sobre o conceito de banco de dados tidy.  As três propriedades mais importantes que definem um banco de dados `tidy` são:
 
 - Cada coluna é uma variável. 
 
@@ -102,7 +102,7 @@ Aprendemos há algumas aulas atrás o conceito de banco de dados tidy.  As três
 
 Como já discutimos diversas vezes, o `tidyverse` é uma linguagem própria dentro do R. Por isso, há extensões do uso de dados `tidy` e de pacotes do `tidyverse` para a mais diversas áreas da Ciência Social Computacional, includindo modelos de análise de texto. 
 
-#### Um banco de dados de texto **Tidy** é organizado como um **token** por linha. 
+#### IMPORTANTE: Um banco de dados de texto **Tidy** é organizado com um **token** por linha. 
 
 Um token é uma unidade significativa de texto, como uma palavra, que estamos interessados em usar para análise, e **tokenização** é o processo de dividir o texto em tokens. 
 
