@@ -133,7 +133,7 @@ lessons:
     #class: "corr1-class"
 
   - title: "Aplicações: Análise de texto em R "
-    date:  "2021-05-03, Quarta"
+    date:  "2021-05-19, Quarta"
     class: "17-class"
 
   - title: "Análise de Texto: Tópicos e Modelos Surpervisionados"
@@ -143,8 +143,7 @@ lessons:
 
   - title: "Applicações: Modelo de Tópicos Estruturado"
     date: "2021-05-26, Quarta"
-    #reading: "11-reading"
-    #class: "corr1-class"
+    class: "18-class"
 
   - title: "Bias Algorítimico e Antropologia Digital"
     date:  "2021-05-31 e 2021-06-02"

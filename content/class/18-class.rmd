@@ -1,0 +1,28 @@
+---
+title: "Aula 18: Modelo de Tópicos"
+citeproc: true
+menu: 
+  class:
+    parent: Class
+    weight: 2
+type: docs
+output:
+  blogdown::html_page:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+--- 
+
+## Objetivos Gerais 
+
+Nesta semana, vamos fazer nossa sobre modelos de tópicos em R
+
+## Tutoriais
+
+Todo material pode ser baixado deste [link](https://www.dropbox.com/s/1mj0cc0izodh7km/aplicacao_topic_models.zip?dl=0)
+
+## Outros materiais. 
+
+Há muitos materiais sobre modelos de tópicos em R. O nosso livro base sobre Análise de Texto em R, da Julia Silge e David Robinson, possui um excelente capítulo sobre estes modelos. 
+
+Porém, um tutorial que gosto bastante são as aulas do Professor Christopher Bail para o Summer Institute in Computational Social Science. Podem assistir [aqui](https://www.youtube.com/watch?v=IUAHUEy1V0Q). Vale a pena
