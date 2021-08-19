@@ -331,6 +331,7 @@ Sim. Mas...
 
 ```{r eval=FALSE}
 mean(x=c(5, 7))
+
 ```
 
 ---

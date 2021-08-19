@@ -1,0 +1,419 @@
+---
+title: "Tutorial Análise de Dados do Twitter"
+output:
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="acesso-a-dados-do-twitter." class="section level1">
+<h1>Acesso a dados do Twitter.</h1>
+<p>Para acessar a API do Twitter, utilizaremos o pacote <a href="https://github.com/ropensci/rtweet">rtweet</a>. Nosso primeiro passo é instalar o pacote.</p>
+<pre class="r"><code># Ativar rtweet
+#install.packages(&quot;rtweet&quot;) # somente uma vez
+library(rtweet)
+# ativar outros pacotes
+library(tidyverse)
+library(igraph)
+library(broom)</code></pre>
+<div id="solicitando-sua-credenciais." class="section level2">
+<h2>Solicitando sua credenciais.</h2>
+<p>Conforme aprendemos na semana passada, algumas APIs exigem um cadastro prévio para dar a devida autorização para seus acessos a dados. Este é o caso do Twitter. Para solicitar as credenciais, vocÊ precisa: 1) ter uma conta no twitter, 2) criar uma conta de desenvolvedor do twitter. O pacote <code>rtweet</code> possui um excelente tutorial sobre como solicitar acesso de desenvolvedor.</p>
+<pre class="r"><code>vignette(&quot;auth&quot;, package = &quot;rtweet&quot;)</code></pre>
+<p>Após receber suas credenciais, você deve fazer seu login. Primeiro vamos criar objetos com nossas chaves.</p>
+<p>Agora, vamos liberar nosso acesso.</p>
+<pre class="r"><code>create_token(app=app_name,
+             consumer_key=consumer_key, 
+             consumer_secret=consumer_secret,
+             access_token = access_token, 
+             access_secret = access_token_secret)</code></pre>
+<p>Pronto. A função create_token salva no seu ambiente do R sua senha de acesso. A priori, se estiver funcionando corretamente, você não precisa repetir essa autorização outras vezes. Para testar, você pode abrir e fechar sua sessão no R para verificar o funcionamento.</p>
+</div>
+<div id="rest-api-acessar-tweets-antigos." class="section level2">
+<h2>Rest API: Acessar tweets antigos.</h2>
+<p>O Twitter possui duas API: Rest API e Stream API. Vamos começar com a REST API. Esta API permite:</p>
+<ul>
+<li><p>Acesso a tweets dos últimos 6-9 dias.</p></li>
+<li><p>18.000 tweets em cada acesso de 15 minutos.</p></li>
+</ul>
+<p>Para usar esta função, você precisa entrar um termo de busca. A busca avançada no Twitter ajuda a formatar os termos de busca adequados quando seu interesse está em mais de uma simples palavras.</p>
+<pre class="r"><code># Recentemente o argumento retryonratelimit não tem funcionado com minhas credenciais. 
+# Abri um issue no github, mas não foi resolvido. 
+# Então caso vocês tenham o mesmo problema, uma possível solução seria 
+# escrever um loop. Ou usar o twarc em Python para coletar dados e depois fazer as análises em R. 
+
+
+covid_tweets &lt;-search_tweets(&quot;covid OR covid-19&quot;, 
+                             lang=&quot;pt&quot;,
+                             n=50000, 
+                             include_rts = TRUE,
+                             retryonratelimit = TRUE)
+#Checar se vieram retuites
+covid_tweets$is_retweet</code></pre>
+</div>
+</div>
+<div id="api-stream" class="section level1">
+<h1>API Stream</h1>
+<p>O Twitter possui uma segunda API onde você pode coletar uma amostra dos tweets sendo produzidos em tempo real. Esta API lhe dá mais acesso a dados, então é a melhor forma de coletar, você pode deixar algumas horas – ou dias – rodando no seu R.</p>
+<pre class="r"><code>dados_bolsonaro_stream &lt;- stream_tweets(&quot;bolsonaro&quot;, 
+                                        timeout = 10, 
+                                        file_name = &quot;bolsonaro.json&quot;) # adicione o tempo que voce quer coletar </code></pre>
+</div>
+<div id="análise-de-redes." class="section level1">
+<h1>Análise de Redes.</h1>
+</div>
+<div id="pensando-em-redes" class="section level1">
+<h1>Pensando em Redes</h1>
+<p>Há milhões de formas de análisar dados de twitter. Porém, um dos elementos centrais em plataformas como estas é o fato dos usuários interagirem entre si. Portanto, estes usuários se conectam em redes.</p>
+<p>Uma rede possui dois elementos básicos: um nó - usuário - e um link - que iremos considerar um retweet. Para construir nossa rede, vamos selecionar usuários a partir dos seus retuítes. Esta é a forma mais básica de análise de redes do Twitter, e com isto vamos replicar alguns resultados do artigo do “Time to Protest” de Calvo e Aruguete.</p>
+<p>Para construir a rede de conexões, vamos usar o pacote <code>igraph</code>. Este pacote armazena dados de forma um tanto distinta, porém, é a forma mais intuitiva de manipular dados de rede em R.</p>
+<div id="construíndo-uma-rede" class="section level2">
+<h2>Construíndo uma rede</h2>
+<div id="passo-1-selecione-os-nós-autoridades---hub" class="section level3">
+<h3>Passo 1: Selecione os nós – Autoridades -&gt; Hub</h3>
+<ul>
+<li><p>Autoridades: Autor do Tweet &lt;-</p></li>
+<li><p>Hub: Autor do Retweet -&gt;</p></li>
+</ul>
+<pre class="r"><code># Segura somente retuite
+library(tidyverse)
+
+dados_covid_rt &lt;- covid_tweets %&gt;%
+                          filter(is_retweet==TRUE)
+
+# Criar uma edgelist = lista de conexoes da sua rede
+data &lt;- cbind(dados_covid_rt$screen_name, dados_covid_rt$retweet_screen_name)
+head(data)</code></pre>
+</div>
+<div id="passo-2-crie-a-estrutura-da-rede" class="section level3">
+<h3>Passo 2: Crie a estrutura da rede</h3>
+<pre class="r"><code>library(igraph)
+
+# Cria um rede vazia
+
+net &lt;- graph.empty() 
+
+# Adiciona os nós = vertices
+net &lt;- add.vertices(net, 
+                    length(unique(c(data))), # número de nós
+                    name=as.character(unique(c(data)))) # nomes unicos
+
+
+# Add edges
+net &lt;- add.edges(net, t(data))
+
+summary(net)
+
+# Ou
+g &lt;- graph_from_data_frame(d=data, vertices=unique(c(data)))
+
+summary(g)
+summary(net)</code></pre>
+</div>
+<div id="passo-3-adicione-as-variáveis" class="section level3">
+<h3>Passo 3: Adicione as variáveis</h3>
+<pre class="r"><code>E(net)$text &lt;- dados_covid_rt$text
+E(net)$nameauth &lt;- dados_covid_rt$screen_name
+E(net)$namehub &lt;- dados_covid_rt$retweet_screen_name
+E(net)$web &lt;- dados_covid_rt$urls_expanded_url
+E(net)$hash &lt;- dados_covid_rt$hashtags </code></pre>
+</div>
+</div>
+<div id="estatística-de-rede-comunidades-e-layout." class="section level2">
+<h2>Estatística de Rede, Comunidades e Layout.</h2>
+<p>Vamos usar aqui o conceito de in-degree e out-degree. In-degree significa quantos links direcionados a si o usuário possui. Portanto, em nosso caso mostra quantos retweets este usuário recebeu. O oposto explica out-degree. Neste caso, out-degree significa quantos retuites o usuario deu.</p>
+<p>Um usuário é chamado de autoridade quando seu in-degree é alto. Ou seja, muitos usuários o-a retuítam. Chamamos de hub quando seu out-degree é alto, pois este usuário retuíta muito frequentemente. Os robôs do Bolsonaro são, portanto, hubs – ninguém retuíta eles, eles somente retuítam muito, e muito rápido.</p>
+<pre class="r"><code># Adicionar indegree and outdegree
+V(net)$outdegree&lt;-degree(net, mode=&quot;out&quot;)
+V(net)$indegree&lt;-degree(net, mode=&quot;in&quot;)
+summary(net)</code></pre>
+<div id="layout" class="section level3">
+<h3>Layout</h3>
+<p>Estima posições para os nós da sua rede, é um algoritimo que organiza a topologia das rede de conexões</p>
+<pre class="r"><code>l &lt;- layout_with_fr(net, grid = c(&quot;nogrid&quot;))
+head(l)</code></pre>
+</div>
+<div id="comunidades" class="section level3">
+<h3>Comunidades</h3>
+<p>Há vários algorítimos para encontrar comunidades (ou clusters) em sua rede. Estes algorítimos em geral buscam subgrupos com mais conexões dentro da sua rede. Não vamos entrar numa discussão detalhada sobre os diferentes algorítimos. Ao final, os resultados são semelhantes.</p>
+<pre class="r"><code>my.com.fast &lt;- walktrap.community(net)</code></pre>
+</div>
+</div>
+</div>
+<div id="adicionando-o-layout-a-sua-rede" class="section level1">
+<h1>Adicionando o layout a sua rede</h1>
+<pre class="r"><code>V(net)$l1 &lt;- l[,1]
+V(net)$l2 &lt;- l[,2]
+my.com.fast$membership
+V(net)$membership &lt;- my.com.fast$membership</code></pre>
+<div id="quais-as-maiores-comunidades" class="section level2">
+<h2>Quais as maiores comunidades?</h2>
+<pre class="r"><code>comunidades&lt;- data_frame(membership=V(net)$membership)
+
+comunidades %&gt;% 
+    count(membership) %&gt;%
+    arrange(desc(n)) %&gt;%
+    top_n(5)</code></pre>
+</div>
+<div id="quem-são-os-mais-influentes-em-cada-comunidade" class="section level2">
+<h2>Quem são os mais influentes em cada comunidade?</h2>
+<p>Para medir as autoridades de cada comunidades, irei primeiro selecionar as principais autoridades por comunidade. Em seguida, plotaremos quem são esses usuários, e quantos retuítes receberam neste período pré-eleição.</p>
+<pre class="r"><code># Cria um banco com indegree
+
+autoridade &lt;- data_frame(name=V(net)$name, ind=V(net)$indegree, 
+                         membership=V(net)$membership) %&gt;%
+              filter(membership==2| membership==3|membership==5) %&gt;%
+              split(.$membership) %&gt;%
+              map(~ arrange(., desc(ind))) %&gt;%
+              map(~ slice(., 1:30)) 
+
+
+
+
+# Comunidade 1
+
+ggplot(autoridade[[1]], aes(x=reorder(name,
+                               ind),
+                     y=ind)) + 
+    geom_histogram(stat=&quot;identity&quot;, width=.5, color=&quot;black&quot;, 
+                   fill=&quot;darkred&quot;) +
+  coord_flip() +
+    xlab(&quot;&quot;) + ylab(&quot;&quot;) + 
+  theme_minimal(base_size = 12) + 
+  theme(plot.title = element_text(size = 22, face = &quot;bold&quot;), 
+        axis.title=element_text(size=16), 
+        axis.text = element_text(size=12, face=&quot;bold&quot;)) 
+
+
+# Comunidade 2
+
+ggplot(autoridade[[2]], aes(x=reorder(name,
+                               ind),
+                     y=ind)) + 
+    geom_histogram(stat=&quot;identity&quot;, width=.5, color=&quot;black&quot;, 
+                   fill=&quot;yellow&quot;) +
+  coord_flip() +
+    xlab(&quot;&quot;) + ylab(&quot;&quot;) + 
+  theme_minimal(base_size = 12) + 
+  theme(plot.title = element_text(size = 22, face = &quot;bold&quot;), 
+        axis.title=element_text(size=16), 
+        axis.text = element_text(size=12, face=&quot;bold&quot;)) 
+
+# Comunidade 3
+
+ggplot(autoridade[[3]], aes(x=reorder(name,
+                               ind),
+                     y=ind)) + 
+    geom_histogram(stat=&quot;identity&quot;, width=.5, color=&quot;black&quot;, 
+                   fill=&quot;steelblue&quot;) +
+  coord_flip() +
+    xlab(&quot;&quot;) + ylab(&quot;&quot;) + 
+  theme_minimal(base_size = 12) + 
+  theme(plot.title = element_text(size = 22, face = &quot;bold&quot;), 
+        axis.title=element_text(size=16), 
+        axis.text = element_text(size=12, face=&quot;bold&quot;)) </code></pre>
+</div>
+<div id="visualizar-comunidades" class="section level2">
+<h2>Visualizar Comunidades</h2>
+<p>Há muitos pacotes distintos para visualização de dados em rede em R. Este tutorial <a href="https://www.jessesadler.com/post/network-analysis-with-r/">aqui</a> cobre as principais opções. Vou apresentar a opção mais simples que vem diretamente do <code>igraph</code>. Um outro caminho é utilizar extensões do ggplot, como o ggnet e o ggraph. O problemas das extensões do ggplot é que você precisa converter o objeto igraph para banco de dados, e este processo tende a ser lento e gerar alguns erros.</p>
+<pre class="r"><code># plot igraph
+plot.igraph(net, 
+            layout=cbind(V(net)$l2,V(net)$l1), 
+            vertex.size=log(V(net)$indegree),
+            vertex.label.color=1,
+            vertex.label=NA,
+            vertex.color=V(net)$new.color, 
+            vertex.frame.color=gray(.8), 
+            edge.color=gray(.8), 
+            edge.arrow.size=.2, 
+            edge.curved=TRUE)
+
+
+# Ou esta outra opção mais manual. 
+
+# Funcao para visualizar a rede
+my.den.plot &lt;- function(l=l,new.color=new.color, ind=ind, legend){
+  library(KernSmooth)
+  #Numero efectivo de Comunidades
+  # ENCG&lt;-round(1/sum(round(table(new.color)/sum(table(new.color)),3)^2),2)
+  # 
+  est &lt;- bkde2D(l, bandwidth=c(10, 10))
+  plot(l,cex=log(ind+1)/4, col=new.color, pch=16, xlim=c(-160,140),ylim=c(-140,120), xlab=&quot;&quot;, ylab=&quot;&quot;, axes=FALSE)
+  contour(est$x1, est$x2, est$fhat,  col = gray(.6), add=TRUE)
+  legend(&quot;topright&quot;, c(legend[2],legend[1]), pch = 17:18, col=c(&quot;#B2182B&quot;, &quot;#2166AC&quot;))
+  #text(-140,115,paste(&quot;ENCG: &quot;,ENCG,sep=&quot;&quot;), cex=1, srt=0)
+} 
+
+# Crie as cores para cada comunidade
+
+# Building a empty containes
+temp &lt;- rep(1,length(V(net)$membership))
+new.color &lt;- &quot;white&quot;
+new.color[V(net)$membership==2] &lt;- &quot;red&quot; ####
+new.color[V(net)$membership==3] &lt;- &quot;blue&quot; ####
+new.color[V(net)$membership==5] &lt;- &quot;yellow&quot; ####
+
+# Adiciona a nova cor
+V(net)$new.color &lt;- new.color
+
+
+
+# Plot
+
+#save first
+my.den.plot(l=cbind(V(net)$l1,V(net)$l2),new.color=V(net)$new.color, ind=V(net)$indegre, legend =c(&quot;Pro-Bolsonaro&quot;, &quot;Anti-Bolsonaro&quot;))</code></pre>
+</div>
+<div id="hashtags-por-comunidade" class="section level2">
+<h2>Hashtags por Comunidade</h2>
+<div id="most-popular-hashtags" class="section level3">
+<h3>Most Popular Hashtags</h3>
+<pre class="r"><code>hashtags &lt;- dados_covid_rt %&gt;% 
+            unnest(hashtags) %&gt;%
+            count(hashtags) %&gt;%
+            arrange(desc(n)) %&gt;% 
+            slice(1:30) %&gt;%
+            drop_na()
+          
+
+# Contando as hashtags
+ggplot(hashtags, aes(x=reorder(hashtags,
+                               n),
+                     y=n)) + 
+    geom_histogram(stat=&quot;identity&quot;, width=.5, color=&quot;black&quot;, 
+                   fill=&quot;steelblue&quot;) +
+  coord_flip() +
+    xlab(&quot;&quot;) + ylab(&quot;&quot;) + 
+  theme_minimal(base_size = 12) + 
+  theme(plot.title = element_text(size = 22, face = &quot;bold&quot;), 
+        axis.title=element_text(size=16), 
+        axis.text = element_text(size=12, face=&quot;bold&quot;)) </code></pre>
+</div>
+<div id="hashtags-em-cada-comunidade" class="section level3">
+<h3>Hashtags em cada comunidade</h3>
+<pre class="r"><code># Vamos Coletar as Comunidades
+autoridade &lt;- data_frame(name=V(net)$name, membership=V(net)$membership)
+
+# Primeiro, vamos fazer um merge com os dados de comunidade
+
+dados_covid_hash &lt;- dados_covid_rt %&gt;%
+                    left_join(autoridade, by=c(&quot;screen_name&quot;=&quot;name&quot;)) %&gt;%
+                    unnest(hashtags) %&gt;%
+                    drop_na(hashtags)
+      
+table(dados_covid_hash$membership)        
+# Vamos aggrupar por comunidade
+
+hashtags_por_comunidade &lt;- dados_covid_hash %&gt;%
+                           filter(membership==2| membership==5) %&gt;%
+                           count(membership, hashtags) %&gt;%
+                           top_n(10, n)
+
+
+ggplot(hashtags_por_comunidade, aes(x=reorder(hashtags,
+                               n),
+                     y=n, fill=as.factor(membership))) + 
+  geom_histogram(stat=&quot;identity&quot;, width=.5, color=&quot;black&quot;) +
+  coord_flip() +
+    xlab(&quot;&quot;) + ylab(&quot;&quot;) + 
+  scale_fill_manual(name=&quot;Comunidade&quot;, values=c(&quot;Red&quot;, &quot;Yellow&quot;, &quot;steelblue&quot;)) +
+  theme_minimal(base_size = 16) + 
+  theme(plot.title = element_text(size = 22, face = &quot;bold&quot;), 
+        axis.title=element_text(size=12), 
+        axis.text = element_text(size=12, face=&quot;bold&quot;), 
+        strip.text = element_text(size=16)) +
+  facet_wrap(~membership, scale=&quot;free&quot;) </code></pre>
+</div>
+</div>
+<div id="analizando-ativação-das-mídias-na-rede" class="section level2">
+<h2>Analizando ativação das mídias na rede</h2>
+<p>Uma das minhas análises favoritas com dados de twitter vem do <a href="https://academic.oup.com/joc/article-abstract/68/3/480/4972616">artigo</a> dos meus colegas Natalia Aruguete e Ernesto Calvo. Este artigo discute como comunidades diferentes reagem e falam sobre o mesmo assunto de formas distintas e como esses enquadramentos se espalham nas redes de twitter. Para visualizar isto, vamos fazer um gráfico de redes para cada uma das hashtags e verificar em quais áreas das redes essas hashtags são ativadas</p>
+<div id="contando-o-número-de-menções-por-nó." class="section level4">
+<h4>Contando o número de menções por nó.</h4>
+<pre class="r"><code>summary(net)
+
+# Vamos primeiro selecionar as mídias mais ativadas
+keynews &lt;- head(sort(table(unlist(E(net)$hash)),decreasing=TRUE),12)
+keynews.names &lt;- names(keynews)
+
+N&lt;-length(keynews.names)
+count.keynews&lt;- array(0,dim=c(length(E(net)),N))
+str(count.keynews)
+
+# Looping 
+for(i in 1:N){
+  temp&lt;- grepl(keynews.names[i], E(net)$hash, ignore.case = TRUE)
+  #temp &lt;- str_match(E(net)$text,&#39;Arangur[A-Za-z]+[A-Za-z0-9_]+&#39;)
+  count.keynews[temp==TRUE,i]&lt;-1
+  Sys.sleep(0.1)
+
+  }
+
+
+# Setting the names of the media
+
+colnames(count.keynews)&lt;- keynews.names
+count.keynews</code></pre>
+</div>
+<div id="recuperando-a-matrix-de-vizinhança-da-rede." class="section level4">
+<h4>Recuperando a matrix de vizinhança da rede.</h4>
+<pre class="r"><code># Conexoes de Vertices e Edges
+# Nao rodar!!!!!!!!
+
+# Vamos recuperar todos os nós e edges que estão ligados uns com os outros. 
+el &lt;- get.adjedgelist(net, mode=&quot;all&quot;)
+al &lt;- get.adjlist(net, mode=&quot;all&quot;)</code></pre>
+</div>
+<div id="função-para-verificar-activação-na-rede" class="section level4">
+<h4>Função para verificar activação na rede</h4>
+<pre class="r"><code># Função para detectar ativação entre as conexões em rede.
+fomfE&lt;- function(var=var, adjV=adjV,adjE=adjE){
+  stemp &lt;- map_dbl(adjE, function(x) sum(var[x]))
+  #mstemp &lt;- sapply(adjV, function(x) mean(stemp[x]))
+  out&lt;-cbind(stemp)
+}
+
+# Cria um container
+resultado_hash&lt;- array(0,dim=c(length(V(net)),N))
+
+# Repita para cada uma das hashtags
+for(i in 1:N){
+  bb&lt;-fomfE(count.keynews[,i],al,el)
+  bb[bb[,1]==&quot;NaN&quot;]&lt;-0
+  resultado_hash[,i]&lt;- bb[,1]
+}
+
+resultado_hash
+class(resultado_hash)
+colnames(resultado_hash)&lt;- keynews.names
+resultado_hash</code></pre>
+</div>
+<div id="visualizando-gráficos-de-ativação" class="section level3">
+<h3>Visualizando Gráficos de Ativação</h3>
+<p>Você pode facilmente fazer um por um. Porém, escrevi um loop curtinho para plotar eles juntos.</p>
+<pre class="r"><code># all
+my.den.plot(l=cbind(V(net)$l1,V(net)$l2),new.color=V(net)$new.color, ind=V(net)$indegre, legend =c(&quot;Bolsonaro&quot;, &quot;Anti-Bolsonaro&quot;))
+
+
+
+# Hashtag 
+plot(V(net)$l1,V(net)$l2,pch=16,  
+       col=V(net)$new.color, 
+       cex=log(resultado_hash[,1]+1),
+       xlim=c(-160,140),ylim=c(-140,120), xlab=&quot;&quot;, ylab=&quot;&quot;,
+       main=colnames(resultado_hash)[1], cex.main=1)
+
+# Hashtag
+plot(V(net)$l1,V(net)$l2,pch=16,  
+       col=V(net)$new.color, cex=log(resultado_hash[,5]+1),
+       xlim=c(-160,140),ylim=c(-140,120), xlab=&quot;&quot;, ylab=&quot;&quot;,
+       main=colnames(resultado_hash)[7], cex.main=1)
+
+save.image(file=&quot;aula_twitter.RData&quot;)
+getwd()</code></pre>
+</div>
+</div>
+</div>
