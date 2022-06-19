@@ -364,7 +364,7 @@ fogocruzado_signin(email = "venturat@umd.edu", password = "xxxxxx")
 # Extrair os dados que pegamos manualmente antes
 
 fogocruzado_rj <- get_fogocruzado(state= "RJ", security_agent = 1)
-
+?get_fogocruzado
 # Colocar em gráfico mais uma vez. 
 
 ggmap(get_googlemap("rio de janeiro", zoom = 11, maptype = "roadmap", scale=2)) +

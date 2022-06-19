@@ -50,10 +50,10 @@ Após receber suas credenciais, você deve fazer seu login. Primeiro vamos criar
 
 ```{r, echo=FALSE}
 app_name<-"Tiago Ventura"
-consumer_key="xxxxxxxxxxx"
-consumer_secret="xxxxxxxxxxxxxxxxxxx"
-access_token<- "xxxxxxxxxxxxxxxxxxxxx"
-access_token_secret<-"xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+consumer_key="RrVsiJGUywnVPM66jNT4fOpFp"
+consumer_secret="IIBfGUOI0BoPwa2z984EpcmzP8uDcC9X0jU41kYmai7W4q2OAX"
+access_token<- "59554649-vF4T4XCrLNtrT8xGUaBLrAEuoQ1obJKfoSRAF6wuZ"
+access_token_secret<-"DhccPvb2klEGILzPK2XxApHfIrfDiNExOQpKMOR7oBuQA"
 ```
 
 Agora, vamos liberar nosso acesso.
@@ -151,13 +151,10 @@ O Twitter possui uma segunda API onde você pode coletar uma amostra dos tweets 
 
 ```{r}
 
+rtweet_app()
 dados_bolsonaro_stream <- stream_tweets("bolsonaro", 
                                         timeout = 10, 
                                         file_name = "bolsonaro.json") # adicione o tempo que voce quer coletar 
-
-
-dados_paulo_freire=list()
-
 
 ```
 
